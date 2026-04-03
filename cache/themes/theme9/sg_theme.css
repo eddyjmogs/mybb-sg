@@ -1,0 +1,41 @@
+.postmsg { 
+	color: rgb(200, 195, 188);	
+}
+
+.post_body {
+	background: rgb(24, 26, 27);
+}
+
+.post .post_head {
+	background: rgb(24, 26, 27);	
+}
+
+.spoiler {
+    background: #181a1b;
+}
+
+blockquote {
+    background: #181a1b;	
+}
+
+/* Codigo de personaje */
+
+.personaje_stats_title {
+	font-weight: bold;
+    text-decoration: underline;
+}
+
+.personaje_stats {
+	font-weight: bold;
+    color: #ff8700;
+}
+
+.personaje_vida {
+	font-weight: bold;
+	color: #c80514;
+}
+
+.personaje_chakra {
+	font-weight: bold;
+	color: #338bce;
+}

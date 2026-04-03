@@ -1,0 +1,282 @@
+::marker {
+    unicode-bidi: isolate;
+    font-variant-numeric: tabular-nums;
+    text-transform: none;
+    text-indent: 0px !important;
+    text-align: start !important;
+    text-align-last: start !important
+}
+
+:root {
+    --staff-group-color: #346971;
+    --konoha-group-color: #4e7424;
+    --kiri-group-color: #679bd1;
+    --iwa-group-color: #965000;
+    --kumo-group-color: #cdad2f;
+    --suna-group-color: #e9843a;
+    --renegados-group-color: #834763;
+    --nsa-group-color: #b72626;
+    --narradores-group-color: #4758bf;
+    --npcs-group-color: #615c5d
+}
+
+body {
+    background: #cbc6c6;
+    background-attachment: fixed;
+    background-size: cover;
+    background-blend-mode: multiply
+}
+
+#header {
+    position: unset
+}
+
+input.textbox,select {
+    color: #252424
+}
+
+.avatarep_online_row_nor {
+    padding: 0px 2px !important
+}
+
+.online_div .smalltext {
+    font-size: 10px
+}
+
+.online_div_inner {
+    padding: 10px
+}
+
+.online_div::-webkit-scrollbar {
+    width: 6px
+}
+
+.ultimos-temas::-webkit-scrollbar {
+    display: none
+}
+
+#recentthreads table {
+    margin-top: 15px
+}
+
+#recentthreads .thead {
+    padding: 7px 1.425em 7px 1.275em
+}
+
+#recentthreads .trow1,#recentthreads .trow2 {
+    padding: 5px 1.275em 5px 1.175em
+}
+
+#whosonline .thead.side {
+    background: #55306b
+}
+
+form #message {
+    width: 100%
+}
+
+.fondo-blanco {
+    background-color: #0e1a28;
+    padding: 20px 20px
+}
+
+#footer {
+    width: 1100px !important;
+    margin: auto
+}
+
+#content {
+    margin: auto;
+    padding: 0px 0px 0px 0px;
+    background: unset
+}
+
+#logo {
+    height: auto;
+    background-size: cover;
+    margin: auto;
+    background-size: cover !important;
+    background: #0e1a28 !important;
+    padding: 0
+}
+
+#logo img {
+    width: 100%
+}
+
+body {
+    background-image: url(https://i.ibb.co/dDZHdyn/Background-1.png)
+}
+
+#panel .upper {
+    height: 50px
+}
+
+.firstSectionRow img, #forumSection2 img, #forumSection3 img, #forumSection4 img {
+    transition: all 0.3s ease-out;
+    filter: drop-shadow(0px 0px 10px #000);
+    opacity: 0.8;
+    border-radius: 3px
+}
+
+.firstSectionRow img:hover, #forumSection2 img:hover, #forumSection3 img:hover, #forumSection4 img:hover {
+    filter: drop-shadow(0px 0px 10px #235698);
+    opacity: 1
+}
+
+.post_content,.post_controls,#posts_container,.tfoot {
+    background-color: #11161b
+}
+
+.signature {
+    border-top: 1px solid #6492a0 !important
+}
+
+.post_body,.post_date,.post_edit,.tfoot,.tfoot a {
+    color: #bebebe;
+    font-size: 15px
+}
+
+.thead {
+    background-color: #07607c
+}
+
+.thead {
+    background-color: #07607c
+}
+
+.tcat {
+    background: #00516a
+}
+
+.trow1 {
+    background: #0e1a28;
+    border-bottom: 1px solid #7aa9b7
+}
+
+.trow2 {
+    background: #111d2c;
+    border-bottom: 1px solid #7aa9b7
+}
+
+.trow_sep {
+    background: #7aa9b7;
+    color: white
+}
+
+blockquote {
+    border: 1px solid #6492a0;
+    background: #1c262f
+}
+
+.codeblock {
+    border: 1px solid #6492a0;
+    background: #1c262f
+}
+
+table {
+    color: #b6b6b6
+}
+
+#container {
+    color: #d6e9ff
+}
+
+a:link,a:visited {
+    color: #518dd1
+}
+
+a:hover,a:active {
+    color: #47cdff
+}
+
+.discord-button {
+    font-size: 20px;
+    background-color: #103b6a;
+    transition: all 0.5s ease-out
+}
+
+.temporada_index {
+    transition: all 2.5s ease-out
+}
+
+.temporada_index:hover {
+    filter: hue-rotate(180deg)
+}
+
+.discord-button:hover {
+    background-color: #1459a5
+}
+
+.username_bright {
+    transition: all 0.1s ease-out
+}
+
+.username_bright:hover {
+    filter: brightness(1.3)
+}
+
+.mycode_list {
+    padding-inline-start:40px;display: block;
+    margin-block-start:1em;margin-block-end:1em;margin-inline-start:0px;margin-inline-end:0px}
+
+div.sceditor-dropdown .button {
+    color: white !important;
+    background: #07607c !important
+}
+
+.ultimos-post-todo {
+    width: 96px;
+    height: 27px;
+    background-color: #00516a;
+    border-left: 1px solid #4e7482;
+    border-bottom: 1px solid #4e7482;
+    box-sizing: border-box
+}
+
+.ultimos-post-rol {
+    width: 97px;
+    height: 27px;
+    background-color: #00516a;
+    border-left: 1px solid #4e7482;
+    border-bottom: 1px solid #4e7482;
+    box-sizing: border-box
+}
+
+.ultimos-post-off {
+    width: 99px;
+    height: 27px;
+    background-color: #00516a;
+    border-right: 1px solid #4e7482;
+    border-bottom: 1px solid #4e7482;
+    border-left: 1px solid #4e7482;
+    box-sizing: border-box
+}
+
+.ultimos-post span {
+    position: relative;
+    top: 2px;
+    text-shadow: 1px 1px 1px black;
+    font-size: 15px;
+    letter-spacing: 1px;
+    font-family: interMedium;
+    color: white;
+    left: 0px
+}
+
+.ultimos-post {
+    cursor: pointer;
+    transition: all 0.2s ease-out
+}
+
+.ultimos-post:hover {
+    background-color: #11618a
+}
+
+.ultimos-active {
+    background-color: #1c78a7
+}
+
+.ultimos_post_section:hover {
+    filter: brightness(1.3)
+}

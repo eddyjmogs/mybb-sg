@@ -1,0 +1,235 @@
+::marker {
+    unicode-bidi: isolate;
+    font-variant-numeric: tabular-nums;
+    text-transform: none;
+    text-indent: 0px !important;
+    text-align: start !important;
+    text-align-last: start !important
+}
+
+:root {
+    --staff-group-color: #346971;
+    --konoha-group-color: #4e7424;
+    --kiri-group-color: #679bd1;
+    --iwa-group-color: #965000;
+    --kumo-group-color: #cdad2f;
+    --suna-group-color: #e9843a;
+    --renegados-group-color: #834763;
+    --nsa-group-color: #b72626;
+    --narradores-group-color: #4758bf;
+    --npcs-group-color: #615c5d
+}
+
+body {
+    background: #cbc6c6;
+    background-attachment: fixed;
+    background-size: cover;
+    background-blend-mode: multiply
+}
+
+#header {
+    position: unset
+}
+
+.top-menu {
+    margin-top: 50px
+}
+
+input.textbox,select {
+    color: #252424
+}
+
+.avatarep_online_row_nor {
+    padding: 0px 2px !important
+}
+
+.online_div .smalltext {
+    font-size: 10px
+}
+
+.online_div_inner {
+    padding: 10px
+}
+
+.online_div::-webkit-scrollbar {
+    width: 6px
+}
+
+.ultimos-temas::-webkit-scrollbar {
+    display: none
+}
+
+.menu-op {
+    background: #232323;
+    height: 60px;
+    font-family: Helvetica;
+    font-size: 15px;
+    z-index: 500;
+    top: 0%;
+    left: 0%;
+    position: fixed;
+    width: 100%
+}
+
+.menu-op ul {
+    display: flex;
+    justify-content: center;
+    align-items: center
+}
+
+.menu-op ul li {
+    list-style: none;
+    padding: 15px 10px;
+    position: relative;
+    transition: 0.5s;
+    display: block
+}
+
+.menu-op ul li:hover {
+    background-color: #2d82c9
+}
+
+.menu-op ul li a {
+    color: #fff;
+    text-decoration: none;
+    padding: 5px 10px
+}
+
+.menu-op ul li ul a {
+    padding: 20px 0px
+}
+
+.menu-op ul li ul {
+    display: none
+}
+
+.menu-op ul li:hover ul {
+    display: block;
+    position: absolute;
+    margin-top: 4px;
+    margin-left: -10px;
+    background: #232323;
+    border-radius: 1px;
+    width: 195px;
+    padding: 10px 2px;
+    box-shadow: 0px 20px 100px 0px rgba(0,0,0,0.5)
+}
+
+#recentthreads table {
+    margin-top: 15px
+}
+
+#recentthreads .thead {
+    padding: 7px 1.425em 7px 1.275em
+}
+
+#recentthreads .trow1,#recentthreads .trow2 {
+    padding: 5px 1.275em 5px 1.175em
+}
+
+#whosonline .thead.side {
+    background: #55306b
+}
+
+form #message {
+    width: 100%
+}
+
+.fondo-blanco {
+    background-color: #0e1a28;
+    padding: 20px 20px
+}
+
+#footer {
+    width: 1100px !important;
+    margin: auto
+}
+
+#content {
+    width: 1100px !important;
+    margin: auto;
+    padding: 0px 0px 0px 0px;
+    background: unset
+}
+
+#logo {
+    width: 1100px !important;
+    height: auto;
+    background-size: cover;
+    margin: auto;
+    background-size: cover !important;
+    background: #0e1a28 !important;
+    padding: 0
+}
+
+#logo img {
+    width: 100%
+}
+
+body {
+    background-image: url(https://i.ibb.co/Gfx7f89p/naruto-wallpaper-1.jpg)
+}
+
+#panel .upper {
+    height: 50px
+}
+
+.forum1,.forum2,.forum3,.forum4,.missionForum,.creationForum,.organizationForum,.pFuego,.pAgua,.pViento,.pRayo,.pTierra,.rMundo,.ficsCombates,.afiliaciones {
+    transition: all 0.3s ease-out;
+    filter: drop-shadow(0px 0px 10px #000);
+    opacity: 0.8;
+    border-radius: 3px
+}
+
+.forum1:hover,.forum2:hover,.forum3:hover,.forum4:hover,.missionForum:hover,.creationForum:hover,.organizationForum:hover,.pFuego:hover,.pAgua:hover,.pViento:hover,.pRayo:hover,.pTierra:hover,.rMundo:hover,.ficsCombates:hover,.afiliaciones:hover {
+    filter: drop-shadow(0px 0px 10px #235698);
+    opacity: 1
+}
+
+.post_content,.post_controls,#posts_container,.tfoot {
+    background-color: #11161b
+}
+
+.signature {
+    border-top: 1px solid #6492a0 !important
+}
+
+.post_body,.post_date,.post_edit,.tfoot,.tfoot a {
+    color: #bebebe;
+    font-size: 15px
+}
+
+.thead {
+    background-color: #07607c
+}
+
+.thead {
+    background-color: #07607c
+}
+
+.tcat {
+    background: #00516a
+}
+
+.trow1 {
+    background: #0e1a28;
+    border-bottom: 1px solid #7aa9b7
+}
+
+.trow2 {
+    background: #111d2c;
+    border-bottom: 1px solid #7aa9b7
+}
+
+.trow_sep {
+    background: #7aa9b7;
+    color: white
+}
+
+blockquote {
+    border: 1px solid #6492a0;
+    background: #1c262f
+}
+
+.codeblock {
+  

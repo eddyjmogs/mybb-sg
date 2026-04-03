@@ -1,0 +1,29 @@
+.mission_pr_available {
+	    display: block;
+    padding: 6px;
+    font-size: 23px;
+    color: white;
+    text-align: center;
+    background-color: #292D32;
+    border-radius: 0.25rem;
+	font-weight: bolder;
+}
+
+.mission_board {
+	display: flex;
+	flex-direction: row;
+	width: 100%;
+	gap: 20px;
+	background-color:#292D32;
+	border-radius: 1rem;
+	color: white;
+}
+
+.mission_data {
+	width: 100%;
+}
+
+.mission_picture {
+	width: 35%;
+	overflow: hidden;
+}

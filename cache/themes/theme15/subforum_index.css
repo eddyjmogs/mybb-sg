@@ -1,0 +1,100 @@
+/* Estructura para Foro Principal */
+
+.forum_body {
+	height: 250px;
+}
+
+.forum_information {
+	color: white;
+	display: flex;
+	flex-direction: column;
+	padding: 20px;
+}
+
+/* Titulo & Descripción del Foro */
+
+.forum_title {
+	text-transform: uppercase;
+	font-family: 'Inter';
+	font-size: 3rem;
+	font-weight: 800;
+}
+
+.forum_description {
+	margin: 0;
+	font-weight: 400;
+	font-family: 'Inter'
+	font-size: 12px;
+	padding: 5px;
+	text-align: justify;
+}
+
+/* Estructura para Sub-Foros */
+
+.sub_forums_container {
+	display: flex;
+	flex-direction: row;
+    gap: 15px;
+}
+
+.sub_forum {
+    width: 100%;
+    background-color: grey;
+	overflow: hidden;
+}
+
+.sub_forum_image {
+	width: 100%;
+	height: 375px;
+	position: relative;
+}
+
+.sub_forum_title {
+	display: block;
+	padding: 10px 0px;
+	text-align: center;
+	color: white;
+	text-transform: uppercase;
+	font-weight: bolder;
+	font-family: 'Inter';
+	background-color: black;
+	font-size: 0.95rem;
+}
+
+.sub_forum_description {
+	font-size: 10px;
+    top: 0;
+	margin-top: 50px;
+	color: white;
+    position: absolute;
+    width: 200px;
+    text-align: justify;
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+
+/* Imagenes para Subforos */
+#forum_304 {
+	background-image: url(https://i.ibb.co/n6fm4ss/Kirigakure-Aldea.png);
+	background-size: cover;
+}
+
+#forum_99 {
+	background-image: url(../../../);
+	background-size: cover;
+}
+
+/* Imagenes para Foros */
+
+/* País del Fuego */
+#forum_46 {
+	background-image: url(https://i.ibb.co/pnxHzJM/Pa-sdel-Fuego-Sub-Foro.png);
+	background-size: cover;
+}
+
+/* País del Agua */
+#forum_39 {
+	background-image: url(https://i.ibb.co/gSVLDGj/Portada-Kirigakure.png);
+	background-size: cover;
+}

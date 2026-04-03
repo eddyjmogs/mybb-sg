@@ -1,0 +1,223 @@
+.chakraStatusBar {
+    display: flex;
+	margin: 2px 0;
+}
+
+.barrasChakra {
+    background-image: url(https://cdn.discordapp.com/attachments/393540068393877504/609542644393050133/fondoBar.png);
+    background-repeat: no-repeat;
+    width: 300px;
+    position: relative;
+    height: 50px;
+	text-align: left;
+}
+
+.barraChakraRoja {
+    height: 44px;
+    background-color: #334853;
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    border-radius: 3px;
+}
+
+.barraChakraVerde {
+    height: 44px;
+    background-color: #6bd;
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    border-radius: 3px;
+}
+
+span.barraChakraText {
+    height: 50px;
+    width: 300px;
+    font-family: MontserratVariableFont;
+    position: absolute;
+    text-align: center;
+    top: 11px;
+    color: #ffffff;
+    font-size: 20px;
+    text-shadow: 1px 1px #000000;
+}
+
+.vidaStatusBar {
+    display: flex;
+	margin: 2px 0;
+}
+
+.barrasVida {
+    background-image: url(https://cdn.discordapp.com/attachments/393540068393877504/609542644393050133/fondoBar.png);
+    background-repeat: no-repeat;
+    width: 300px;
+    position: relative;
+    height: 50px;
+	text-align: left;
+}
+
+.barraVidaRoja {
+    height: 44px;
+    background-color: #a31520;
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    border-radius: 3px;
+}
+
+.barraVidaVerde {
+    height: 44px;
+    background-color: #dd4444;
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    border-radius: 3px;
+}
+
+span.barraVidaText {
+    height: 50px;
+    width: 300px;
+    font-family: MontserratVariableFont;
+    position: absolute;
+    text-align: center;
+    top: 11px;
+    color: #ffffff;
+    font-size: 20px;
+    text-shadow: 1px 1px #000000;
+}
+
+
+
+.senjutsuStatusBar {
+    display: flex;
+	margin: 2px 0;
+}
+
+.barrasSenjutsu {
+    background-image: url(https://cdn.discordapp.com/attachments/393540068393877504/609542644393050133/fondoBar.png);
+    background-repeat: no-repeat;
+    width: 300px;
+    position: relative;
+    height: 50px;
+	text-align: left;
+}
+
+.barraSenjutsuRoja {
+    height: 44px;
+    background-color: #139647;
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    border-radius: 3px;
+}
+
+.barraSenjutsuVerde {
+    height: 44px;
+    background-color: #66dd6f;
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    border-radius: 3px;
+}
+
+span.barraSenjutsuText {
+    height: 50px;
+    width: 300px;
+    font-family: MontserratVariableFont;
+    position: absolute;
+    text-align: center;
+    top: 11px;
+    color: #ffffff;
+    font-size: 20px;
+    text-shadow: 1px 1px #000000;
+}
+
+
+.kujakuStatusBar {
+    display: flex;
+	margin: 2px 0;
+}
+
+.barrasKujaku {
+    background-image: url(https://cdn.discordapp.com/attachments/393540068393877504/609542644393050133/fondoBar.png);
+    background-repeat: no-repeat;
+    width: 300px;
+    position: relative;
+    height: 50px;
+	text-align: left;
+}
+
+.barraKujakuRoja {
+    height: 44px;
+    background-color: #6815a3;
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    border-radius: 3px;
+}
+
+.barraKujakuVerde {
+    height: 44px;
+    background-color: #8544dd;
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    border-radius: 3px;
+}
+
+span.barraKujakuText {
+    height: 50px;
+    width: 300px;
+    font-family: MontserratVariableFont;
+    position: absolute;
+    text-align: center;
+    top: 11px;
+    color: #ffffff;
+    font-size: 20px;
+    text-shadow: 1px 1px #000000;
+}
+
+
+.byakugoStatusBar {
+    display: flex;
+	margin: 2px 0;
+}
+
+.barrasByakugo {
+    background-image: url(https://cdn.discordapp.com/attachments/393540068393877504/609542644393050133/fondoBar.png);
+    background-repeat: no-repeat;
+    width: 300px;
+    position: relative;
+    height: 50px;
+	text-align: left;
+}
+
+.barraByakugoRoja {
+    height: 44px;
+    background-color: #8a478a;
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    border-radius: 3px;
+}
+
+.barraByakugoVerde {
+    height: 44px;
+    background-color: #ff81ff;
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    border-radius: 3px;
+}
+
+span.barraByakugoText {
+    height: 50px;
+    width: 300px;
+    font-family: MontserratVariableFont;
+    position: absolute;
+    text-align: center;
+    top: 11px;
+    color: #ffffff;
+    font-size: 20px;
+    text-shadow: 1px 1px #000000;
+}

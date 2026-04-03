@@ -1,0 +1,1 @@
+.tooltip{position:relative;display:inline-block;border-bottom:1px dotted black}.tooltip .tooltiptext{visibility:hidden;background-color:#162e40;color:#fff;border-radius:6px;padding:10px 20px;min-width:330px;position:absolute;z-index:1;top:22px;left:-2px}.tooltip:hover .tooltiptext{visibility:visible}

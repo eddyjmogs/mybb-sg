@@ -1,0 +1,151 @@
+/* CSS de la navegación */
+/*
+.navbar {
+  background-color: #0e1a27;
+  min-height: 0px;
+}
+
+.navbar-nav {
+  display: flex;
+  justify-content: center;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.nav-item {
+  padding: 8px 15px;
+  position: relative;
+  transition: background-color 0.3s ease;
+}
+
+.nav-item::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 0;
+  background-color: #ffffff;
+  transition: height 0.3s ease;
+  z-index: -1;
+}
+
+.nav-item a {
+  font-family: "Inter", sans-serif;
+  font-weight: 300;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  color: #ffffff;
+  text-decoration: none;
+  transition: font-size 0.3s ease, color 0.3s ease;
+}
+
+.nav-item:hover {
+  background-color: #ffffff;
+}
+
+.nav-item:hover a {
+  font-size: 13px;
+  font-weight: 600;
+  color: #0e1a27;
+}
+
+.nav-item:hover::before {
+  height: 100%;
+}
+*/
+
+/* Diseño Navbar */
+.top-menu {
+	margin-top: 29px;
+}
+				
+.menu-sg
+{
+  background: #232323;
+    height: 29px;
+    font-family: Helvetica;
+    font-size: 15px;
+	z-index: 500;
+    top: 0%;
+    position: fixed;
+    /* width: 1120px; */
+	width: 100%;
+}
+
+.menu-sg ul
+{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0;
+  margin: 0;
+  width: 1120px;
+}
+
+.menu-sg ul li
+{
+  list-style: none;
+  padding: 4px 10px;
+  position: relative;
+  transition: 0.5s;
+  display: block;
+}
+				
+.menu-sg ul li:hover
+{
+	background-color: #2d82c9;
+}
+
+.menu-sg ul li a
+{
+  color: #fff;
+  text-decoration: none;
+  padding: 5px 10px;
+}
+
+.menu-sg ul li ul a
+{
+  padding: 20px 0px;
+}
+
+.menu-sg ul li ul
+{
+  display: none;
+}
+
+.menu-sg ul li:hover ul
+{
+  display: block;
+  position: absolute;
+  margin-top: 4px;
+  margin-left: -10px;
+  background: #232323;
+  border-radius: 1px;
+  width: 195px;
+  padding: 10px 2px;
+  box-shadow: 0px 20px 100px 0px rgba(0, 0, 0, 0.5);
+}
+
+/* accountswitcher_header */
+#accountswitcher_header {
+    float: left;
+}
+
+#accountswitcher_header_popup ul {
+    margin-top: 34px;
+    white-space: normal;
+    margin-left: -12px;
+}
+
+/* Miscellaneous */
+
+.select2-search input {
+    background-color: white !important;
+}
+
+div.sceditor-dropdown input, div.sceditor-dropdown textarea { 
+	background-color: white !important;
+}

@@ -1,0 +1,173 @@
+.rm-contenedor {
+    box-sizing: border-box;
+    width: 550px;
+    margin: 10px auto;
+    height: 600px;
+    background: linear-gradient(120deg, rgb(29, 25, 25) 0%, rgba(78, 116, 36, 1) 81%);
+    border: 15px solid #1D1919;
+    font: 11px 'Open Sans', sans-serif;
+    color: #8B8C8C;
+    text-align: justify;
+    padding: 25px;
+    display: flex;
+    flex-direction: column;
+}
+
+.rm-wcontenido {
+    flex: 1;
+    display: flex;
+}
+
+.rm-intro {
+    position: relative;
+    flex: 1;
+    background: #1D1919;
+    display: flex;
+    flex-direction: column;
+}
+
+.rm-wluna {
+    margin: 20px;
+    height: 105px;
+    border-radius: 100%;
+    overflow: hidden;
+}
+
+.rm-wimagen {
+    width: 100%;
+    height: 100%;
+    background: var(--rm-oscuro);
+    border-radius: 100%;
+    overflow: hidden;
+}
+
+.rm-imagen {
+    width: 100%;
+    height: 100%;
+    transition: 0.5s;
+}
+
+.rm-linea {
+    margin: -10px 50% 20px 50%;
+    flex: 1;
+    width: 1px;
+    background: linear-gradient(90deg, rgb(78, 116, 36) 0%, rgb(29, 25, 25)81%);
+}
+
+.rm-titulo {
+    position: absolute;
+    box-sizing: border-box;
+    bottom: 87px;
+    left: -88px;
+    width: 320px;
+    height: 146px;
+    padding: 10px 0 10px 15px;
+    background: linear-gradient(0deg, rgb(29, 25, 25) -40%, #4e7424 81%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: var(--rm-texto);
+    font: 600 40px/39px 'Playfair Display', serif;
+    text-transform: uppercase;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: auto;
+    transform: rotate(-90deg);
+}
+
+.rm-contenido {
+    box-sizing: border-box;
+    flex: 1.87;
+    height: 465px;
+    border: 20px solid #1D1919;
+    /* background: #1D1919; */
+    margin-left: 5px;
+    padding-left: 5px;
+    padding-right: 5px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+.rm-wtitulocon {
+    margin: 10px auto 0 auto;
+    display: flex;
+    align-items: center;
+    font: 600 15px/15px 'Playfair Display', serif;
+    color: #4e7424;
+    text-transform: uppercase;
+}
+
+.rm-lunain {
+    width: 17px;
+    height: 17px;
+    margin-left: 10px;
+    border-radius: 100%;
+    background: linear-gradient(120deg, rgb(29, 25, 25) 0%, #4e7424 81%);
+    overflow: hidden;
+}
+
+.rm-lunab {
+    width: 100%;
+    height: 100%;
+    background: #1D1919;
+    border-radius: 100%;
+    margin: -3px 0 0 -4px;
+}
+
+.rm-lineatitu {
+    height: 1px;
+    margin-bottom: 10px;
+    flex-shrink: 0;
+    background: linear-gradient(120deg, rgb(29, 25, 25) 0%, rgb(78, 116, 36) 81%);
+}
+
+.rm-wdato {
+    margin: 3px 15px;
+    display: flex;
+    flex-wrap: wrap;
+    text-align: right;
+    justify-content: space-between;
+}
+
+.rm-titudato {
+    color: #4e7424;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+    padding: 0 3px;
+    border-bottom: 4px solid #4e7424;
+}
+.rm-lineadato {
+    width: 100%;
+    height: 1px;
+    margin-top: -2px;
+    background: #4e7424;
+}
+.rm-pie {
+    flex-shrink: 0;
+    margin-top: 5px;
+    height: 50px;
+    background: #1D1919;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.sol-firma {
+    text-align: center;
+    font: 10px 'Open Sans', sans-serif;
+    text-transform: uppercase;
+    margin-top: -20px;
+}
+
+
+
+
+
+		

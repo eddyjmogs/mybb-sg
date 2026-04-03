@@ -1,0 +1,1080 @@
+<html>
+
+<head>
+  <title>Ficha Nueva</title>
+  {$headerinclude}
+  <style>
+    #newfichaform {
+      color: white;
+      width: 992px;
+      margin: 0 auto;
+      font-size: 13px;
+      font-family: "Myriad Pro", Myriad, "Liberation Sans", "Nimbus Sans L", "Helvetica Neue", Helvetica, Arial, sans-serif;
+      text-align: center;
+      font-weight: bold;
+      margin-top: 10px;
+      padding: 10px 0;
+    }
+
+    #newfichaform .form-row {
+      display: flex;
+      gap: 15px;
+      margin-bottom: 15px;
+      align-items: flex-start;
+    }
+
+    #newfichaform .form-row-basic {
+      display: flex;
+      gap: 15px;
+      margin-bottom: 15px;
+      justify-content: center;
+      align-items: flex-start;
+    }
+
+    #newfichaform .form-row-basic .form-field {
+      flex: 1;
+      text-align: left;
+      max-width: 300px;
+    }
+
+    #newfichaform .form-field {
+      margin-bottom: 12px;
+    }
+
+    #newfichaform .form-field label {
+      display: block;
+      margin-bottom: 6px;
+      font-size: 12px;
+      font-weight: 600;
+      color: rgba(255,255,255,0.9);
+    }
+
+    #newfichaform .form-field input.textbox {
+      width: 100%;
+      box-sizing: border-box;
+      padding: 8px 12px;
+      border: 1px solid rgba(255,255,255,0.2);
+      border-radius: 4px;
+      background: rgba(255,255,255,0.1);
+      color: white;
+      font-size: 13px;
+      transition: all 0.2s ease;
+    }
+
+    #newfichaform .form-field input.textbox:focus {
+      outline: none;
+      border-color: #ff6b35;
+      background: rgba(255,255,255,0.15);
+      box-shadow: 0 0 0 2px rgba(255, 107, 53, 0.2);
+    }
+
+    #newfichaform .form-field input.textbox::placeholder {
+      color: rgba(255,255,255,0.5);
+    }
+
+    #newfichaform .selectors-column {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 10px;
+      margin-bottom: 15px;
+      justify-items: center;
+    }
+
+    #newfichaform .selectors-column fieldset {
+      box-sizing: border-box;
+      text-align: center;
+      padding: 10px;
+      border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 6px;
+      background: rgba(255,255,255,0.03);
+      transition: all 0.2s ease;
+      width: 100%;
+      max-width: 300px;
+    }
+
+    #newfichaform .selectors-column fieldset:hover {
+      background: rgba(255,255,255,0.06);
+      border-color: rgba(255,255,255,0.25);
+    }
+
+    #newfichaform .selectors-row {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 15px;
+      flex-wrap: wrap;
+      min-height: 50px;
+      justify-content: center;
+      align-items: center;
+    }
+
+    #newfichaform .selectors-row fieldset {
+      flex: 0 0 auto;
+      min-width: 180px;
+      max-width: 300px;
+      box-sizing: border-box;
+      text-align: center;
+      transition: all 0.3s ease;
+      padding: 8px;
+      border: 1px solid rgba(255,255,255,0.2);
+      border-radius: 6px;
+      background: rgba(255,255,255,0.05);
+    }
+
+    #newfichaform fieldset legend {
+      font-size: 12px;
+      padding: 0 8px;
+      margin-bottom: 8px;
+      font-weight: 600;
+    }
+
+    #newfichaform fieldset.listaSeason,
+    #newfichaform fieldset.listaAldeas,
+    #newfichaform fieldset.listaClanes,
+    #newfichaform fieldset.listaElementos {
+      text-align: center;
+      position: relative;
+      margin: 0 auto;
+    }
+
+    #newfichaform fieldset.listaClanes {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+      padding: 12px 8px;
+    }
+
+    #newfichaform fieldset.listaClanes.expanded {
+      grid-template-columns: repeat(3, 1fr);
+    }
+
+    #newfichaform fieldset.listaClanes .clan-section-title,
+    #newfichaform fieldset.listaClanes .clan-category,
+    #newfichaform fieldset.listaClanes h3,
+    #newfichaform fieldset.listaClanes h4 {
+      grid-column: 1 / -1;
+      text-align: left;
+      font-size: 14px;
+      font-weight: 600;
+      color: rgba(255,255,255,0.9);
+      margin: 10px 0 5px;
+      padding: 0;
+      display: block;
+    }
+
+    #newfichaform fieldset.listaClanes > div:not(label):not(.selected-item) {
+      grid-column: 1 / -1;
+      text-align: left;
+      font-size: 14px;
+      font-weight: 600;
+      color: rgba(255,255,255,0.9);
+      margin: 10px 0 5px;
+      padding: 0;
+      display: block;
+    }
+
+    /* Estilo para elementos que contienen títulos de sección - más específico */
+    #newfichaform fieldset.listaClanes.expanded > div:not(label):not(.selected-item),
+    #newfichaform fieldset.listaClanes.expanded > p:not(label p),
+    #newfichaform fieldset.listaClanes.expanded > span:not(label span) {
+      grid-column: 1 / -1 !important;
+      text-align: left !important;
+      font-size: 14px !important;
+      font-weight: 600 !important;
+      color: rgba(255,255,255,0.9) !important;
+      margin: 10px 0 5px !important;
+      padding: 0 !important;
+      display: block !important;
+    }
+
+    #newfichaform fieldset.listaClanes.expanded .clan-section-title,
+    #newfichaform fieldset.listaClanes.expanded .clan-category,
+    #newfichaform fieldset.listaClanes.expanded h3,
+    #newfichaform fieldset.listaClanes.expanded h4,
+    #newfichaform fieldset.listaClanes.expanded > div:not(label):not(.selected-item) {
+      display: block !important;
+      grid-column: 1 / -1 !important;
+    }
+
+    #newfichaform fieldset.listaSeason legend,
+    #newfichaform fieldset.listaAldeas legend,
+    #newfichaform fieldset.listaClanes legend,
+    #newfichaform fieldset.listaElementos legend {
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      user-select: none;
+      margin-bottom: 8px;
+    }
+
+    #newfichaform fieldset.listaClanes legend {
+      grid-column: 1 / -1;
+    }
+
+    #newfichaform fieldset.listaSeason legend::after,
+    #newfichaform fieldset.listaAldeas legend::after,
+    #newfichaform fieldset.listaClanes legend::after,
+    #newfichaform fieldset.listaElementos legend::after {
+      content: '▼';
+      font-size: 10px;
+      transition: transform 0.3s ease;
+      opacity: 0.7;
+      margin-left: 5px;
+    }
+
+    #newfichaform fieldset.listaSeason.expanded legend::after,
+    #newfichaform fieldset.listaAldeas.expanded legend::after,
+    #newfichaform fieldset.listaClanes.expanded legend::after,
+    #newfichaform fieldset.listaElementos.expanded legend::after,
+    #newfichaform fieldset.listaSeason:not(.collapsed) legend::after,
+    #newfichaform fieldset.listaAldeas:not(.collapsed) legend::after,
+    #newfichaform fieldset.listaClanes:not(.collapsed) legend::after,
+    #newfichaform fieldset.listaElementos:not(.collapsed) legend::after {
+      transform: rotate(180deg);
+    }
+
+    #newfichaform fieldset.listaClanes label {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      margin: 0;
+      padding: 5px;
+      cursor: pointer;
+      border-radius: 4px;
+      transition: all 0.2s ease;
+      position: relative;
+      min-height: 70px;
+    }
+
+    #newfichaform fieldset.listaSeason.collapsed label:not(.selected-item),
+    #newfichaform fieldset.listaAldeas.collapsed label:not(.selected-item),
+    #newfichaform fieldset.listaClanes.collapsed label:not(.selected-item),
+    #newfichaform fieldset.listaElementos.collapsed label:not(.selected-item) {
+      display: none;
+    }
+
+    #newfichaform fieldset.listaClanes.collapsed > div:not(.selected-item):not(label),
+    #newfichaform fieldset.listaClanes.collapsed > p:not(label p),
+    #newfichaform fieldset.listaClanes.collapsed > span:not(label span),
+    #newfichaform fieldset.listaClanes.collapsed > h3,
+    #newfichaform fieldset.listaClanes.collapsed > h4,
+    #newfichaform fieldset.listaClanes.collapsed > .clan-section-title,
+    #newfichaform fieldset.listaClanes.collapsed > .clan-category {
+      display: none !important;
+    }
+
+    #newfichaform fieldset.listaClanes.expanded .clan-section-title,
+    #newfichaform fieldset.listaClanes.expanded .clan-category,
+    #newfichaform fieldset.listaClanes.expanded h3,
+    #newfichaform fieldset.listaClanes.expanded h4 {
+      display: block !important;
+    }
+
+    #newfichaform fieldset.listaSeason.collapsed,
+    #newfichaform fieldset.listaAldeas.collapsed,
+    #newfichaform fieldset.listaElementos.collapsed {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto;
+    }
+
+    #newfichaform fieldset.listaClanes.collapsed {
+      grid-template-columns: 1fr;
+      justify-items: center;
+      margin: 0 auto;
+    }
+
+    #newfichaform fieldset.listaClanes.collapsed label.selected-item {
+      flex-direction: column-reverse;
+      align-items: center;
+      justify-content: flex-end;
+    }
+
+    #newfichaform fieldset.listaClanes.collapsed label.selected-item input[type="radio"],
+    #newfichaform fieldset.listaClanes.collapsed label.selected-item input[type="checkbox"] {
+      order: 100;
+      position: absolute;
+      opacity: 0;
+      width: 0;
+      height: 0;
+      pointer-events: none;
+    }
+
+    /* Con column-reverse, el orden visual se invierte */
+    /* Si el HTML es: input, img, p -> visualmente se ve: p, img (que es lo que queremos) */
+    #newfichaform fieldset.listaClanes.collapsed label.selected-item p {
+      font-size: 12px;
+      font-weight: 600;
+      margin: 0 0 8px 0 !important;
+      color: rgba(255,255,255,0.9);
+      display: block !important;
+    }
+
+    #newfichaform fieldset.listaClanes.collapsed label.selected-item img {
+      margin: 0 auto !important;
+      margin-top: 0 !important;
+      margin-bottom: 0 !important;
+      display: block !important;
+    }
+
+    #newfichaform fieldset.listaSeason,
+    #newfichaform fieldset.listaAldeas,
+    #newfichaform fieldset.listaElementos {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    #newfichaform fieldset.listaSeason.expanded,
+    #newfichaform fieldset.listaAldeas.expanded,
+    #newfichaform fieldset.listaElementos.expanded {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      align-items: center;
+    }
+
+    #newfichaform fieldset.listaSeason label.selected-item,
+    #newfichaform fieldset.listaAldeas label.selected-item,
+    #newfichaform fieldset.listaClanes label.selected-item,
+    #newfichaform fieldset.listaElementos label.selected-item {
+      padding: 8px;
+      background: rgba(255, 107, 53, 0.1);
+      border: 1px solid rgba(255, 107, 53, 0.3);
+      border-radius: 6px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    #newfichaform fieldset.listaClanes label.selected-item {
+      order: -1;
+      grid-column: 1 / -1;
+      margin-bottom: 8px;
+      width: 100%;
+      max-width: 200px;
+    }
+
+    #newfichaform fieldset.listaClanes label img {
+      max-width: 50px;
+      max-height: 50px;
+      width: auto;
+      height: auto;
+      margin: 0 auto 4px;
+      border-radius: 50%;
+      border: 2px solid transparent;
+      transition: all 0.2s ease;
+      flex-shrink: 0;
+    }
+
+    #newfichaform fieldset.listaClanes label p {
+      margin: 0;
+      font-size: 10px;
+      font-weight: normal;
+      line-height: 1.2;
+      text-align: center;
+      word-break: break-word;
+      max-width: 100%;
+    }
+
+    #newfichaform fieldset.listaClanes label:hover {
+      background: rgba(255,255,255,0.08);
+    }
+
+    #newfichaform fieldset.listaClanes label input[type="radio"]:checked + img,
+    #newfichaform fieldset.listaClanes label input[type="checkbox"]:checked + img {
+      border: 2px solid #ff6b35;
+      box-shadow: 0 0 6px rgba(255, 107, 53, 0.4);
+    }
+
+    #newfichaform fieldset label {
+      display: inline-block;
+      margin: 3px;
+      cursor: pointer;
+      vertical-align: top;
+      padding: 5px;
+      border-radius: 4px;
+      transition: all 0.2s ease;
+      position: relative;
+    }
+
+    #newfichaform fieldset:not(.listaClanes) label:hover {
+      background: rgba(255,255,255,0.1);
+    }
+
+    #newfichaform fieldset label input[type="radio"],
+    #newfichaform fieldset label input[type="checkbox"] {
+      position: absolute;
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    #newfichaform fieldset:not(.listaClanes) label input[type="radio"]:checked + img,
+    #newfichaform fieldset:not(.listaClanes) label input[type="checkbox"]:checked + img {
+      border: 2px solid #ff6b35;
+      box-shadow: 0 0 8px rgba(255, 107, 53, 0.5);
+    }
+
+    #newfichaform fieldset:not(.listaClanes) label img {
+      display: block;
+      margin: 0 auto 4px;
+      max-width: 50px;
+      max-height: 50px;
+      width: auto;
+      height: auto;
+      border-radius: 50%;
+      border: 2px solid transparent;
+      transition: all 0.2s ease;
+    }
+
+    #newfichaform fieldset:not(.listaClanes) label p {
+      margin: 0;
+      font-size: 10px;
+      font-weight: normal;
+      line-height: 1.2;
+    }
+
+    #newfichaform fieldset select {
+      width: 100%;
+      padding: 6px 8px;
+      border-radius: 4px;
+      border: 1px solid rgba(255,255,255,0.2);
+      background: rgba(255,255,255,0.1);
+      color: white;
+      font-size: 12px;
+      cursor: pointer;
+    }
+
+    #newfichaform fieldset select:focus {
+      outline: none;
+      border-color: #ff6b35;
+      box-shadow: 0 0 0 2px rgba(255, 107, 53, 0.2);
+    }
+
+    #newfichaform .textarea-group {
+      margin-bottom: 15px;
+      text-align: left;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      max-width: 800px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    #newfichaform .textarea-group label {
+      display: block;
+      margin-bottom: 6px;
+      font-size: 12px;
+      font-weight: 600;
+      color: rgba(255,255,255,0.9);
+      width: 100%;
+      text-align: left;
+    }
+
+    #newfichaform textarea {
+      width: 100%;
+      max-width: 800px;
+      padding: 10px 12px;
+      border: 1px solid rgba(255,255,255,0.2);
+      border-radius: 4px;
+      background: rgba(255,255,255,0.1);
+      color: white;
+      text-align: left;
+      font-size: 13px;
+      font-family: inherit;
+      resize: vertical;
+      transition: all 0.2s ease;
+      box-sizing: border-box;
+      line-height: 1.5;
+    }
+
+    #newfichaform textarea:focus {
+      outline: none;
+      border-color: #ff6b35;
+      background: rgba(255,255,255,0.15);
+      box-shadow: 0 0 0 2px rgba(255, 107, 53, 0.2);
+    }
+
+    #newfichaform textarea::placeholder {
+      color: rgba(255,255,255,0.5);
+    }
+
+    #newfichaform textarea.textarea-small {
+      height: 55px;
+      min-height: 55px;
+    }
+
+    #newfichaform textarea.textarea-large {
+      height: 120px;
+      min-height: 120px;
+    }
+
+    #newfichaform input[type="submit"] {
+      border: 0px;
+      width: 80px;
+      height: 30px;
+      border-radius: 3px;
+      color: #fff;
+      background: #3498db;
+      margin: 20px auto 0;
+      display: block;
+    }
+
+    #guardar_ficha:hover {
+      cursor: pointer;
+    }
+   
+  </style>
+</head>
+
+<body>
+  {$header}
+  <div class="fondo-blanco">
+  <table border="0" cellspacing="{$theme['borderwidth']}" cellpadding="{$theme['tablespace']}" class="tborder">
+    <tr>
+      <td class="thead" colspan="1"><strong>Ficha Nueva</strong></td>
+    </tr>
+    <tr>
+      <td class="trow1" valign="top">
+        <div class="div_ficha">
+          <form method="post" action="/sg/nueva_ficha.php" name="newficha" id="newfichaform">
+            <div class="form-row-basic">
+              <div class="form-field">
+                <label>Nombre del Personaje*</label>
+                <input class="textbox" type="text" name="name" required="">
+              </div>
+              <div class="form-field">
+                <label>Apodo</label>
+                <input class="textbox" type="text" name="alias">
+              </div>
+              <div class="form-field">
+                <label>Edad*</label>
+                <input class="textbox" type="number" name="age" min="12" max="90" required="">
+              </div>
+			
+            </div>
+			<div class="form-row-basic">
+             
+			  <div class="form-field">
+                <label>Altura (cm)*</label>
+                <input class="textbox" type="number" name="altura" min="100" max="250" required="">
+              </div>
+			  <div class="form-field">
+                <label>Peso (kg)*</label>
+                <input class="textbox" type="number" name="peso" min="30" max="300" required="">
+              </div>
+			 <div class="form-field">
+				<label>Sexo*</label>
+				<select name="sexo" class="textbox" required>
+					<option value="hombre" selected>Hombre</option>
+					<option value="mujer">Mujer</option>
+				</select>
+		 	 </div>
+            </div>
+            <div class="selectors-row" id="selectors-row"></div>
+            <div class="selectors-column" id="selectors-column">
+              <fieldset class="listaSeason" data-selector="season" required="">
+                <legend>Cumpleaños (Estación)</legend>
+                <label>
+                  <input type="radio" name="season" value="1" required="">
+                  <img src="https://onepiecegaiden.com/images/op/ficha/InviernoCumple_One_Piece_Gaiden_Foro_Rol.png">
+                  <p>Invierno</p>
+                </label>
+                <label>
+                  <input type="radio" name="season" value="2" required="">
+                  <img src="https://onepiecegaiden.com/images/op/ficha/PrimaveraCumple_One_Piece_Gaiden_Foro_Rol.png">
+                  <p>Primavera</p>
+                </label>
+                <label>
+                  <input type="radio" name="season" value="3" required="">
+                  <img src="https://onepiecegaiden.com/images/op/ficha/VeranoCumple_One_Piece_Gaiden_Foro_Rol.png">
+                  <p>Verano</p>
+                </label>
+                <label>
+                  <input type="radio" name="season" value="4" required="">
+                  <img src="https://onepiecegaiden.com/images/op/ficha/OtonoCumple_One_Piece_Gaiden_Foro_Rol.png">
+                  <p>Otoño</p>
+                </label>
+              </fieldset>
+              <fieldset class="listaAldeas" data-selector="aldea" required="">
+                <legend>Aldea</legend>
+              </fieldset>
+              <fieldset class="listaClanes" data-selector="clan" required="">
+                <legend>Clan</legend>
+              </fieldset>
+              <fieldset class="listaElementos" data-selector="elementos" required="">
+                <legend>Elementos</legend>
+              </fieldset>
+            </div>
+            <div class="textarea-group">
+              <label>Apariencia (mínimo 400 carácteres)</label>
+              <textarea name="phi" class="textarea-large" minlength="400" required=""></textarea>
+            </div>
+            <div class="textarea-group">
+              <label>Personalidad (mínimo 400 carácteres)</label>
+              <textarea name="psi" class="textarea-large" minlength="400" required=""></textarea>
+            </div>
+			<div class="textarea-group">
+              <label>Virtudes</label>
+              <textarea name="virtudes" class="textarea-large"></textarea>
+            </div>
+			<div class="textarea-group">
+              <label>Defectos</label>
+              <textarea name="defectos" class="textarea-large"></textarea>
+            </div>
+            <div class="textarea-group">
+              <label>Biografía (mínimo 800 carácteres)</label>
+              <textarea name="history" class="textarea-large" minlength="800" required=""></textarea>
+            </div>
+            <div class="textarea-group">
+              <label>Información Extra (opcional)</label>
+              <textarea name="extra" class="textarea-large" placeholder="- Le gusta comer ramen."></textarea>
+            </div>
+            <div class="textarea-group">
+              <label>Frase que representa al usuario (opcional)</label>
+              <textarea name="frase" class="textarea-small" placeholder="Un verdadero héroe siempre llega tarde."></textarea>
+            </div>
+            <div class="textarea-group">
+              <label>Origen del físico del personaje (obligatorio)</label>
+              <textarea name="fisico_de_pj" class="textarea-small" required="" placeholder="Por favor, seguir el formato de: Nombre del Físico - Serie/Juego de donde proviene"></textarea>
+            </div>
+            <div class="textarea-group">
+              <label>¿Cómo conociste/encontraste Shinobi Gaiden? (obligatorio)</label>
+              <textarea name="como_nos_conociste" class="textarea-small" placeholder="Google, afiliado, red social, otro usuario, etc..." required=""></textarea>
+            </div>
+            <div style="display: none">
+              <input type="text" value="false" id="comp" name="submit">
+              <input type="text" id="userid" name="uid" value="{$mybb->user['uid']}">
+              <input type="text" name="fichaurl" value="./ficha.php?action=profile&amp;uid={$mybb->user['uid']}">
+            </div>
+            <input id="guardar_ficha" class="button" type="submit" onclick="javascript: document.getElementById('comp').value = 'true';" value="Guardar">
+          </form>
+        </div>
+        <br />
+      </td>
+    </tr>
+  </table>
+	</div>
+  {$footer}
+  {$nueva_ficha_script}
+  <script>
+    (function() {
+      const selectorsColumn = document.getElementById('selectors-column');
+      const selectorsRow = document.getElementById('selectors-row');
+      
+      function moveSelectorToRow(fieldset) {
+        if (fieldset && fieldset.parentNode === selectorsColumn) {
+          fieldset.classList.add('selected');
+          selectorsRow.appendChild(fieldset);
+        }
+      }
+      
+      function checkSelector(fieldset) {
+        if (!fieldset) return;
+        
+        const inputs = fieldset.querySelectorAll('input[type="radio"], input[type="checkbox"]');
+        const selects = fieldset.querySelectorAll('select');
+        let hasSelection = false;
+        
+        inputs.forEach(input => {
+          if (input.checked) {
+            hasSelection = true;
+          }
+        });
+        
+        selects.forEach(select => {
+          if (select.value && select.value !== '' && select.value !== '0') {
+            hasSelection = true;
+          }
+        });
+        
+        if (hasSelection && fieldset.parentNode === selectorsColumn) {
+          moveSelectorToRow(fieldset);
+        }
+      }
+      
+      function attachListeners(fieldset) {
+        if (!fieldset) return;
+        
+        const inputs = fieldset.querySelectorAll('input[type="radio"], input[type="checkbox"]');
+        const selects = fieldset.querySelectorAll('select');
+        
+        inputs.forEach(input => {
+          input.addEventListener('change', function() {
+            checkSelector(fieldset);
+          });
+        });
+        
+        selects.forEach(select => {
+          select.addEventListener('change', function() {
+            checkSelector(fieldset);
+          });
+        });
+      }
+      
+      function initializeSelectors() {
+        if (!selectorsColumn) return;
+        
+        const fieldsets = selectorsColumn.querySelectorAll('fieldset');
+        fieldsets.forEach(fieldset => {
+          attachListeners(fieldset);
+          checkSelector(fieldset);
+        });
+        
+        const observer = new MutationObserver(function(mutations) {
+          mutations.forEach(function(mutation) {
+            mutation.addedNodes.forEach(function(node) {
+              if (node.nodeType === 1) {
+                const newInputs = node.querySelectorAll ? node.querySelectorAll('input[type="radio"], input[type="checkbox"], select') : [];
+                const fieldset = node.closest ? node.closest('fieldset') : null;
+                if (fieldset && fieldset.parentNode === selectorsColumn) {
+                  attachListeners(fieldset);
+                  checkSelector(fieldset);
+                }
+              }
+            });
+          });
+        });
+        
+        observer.observe(selectorsColumn, {
+          childList: true,
+          subtree: true
+        });
+      }
+      
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initializeSelectors);
+      } else {
+        setTimeout(initializeSelectors, 100);
+      }
+
+      // Funcionalidad de colapso para todos los selectores
+      function initSelectorCollapse() {
+        const form = document.getElementById('newfichaform');
+        if (!form) return;
+        
+        const selectorFieldsets = [
+          'fieldset.listaSeason',
+          'fieldset.listaAldeas',
+          'fieldset.listaClanes',
+          'fieldset.listaElementos'
+        ];
+
+        function findFieldsets() {
+          return selectorFieldsets.map(selector => {
+            return form.querySelector(selector) || document.querySelector(selector);
+          }).filter(fieldset => fieldset !== null);
+        }
+
+        let fieldsets = findFieldsets();
+        if (fieldsets.length === 0) {
+          setTimeout(initSelectorCollapse, 500);
+          return;
+        }
+
+        function initFieldsetCollapse(fieldset) {
+          if (!fieldset) return;
+
+          let isManuallyExpanded = false;
+
+          function updateDisplay(forceCollapse = false) {
+            // Solo actualizar este fieldset específico
+            const selectedInput = fieldset.querySelector('input[type="radio"]:checked, input[type="checkbox"]:checked');
+            const selectedSelect = fieldset.querySelector('select');
+            const allLabels = fieldset.querySelectorAll('label');
+            
+            let hasSelection = false;
+            let selectedLabel = null;
+
+            if (selectedInput) {
+              hasSelection = true;
+              selectedLabel = selectedInput.closest('label');
+            } else if (selectedSelect && selectedSelect.value && selectedSelect.value !== '' && selectedSelect.value !== '0') {
+              hasSelection = true;
+            }
+            
+            // Actualizar solo las clases de este fieldset
+            if (hasSelection && selectedLabel) {
+              allLabels.forEach(label => {
+                label.classList.remove('selected-item');
+                if (label === selectedLabel) {
+                  label.classList.add('selected-item');
+                }
+              });
+              // Colapsar si hay selección y no está expandido manualmente (o si se fuerza)
+              if (forceCollapse || !isManuallyExpanded) {
+                fieldset.classList.add('collapsed');
+                fieldset.classList.remove('expanded');
+                isManuallyExpanded = false;
+                
+                // Ocultar elementos adicionales en el fieldset de clanes (excepto el label seleccionado)
+                if (fieldset.classList.contains('listaClanes') && selectedLabel) {
+                  // Reorganizar elementos dentro del label: texto primero, imagen después
+                  const img = selectedLabel.querySelector('img');
+                  const p = selectedLabel.querySelector('p');
+                  const input = selectedLabel.querySelector('input[type="radio"], input[type="checkbox"]');
+                  
+                  if (img && p && selectedLabel.contains(img) && selectedLabel.contains(p)) {
+                    // Verificar el orden actual y reorganizar si es necesario
+                    const children = Array.from(selectedLabel.childNodes).filter(node => 
+                      node.nodeType === 1 && (node === img || node === p || node === input)
+                    );
+                    
+                    // Si la imagen está antes del texto, reorganizar
+                    const imgIndex = children.indexOf(img);
+                    const pIndex = children.indexOf(p);
+                    
+                    if (imgIndex < pIndex) {
+                      // La imagen está antes del texto, mover el texto antes de la imagen
+                      selectedLabel.insertBefore(p, img);
+                    }
+                  }
+                  
+                  // Ocultar todos los elementos excepto el label seleccionado y el legend
+                  const allChildren = Array.from(fieldset.children);
+                  allChildren.forEach(el => {
+                    if (el.tagName !== 'LEGEND') {
+                      if (el.tagName === 'LABEL' && !el.classList.contains('selected-item')) {
+                        el.style.display = 'none';
+                      } else if (el.tagName !== 'LABEL') {
+                        // Ocultar divs, p, span, etc. que no sean el label seleccionado
+                        el.style.display = 'none';
+                      }
+                    }
+                  });
+                }
+              }
+            } else {
+              allLabels.forEach(label => {
+                label.classList.remove('selected-item');
+              });
+              if (!hasSelection) {
+                fieldset.classList.remove('collapsed');
+                fieldset.classList.add('expanded');
+                isManuallyExpanded = false;
+                
+                // Mostrar elementos adicionales cuando se expande
+                if (fieldset.classList.contains('listaClanes')) {
+                  // Mostrar todos los elementos hijos
+                  const allChildren = Array.from(fieldset.children);
+                  allChildren.forEach(el => {
+                    if (el.tagName !== 'LEGEND') {
+                      const textContent = el.textContent || '';
+                      // Si contiene texto de títulos, mostrarlo
+                      if (textContent.includes('Clanes Exclusivos') || 
+                          // textContent.includes('Otros Clanes') ||
+                          el.classList.contains('clan-section-title') || 
+                          el.classList.contains('clan-category') || 
+                          el.tagName === 'H3' || 
+                          el.tagName === 'H4' ||
+                          (el.tagName === 'DIV' && !el.classList.contains('selected-item') && (el.textContent.includes('Clanes Exclusivos') || 
+									   // el.textContent.includes('Otros Clanes')
+																							  ))) {
+                        el.style.display = 'block';
+                      } else if (el.tagName === 'LABEL') {
+                        el.style.display = '';
+                      } else if (el.tagName !== 'LABEL' && !el.classList.contains('selected-item')) {
+                        // Mostrar otros elementos que no sean labels
+                        el.style.display = '';
+                      }
+                    }
+                  });
+                }
+              }
+            }
+          }
+
+          // Hacer clic en el legend para expandir/colapsar
+          const legend = fieldset.querySelector('legend');
+          if (legend) {
+            legend.style.cursor = 'pointer';
+            legend.addEventListener('click', function(e) {
+              e.preventDefault();
+              e.stopPropagation();
+              if (fieldset.classList.contains('collapsed')) {
+                // Expandir manualmente
+                fieldset.classList.remove('collapsed');
+                fieldset.classList.add('expanded');
+                isManuallyExpanded = true;
+                
+                // Mostrar elementos adicionales cuando se expande manualmente
+                if (fieldset.classList.contains('listaClanes')) {
+                  // Mostrar todos los elementos hijos
+                  const allChildren = Array.from(fieldset.children);
+                  allChildren.forEach(el => {
+                    if (el.tagName !== 'LEGEND') {
+                      const textContent = el.textContent || '';
+                      // Si contiene texto de títulos, mostrarlo
+                      if (textContent.includes('Clanes Exclusivos') || 
+                          // textContent.includes('Otros Clanes') ||
+                          el.classList.contains('clan-section-title') || 
+                          el.classList.contains('clan-category') || 
+                          el.tagName === 'H3' || 
+                          el.tagName === 'H4' ||
+                          (el.tagName === 'DIV' && !el.classList.contains('selected-item') && (el.textContent.includes('Clanes Exclusivos') 
+												// || el.textContent.includes('Otros Clanes')
+))) {
+                        el.style.display = 'block';
+                      } else if (el.tagName === 'LABEL') {
+                        el.style.display = '';
+                      } else if (el.tagName !== 'LABEL' && !el.classList.contains('selected-item')) {
+                        // Mostrar otros elementos que no sean labels
+                        el.style.display = '';
+                      }
+                    }
+                  });
+                }
+              } else if (fieldset.classList.contains('expanded')) {
+                // Si está expandido, colapsar si hay selección
+                const hasSelection = fieldset.querySelector('input[type="radio"]:checked, input[type="checkbox"]:checked, select[value]:not([value=""])');
+                if (hasSelection) {
+                  updateDisplay(true);
+                } else {
+                  fieldset.classList.remove('expanded');
+                  fieldset.classList.add('collapsed');
+                  isManuallyExpanded = false;
+                }
+              } else {
+                updateDisplay(true);
+              }
+            });
+          }
+
+          // Hacer clic en el item seleccionado para expandir (solo si está colapsado)
+          fieldset.addEventListener('click', function(e) {
+            const clickedLabel = e.target.closest('label');
+            if (clickedLabel && clickedLabel.classList.contains('selected-item') && fieldset.classList.contains('collapsed')) {
+              // Solo expandir si está colapsado, no interferir con la selección
+              if (e.target.tagName !== 'INPUT') {
+                e.preventDefault();
+                fieldset.classList.remove('collapsed');
+                fieldset.classList.add('expanded');
+                isManuallyExpanded = true;
+                
+                // Mostrar elementos adicionales cuando se expande manualmente
+                if (fieldset.classList.contains('listaClanes')) {
+                  // Mostrar todos los elementos hijos
+                  const allChildren = Array.from(fieldset.children);
+                  allChildren.forEach(el => {
+                    if (el.tagName !== 'LEGEND') {
+                      const textContent = el.textContent || '';
+                      // Si contiene texto de títulos, mostrarlo
+                      if (textContent.includes('Clanes Exclusivos') || 
+                          // textContent.includes('Otros Clanes') ||
+                          el.classList.contains('clan-section-title') || 
+                          el.classList.contains('clan-category') || 
+                          el.tagName === 'H3' || 
+                          el.tagName === 'H4' ||
+                          (el.tagName === 'DIV' && !el.classList.contains('selected-item') && (el.textContent.includes('Clanes Exclusivos') 
+																							   // || el.textContent.includes('Otros Clanes')
+																							  ))) {
+                        el.style.display = 'block';
+                      } else if (el.tagName === 'LABEL') {
+                        el.style.display = '';
+                      } else if (el.tagName !== 'LABEL' && !el.classList.contains('selected-item')) {
+                        // Mostrar otros elementos que no sean labels
+                        el.style.display = '';
+                      }
+                    }
+                  });
+                }
+              }
+            }
+          });
+
+          // Usar delegación de eventos para inputs que se agreguen dinámicamente
+          fieldset.addEventListener('change', function(e) {
+            if (e.target.matches('input[type="radio"], input[type="checkbox"], select')) {
+              // Cuando se selecciona un nuevo item, forzar colapso
+              setTimeout(() => updateDisplay(true), 50);
+            }
+          });
+
+          // Observer para detectar cuando se agregan elementos dinámicamente
+          const observer = new MutationObserver(function(mutations) {
+            let shouldUpdate = false;
+            mutations.forEach(function(mutation) {
+              if (mutation.addedNodes.length > 0) {
+                shouldUpdate = true;
+              }
+            });
+            if (shouldUpdate) {
+              setTimeout(updateDisplay, 100);
+            }
+          });
+
+          observer.observe(fieldset, {
+            childList: true,
+            subtree: true
+          });
+
+          // Inicializar estado
+          setTimeout(updateDisplay, 500);
+          setTimeout(updateDisplay, 1500);
+        }
+
+        // Inicializar cada fieldset
+        fieldsets.forEach(fieldset => {
+          initFieldsetCollapse(fieldset);
+        });
+      }
+
+      // Intentar inicializar múltiples veces para asegurar que funcione
+      function tryInitSelectorCollapse() {
+        if (document.readyState === 'loading') {
+          document.addEventListener('DOMContentLoaded', function() {
+            setTimeout(initSelectorCollapse, 300);
+            setTimeout(initSelectorCollapse, 1000);
+            setTimeout(initSelectorCollapse, 2000);
+          });
+        } else {
+          setTimeout(initSelectorCollapse, 300);
+          setTimeout(initSelectorCollapse, 1000);
+          setTimeout(initSelectorCollapse, 2000);
+          setTimeout(initSelectorCollapse, 3000);
+        }
+      }
+
+      tryInitSelectorCollapse();
+
+      // También escuchar eventos personalizados si se usan para cargar selectores
+      document.addEventListener('selectorsLoaded', function() {
+        setTimeout(initSelectorCollapse, 100);
+      });
+
+      // Observer global para detectar cuando se agregan fieldsets
+      const globalObserver = new MutationObserver(function(mutations) {
+        mutations.forEach(function(mutation) {
+          mutation.addedNodes.forEach(function(node) {
+            if (node.nodeType === 1) {
+              if (node.matches && (node.matches('fieldset.listaSeason') || 
+                                   node.matches('fieldset.listaAldeas') || 
+                                   node.matches('fieldset.listaClanes') || 
+                                   node.matches('fieldset.listaElementos'))) {
+                setTimeout(initSelectorCollapse, 200);
+              }
+              if (node.querySelector && node.querySelector('fieldset.listaSeason, fieldset.listaAldeas, fieldset.listaClanes, fieldset.listaElementos')) {
+                setTimeout(initSelectorCollapse, 200);
+              }
+            }
+          });
+        });
+      });
+
+      globalObserver.observe(document.body, {
+        childList: true,
+        subtree: true
+      });
+    })();
+  </script>
+</body>
+
+</html>

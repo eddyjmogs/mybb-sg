@@ -1,0 +1,423 @@
+/* CSS Global de la pagina **/
+
+* {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    text-decoration: none;
+    border: none;
+    outline: none;
+	color: red;
+  }
+  #mainBackground {
+  width: 1100px;
+  height: 1050px;
+  background-color: #0E1A28;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#secondBackground {
+  width: 1080px;
+  height: 1010px;
+  background-color: #1A304C;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#thirdBackground {
+  width: 1060px;
+  height: 970px;
+  background-color: #0E1A28;
+  border: 1px solid #6492A0;
+  display: flex;
+  justify-content: space-evenly;
+}
+
+#seccionIzquierda {
+  width: 310px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+/** Estilos generales **/
+
+.fichaTab {
+  display: flex;
+  flex-direction: row;
+}
+
+.parteIzq {
+  height: 30px;
+  display: flex;
+  align-items: center;
+}
+
+.parteDer {
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Estilos comunes para todas las partes izquierdas y derechas */
+
+.parteIzq span,
+.parteDer span {
+  text-transform: uppercase;
+  color: white;
+  font-family: 'Inter';
+  font-weight: bold;
+  font-size: 14px;
+}
+
+/** Estilos de tamaño de secciones de tabs **/
+
+.izquierdaPR,
+.izquierdaPE {
+  width: 280px;
+  background-color: #3C356B;
+}
+
+.derechaPR,
+.derechaPE {
+  width: 35px;
+  background-color: #4B4286;
+}
+
+.izquierdaPR span,
+.izquierdaPE span {
+  margin-left: 10px;
+}
+
+.izquierdaEdad,
+.izquierdaRango {
+  width: 35px;
+  background-color: #4B4286;
+  display: flex;
+  justify-content: center;
+}
+
+.derechaEdad,
+.derechaRango {
+  width: 115px;
+  background-color: #3C356B;
+}
+
+.izquierdaAldea {
+  width: 35px;
+  background-color: #4B4286;
+  display: flex;
+  justify-content: center;
+}
+
+.derechaAldea {
+  width: 115px;
+  background-color: #3C356B;
+}
+
+.izquierdaFaccion {
+  width: 150px;
+  background-color: #262143;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.izquierdaClan,
+.izquierdaClase {
+  width: 35px;
+  background-color: #4B4286;
+  display: flex;
+  justify-content: center;
+}
+
+.derechaClan,
+.derechaClase {
+  width: 280px;
+  background-color: #3C356B;
+}
+
+/** Estilos para textos de tabs con Kanji **/
+
+.izquierdaEdad span,
+.izquierdaRango span,
+.izquierdaClan span,
+.izquierdaAldea span {
+  font-size: 20px;
+}
+
+/** Estilos de FilaTab **/
+
+.filaTab {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+/** Avatar de Ficha **/
+
+.avatarBox {
+  width: 310px;
+  height: 460px;
+  background-color: #4B4286;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.avatarPic {
+  width: 300px;
+  height: 450px;
+  background-color: #3C356B;
+}
+
+#seccionDerecha {
+  width: 700px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  gap: 10px;
+}
+
+#bannerFicha {
+  width: 700px;
+  height: 100px;
+  background-image: url(https://i.postimg.cc/dQ5nC6PL/Imagen-Banner-Ficha.png);
+  position: relative;
+  border: 3px solid var(--grupo-sin-aldea);
+  box-sizing: border-box;
+}
+
+#gradient {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(to left, var(--grupo-sin-aldea) 0%, transparent 100%);
+  opacity: 0.8;
+}
+
+#bannerFichaImagen {
+  width: 700px;
+  height: 100px;
+}
+
+/** Estilos Tabs**/
+
+.seccionesTab {
+  display: flex;
+  justify-content: space-between;
+  width: 700px;
+}
+
+.tab {
+  height: 45px;
+  font-family: "Inter", sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-sizing: border-box;
+  /* Añadida propiedad box-sizing */
+  transition: background-color 0.3s ease;
+  /* Agregada transición para el cambio de color de fondo */
+}
+
+.tab.active-tab {
+  background-color: #5D5592;
+  /* Color del primer tab activo */
+  color: #FFFFFF;
+  /* Color del texto del primer tab activo */
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
+  /* Sombra del primer tab activo */
+  text-decoration: underline;
+  /* Texto subrayado del primer tab activo */
+}
+
+.tab.inactive-tab {
+  background-color: #3C356B;
+  /* Color de los tabs inactivos */
+  color: #FFFFFF;
+  /* Color del texto de los tabs inactivos */
+  box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.2);
+  /* Sombra de los tabs inactivos */
+}
+
+.tab-text {
+  text-align: center;
+}
+
+
+/** Estilo de la caja de información de los tabs **/
+
+
+.content {
+  background-color: #5D5592;
+  /* Color de fondo del contenido */
+  width: 700px;
+  height: 750px;
+}
+
+.content-text {
+  margin: auto;
+  color: #FFFFFF;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  height: 100%;
+  margin-left: 20px;
+  margin-right: 20px;
+}
+
+/** Estilos de cajas contenedores de información de Historia, Apariencia, etc... **/
+
+.boxHistoria, .boxExtra, .boxFisico, .boxPersonalidad {
+  display: flex;
+}
+
+.boxHistoria {
+  position: relative;
+  background-color: #3C356B;
+  width: auto;
+  height: 200px;
+  color: #FFF;
+}
+
+.boxFisico {
+  position: relative;
+  background-color: #3C356B;
+  width: auto;
+  height: 175px;
+  color: #FFF;
+}
+
+.boxPersonalidad {
+  position: relative;
+  background-color: #3C356B;
+  width: auto;
+  height: 175px;
+  color: #FFF;
+}
+
+.boxExtra {
+  position: relative;
+  background-color: #3C356B;
+  width: auto;
+  height: 100px;
+  color: #FFF;
+}
+
+/** Estilos para titulos de secciones de ficha **/
+
+.titleH, .titleP {
+  position: absolute;
+  top: -20px;
+  left: 20px;
+  font-family: Inter;
+  font-size: 32px;
+  font-weight: 800;
+  font-style: italic;
+  text-transform: uppercase;
+
+}
+
+.titleA {
+  position: absolute;
+  top: -20px;
+  right: 20px;
+  font-family: Inter;
+  font-size: 32px;
+  font-weight: 800;
+  font-style: italic;
+  text-transform: uppercase;
+}
+
+.titleE {
+  position: relative;
+  top: -20px;
+  font-family: Inter;
+  font-size: 32px;
+  font-weight: 800;
+  font-style: italic;
+  text-transform: uppercase;
+  text-align: center;
+}
+
+
+/** Estilos para cajas de texto con scroll **/
+
+.boxTexto {
+  width: 90%;
+  height: 80%;
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  overflow: inherit;
+}
+
+.texto {
+  font-family: "Inter", sans-serif;
+  font-size: 14px;
+  color: #FFFFFF;
+  font-weight: 100;
+  text-align: justify;
+  overflow: auto;
+  width: 100%;
+  padding-right: 15px; /* Agregado espacio para la barra de desplazamiento */
+}
+
+.texto::-webkit-scrollbar {
+  width: 6px;
+}
+
+.texto::-webkit-scrollbar-thumb {
+  background-color: #5D5592;
+  border-radius: 3px; /* Toque moderno: esquinas redondeadas */
+}
+
+.texto::-webkit-scrollbar-track {
+  background-color: #B9AEFF;
+  border-radius: 5px;
+}
+
+/** Estilos de la caja de PB **/
+
+#cajaPB {
+width: 700px;
+height: 35px;
+background-color: var(--grupo-sin-aldea);
+}
+
+/** Estilos de información de sección inferior de sección izquierda **/
+
+#userInfo {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  text-align: right;
+  color: white;
+}
+
+.userNombre {
+  font-size: 24px;
+  font-weight: bold;
+  font-family: 'Inter';
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+.userApodo {
+  font-size: 20px;
+  font-weight: normal;
+  font-family: 'Inter';
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}

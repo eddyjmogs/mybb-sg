@@ -1,0 +1,458 @@
+/** Diseño de Zona de posts **/
+
+.postmsg{
+border: solid 2px;
+    text-align: justify;
+	font-family: 'Inter';
+min-height:680px;
+    padding: 20px;
+    border-radius: 15px;
+}
+
+/* Diseño Navbar */
+.navbar {
+  background-color: #0e1a27;
+	display: flex;
+    justify-content: center;
+}
+
+.navbar-nav {
+  display: flex;
+  justify-content: center;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.nav-item {
+  padding: 15px;
+  position: relative;
+  transition: background-color 0.3s ease;
+  list-style: none;
+}
+
+.nav-item::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 0;
+  background-color: #ffffff;
+  transition: height 0.3s ease;
+  z-index: -1;
+}
+
+.nav-item a {
+  font-family: "Inter", sans-serif;
+  font-weight: 300;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  color: #ffffff;
+  text-decoration: none;
+  transition: font-size 0.3s ease, color 0.3s ease;
+}
+
+.nav-item:hover {
+  background-color: #ffffff;
+}
+
+.nav-item:hover a {
+    font-size: 11px;
+    font-weight: 300;
+    color: #0e1a27;
+}
+
+.nav-item:hover::before {
+  height: 100%;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #ffffff;
+  min-width: 190px;
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+  z-index: 1;
+	font-size: 13px;
+	margin-left: -15px;
+    margin-top: 15px;
+}
+
+.dropdown-content a {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+  text-align: left;
+  list-style: none;
+
+}
+
+.dropdown-content li {
+  border-bottom: 1px solid #ccc;
+  /* Color y estilo de la línea separadora */
+  padding-bottom: 5px;
+  /* Espacio entre los elementos y la línea separadora */
+  transition: background-color 0.3s ease;
+  /* Transición de color */
+}
+
+.dropdown-content li:hover {
+  background-color: #f5f5f5;
+  /* Color de fondo al apuntar */
+}
+
+.nav-item:hover .dropdown-content {
+  display: block;
+  list-style: none;
+  padding: 0;
+}
+
+/** Estilos de separador horizontal **/
+.hrDivider {
+  width: 100%;
+  height: 3px;
+  background-color: #6492A0;
+	margin: 0;
+}
+
+/** Estilos del Banner**/
+
+#bannerBox {
+  position: relative;
+  width: 1100px;
+  height: 525px;
+  background-image: url(https://i.postimg.cc/hPxymVDm/Banner.png);
+  background-size: cover;
+}
+
+/** Estilos de Sidebar **/
+
+#sidebar {
+  position: absolute;
+  top: 60px;
+  left: 0;
+  width: 25px;
+  height: 400px;
+  background-color: #014C7D;
+  transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: pointer;
+  border-top-right-radius: 10px;
+  border-bottom-right-radius: 10px;
+  overflow: hidden;
+}
+
+#sidebar.expand {
+  width: 75%;
+}
+
+#sidebarContent {
+  padding: 20px;
+  color: #ffffff;
+}
+
+/** Overlay de indicador de Usuario **/
+
+#userOverlay {
+  position: absolute;
+  display: flex;
+  flex-direction: row;
+  text-align: right;
+  gap: 5px;
+  bottom: 10px;
+  right: 10px;
+  font-size: 16px;
+	color: white;
+}
+
+#userOverlay span {
+font-family: 'Inter';
+letter-spacing: 3px;
+text-transform: uppercase;
+font-weight: bold;
+}
+
+#userOverlay p {
+  text-transform: uppercase;
+  font-family: 'Inter';
+  letter-spacing: 3px;
+}
+
+
+/** MiniAvatarBox**/
+#miniAvatarBox{
+  width: 40px;
+  height: 40px;
+  background-color: #014C7D;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#miniAvatarPicture {
+  width: 30px;
+  height: 30px;
+  background-image: url(https://i.postimg.cc/tJ3ft632/mini-Avatar-Picture.png);
+}
+
+/** Estilos de fondo del foro**/
+
+#mainBackground {
+	background-color: #0E1A28;
+	padding: 10px;
+	padding-top: 15px;
+	padding-bottom: 15px;
+}
+
+#secondBackground {
+    padding: 10px;
+		padding-top: 15px;
+	padding-bottom: 15px;
+    background-color: #1A304C;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#thirdBackground {
+  width: 1050px;
+  background-color: #0E1A28;
+  border: 1px solid #6492A0;
+  display: flex;
+	flex-direction: column;
+}
+
+
+/** Estilos generales las categorias del foro**/
+
+#catForum1, #catForum2, #catForum3, #catForum4 {
+height: 70px;
+margin: 20px;
+}
+
+/** Imagenes para cada categoria**/
+
+#catForum1 {
+  background-image: url(https://i.ibb.co/vL7QNfY/Categoria-1-Inicial-1.png);
+}
+
+#catForum2 {
+  background-image: url(https://i.ibb.co/z2x3KyQ/Categoria-2-Zona-de-Personaje-1.png);
+}
+
+#catForum3 {
+  background-image: url(https://i.ibb.co/5jgp4rH/Categoria-3-Mundo-2.png);
+}
+
+#catForum4 {
+	background-image: url(https://i.ibb.co/Cwvw4Rp/Zona-Off-Rol-Cat-4.png);
+}
+
+/** Estilos de los contenedores padres de cada sección (No Incluye categorias) **/
+
+#firstSection {
+  display: flex;
+  flex-direction: row;
+  margin: 20px;
+}
+
+.firstSectionRow {
+  display: flex;
+  flex-direction: row;
+  margin-left: 20px;
+  margin-right: 20px;
+}
+
+#forumSection2 {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin: 0px 20px 0px 20px;
+}
+
+#forumSection3 {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  margin: 0px 20px 0px 20px;
+	gap: 10px;
+}
+
+#forumSection4 {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin: 0px 20px 20px 20px;
+}
+
+/* Estructura de los subforos de la Seccion I */
+
+.forumColumn2 {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.forumRow1 {
+  display: flex;
+  flex-direction: row;
+  margin-left: 10px;
+}
+
+
+/** Estilos de foros administrativos **/
+
+.forum1 {
+  width: 330px;
+  height: 500px;
+  background-image: url(https://i.ibb.co/JdvQxNV/Foro-1-Anuncios.png);
+}
+
+.forum2 {
+  width: 670px;
+  height: 240px;
+  background-image: url(https://i.ibb.co/5RgbV4k/Foro-2-Bienvenidas.png);
+  margin-bottom: 10px;
+  margin-left: 10px;
+}
+
+.forum3 {
+  width: 330px;
+  height: 250px;
+  background-image: url(https://i.ibb.co/9TVm1qT/Foro-3-Historia.png);
+}
+
+.forum4 {
+  width: 330px;
+  height: 250px;
+  background-image: url(https://i.ibb.co/gvTJT8t/Foro-4-Gu-as.png);
+  margin-left: 10px;
+}
+
+/** Estilos de los foros de la sección II **/
+
+.missionForum,
+.creationForum,
+.organizationForum {
+  width: 330px;
+  height: 350px;
+}
+
+.missionForum {
+  background-image: url(https://i.ibb.co/dQ7CCH0/Foro-1-Misiones.png);
+}
+
+.creationForum {
+  background-image: url(https://i.ibb.co/6F0rG6D/Foro-2-Creaciones.png);
+}
+
+.organizationForum {
+  background-image: url(https://i.ibb.co/DDbcnjG/Foro-3-Organizaciones.png);
+}
+
+/** Estilos de subforos de Países en Seccion 3. **/
+
+.pFuego,
+.pAgua,
+.pViento,
+.pRayo,
+.pTierra,
+.rMundo {
+  width: 1010px;
+  height: 300px;
+}
+
+.pFuego {
+  background-image: url(https://i.ibb.co/pvrx7nH/Pa-s-del-Fuego-1.png);
+}
+
+.pAgua {
+  background-image: url(https://i.ibb.co/0Xb9njT/Pa-s-del-Agua-1.png);
+}
+
+.pRayo {
+  background-image: url(https://i.ibb.co/SwsRSP2/Pa-s-del-Rayo-1.png);
+}
+
+.pTierra {
+  background-image: url(https://i.ibb.co/hscn0v0/Pa-s-del-Viento-1.png);
+}
+
+.pViento {
+  background-image: url(https://i.ibb.co/yQ04WNx/Pa-s-de-la-Tierra-1.png);
+}
+
+.rMundo {
+  background-image: url(https://i.ibb.co/JBfXCxk/Resto-del-Mundo.png);
+}
+
+
+/** Estilos para los foros de la seccion 4 **/
+
+.ficsCombates, .afiliaciones {
+width: 495px;
+height: 200px;
+}
+
+.ficsCombates{
+background-image: url(https://i.ibb.co/nL63Kw2/Off-Rol.png);
+}
+
+.afiliaciones {
+background-image: url(https://i.ibb.co/bHc83Mw/Afiliaciones.png);
+}
+
+/** Aquí terminan lo estilos del foro **/
+
+/* accountswitcher_header */
+#accountswitcher_header {
+  float: left;
+}
+
+#accountswitcher_header_popup ul {
+  margin-top: 34px;
+  white-space: normal;
+  margin-left: -12px;
+}
+
+.nav-item:hover #accountswitcher_header_popup {
+  display: block;
+  position: absolute;
+  background-color: #ffffff;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+  z-index: 1;
+  font-size: 13px;
+}
+
+.nav-item:hover #accountswitcher_header_popup a {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+  text-align: left;
+  list-style: none;
+}
+
+.nav-item:hover #accountswitcher_header_popup li {
+  border-bottom: 1px solid #ccc;
+  padding-bottom: 5px;
+  transition: background-color 0.3s ease;
+}
+
+.nav-item:hover #accountswitcher_header_popup li:hover {
+  background-color: #f5f5f5;
+}
+
+/* Miscellaneous */
+
+.select2-search input {
+  background-color: white !important;
+}
+
+div.sceditor-dropdown input,
+div.sceditor-dropdown textarea {
+  background-color: white !important;
+}
