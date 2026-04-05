@@ -1,738 +1,473 @@
-# style.md — Path of the Sage Mode
-> Roleplay Forum · Naruto Universe · Ukiyo-e + Washi Paper Aesthetic
+# Konoha Forum — Design System
+**Crystal Edition · 木ノ葉隠れの里**
 
 ---
 
-## Visual Concept
+## Overview
 
-**Style name:** *Washi & Plum* — Handmade Japanese paper as the background, deep plum ink as the primary color, rust red as the single accent. Inspired by ukiyo-e woodblock prints and traditional Japanese calligraphy.
+Two themes, one design language. Both share identical layout structure, typography, spacing, and component shapes. Color values are the only thing that changes between them.
 
-**Keywords:** washi · plum · rust · hanko · kanji · seal · fiber · cold parchment · ukiyo-e
+Three core principles:
 
-**Design principles:**
-- Maximum 2 fonts — never more
-- Rust red appears in exactly 3 places: title accent line, hanko seal, and navigation diamonds
-- 0.5px borders — never thicker except intentional 1.5px accents
-- White space as an active element, not emptiness
-- Decorative kanji always at opacity 0.04–0.08 — never prominent
+- **Orange as fire** — `#c87830` is the single dominant warm accent. Everything else is neutral, making orange unmistakable wherever it appears.
+- **Category color system** — five secondary colors (rose, lavender, teal, sage, and neutral gray) map directly to content categories. Each category owns its color across badges, thread accents, sidebar gems, tags, and mission icons.
+- **Parchment texture** — both themes use stacked SVG `fractalNoise` filters to simulate paper grain. Light uses `multiply` blend mode, dark uses `screen` blend mode.
+- **Konoha spiral** — the Konoha spiral symbol appears as a background watermark grid, as badge icons, as ornament separator elements, and as per-thread stamps in the bottom-right corner.
 
 ---
 
-## 1. Typography
+## Color System
 
-### Fonts
-```
-Display / Headings:  Cinzel (Google Fonts) → weights: 400, 700, 900
-Body / Lore:         Noto Serif JP (Google Fonts) → weights: 300, 400, 700
-```
+### Category → Color Mapping
 
-Import with:
-```html
-<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Noto+Serif+JP:wght@300;400;700&display=swap" rel="stylesheet">
-```
+This mapping is the backbone of the design. Every category-colored element traces back to this table.
 
-### Hierarchy
+| Category | Light color | Dark color | Used in |
+|----------|------------|-----------|---------|
+| All / active | `#c87830` orange | `#d08838` orange | Active nav, logo, XP labels, new button |
+| Debates | `#a87070` rose | `#c89898` rose | Badge, thread accent, sidebar gem, tag |
+| Teorías | `#7068a8` lavender | `#9088b8` lavender | Badge, thread accent, sidebar gem, tag |
+| Análisis | `#508080` teal | `#6aa0a8` teal | Badge, thread accent, sidebar gem, tag |
+| Bienvenida | `#5a7850` sage | `#78a868` sage | Badge, thread accent, sidebar gem, tag |
+| Arte / misc | neutral gray | neutral gray | Border only, no color fill |
 
-| Element | Font | Size | Weight | Letter-spacing |
-|---|---|---|---|---|
-| Forum logo | Cinzel | 22px | 900 | 2px |
-| Logo subtitle | Cinzel | 9px | 400 | 5px |
-| Section titles | Cinzel | 14px | 900 | 2px |
-| Navigation items | Cinzel | 10px | 700 | 1.5px |
-| Tags / badges | Cinzel | 8px | 400 | 2px |
-| Card labels | Cinzel | 11px | 700 | 1px |
-| Card sublabels | Cinzel | 9px | 400 | 2px |
-| Metadata / dates | Cinzel | 9px | 400 | 1px |
-| News body text | Noto Serif JP | 11px | 300 | 0 |
-| Decorative vertical kanji | Noto Serif JP | 22px | 700 | 6px |
-| Watermark kanji in cards | Noto Serif JP | 54px | 700 | 0 |
-| Watermark kanji in nav | Noto Serif JP | 110px | 700 | 0 |
+### Village → Color Mapping
 
-### Typography rules
-- `text-align: justify` on all body paragraphs
-- `line-height: 1.9` on news body text
-- `text-transform: uppercase` on all Cinzel navigation text and tags
-- Vertical header kanji uses `writing-mode: vertical-rl`
+| Village | Color |
+|---------|-------|
+| Konoha | sage |
+| Kiri | teal |
+| Iwa | rose |
+| Suna | orange |
+| Kumo | lavender |
 
 ---
 
-## 2. Color Palette
+## Light Theme — Warm Gray
 
-### Light Mode — Cold Washi
+Background: `#f0ede8` (warm gray with slight beige tint)
 
-| Variable | Hex | Usage |
-|---|---|---|
-| `--bg` | `#f4f2f8` | Global page background |
-| `--bg2` | `#ede9f4` | Header background, news cards |
-| `--bg3` | `#e6e1f0` | Navigation panel background, recents section |
-| `--border` | `rgba(90,46,154,0.14)` | All borders and dividers |
-| `--ink` | `#1e1428` | Primary text, headings |
-| `--plum` | `#3d1f6e` | Primary color — nav items, stats band |
-| `--plum2` | `#5a2e9a` | Social icons, tags |
-| `--plum3` | `#7b4ab8` | Border-top of recent cards |
-| `--plum4` | `#9c6bcc` | Edit icons inside cards |
-| `--lilac` | `#c4a0e0` | Occasional decorative use |
-| `--lavender` | `#ede0fa` | Text on dark card backgrounds |
-| `--oxide` | `#7a2a10` | Rust accent — title line, seal, diamonds |
-| `--oxide2` | `#a83a18` | Username in recent posts |
-| `--stone` | `#6a587a` | Secondary text, descriptions |
-| `--mist` | `#a898b8` | Metadata, dates, labels |
-| `--fiber` | `rgba(140,120,180,0.06)` | Washi paper texture overlay |
+### Color Tokens
 
-### Dark Mode — Nocturnal Plum
-
-| Variable | Hex | Usage |
-|---|---|---|
-| `--bg` | `#0f0c18` | Global page background |
-| `--bg2` | `#130f1e` | Header background, news cards |
-| `--bg3` | `#171224` | Navigation panel background |
-| `--bg4` | `#1c162c` | Stats band, recent cards hover |
-| `--border` | `rgba(156,107,204,0.12)` | All borders and dividers |
-| `--ink` | `#e8dff8` | Primary text, headings |
-| `--plum` | `#7b4ab8` | Primary color — active nav items |
-| `--plum2` | `#9c6bcc` | Social icons, tags |
-| `--plum3` | `#b890e0` | Text on dark backgrounds |
-| `--plum4` | `#d4b8f0` | Titles inside village cards |
-| `--dim` | `#4a3a6a` | Tool icons at rest |
-| `--oxide` | `#c0582a` | Rust accent — title line, seal, diamonds |
-| `--oxide2` | `#e07040` | Username in recent posts |
-| `--stone` | `#8a7a9a` | Secondary text, descriptions |
-| `--mist` | `#5a4a6a` | Metadata, dates, stats band text |
-| `--gold` | `#c09840` | Urgent notices in the stats band |
-| `--fiber` | `rgba(156,107,204,0.04)` | Washi texture (very subtle in dark mode) |
-
----
-
-## 3. Full CSS Variables
-
-### Light Mode
 ```css
 :root {
-  --bg:       #f4f2f8;
-  --bg2:      #ede9f4;
-  --bg3:      #e6e1f0;
-  --border:   rgba(90, 46, 154, 0.14);
-  --ink:      #1e1428;
-  --plum:     #3d1f6e;
-  --plum2:    #5a2e9a;
-  --plum3:    #7b4ab8;
-  --plum4:    #9c6bcc;
-  --lilac:    #c4a0e0;
-  --lavender: #ede0fa;
-  --oxide:    #7a2a10;
-  --oxide2:   #a83a18;
-  --stone:    #6a587a;
-  --mist:     #a898b8;
-  --fiber:    rgba(140, 120, 180, 0.06);
+  /* Surfaces */
+  --bg:          #f0ede8;   /* center background */
+  --bg-side:     #d8d5d0;   /* sidebar background */
+  --bg-side2:    #ccc9c4;   /* sidebar hover / bar tracks */
+  --panel:       #f8f6f2;   /* thread card / raised surface */
+  --panel2:      #edeae4;   /* secondary surface, stat blocks */
+  --panel3:      #e0ddd8;   /* depressed surface */
+
+  /* Borders */
+  --border:      #c0bdb8;
+  --border2:     #a09d98;   /* emphasis border, sidebar separator */
+
+  /* Orange — primary accent */
+  --orange:      #c87830;
+  --orange-soft: #faf0e0;
+  --orange-dim:  #d8a868;
+
+  /* Rose — debates */
+  --rose:        #a87070;
+  --rose-soft:   #f8eee8;
+  --rose-dim:    #d0a898;
+
+  /* Lavender — teorías */
+  --lav:         #7068a8;
+  --lav-soft:    #eeeaf8;
+  --lav-dim:     #b0a8d8;
+
+  /* Teal — análisis */
+  --teal:        #508080;
+  --teal-soft:   #e4f2f0;
+  --teal-dim:    #98c8c4;
+
+  /* Sage — bienvenida, online dot, Konoha */
+  --sage:        #5a7850;
+  --sage-soft:   #e8f4e0;
+  --sage-dim:    #a8c898;
+
+  /* Ink — text hierarchy */
+  --ink:         #1e1c18;
+  --ink2:        #3a3830;
+  --ink3:        #706a60;
+  --ink4:        #a09890;
+  --ink5:        #c8c4bc;
 }
 ```
 
-### Dark Mode
-```css
-[data-theme="dark"] {
-  --bg:     #0f0c18;
-  --bg2:    #130f1e;
-  --bg3:    #171224;
-  --bg4:    #1c162c;
-  --border: rgba(156, 107, 204, 0.12);
-  --ink:    #e8dff8;
-  --plum:   #7b4ab8;
-  --plum2:  #9c6bcc;
-  --plum3:  #b890e0;
-  --plum4:  #d4b8f0;
-  --dim:    #4a3a6a;
-  --oxide:  #c0582a;
-  --oxide2: #e07040;
-  --stone:  #8a7a9a;
-  --mist:   #5a4a6a;
-  --gold:   #c09840;
-  --fiber:  rgba(156, 107, 204, 0.04);
-}
+### Background Texture
+
+```svg
+<!-- Fine grain -->
+<filter id="pf-fine">
+  <feTurbulence type="fractalNoise" baseFrequency="0.68 0.72"
+    numOctaves="5" seed="3" stitchTiles="stitch" result="n"/>
+  <feColorMatrix in="n" type="saturate" values="0" result="g"/>
+  <feComponentTransfer in="g" result="out">
+    <feFuncR type="linear" slope="0.038" intercept="0.920"/>
+    <feFuncG type="linear" slope="0.034" intercept="0.916"/>
+    <feFuncB type="linear" slope="0.030" intercept="0.910"/>
+    <feFuncA type="linear" slope="1"/>
+  </feComponentTransfer>
+  <feBlend in="SourceGraphic" in2="out" mode="multiply"/>
+</filter>
+
+<!-- Horizontal fibers -->
+<filter id="pf-fiber">
+  <feTurbulence type="fractalNoise" baseFrequency="0.006 0.88"
+    numOctaves="2" seed="9" stitchTiles="stitch" result="f"/>
+  <feColorMatrix in="f" type="saturate" values="0" result="gf"/>
+  <feComponentTransfer in="gf" result="out">
+    <feFuncA type="linear" slope="0.022"/>
+  </feComponentTransfer>
+  <feBlend in="SourceGraphic" in2="out" mode="multiply"/>
+</filter>
 ```
 
-To activate dark mode, add `data-theme="dark"` to the `<html>` or `<body>` element.
+Additional overlay elements:
+- Ruling lines: `#b8b4ac` at `opacity: 0.20`, every 88px
+- Warm top-right glow: orange `#e09050` radial at 10% opacity, 20% radius
+- Spiral watermarks: 62px / 48px alternating, gray `#908880` / `#a09890`, opacity 4.2% / 3.0%
+
+### Badge Colors (light)
+
+| Category | Border | Background | Text |
+|----------|--------|------------|------|
+| Orange | `--orange-dim` | `--orange-soft` | `--orange` |
+| Rose | `--rose-dim` | `--rose-soft` | `--rose` |
+| Lavender | `--lav-dim` | `--lav-soft` | `--lav` |
+| Teal | `--teal-dim` | `--teal-soft` | `--teal` |
+| Sage | `--sage-dim` | `--sage-soft` | `--sage` |
+
+### Special Badges (light)
+
+| Badge | Style |
+|-------|-------|
+| `▲ ardiente` | 2px border `--orange`, color `--orange`, font-weight 500 |
+| `fijado` | 1px border `--lav-dim`, background `--lav-soft`, color `--lav` |
 
 ---
 
-## 4. Washi Paper Texture
+## Dark Theme — Violet Night
 
-The washi paper texture is simulated with overlapping CSS lines at 3 angles:
+Background: `#100e18` (deep violet-black)
+
+The same category color system applies. Orange remains the primary accent — against the dark background it reads as torch fire. Category colors are brightened to maintain legibility on dark surfaces.
+
+### Color Tokens
 
 ```css
-/* Applied via ::before on the root container */
-.root::before {
-  content: '';
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  z-index: 0;
-  background-image:
-    repeating-linear-gradient(13deg,  transparent 0, transparent 24px, var(--fiber) 24px, var(--fiber) 25px),
-    repeating-linear-gradient(82deg,  transparent 0, transparent 36px, var(--fiber) 36px, var(--fiber) 37px),
-    repeating-linear-gradient(151deg, transparent 0, transparent 19px, var(--fiber) 19px, var(--fiber) 19.5px);
-}
+:root {
+  /* Surfaces */
+  --bg:          #100e18;
+  --bg-side:     #0a0810;
+  --bg-side2:    #080610;
+  --panel:       #1a1828;
+  --panel2:      #201e32;
+  --panel3:      #16142a;
 
-/* Subtler version for village image cards */
-.cell-fiber {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  background-image:
-    repeating-linear-gradient(18deg,  transparent 0, transparent 12px, rgba(255,255,255,0.06) 12px, rgba(255,255,255,0.06) 13px),
-    repeating-linear-gradient(104deg, transparent 0, transparent 20px, rgba(255,255,255,0.04) 20px, rgba(255,255,255,0.04) 21px);
-}
+  /* Borders */
+  --border:      #2e2848;
+  --border2:     #4a4478;
 
-/* Version for recent post cards */
-.recent-card::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  background-image:
-    repeating-linear-gradient(20deg, transparent 0, transparent 18px, var(--fiber) 18px, var(--fiber) 19px);
+  /* Orange — torch fire */
+  --orange:      #d08838;
+  --orange-soft: #2a1808;
+  --orange-dim:  #7a4820;
+  --orange-glow: rgba(200,120,40,.15);
+
+  /* Rose — debates */
+  --rose:        #c89898;
+  --rose-soft:   #200e0e;
+  --rose-dim:    #602828;
+
+  /* Lavender — teorías */
+  --lav:         #9088b8;
+  --lav-soft:    #1a1630;
+  --lav-dim:     #4a4468;
+
+  /* Teal — análisis */
+  --teal:        #6aa0a8;
+  --teal-soft:   #0a1820;
+  --teal-dim:    #184858;
+
+  /* Sage — bienvenida, online dot, Konoha */
+  --sage:        #78a868;
+  --sage-soft:   #0e1808;
+  --sage-dim:    #2a4818;
+
+  /* Text hierarchy */
+  --text:        #e8e4f8;   /* primary */
+  --text-mid:    #9088b8;   /* secondary */
+  --text-dim:    #5a5488;   /* muted / labels */
 }
 ```
+
+### Background Texture
+
+```svg
+<!-- Fine grain — screen mode for dark bg -->
+<filter id="df-fine">
+  <feTurbulence type="fractalNoise" baseFrequency="0.68 0.72"
+    numOctaves="5" seed="6" stitchTiles="stitch" result="n"/>
+  <feColorMatrix in="n" type="saturate" values="0" result="g"/>
+  <feComponentTransfer in="g" result="out">
+    <feFuncR type="linear" slope="0.06" intercept="0.04"/>
+    <feFuncG type="linear" slope="0.05" intercept="0.03"/>
+    <feFuncB type="linear" slope="0.08" intercept="0.06"/>
+    <feFuncA type="linear" slope="1"/>
+  </feComponentTransfer>
+  <feBlend in="SourceGraphic" in2="out" mode="screen"/>
+</filter>
+
+<!-- Horizontal fibers — screen mode -->
+<filter id="df-fiber">
+  <feTurbulence type="fractalNoise" baseFrequency="0.006 0.9"
+    numOctaves="2" seed="13" stitchTiles="stitch" result="f"/>
+  <feColorMatrix in="f" type="saturate" values="0" result="gf"/>
+  <feComponentTransfer in="gf" result="out">
+    <feFuncA type="linear" slope="0.04"/>
+  </feComponentTransfer>
+  <feBlend in="SourceGraphic" in2="out" mode="screen"/>
+</filter>
+```
+
+Additional overlay elements:
+- Ruling lines: `#2e2848` at `opacity: 0.50`, every 88px
+- Moon glow top-right: `#c0b0e8` radial at 12% opacity, 26% radius
+- Torch glow top-left: `#d08838` radial at 8% opacity, 18% radius
+- Deep vignette: `#050408` at 50% opacity toward edges
+- Spiral watermarks: lavender `#6058a8` / `#7068b8`, opacity **9.0% / 7.0%**
+
+### Badge Colors (dark)
+
+| Category | Border | Background | Text |
+|----------|--------|------------|------|
+| Orange | `--orange-dim` | `--orange-soft` | `--orange` |
+| Rose | `--rose-dim` | `--rose-soft` | `--rose` |
+| Lavender | `--lav-dim` | `--lav-soft` | `--lav` |
+| Teal | `--teal-dim` | `--teal-soft` | `--teal` |
+| Sage | `--sage-dim` | `--sage-soft` | `--sage` |
+
+### Special Badges (dark)
+
+| Badge | Style |
+|-------|-------|
+| `▲ ardiente` | 2px border `--orange`, color `--orange`, `box-shadow: 0 0 8px --orange-glow` |
+| `fijado` | 1px border `--lav-dim`, background `--lav-soft`, color `--lav` |
 
 ---
 
-## 5. Layout & Structure
+## Typography
 
-### Main grid
-```
-Header (2-col grid: 1fr + 280px fixed)
-  ├── Left:  logo + description + social buttons
-  └── Right: navigation panel (6 items, 6-row grid)
-
-Stats band (flex, 28px height)
-
-Body (2-col grid: 1fr + 1fr)
-  ├── Left column:  News
-  └── Right column: Libraries (2×2 grid)
-
-Recent posts (3-col grid, full body span)
-```
-
-### Standard spacing
-```css
---padding-col:    20px 24px;  /* body column padding */
---padding-header: 24px 28px;  /* header left side padding */
---gap-cells:      3px;        /* gap between village cards and recents */
---height-cell:    104px;      /* village card height */
---height-cell-1:  112px;      /* first card height (col-span 2) */
---height-band:    28px;       /* stats band height */
---height-header:  215px;      /* minimum header height */
-```
+| Role | Family | Size | Weight | Notes |
+|------|--------|------|--------|-------|
+| Logo | `Cinzel` | 16px | 600 | Letter-spacing 0.10em |
+| Nav items | `Cinzel` | 10px | 400–500 | Active: orange, weight 500 |
+| Section labels | `Cinzel` | 8px | 400 | Uppercase, letter-spacing 0.22em |
+| Category / gem names | `Cinzel` | 10px | 400 | Letter-spacing 0.06em |
+| Badge text | `Cinzel` | 8px | 400 | Letter-spacing 0.06em |
+| Thread titles | `Crimson Pro` | 15px | 400 | Italic, line-height 1.45 |
+| Thread preview | `Crimson Pro` | 12px | 300 | Line-height 1.6, line-clamp 2 |
+| Sublogo / JP text | `Noto Serif JP` | 9px | 300 | Letter-spacing 0.18em |
+| All numeric values | `DM Mono` | 9–10px | 400–500 | Stats, counts, timestamps, XP |
+| Author names | `Cinzel` | 9px | 400 | Letter-spacing 0.04em |
 
 ---
 
-## 6. Components
+## Layout
 
-### Header
-```css
-.header {
-  background: var(--bg2);
-  border-bottom: 1px solid var(--border);
-  display: grid;
-  grid-template-columns: 1fr 280px;
-  min-height: 215px;
-  position: relative;
-  overflow: hidden;
-}
-
-/* Subtle color wash in corners */
-.header::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  background:
-    radial-gradient(ellipse at 100% 0%,   rgba(90,46,154,0.06)  0%, transparent 55%),
-    radial-gradient(ellipse at 0%   100%,  rgba(122,42,16,0.04)  0%, transparent 40%);
-  /* dark mode:
-    radial-gradient(ellipse at 100% 0%,   rgba(123,74,184,0.08) 0%, transparent 55%),
-    radial-gradient(ellipse at 0%   100%,  rgba(192,88,42,0.05)  0%, transparent 40%); */
-}
+```
+┌──────────────────────────────────────────────────┐
+│  HEADER  logo · nav centered · online status     │
+│  ORNAMENT  spiral divider row                    │
+├───────────┬─────────────────────────┬────────────┤
+│  LEFT     │        MAIN             │  RIGHT     │
+│  200px    │       flex 1fr          │  192px     │
+│  darker   │    lightest zone        │  darker    │
+└───────────┴─────────────────────────┴────────────┘
 ```
 
-### Title block (3 elements in a row)
-```css
-/* 1. Vertical kanji */
-.kanji-col {
-  border-right: 0.5px solid var(--border);
-  padding-right: 14px;
-  padding-top: 2px;
-}
-.kanji-col span {
-  font-family: 'Noto Serif JP', serif;
-  font-size: 22px;
-  font-weight: 700;
-  color: var(--plum2);
-  writing-mode: vertical-rl;
-  letter-spacing: 6px;
-}
+Left and right sidebars use **Option C contrast hierarchy** — noticeably darker than the center. A 2px border between zones reinforces the separation.
 
-/* 2. Rust red accent line above the title */
-.title-accent {
-  display: inline-block;
-  width: 32px;
-  height: 2px;
-  background: var(--oxide);
-  margin-bottom: 6px;
-}
+- **Left sidebar**: categories menu · community stats · village power bars
+- **Right sidebar**: recent threads list · tag cloud · daily missions
 
-/* 3. Hanko seal */
-.hanko {
-  width: 50px;
-  height: 50px;
-  border: 1.5px solid var(--oxide);
-  border-radius: 50%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  background: rgba(122,42,16,0.05); /* dark: rgba(192,88,42,0.08) */
-}
-.hanko span  { font-family: 'Noto Serif JP', serif; font-size: 14px; font-weight: 700; color: var(--oxide); }
-.hanko small { font-size: 8px; color: var(--oxide); letter-spacing: 1px; }
+---
+
+## Spacing
+
+| Token | Value |
+|-------|-------|
+| Page horizontal padding | 24px |
+| Section vertical padding | 18px |
+| Between sections (left sidebar) | 20px margin-bottom |
+| Component inner padding | 10–12px |
+| Thread inner padding | 12px vertical / 14px horizontal |
+| Gap between threads | 10px |
+| Sidebar item gap | 5–6px |
+| Sidebar gem size | 8×8px, `transform: rotate(45deg)` |
+
+---
+
+## Components
+
+### Thread Card
+
+```
+┌────────────────────────────────────────────┐  ← 1px --border
+│▓▓▓▓▓▓▓░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░│  ← accent 3px gradient
+│  [gem] category    [▲ ardiente]            │
+│                                            │
+│  Thread title italic Crimson Pro 15px      │
+│  Two-line preview, line-clamped to 2       │
+│ ─────────────────────────────────────────  │  ← 1px border-top
+│  [av] author   N resp | K lecturas  time  +XP  │
+└────────────────────────────────────────────┘
+                             ↑ spiral stamp 72px, bottom-right
 ```
 
-### Navigation panel
-```css
-.nav-panel {
-  border-left: 0.5px solid var(--border);
-  background: var(--bg3);
-  display: grid;
-  grid-template-rows: repeat(6, 1fr);
-  position: relative;
-  overflow: hidden;
-}
+- Accent bar: 3px, `linear-gradient(90deg, color, color-dim, transparent)`
+- Spiral stamp: 72×72px, absolute positioned bottom-right, opacity 6% light / 8% dark
+- Hover: border upgrades to `--border2`
+- Preview always clamps to exactly 2 lines
 
-/* Kanji watermark */
-.nav-panel::before {
-  content: '忍';
-  position: absolute;
-  right: -12px;
-  top: 50%;
-  transform: translateY(-50%);
-  font-family: 'Noto Serif JP', serif;
-  font-size: 110px;
-  font-weight: 700;
-  color: rgba(90,46,154,0.04); /* dark: rgba(123,74,184,0.05) */
-  pointer-events: none;
-  line-height: 1;
-}
+### Thread Accent → Category Color
 
-.nav-item {
-  border-bottom: 0.5px solid var(--border);
-  display: flex;
-  align-items: center;
-  padding: 0 16px;
-  gap: 10px;
-  cursor: pointer;
-  transition: background 0.15s;
-}
-.nav-item:last-child { border-bottom: none; }
-.nav-item:hover      { background: rgba(90,46,154,0.05); } /* dark: rgba(123,74,184,0.08) */
+| Category | Accent gradient start |
+|----------|-----------------------|
+| Debate (orange/featured) | `--orange` |
+| Rose (debates) | `--rose` |
+| Lavender (teorías) | `--lav` |
+| Teal (análisis) | `--teal` |
+| Sage (bienvenida) | `--sage` |
 
-.nav-item span {
-  font-family: 'Cinzel', serif;
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: 1.5px;
-  color: var(--plum2);
-  text-transform: uppercase;
-}
-.nav-item:hover span { color: var(--ink); }
+### Sidebar Category Gem
 
-/* Navigation diamond — rust red accent */
-.nav-gem {
-  width: 5px;
-  height: 5px;
-  background: var(--oxide);
-  clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
-  flex-shrink: 0;
-}
+- 8×8px diamond (`transform: rotate(45deg)`)
+- Color matches category: orange for "all/active", then rose/lav/teal/sage/gray
+- Active menu item: border `--border2`, background `--panel`, text `--orange`
+
+### Village Power Bar
+
+- Track height: 5px
+- Track: `--bg-side2`
+- Fill: village color per mapping table above
+
+### Online Dot
+
+- 7×7px circle, sage fill, sage-dim border
+- Opacity pulse animation: 2.5s, 40–100%
+
+### Ornament Row
+
 ```
-
-### Stats band
-```css
-/* LIGHT: solid plum background */
-.stats-band {
-  background: var(--plum);
-  height: 28px;
-  display: flex;
-  align-items: center;
-  padding: 0 24px;
-  gap: 20px;
-  position: relative;
-  overflow: hidden;
-}
-
-/* DARK: bg4 with top/bottom borders */
-.stats-band {
-  background: var(--bg4);
-  border-top: 1px solid var(--border);
-  border-bottom: 1px solid var(--border);
-}
-
-/* Decorative subtle lines (both modes) */
-.stats-band::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background-image: repeating-linear-gradient(
-    90deg, transparent 0, transparent 24px,
-    rgba(255,255,255,0.03) 24px, rgba(255,255,255,0.03) 25px
-  );
-}
-
-.stat-label {
-  font-family: 'Cinzel', serif;
-  font-size: 9px;
-  letter-spacing: 2px;
-  color: rgba(255,255,255,0.4); /* dark: var(--mist) */
-  text-transform: uppercase;
-}
-.stat-label strong { color: rgba(255,255,255,0.88); } /* dark: var(--plum3) */
+───── ◇ ◆ spiral ◆ spiral ◆ ◇ ─────
 ```
+Structure: `line · sm-diamond · spiral(10px) · diamond · spiral(10px) · sm-diamond · line`
 
-### Section heading
-```css
-.section-head {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin-bottom: 14px;
-}
-.section-head::before {
-  content: '';
-  width: 3px;
-  height: 16px;
-  background: var(--oxide); /* rust red — consistent in both modes */
-  flex-shrink: 0;
-}
-.section-head::after {
-  content: '';
-  flex: 1;
-  height: 0.5px;
-  background: var(--border);
-}
-.section-title {
-  font-family: 'Cinzel', serif;
-  font-size: 14px;
-  font-weight: 900;
-  color: var(--ink);
-  letter-spacing: 2px;
-}
+---
+
+## Grain Filter Rules
+
 ```
+Background dark (luminance < 30%)?
+  YES → mode="screen",   slope ~0.05–0.08, intercept ~0.03–0.06
+  NO  → mode="multiply", slope ~0.03–0.04, intercept ~0.91–0.93
 
-### Village cards (image grid)
-```css
-.img-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 3px;
-  margin-top: 12px;
-}
+Background warm tint (beige/gray)?
+  → R and G intercepts slightly higher than B
 
-.cell {
-  position: relative;
-  overflow: hidden;
-  cursor: pointer;
-  height: 104px;
-  border: 0.5px solid var(--border);
-}
-.cell:first-child    { grid-column: span 2; height: 112px; }
-.cell:hover .cell-overlay { opacity: 1; }
+Background violet/indigo tint?
+  → B intercept slightly higher than R and G
 
-.cell-overlay {
-  position: absolute;
-  inset: 0;
-  background: rgba(90,46,154,0.12); /* dark: rgba(123,74,184,0.15) */
-  opacity: 0;
-  transition: opacity 0.2s;
-}
-
-.cell-kanji-bg {
-  position: absolute;
-  inset: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-family: 'Noto Serif JP', serif;
-  font-size: 54px;
-  font-weight: 700;
-  color: rgba(255,255,255,0.08);
-  pointer-events: none;
-}
-
-.cell-label {
-  position: absolute;
-  bottom: 0; left: 0; right: 0;
-  background: rgba(20,12,36,0.82);
-  padding: 7px 10px;
-  border-top: 0.5px solid rgba(156,107,204,0.2);
-}
-.cell-label-title {
-  font-family: 'Cinzel', serif;
-  font-size: 11px;
-  font-weight: 700;
-  color: var(--lavender);
-  letter-spacing: 1px;
-  line-height: 1.2;
-}
-.cell-label-sub {
-  font-family: 'Cinzel', serif;
-  font-size: 9px;
-  color: var(--plum4);
-  letter-spacing: 2px;
-  margin-top: 2px;
-}
-
-.cell-edit-icon {
-  position: absolute;
-  top: 8px; right: 8px;
-  width: 20px; height: 20px;
-  background: rgba(20,12,36,0.55);
-  border: 0.5px solid rgba(156,107,204,0.25);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-```
-
-#### Village card backgrounds
-
-Light mode:
-```css
-.bg-konoha   { background: linear-gradient(150deg, #dce8dc 0%, #8aaa8a 45%, #2a4a2a 100%); }
-.bg-suna     { background: linear-gradient(150deg, #e8dcc0 0%, #b89050 50%, #5a3a10 100%); }
-.bg-kiri     { background: linear-gradient(150deg, #c8d8e8 0%, #5a8aaa 50%, #1a2a3a 100%); }
-.bg-akatsuki { background: linear-gradient(150deg, #dcd0e8 0%, #7a4ab0 50%, #2a1040 100%); }
-```
-
-Dark mode:
-```css
-.bg-konoha   { background: linear-gradient(150deg, #1a2e1a 0%, #2d5a2d 45%, #0a140a 100%); }
-.bg-suna     { background: linear-gradient(150deg, #2e2010 0%, #6b4c10 50%, #140e04 100%); }
-.bg-kiri     { background: linear-gradient(150deg, #0e1e2e 0%, #1a4a6a 50%, #060c14 100%); }
-.bg-akatsuki { background: linear-gradient(150deg, #1a0e2e 0%, #4a2a80 50%, #0a0614 100%); }
-```
-
-### Tags and badges
-```css
-.tag {
-  font-family: 'Cinzel', serif;
-  font-size: 8px;
-  letter-spacing: 2px;
-  padding: 2px 8px;
-  border: 0.5px solid var(--plum3);
-  color: var(--plum3);
-  text-transform: uppercase;
-}
-```
-
-### Recent post cards
-```css
-.recent-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 3px;
-}
-
-.recent-card {
-  background: var(--bg2);
-  border: 0.5px solid var(--border);
-  border-top: 1.5px solid var(--plum3);
-  padding: 10px 12px;
-  cursor: pointer;
-  position: relative;
-  overflow: hidden;
-}
-.recent-card:hover {
-  border-top-color: var(--oxide);
-  background: var(--bg); /* dark: var(--bg4) */
-}
-
-/* Diamond accent — same shape as nav gem */
-.recent-gem {
-  width: 7px;
-  height: 7px;
-  background: var(--oxide);
-  clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
-  flex-shrink: 0;
-}
-
-.recent-badge {
-  font-family: 'Cinzel', serif;
-  font-size: 8px;
-  letter-spacing: 1px;
-  padding: 1px 6px;
-  border: 0.5px solid var(--border);
-  color: var(--plum3);
-  text-transform: uppercase;
-}
-
-.recent-title {
-  font-family: 'Cinzel', serif;
-  font-size: 11px;
-  font-weight: 700;
-  color: var(--ink);
-  line-height: 1.3;
-  margin-bottom: 4px;
-}
-
-.recent-meta { font-family: 'Cinzel', serif; font-size: 9px; color: var(--mist); letter-spacing: 1px; }
-.recent-user { color: var(--oxide2); font-weight: 700; }
-```
-
-### Social and tool buttons
-```css
-.social-btn {
-  width: 28px; height: 28px;
-  border: 0.5px solid var(--border);
-  background: var(--bg);
-  display: flex; align-items: center; justify-content: center;
-  cursor: pointer;
-}
-.social-btn:hover            { background: var(--plum); border-color: var(--plum); }
-.social-btn svg              { width: 12px; height: 12px; fill: var(--plum2); }
-.social-btn:hover svg        { fill: white; }
-
-.tool-btn {
-  width: 28px; height: 28px;
-  border: 0.5px solid var(--border);
-  background: var(--bg);
-  display: flex; align-items: center; justify-content: center;
-  cursor: pointer;
-}
-.tool-btn:hover     { border-color: var(--plum3); }
-.tool-btn svg       { width: 12px; height: 12px; fill: none; stroke: var(--dim, var(--plum2)); stroke-width: 1.5; }
-.tool-btn:hover svg { stroke: var(--plum2); }
+Fiber filter always uses:
+  baseFrequency="0.006 0.88"  (very low X = horizontal lines)
+  feFuncA slope: 0.022 (light) / 0.040 (dark)
 ```
 
 ---
 
-## 7. Key Differences Between Modes
+## Spiral Watermark Grid
 
-| Element | Light Mode | Dark Mode |
-|---|---|---|
-| Page background | `#f4f2f8` | `#0f0c18` |
-| Header background | `#ede9f4` | `#130f1e` |
-| Primary text | `#1e1428` dark | `#e8dff8` light |
-| Stats band | Solid `var(--plum)` | `var(--bg4)` + top/bottom borders |
-| Stats text | `rgba(255,255,255,0.4)` | `var(--mist)` |
-| Nav hover | `rgba(90,46,154,0.05)` | `rgba(123,74,184,0.08)` |
-| Cell overlay | `rgba(90,46,154,0.12)` | `rgba(123,74,184,0.15)` |
-| Nav kanji watermark | `rgba(90,46,154,0.04)` | `rgba(123,74,184,0.05)` |
-| Rust oxide accent | `#7a2a10` darker | `#c0582a` brighter |
+Spirals tile in a brick pattern — odd and even rows offset by roughly half the column width.
 
----
-
-## 8. Rust Oxide Usage Rules
-
-The rust oxide accent is the most important visual accent and must appear in **exactly these 3 places** and nowhere else:
-
-1. **Accent line above the title** — `width: 32px; height: 2px`
-2. **Hanko seal** — border and text of the logo circle
-3. **Navigation and recent card diamonds** — `clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%)`
-
-Never use oxide on: backgrounds, body text, primary buttons, or any role beyond these three.
+| Property | Light | Dark |
+|----------|-------|------|
+| Large size | 62px | 62px |
+| Small size | 48px | 48px |
+| Large opacity | 4.2% | 9.0% |
+| Small opacity | 3.0% | 7.0% |
+| Color A (large) | `#908880` gray | `#6058a8` lavender |
+| Color B (small) | `#a09890` gray | `#7068b8` lavender |
+| Row spacing | ~88px | ~88px |
+| Column spacing | ~190px | ~190px |
 
 ---
 
-## 9. Iconography
+## Theme Switching
 
-- All SVGs are inline — no external icon libraries
-- Standard size: `12×12px` for social and tool buttons
-- Card edit icons: `9×9px`
-- Social icons: `fill: var(--plum2)` → on hover `fill: white`
-- Card edit icons: `stroke: var(--plum2); stroke-width: 1.5; fill: none`
-- Tool icons: stroke not fill, `var(--dim)` at rest, `var(--plum2)` on hover
-
----
-
-## 10. Anime Images in Village Cards
-
-When adding real Naruto artwork to the cards, apply:
-```css
-.cell-img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  filter: brightness(0.7) saturate(1.1);
-}
-```
-
-In light mode, add a soft tint overlay on top:
-```css
-.cell-img-tint {
-  position: absolute;
-  inset: 0;
-  background: rgba(61,31,110,0.08);
-  mix-blend-mode: multiply;
-}
-```
-
-The hanko seal can also be used as a watermark on section backgrounds:
-```css
-.section-hanko-watermark {
-  opacity: 0.03;
-  position: absolute;
-  font-size: 120px;
-  font-family: 'Noto Serif JP', serif;
-  font-weight: 700;
-  color: var(--oxide);
-  pointer-events: none;
-}
-```
-
----
-
-## 11. Responsive
+Replace only the `:root` block and the background SVG base fill. Everything else stays identical.
 
 ```css
-@media (max-width: 640px) {
-  .header           { grid-template-columns: 1fr; }
-  .nav-panel        { display: none; } /* move to hamburger menu */
-  .body             { grid-template-columns: 1fr; }
-  .img-grid         { grid-template-columns: 1fr; }
-  .recent-grid      { grid-template-columns: 1fr; }
-  .cell             { height: 90px; }
-  .cell:first-child { grid-column: span 1; height: 90px; }
-  .header-desc      { grid-template-columns: 1fr; }
+/* Light */
+:root {
+  --bg: #f0ede8;
+  --bg-side: #d8d5d0;
+  --panel: #f8f6f2;
+  --border: #c0bdb8;
+  --border2: #a09d98;
+  --orange: #c87830;
+  --rose: #a87070;
+  --lav: #7068a8;
+  --teal: #508080;
+  --sage: #5a7850;
+  --ink: #1e1c18;
+  /* full token set in Light section above */
 }
-```
 
----
+/* Dark */
+:root {
+  --bg: #100e18;
+  --bg-side: #0a0810;
+  --panel: #1a1828;
+  --border: #2e2848;
+  --border2: #4a4478;
+  --orange: #d08838;
+  --rose: #c89898;
+  --lav: #9088b8;
+  --teal: #6aa0a8;
+  --sage: #78a868;
+  --ink: #e8e4f8;
+  /* full token set in Dark section above */
+}
 
-## 12. Theme Toggle
-
-```js
-function toggleTheme() {
-  const html = document.documentElement;
-  if (html.getAttribute('data-theme') === 'dark') {
-    html.removeAttribute('data-theme');
-    localStorage.setItem('theme', 'light');
-  } else {
-    html.setAttribute('data-theme', 'dark');
-    localStorage.setItem('theme', 'dark');
+/* Auto via OS preference */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #100e18;
+    /* dark tokens */
   }
 }
-
-// Load saved preference on page load
-const saved = localStorage.getItem('theme');
-if (saved === 'dark') {
-  document.documentElement.setAttribute('data-theme', 'dark');
-}
 ```
 
 ---
 
-## 13. Final Notes
+## Google Fonts
 
-- The `font-weight: 300` of Noto Serif JP is essential for long-form body readability — do not increase to 400 in paragraphs
-- Never use `box-shadow` — fine 0.5px borders replace all visual elevation
-- Keep the `3px` gap between cards — it creates the ukiyo-e mosaic feel without separating elements too much
-- Decorative large kanji must never be readable at first glance — always at opacity ≤ 0.08
-- Both modes share the exact same structure, proportions, and typography — only the color palette changes
+```html
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?
+  family=Cinzel:wght@400;500;600&
+  family=Crimson+Pro:ital,wght@0,300;0,400;1,300;1,400&
+  family=DM+Mono:wght@400;500&
+  family=Noto+Serif+JP:wght@300;400
+  &display=swap" rel="stylesheet">
+```
+
+---
+
+*Konoha Forum Design System — Crystal Edition*
+*木ノ葉隠れの里 · Version 2.0*

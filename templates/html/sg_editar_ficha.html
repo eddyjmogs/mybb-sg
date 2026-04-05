@@ -1,0 +1,112 @@
+<html>
+
+<head>
+  <title>Ficha</title>
+  {$headerinclude}
+  <style>
+    .statname {
+      color: white;
+    }
+
+    .statsedit input[type=button]:hover, .editstatsbutton input[type=button]:hover {
+      cursor: pointer;
+    }
+
+    .fichastats {
+      text-align: center;
+      font-family: 'InterRegular';
+    }
+
+    .fichastatsupperbar {
+      margin: auto;
+      background-color: #11344d;
+      border: 1px solid transparent;
+      border-radius: 5px;
+    }
+
+    .statstable .vida { top: 42px; left: -70px; } 
+    .statstable .estamina { top: 16px; left: -1px; }    
+    .statstable .chakra { top: -10px; left: 69px; }     
+    .statstable .regchakra { top: 29px; left: 50px; }      
+    .statstable .regaguante { top: 3px; left: -51px; }
+    .habilidadpts, .habilidadpts input { font-family: 'InterMedium', "Arial Black"; }
+    .statname { font-family: 'InterMedium'; }
+    .habilidadpts { margin-top: -3px; }
+    .habilidadpts input, .mejoraspts input { width: 30px; }
+    .fichastats { background-color: #193f5b; display: inline-block; border: 1px solid transparent; border-radius: 5px; }
+    .statstable { margin-top: 25px; }
+    .statsNames { text-align: right; }
+    .statsedit input { font-family: 'InterMedium'; text-align: center; }
+
+  </style>
+</head>
+
+<body>
+  {$header}
+    <div class="ficha fondo-blanco" style=" text-align: center; ">
+    <div class="fichastats">
+      <form id="editarstatsform" method="post" action="/sg/ficha_editada.php">
+        <div class="fichastatsupperbar">
+          <div class="habilidadpts">Puntos de Estadística: <input class="textbox" type="text" value="{$ficha['puntos_estadistica']}" id="h" name="habilidad"
+              readonly="readonly"></div>
+        </div>
+		<div class="fichastatsupperbar">
+          <div class="mejoraspts">Puntos de Mejoras de Cuerpo: <input class="textbox" type="text" value="{$ficha['mejoras']}" id="m" name="mejoras"
+              readonly="readonly"></div>
+        </div>
+        <div class="statsedit">
+		  <h3>Estadísticas</h3>
+          <span class="statsedit"><div class="statname">Fuerza:</div><input class="button" type="button" value="<" onclick="changeStat(fuerza,-1);"><input class="textbox" type="text"
+              value="{$ficha['fuerza']}" name="fuerza" id="fuerza" readonly="readonly"><input class="button" type="button" value=">"
+              onclick="changeStat(fuerza,1);"></span><br>
+          <span class="statsedit"><div class="statname">Destreza:</div><input class="button" type="button" value="<" onclick="changeStat(destreza,-1);"><input class="textbox" type="text"
+              value="{$ficha['destreza']}" name="destreza" id="destreza" readonly="readonly"><input class="button" type="button" value=">"
+              onclick="changeStat(destreza,1);"></span><br>
+          <span class="statsedit"><div class="statname">Ctrl. de Chakra:</div><input class="button" type="button" value="<" onclick="changeStat(cchakra,-1);"><input class="textbox" type="text"
+              value="{$ficha['cchakra']}" name="cchakra" id="cchakra" readonly="readonly"><input class="button" type="button" value=">"
+              onclick="changeStat(cchakra,1);"></span><br>
+          <span class="statsedit"><div class="statname">Inteligencia:</div><input class="button" type="button" value="<" onclick="changeStat(inteligencia,-1);"><input class="textbox" type="text"
+              value="{$ficha['inteligencia']}" name="inteligencia" id="inteligencia" readonly="readonly"><input class="button" type="button" value=">"
+              onclick="changeStat(inteligencia,1);"></span><br>
+			        <div style=" color: white; ">
+            <span>Total puntos: </span><span class="total_puntos">50</span>
+        </div>
+			<br>
+			<h3>Mejoras de Cuerpo</h3>
+          <span class="statsedit"><div class="statname">Salud:</div><input class="button" type="button" value="<" onclick="changeMejora(salud,-1);"><input class="textbox" type="text"
+              value="{$ficha['salud']}" name="salud" id="salud" readonly="readonly"><input class="button" type="button" value=">"
+              onclick="changeMejora(salud,1);"></span><br>
+          <span class="statsedit"><div class="statname">Velocidad:</div><input class="button" type="button" value="<" onclick="changeMejora(velocidad,-1);"><input class="textbox" type="text"
+              value="{$ficha['velocidad']}" name="velocidad" id="velocidad" readonly="readonly"><input class="button" type="button" value=">"
+              onclick="changeMejora(velocidad,1);"></span><br>
+          <span class="statsedit"><div class="statname">Tenketsu:</div><input class="button" type="button" value="<" onclick="changeMejora(tenketsu,-1);"><input class="textbox" type="text"
+              value="{$ficha['tenketsu']}" name="tenketsu" id="tenketsu" readonly="readonly"><input class="button" type="button" value=">"
+              onclick="changeMejora(tenketsu,1);"></span><br>
+          <span class="statsedit"><div class="statname">Sigilo:</div><input class="button" type="button" value="<" onclick="changeMejora(sigilo,-1);"><input class="textbox" type="text"
+              value="{$ficha['sigilo']}" name="sigilo" id="sigilo" readonly="readonly"><input class="button" type="button" value=">"
+              onclick="changeMejora(sigilo,1);"></span><br>
+			<span>Total puntos: </span><span class="total_mejoras">50</span>
+        </div><br><br>
+		 <div style=" color: white; text-align: center; ">
+			Vida: <span class="personaje_vida" id="hp">{$ficha['vida']}</span> <img title="Vida" style="width: 9px;top: -1px;position: relative;" src="/images/sg/icons/vida.png"><br>
+			Chakra: <span class="personaje_chakra" id="mp">{$ficha['chakra']}</span> <img title="Chakra" style=" width: 9px; top: -1px; position: relative; " src="/images/sg/icons/chakra.png"><br>
+		</div>
+        <div style="display: none">
+          <input class="textbox" type="text" value="false" id="comp" name="submit_edit">
+          <input class="textbox" type="text" value="{$ficha['fid']}" name="uid">
+        </div>
+		<br>
+        <div class="editstatsbutton">
+          <input class="button" type="button"
+            onclick="javascript: document.getElementById('comp').value = 'true'; document.getElementById('editarstatsform').submit();"
+            value="Guardar">
+        </div>
+      </form>
+	  <br>
+    </div>
+  </div>
+  {$footer}
+</body>
+{$editar_ficha_script}
+
+</html>

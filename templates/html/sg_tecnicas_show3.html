@@ -1,0 +1,383 @@
+<html>
+
+<head>
+  <style>
+/*     .spoiler {
+      background: #4b4161;
+      margin-bottom: 15px;
+      margin-left: 5px;
+      margin-right: 5px;
+      border-radius: 5px;
+      -moz-border-radius: 5px;
+      -webkit-border-radius: 5px;
+      max-width: 745px;
+      cursor: pointer;
+    }
+
+    .spoiler {
+      border-radius: 5px;
+      -moz-border-radius: 5px;
+      -webkit-border-radius: 5px;
+      margin: 15px auto;
+      cursor: pointer;
+ 	  background-color: #102743  !important;
+    }
+
+    .spoiler_content {
+      padding: 5px;
+      height: auto;
+      display: block;
+      background-color: #1a304c;
+    }
+
+    .spoiler_title {
+      border-bottom: 1px solid #060f19;
+      margin: 0;
+      margin-bottom: 4px;
+      background: #1b549c;
+      padding: 7px 5px;
+      text-align: center;
+      color: #fff;
+      border-radius: 3px;
+      font-family: monospace;
+    } */
+
+    .flex-container {
+      flex-wrap: wrap;
+      display: flex;
+      justify-content: center;
+    }
+
+    .bodycenter {
+      background-color: #0e1a28;
+      margin: 0 auto;
+      min-height: 500px;
+    }
+
+    .bodydesc {
+      padding: 10px;
+      margin: 0 20px;
+      text-align: center;
+      color: white;
+    }
+
+/*     .tecnica_spoiler {
+      background-color: #1b549c;
+      border-radius: 3px;
+      margin: 10px;
+      color: #fff;
+	  border: 1px solid #003477;
+    }
+
+    .tecnica_spoiler_title {
+      padding: 10px;
+      cursor: pointer;
+    }
+
+    .tecnica_spoiler_content {
+      padding: 20px;
+      text-align: left;
+      display: grid;
+      grid-template-columns: 3fr 2fr 3fr;
+      grid-template-rows: 20px 20px 20px 20px 1fr 20px 20px;
+      grid-row-gap: 5px;
+      background-color: #fff;
+      color: #0f1520;
+      border-radius: 0 0 3px 3px;
+      cursor: default;
+    }
+
+    .tecnicaId {
+      grid-row: 1;
+      grid-column: 2;
+      text-align: center;
+    }
+
+    .tecnicaType {
+      grid-row: 2;
+      grid-column: 3;
+      text-align: right;
+    }
+
+    .tecnicaSello {
+      grid-row: 2;
+    }
+
+    .tecnicaReq {
+      grid-row: 3;
+      grid-column: 1 / -1;
+    }
+
+    .tecnicaLvl {
+      grid-row: 3;
+      grid-column: 3;
+      text-align: right;
+    }
+
+    .tecnicaDesTit {
+      grid-row: 4;
+    }
+
+    .tecnicaDes {
+      grid-row: 5;
+      grid-column: 1 / -1;
+      margin-left: 50px;
+      margin-bottom: 20px;
+      text-align: justify;
+    }
+
+    .tecnicaCost {
+      grid-row: 6;
+      grid-column: 1 / -1;
+      text-align: center;
+    }
+
+    .tecnicaEfect {
+      grid-row: 7;
+      grid-column: 1 / -1;
+      text-align: center;
+    }
+
+    .tecnicaReward {
+      grid-row: 6;
+      grid-column: 3;
+      text-align: right;
+    } */
+  </style>
+  <title>Tecnicas</title>
+  {$headerinclude}
+</head>
+
+<body>
+  {$header}
+  <table border="0" cellspacing="{$theme['borderwidth']}" cellpadding="{$theme['tablespace']}" class="tborder">
+    <tr>
+      <td class="thead" colspan="1" style="text-align: center;background: #1b549c;"><strong>Categoria de Técnica</strong></td>
+    </tr>
+    <tr>
+      <td class="trow1" valign="top" style=" background: #06111f; ">
+        <div class="bodycenter">
+          <div class="bodydesc">
+            <h2>{$tipo}</h2>
+          </div>
+
+          <if $clan_desc then>
+            <div style="background-color: #1a304c;padding: 20px;border-radius: 2px;margin: 0px 50px;">
+              <span style="font-size: 15px; color: white;">{$clan_desc}</span>
+            </div>
+          </if>
+
+          <br>
+		  <div id="tecnicas">
+			  <div class="spoiler" style=" width: 80%; margin: auto; ">
+              <div class="spoiler_title"
+                onclick="javascript: if(parentNode.getElementsByTagName('div')[1].style.display == 'block'){ parentNode.getElementsByTagName('div')[1].style.display = 'none'; } else { parentNode.getElementsByTagName('div')[1].style.display = 'block'; }">
+                <span class="spoiler_button"><strong>{$arbol}</strong></span>
+              </div>
+              <div class="spoiler_content" style="display: block;" align="center">
+                <div id="{$arbol}"></div>
+              </div>
+            </div><br>
+		  </div>
+
+        </div>
+      </td>
+    </tr>
+  </table>
+
+  {$footer}
+</body>
+<script>
+let is_staff = !!`{$g_is_staff}`;
+let tecs_base_json = `{$tecs_base_json}`;
+let tecs_rama1_json = `{$tecs_rama1_json}`;
+let tecs_rama2_json = `{$tecs_rama2_json}`;
+let tecs_rama3_json = `{$tecs_rama3_json}`;	
+	
+let tecs_base = tecs_base_json ? JSON.parse(tecs_base_json) : '';
+let tecs_rama1 = tecs_rama1_json ? JSON.parse(tecs_rama1_json) : '';
+let tecs_rama2 = tecs_rama2_json ? JSON.parse(tecs_rama2_json) : '';
+let tecs_rama3 = tecs_rama3_json ? JSON.parse(tecs_rama3_json) : '';
+	
+function addSpoilerBody(element, title, content) {
+	
+	$(element).append(`<div class="spoiler" style=" margin: auto; ">
+              <div class="spoiler_title"
+                onclick="javascript: if(parentNode.getElementsByTagName('div')[1].style.display == 'block'){ parentNode.getElementsByTagName('div')[1].style.display = 'none'; } else { parentNode.getElementsByTagName('div')[1].style.display = 'block'; }">
+                <span class="spoiler_button"><strong>` + title + `</strong></span>
+              </div>
+              <div class="spoiler_content" style="display: block;" align="center">
+                ` + content + `
+              </div>
+            </div><br>`);
+}	
+	
+function addSpoilerTecnica(element, title, content) {
+	
+	$(element).append(`<div class="spoiler" style=" margin: auto; ">
+              <div class="spoiler_title"
+                onclick="javascript: if(parentNode.getElementsByTagName('div')[1].style.display == 'block'){ parentNode.getElementsByTagName('div')[1].style.display = 'none'; } else { parentNode.getElementsByTagName('div')[1].style.display = 'block'; }">
+                <span class="spoiler_button"><strong>` + title + `</strong></span>
+              </div>
+              <div class="tecnica_spoiler_content" style="display: none;" align="center">
+                ` + content + `
+              </div>
+            </div><br>`);
+}	
+	
+function createTecnica(tecnica) {
+	return `
+		<div class="content_wrapper">
+		  <div class="tecnica_info">
+			<div class="tecnicaLvl"><span></span></div>
+		  </div>
+		  <div class="tecnica_info">
+			<div class="tecnicaLvl"><span>` + tecnica.requisito + `</span></div>
+		  </div>
+		  <div class="tecnica_details">
+			` + (is_staff ? `<div class='tecnicaId'><span>ID: <a href="/sg/admin/modificar_tecnicas.php?tecnica_id=` + tecnica.tid + `">` + tecnica.tid + `</a></span></div>` : '') + `
+			` + (!is_staff ? `<div class='tecnicaId'><span>ID: ` + tecnica.tid + `</span></div>` : '') + `
+			` + (tecnica.sellos ? `<div class='tecnicaType'><span>SELLOS: ` + tecnica.sellos + `</span></div>` : '') + `
+			
+			` + (tecnica['categoria'] && (tecnica['categoria'] != tecnica['tipo']) ? `<div class='tecnicaType'><span>` + tecnica.categoria + `</span></div>` : '') + `
+			
+			
+		  </div>  
+		  <p class='tecnicaDes'><span>` + tecnica.descripcion + `</span></p>
+
+			` + (tecnica['coste'] ? `<div class='tecnicaCost'><span class='tecnicaLvl'>Coste:</span> <span class='efectoDescripcion'>` + tecnica.coste + `</span></div>` : '') + `
+			` + (tecnica['efecto'] ? `<div class='tecnicaEfect'><span class='tecnicaLvl'>Efecto:</span> <span class='efectoDescripcion'>` + tecnica.efecto + `</span></div>` : '') + `
+
+		</div>`;
+}
+	
+
+	
+if (tecs_base) {
+	addSpoilerBody('#{$arbol}', 'Jutsu Base de Árbol', '<div id="tecnicas_base"></div>');
+	for (let i = 0; i < tecs_base.length; i++) {
+		let tecnica = tecs_base[i];
+		addSpoilerTecnica('#tecnicas_base', tecnica.nombre, createTecnica(tecnica));
+	}
+}
+
+if (tecs_rama1) {
+	addSpoilerBody('#{$arbol}', 'Rama 1', '<div id="tecnicas_rama1"></div>');
+	let categorias = Object.keys(tecs_rama1);
+	for (let i = 0; i < categorias.length; i++) {
+		let categoria = categorias[i];
+		addSpoilerBody('#tecnicas_rama1', categoria, '<div id="rama1_' + categoria + '"></div>');
+		let tecs = tecs_rama1[categoria];
+		for (let i = 0; i < tecs.length; i++) {
+			let tecnica = tecs[i];
+			addSpoilerTecnica('#' + 'rama1_' + categoria, tecnica.nombre, createTecnica(tecnica));
+		}
+	}
+}
+
+if (tecs_rama2) {
+	addSpoilerBody('#{$arbol}', 'Rama 2', '<div id="tecnicas_rama2"></div>');
+	let categorias = Object.keys(tecs_rama2);
+	for (let i = 0; i < categorias.length; i++) {
+		let categoria = categorias[i];
+		addSpoilerBody('#tecnicas_rama2', categoria, '<div id="rama2_' + categoria + '"></div>');
+		let tecs = tecs_rama2[categoria];
+		for (let i = 0; i < tecs.length; i++) {
+			let tecnica = tecs[i];
+			addSpoilerTecnica('#' + 'rama2_' + categoria, tecnica.nombre, createTecnica(tecnica));
+		}
+	}
+}
+	
+if (tecs_rama3) {
+	addSpoilerBody('#{$arbol}', 'Rama 3', '<div id="tecnicas_rama3"></div>');
+	let categorias = Object.keys(tecs_rama3);
+	for (let i = 0; i < categorias.length; i++) {
+		let categoria = categorias[i];
+		addSpoilerBody('#tecnicas_rama3', categoria, '<div id="rama3_' + categoria + '"></div>');
+			let tecs = tecs_rama3[categoria];
+		for (let i = 0; i < tecs.length; i++) {
+			let tecnica = tecs[i];
+			addSpoilerTecnica('#' + 'rama3_' + categoria, tecnica.nombre, createTecnica(tecnica));
+		}
+	}
+}
+
+	
+
+	
+// for (let i = 0; i < tecs_rama1.length; i++) {
+// 	let categorias = Object.keys(tecs_rama1);
+// 	for (let i = 0; i < categorias.length; i++) {
+		
+// 		addSpoilerBody('#tecnicas_rama1', tecnica.nombre, '<div>hello!!</div>');
+// 	}
+	
+// 	// let tecnica = tecs_rama1[i];
+	
+// 	addSpoilerBody('#tecnicas_rama1', tecnica.nombre, '<div>hello!!</div>');
+// }
+	
+</script>
+<style>
+.spoiler {
+  margin: 10px;
+}
+
+.spoiler_button {
+  text-transform: uppercase;
+}
+
+.tecnica_spoiler_content {
+/*   display: none; */
+}
+
+.content_wrapper {
+  display: flex;
+  flex-direction: column;
+}
+
+.tecnica_info {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.tecnica_info:first-of-type {
+  margin-top: 7px;
+}
+
+.tecnica_info:nth-of-type(2) {
+  margin-top: -11px;
+}
+
+.tecnica_details {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  margin: 9px 8px 10px;
+}
+
+.balance_positive {
+  color: #87ff87;
+}
+
+.balance_negative {
+  color: #ff6666;
+}
+</style>
+
+<script>
+function toggleSpoilerContent(element) {
+  var content = element.parentNode.getElementsByTagName('div')[1];
+  if (content.style.display == 'block') {
+    content.style.display = 'none';
+  } else {
+    content.style.display = 'block';
+  }
+}
+</script>
+</html>
+
+<style></style>
