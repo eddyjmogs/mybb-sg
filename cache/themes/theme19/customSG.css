@@ -2,7 +2,8 @@
 }
 
 .navbar {
-    background-color: #0e1a27;
+    background: var(--bg2);
+    border-bottom: 0.5px solid var(--border);
     display: flex;
     justify-content: center
 }
@@ -18,53 +19,36 @@
 .nav-item {
     padding: 15px;
     position: relative;
-    transition: background-color 0.3s ease;
+    transition: background 0.15s;
     list-style: none
 }
 
-.nav-item::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 0;
-    background-color: #fff;
-    transition: height 0.3s ease;
-    z-index: -1
-}
-
 .nav-item a {
-    font-family: "Inter",sans-serif;
-    font-weight: 300;
-    font-size: 12px;
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    font-size: 10px;
     text-transform: uppercase;
-    letter-spacing: 3px;
-    color: #fff;
+    letter-spacing: 1.5px;
+    color: var(--plum2);
     text-decoration: none;
-    transition: font-size 0.3s ease,color 0.3s ease
+    transition: color 0.15s
 }
 
 .nav-item:hover {
-    background-color: #fff
+    background: rgba(90, 46, 154, 0.06)
 }
 
 .nav-item:hover a {
-    font-size: 11px;
-    font-weight: 300;
-    color: #0e1a27
-}
-
-.nav-item:hover::before {
-    height: 100%
+    color: var(--ink)
 }
 
 .dropdown-content {
     display: none;
     position: absolute;
-    background-color: #fff;
+    background: var(--bg2);
+    border: 0.5px solid var(--border);
+    border-top: none;
     min-width: 190px;
-    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
     z-index: 1;
     font-size: 13px;
     margin-left: -15px;
@@ -72,7 +56,7 @@
 }
 
 .dropdown-content a {
-    color: black;
+    color: var(--stone);
     padding: 12px 16px;
     text-decoration: none;
     display: block;
@@ -81,13 +65,17 @@
 }
 
 .dropdown-content li {
-    border-bottom: 1px solid #ccc;
+    border-bottom: 0.5px solid var(--border);
     padding-bottom: 5px;
-    transition: background-color 0.3s ease
+    transition: background 0.15s
 }
 
 .dropdown-content li:hover {
-    background-color: #f5f5f5
+    background: var(--bg3)
+}
+
+.dropdown-content li:last-child {
+    border-bottom: none
 }
 
 .nav-item:hover .dropdown-content {
@@ -98,8 +86,8 @@
 
 .hrDivider {
     width: 100%;
-    height: 3px;
-    background-color: #6492A0;
+    height: 0.5px;
+    background: var(--border);
     margin: 0
 }
 
@@ -117,9 +105,9 @@
     margin-left: 5px;
     width: 50px;
     height: 50px;
-    background-color: #014c7d;
+    background: var(--plum);
+    border: 0.5px solid var(--border);
     transition: left 0.3s cubic-bezier(0.68,-0.55,0.27,1.55),opacity 0.3s ease-in-out;
-    border-radius: 10px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -141,7 +129,7 @@
 }
 
 .toggle-icon {
-    color: white;
+    color: rgba(255, 255, 255, 0.9);
     font-size: 24px
 }
 
@@ -154,12 +142,12 @@
     left: 50px;
     width: 500px;
     height: 50px;
-    background-color: #1a304c;
+    background: var(--bg2);
+    border: 0.5px solid var(--border);
     transition: left 0.3s cubic-bezier(0.68,-0.55,0.27,1.55),opacity 0.3s ease-in-out;
     opacity: 0;
     pointer-events: none;
-    margin-left: 5px;
-    border-radius: 10px
+    margin-left: 5px
 }
 
 .sidebar.active .options {
@@ -172,14 +160,18 @@
     width: 100%;
     height: 50px;
     line-height: 50px;
-    color: white;
+    color: var(--plum2);
     text-decoration: none;
-    text-align: center
+    text-align: center;
+    font-family: 'Cinzel', serif;
+    font-size: 10px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase
 }
 
 .options a:hover {
-    background-color: #014c7d;
-    border-radius: 10px
+    background: rgba(90, 46, 154, 0.06);
+    color: var(--ink)
 }
 
 #userOverlay {
@@ -191,27 +183,28 @@
     bottom: 10px;
     right: 10px;
     font-size: 16px;
-    color: white;
+    color: var(--ink);
     align-items: center
 }
 
 #userOverlay span {
-    font-family: 'Inter';
-    letter-spacing: 3px;
+    font-family: 'Cinzel', serif;
+    letter-spacing: 1.5px;
     text-transform: uppercase;
-    font-weight: bold
+    font-weight: 700
 }
 
 #userOverlay p {
     text-transform: uppercase;
-    font-family: 'Inter';
-    letter-spacing: 3px
+    font-family: 'Cinzel', serif;
+    letter-spacing: 1.5px
 }
 
 #miniAvatarBox {
     width: 40px;
     height: 40px;
-    background-color: #014C7D;
+    background: var(--plum);
+    border: 0.5px solid var(--border);
     display: flex;
     justify-content: center;
     align-items: center
@@ -224,13 +217,13 @@
 }
 
 #mainBackground {
-    background-color: #0E1A28;
+    background: var(--bg);
     padding: 17px
 }
 
 #secondBackground {
     padding: 17px;
-    background-color: #1A304C;
+    background: var(--bg2);
     display: flex;
     justify-content: center;
     align-items: center
@@ -239,8 +232,8 @@
 #thirdBackground {
     width: 1050px;
     padding: 15px;
-    background-color: #0E1A28;
-    border: 1px solid #6492A0;
+    background: var(--bg2);
+    border: 0.5px solid var(--border);
     display: flex;
     flex-direction: column
 }
@@ -413,15 +406,16 @@
 .nav-item:hover #accountswitcher_header_popup {
     display: block;
     position: absolute;
-    background-color: #fff;
+    background: var(--bg2);
+    border: 0.5px solid var(--border);
+    border-top: none;
     min-width: 160px;
-    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
     z-index: 1;
     font-size: 13px
 }
 
 .nav-item:hover #accountswitcher_header_popup a {
-    color: black;
+    color: var(--stone);
     padding: 12px 16px;
     text-decoration: none;
     display: block;
@@ -430,13 +424,13 @@
 }
 
 .nav-item:hover #accountswitcher_header_popup li {
-    border-bottom: 1px solid #ccc;
+    border-bottom: 0.5px solid var(--border);
     padding-bottom: 5px;
-    transition: background-color 0.3s ease
+    transition: background 0.15s
 }
 
 .nav-item:hover #accountswitcher_header_popup li:hover {
-    background-color: #f5f5f5
+    background: var(--bg3)
 }
 
 .select2-search input {
@@ -448,11 +442,11 @@ div.sceditor-dropdown input,div.sceditor-dropdown textarea {
 }
 
 .onlineBox {
-    border: 2px solid #6492a0;
+    border: 0.5px solid var(--border);
     text-align: center;
     margin-top: 10px;
     margin-bottom: 10px;
-    background-image: url(https://i.ibb.co/nsWZ9CV/Ultimas-24h.png);
+    background: var(--bg2);
     width: 300px;
     height: 375px;
     display: flex;
@@ -464,11 +458,11 @@ div.sceditor-dropdown input,div.sceditor-dropdown textarea {
 }
 
 .onlineTitle {
-    font-family: 'Inter';
-    font-weight: 600;
-    letter-spacing: 3px;
-    color: white;
-    font-size: 18px;
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    color: var(--plum2);
+    font-size: 11px;
     text-transform: uppercase
 }
 
@@ -487,7 +481,7 @@ div.sceditor-dropdown input,div.sceditor-dropdown textarea {
     margin: 10px;
     width: 440px;
     height: 180px;
-    border: 5px solid #1A304C;
+    border: 0.5px solid var(--border);
     background-image: url(https://i.ibb.co/PWP5Tyh/Oto-o-Gif.gif)
 }
 
@@ -496,14 +490,16 @@ div.sceditor-dropdown input,div.sceditor-dropdown textarea {
     margin-left: 10px;
     width: 440px;
     height: 180px;
-    background-color: #1A304C
+    background: var(--bg2);
+    border: 0.5px solid var(--border)
 }
 
 .extraBox {
     margin-top: 10px;
     width: 300px;
     height: 375px;
-    background-color: #1A304C;
+    background: var(--bg3);
+    border: 0.5px solid var(--border);
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
@@ -515,7 +511,8 @@ div.sceditor-dropdown input,div.sceditor-dropdown textarea {
     width: calc(33.33% - 10px);
     height: 25px;
     margin: 5px;
-    background-color: #0B4169;
+    background: var(--plum);
+    border: 0.5px solid var(--border);
     display: flex;
     align-items: center;
     justify-content: center

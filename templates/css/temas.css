@@ -1,14 +1,14 @@
 /* Accesos Rapidos */
 
 .quick_acces_tabs {
-	display: flex;
+	display:flex;
 	flex-direction: row;
 	justify-content: space-evenly;
 	margin-bottom: 7px;
 }
 
-.inventory_tab, .profile_tab, .character_profile_tab {
-	height: 35px;
+.inventory_tab , .profile_tab , .character_profile_tab {
+height: 35px;
 	display: flex;
 	justify-content: center;
 	align-items: center;
@@ -16,88 +16,85 @@
 
 /* Animación para Contenido del Avatar */
 
-.author_avatar {
-	transition: filter 0.2s;
+ .author_avatar {
+	transition: all 0.5s ease-out;
 }
 
-.author_avatar:hover {
-	filter: brightness(0.85);
+ .author_avatar:hover {
+	filter: brightness(0.7);
 }
 
 /* Contenido de la sección Avatar */
 
-.author_information {
-	display: flex;
-	justify-content: space-between;
-	height: 35px;
-	font-family: 'Cinzel', serif;
-	font-size: 11px;
-	font-weight: 700;
-	align-items: center;
-	text-transform: uppercase;
-	letter-spacing: 1.5px;
-	color: rgba(255, 255, 255, 0.9);
-	margin-bottom: 5px;
+ .author_information {
+    display: flex;
+    justify-content: space-between;
+    height: 35px;
+    font-size: 1.20rem;
+    align-items: center;
+    text-transform: uppercase;
+    font-weight: 800;
+    color: white;
+    letter-spacing: 0.10rem;
+    margin-bottom: 5px;
 }
 
 /* Contenido de la Sección del Avatar */
 
-.character_info {
+ .character_info {
 	display: flex;
 	flex-direction: column;
-	gap: 5px;
+	gap:5px;
 }
 
-.row_data {
+ .row_data {
 	display: flex;
 	flex-direction: row;
 	gap: 5px;
 }
 
-.row_data .char_data_tab {
+ .row_data .char_data_tab {
 	width: 100%;
 }
 
-.char_data_tab {
+ .char_data_tab  {
 	height: 35px;
 	display: flex;
 	flex-direction: row;
-	font-family: 'Cinzel', serif;
-	font-weight: 700;
-	color: rgba(255, 255, 255, 0.9);
+	font-weight: 800;
+	color: white;
 	text-transform: uppercase;
 }
 
-.char_data_tab .kanji {
+ .char_data_tab .kanji {
 	width: 50px;
 	height: auto;
 	display: flex;
 	justify-content: center;
-	align-items: center;
+	align-items:center;
 	font-size: 1.35rem;
 }
 
-.char_data_tab .text {
+ .char_data_tab .text {
 	width: 100%;
 	height: auto;
 	display: flex;
 	justify-content: center;
-	align-items: center;
-	font-size: 11px;
-	letter-spacing: 1.5px;
+	align-items:center;
+	font-size: 1.20rem;
+	letter-spacing: 0.15rem;
 }
 
 /* Estilo para Estadisticas */
 
-.stats_title {
-	display: block;
-	background: var(--plum);
-	color: rgba(255, 255, 255, 0.9);
-	font-family: 'Cinzel', serif;
-	font-size: 10px;
-	font-weight: 700;
+ .stats_title {
+	display:block; 
+	background-color:#585C5F; 
+	color: white; 
+	font-size: 1.20rem; 
+	font-weight: 800;
 	text-transform: uppercase;
-	letter-spacing: 1.5px;
+	letter-spacing: 0.3rem;
 	text-align: center;
 }
 
@@ -105,418 +102,431 @@
 	text-align: right;
 }
 
-.stats_table {
+ .stats_table {
 	display: flex;
 	flex-direction: row;
-	background: var(--bg3);
-	color: var(--ink);
-	font-family: 'Noto Serif JP', serif;
-	font-weight: 400;
+	background-color: #292D32;
+	color: white;
+	font-weight: 800;
 	font-size: 0.90rem;
 	text-transform: uppercase;
 	justify-content: space-between;
 	padding: 10px 10px 0px 10px;
-	border: 0.5px solid var(--border);
 }
 
-.stats_table p {
+ .stats_table p {
 	margin: 0;
 	margin-bottom: 7px;
 }
 
 /* Barras */
 
-.chakraStatusBar {
-	display: flex;
-	margin: 2px 0;
+ .chakraStatusBar {
+    display: flex;
+    margin: 2px 0
 }
 
 .barrasChakra {
-	background: var(--bg3);
-	border: 0.5px solid var(--border);
-	width: 300px;
-	position: relative;
-	height: 50px;
-	text-align: left;
+    background-image: url(https://cdn.discordapp.com/attachments/393540068393877504/609542644393050133/fondoBar.png);
+    background-repeat: no-repeat;
+    width: 300px;
+    position: relative;
+    height: 50px;
+    text-align: left
 }
 
 .barraChakraRoja {
-	height: 44px;
-	background-color: #334853;
-	position: absolute;
-	top: 3px;
-	left: 3px;
+    height: 44px;
+    background-color: #334853;
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    border-radius: 3px
 }
 
 .barraChakraVerde {
-	height: 44px;
-	background-color: #6bbdd4;
-	position: absolute;
-	top: 3px;
-	left: 3px;
+    height: 44px;
+    background-color: #6bd;
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    border-radius: 3px
 }
 
 span.barraChakraText {
-	height: 50px;
-	width: 300px;
-	font-family: 'Cinzel', serif;
-	position: absolute;
-	text-align: center;
-	top: 11px;
-	color: #fff;
-	font-size: 16px;
+    height: 50px;
+    width: 300px;
+    font-family: MontserratVariableFont;
+    position: absolute;
+    text-align: center;
+    top: 11px;
+    color: #fff;
+    font-size: 20px;
+    text-shadow: 1px 1px #000
 }
 
 /* Barra de Vida */
 
 .bars_container {
-	padding: 5px;
-	background: var(--bg2);
-	border: 0.5px solid var(--border);
-	color: var(--ink);
-	display: flex;
-	flex-direction: column;
-	gap: 7px;
+    padding: 5px;
+    background-color: #292D32;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
 }
 
 .health_status_container, .chakra_status_container {
-	text-align: center;
-	font-family: 'Cinzel', serif;
-	font-size: 9px;
-	font-weight: 700;
-	letter-spacing: 1px;
-	position: relative;
-	height: 30px;
-	overflow: hidden;
+    text-align: center;
+    font-size: 0.95rem;
+    font-weight: 800;
+    position: relative;
+    height: 30px; /* Altura de las barras */
+    overflow: hidden; /* Para ocultar el contenido que sobresale */
 }
 
 .health_status_container {
-	background-color: #ba3232;
+    background-color: #ba3232;
 }
 
 .chakra_status_container {
-	background-color: #273974;
+    background-color: #273974;
 }
 
 /* Barras de vida y chakra */
 .health_bar, .chakra_bar {
-	position: absolute;
-	top: 0;
-	left: 0;
-	height: 100%;
-	background-color: inherit;
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    background-color: inherit;
 }
 
 .health_bar {
-	background-color: #d44;
-	width: calc(100% * var(--vida-percentage, 1));
-	transition: width 0.5s ease-in-out;
+    background-color: #d44; /* Tono más claro de #ba3232 */
+    width: calc(100% * var(--vida-percentage, 1)); /* Default 100% */
+    transition: width 0.5s ease-in-out;
 }
 
 .chakra_bar {
-	background-color: #375a9b;
-	width: calc(100% * var(--chakra-percentage, 1));
-	transition: width 0.5s ease-in-out;
+    background-color: #375a9b; /* Tono más claro de #273974 */
+    width: calc(100% * var(--chakra-percentage, 1)); /* Default 100% */
+    transition: width 0.5s ease-in-out;
 }
 
 /* Texto de las barras */
 .health_bar_text, .chakra_bar_text {
-	position: absolute;
-	width: 100%;
-	display: flex;
+    position: absolute;
+    width: 100%;
+    display: flex;
 	gap: 5px;
-	align-items: center;
-	justify-content: center;
-	height: 100%;
-	z-index: 1;
-	top: 0;
-	left: 0;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    z-index: 1;
+    top: 0;
+    left: 0;
 }
 
 span.barraVidaText, span.barraChakraText {
-	font-family: 'Cinzel', serif;
-	color: #fff;
-	font-size: 16px;
+    font-family: MontserratVariableFont, sans-serif;
+    color: #fff;
+    font-size: 20px;
+    text-shadow: 1px 1px #000;
 }
+
 
 /* Codigo por Ubicar */
 
 .barrasVida {
-	background: var(--bg3);
-	border: 0.5px solid var(--border);
-	width: 300px;
-	position: relative;
-	height: 50px;
-	text-align: left;
+    background-image: url(https://cdn.discordapp.com/attachments/393540068393877504/609542644393050133/fondoBar.png);
+    background-repeat: no-repeat;
+    width: 300px;
+    position: relative;
+    height: 50px;
+    text-align: left
 }
 
 .barraVidaRoja {
-	height: 44px;
-	background-color: #a31520;
-	position: absolute;
-	top: 3px;
-	left: 3px;
+    height: 44px;
+    background-color: #a31520;
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    border-radius: 3px
 }
 
 .barraVidaVerde {
-	height: 44px;
-	background-color: #d44;
-	position: absolute;
-	top: 3px;
-	left: 3px;
+    height: 44px;
+    background-color: #d44;
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    border-radius: 3px
 }
 
 span.barraVidaText {
-	height: 50px;
-	width: 300px;
-	font-family: 'Cinzel', serif;
-	position: absolute;
-	text-align: center;
-	top: 11px;
-	color: #fff;
-	font-size: 16px;
+    height: 50px;
+    width: 300px;
+    font-family: MontserratVariableFont;
+    position: absolute;
+    text-align: center;
+    top: 11px;
+    color: #fff;
+    font-size: 20px;
+    text-shadow: 1px 1px #000
 }
 
 /* Barras Adicionales */
 
 .senjutsuStatusBar {
-	display: flex;
-	margin: 2px 0;
+    display: flex;
+    margin: 2px 0
 }
 
 .barrasSenjutsu {
-	background: var(--bg3);
-	border: 0.5px solid var(--border);
-	width: 300px;
-	position: relative;
-	height: 50px;
-	text-align: left;
+    background-image: url(https://cdn.discordapp.com/attachments/393540068393877504/609542644393050133/fondoBar.png);
+    background-repeat: no-repeat;
+    width: 300px;
+    position: relative;
+    height: 50px;
+    text-align: left
 }
 
 .barraSenjutsuRoja {
-	height: 44px;
-	background-color: #139647;
-	position: absolute;
-	top: 3px;
-	left: 3px;
+    height: 44px;
+    background-color: #139647;
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    border-radius: 3px
 }
 
 .barraSenjutsuVerde {
-	height: 44px;
-	background-color: #66dd6f;
-	position: absolute;
-	top: 3px;
-	left: 3px;
+    height: 44px;
+    background-color: #66dd6f;
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    border-radius: 3px
 }
 
 span.barraSenjutsuText {
-	height: 50px;
-	width: 300px;
-	font-family: 'Cinzel', serif;
-	position: absolute;
-	text-align: center;
-	top: 11px;
-	color: #fff;
-	font-size: 16px;
+    height: 50px;
+    width: 300px;
+    font-family: MontserratVariableFont;
+    position: absolute;
+    text-align: center;
+    top: 11px;
+    color: #fff;
+    font-size: 20px;
+    text-shadow: 1px 1px #000
 }
 
 .kujakuStatusBar {
-	display: flex;
-	margin: 2px 0;
+    display: flex;
+    margin: 2px 0
 }
 
 .barrasKujaku {
-	background: var(--bg3);
-	border: 0.5px solid var(--border);
-	width: 300px;
-	position: relative;
-	height: 50px;
-	text-align: left;
+    background-image: url(https://cdn.discordapp.com/attachments/393540068393877504/609542644393050133/fondoBar.png);
+    background-repeat: no-repeat;
+    width: 300px;
+    position: relative;
+    height: 50px;
+    text-align: left
 }
 
 .barraKujakuRoja {
-	height: 44px;
-	background-color: #6815a3;
-	position: absolute;
-	top: 3px;
-	left: 3px;
+    height: 44px;
+    background-color: #6815a3;
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    border-radius: 3px
 }
 
 .barraKujakuVerde {
-	height: 44px;
-	background-color: #8544dd;
-	position: absolute;
-	top: 3px;
-	left: 3px;
+    height: 44px;
+    background-color: #8544dd;
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    border-radius: 3px
 }
 
 span.barraKujakuText {
-	height: 50px;
-	width: 300px;
-	font-family: 'Cinzel', serif;
-	position: absolute;
-	text-align: center;
-	top: 11px;
-	color: #fff;
-	font-size: 16px;
+    height: 50px;
+    width: 300px;
+    font-family: MontserratVariableFont;
+    position: absolute;
+    text-align: center;
+    top: 11px;
+    color: #fff;
+    font-size: 20px;
+    text-shadow: 1px 1px #000
 }
 
 .byakugoStatusBar {
-	display: flex;
-	margin: 2px 0;
+    display: flex;
+    margin: 2px 0
 }
 
 .barrasByakugo {
-	background: var(--bg3);
-	border: 0.5px solid var(--border);
-	width: 300px;
-	position: relative;
-	height: 50px;
-	text-align: left;
+    background-image: url(https://cdn.discordapp.com/attachments/393540068393877504/609542644393050133/fondoBar.png);
+    background-repeat: no-repeat;
+    width: 300px;
+    position: relative;
+    height: 50px;
+    text-align: left
 }
 
 .barraByakugoRoja {
-	height: 44px;
-	background-color: #8a478a;
-	position: absolute;
-	top: 3px;
-	left: 3px;
+    height: 44px;
+    background-color: #8a478a;
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    border-radius: 3px
 }
 
 .barraByakugoVerde {
-	height: 44px;
-	background-color: #ff81ff;
-	position: absolute;
-	top: 3px;
-	left: 3px;
+    height: 44px;
+    background-color: #ff81ff;
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    border-radius: 3px
 }
 
 span.barraByakugoText {
-	height: 50px;
-	width: 300px;
-	font-family: 'Cinzel', serif;
-	position: absolute;
-	text-align: center;
-	top: 11px;
-	color: #fff;
-	font-size: 16px;
+    height: 50px;
+    width: 300px;
+    font-family: MontserratVariableFont;
+    position: absolute;
+    text-align: center;
+    top: 11px;
+    color: #fff;
+    font-size: 20px;
+    text-shadow: 1px 1px #000
 }
 
 /* Ficha y Tema */
 
 .fichaTab {
-	display: flex;
-	flex-direction: row;
+  display: flex;
+  flex-direction: row;
 }
 
 .parteIzq {
-	height: 30px;
-	display: flex;
-	align-items: center;
+  height: 30px;
+  display: flex;
+  align-items: center;
 }
 
 .parteDer {
-	display: flex;
-	align-items: center;
-	justify-content: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 /* Estilos comunes para todas las partes izquierdas y derechas */
 
 .parteIzq span {
-	text-transform: uppercase;
-	color: rgba(255, 255, 255, 0.9);
-	font-family: 'Cinzel', serif;
-	letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: white;
+  font-family: 'Inter';
+	letter-spacing: 3px;
+	text-shadow: 0px 1px 1px #010101;
 }
 
 .parteIzq p {
-	text-transform: uppercase;
-	color: rgba(255, 255, 255, 0.9);
-	font-family: 'Cinzel', serif;
-	font-weight: 400;
-	letter-spacing: 1.5px;
-	font-size: 10px;
-	margin: auto;
+  text-transform: uppercase;
+  color: white;
+  font-family: 'Inter';
+  font-weight: 300;
+  letter-spacing: 3px;
+  font-size: 16px;
+  margin: auto;
+  text-shadow: 0px 1px 1px #010101;
 }
 
 .parteDer span {
-	text-transform: uppercase;
-	color: rgba(255, 255, 255, 0.9);
-	font-family: 'Cinzel', serif;
-	font-weight: 400;
-	font-size: 11px;
-	letter-spacing: 1px;
+    text-transform: uppercase;
+    color: white;
+    font-weight: 300;
+    font-size: 18px;
 }
 
 /** Estilos de tamaño de secciones de tabs **/
 
 .izquierdaPR,
 .izquierdaPE {
-	width: 260px;
-	background: var(--plum3);
+  width: 260px;
+ background-color: #4B4286;
 }
 
 .derechaPR,
 .derechaPE {
-	width: 50px;
-	background: var(--plum3);
+  width: 50px;
+background-color: #4B4286;
 }
 
 .izquierdaPR span,
 .izquierdaPE span {
-	margin-left: 10px;
-	letter-spacing: 1.5px !important;
-	font-size: 10px;
-	margin-top: 3px;
+  margin-left: 10px;
+  letter-spacing: 2px !important;
+  font-size: 16px;
+  margin-left: 10px !important;
+  margin-top: 3px;
 }
 
 .izquierdaEdad,
 .izquierdaRango {
-	width: 35px;
-	background: var(--plum3);
-	display: flex;
-	justify-content: center;
+  width: 35px;
+  background-color: #4B4286;
+  display: flex;
+  justify-content: center;
 }
 
 .derechaEdad,
 .derechaRango {
-	width: 118px;
-	background: var(--plum2);
+  width: 118px;
+  background-color: #3C356B;
 }
 
 .izquierdaAldea {
-	width: 35px;
-	background: var(--plum3);
-	display: flex;
-	justify-content: center;
+  width: 35px;
+  background-color: #4B4286;
+  display: flex;
+  justify-content: center;
 }
 
 .derechaAldea {
-	width: 115px;
-	background: var(--plum2);
+  width: 115px;
+  background-color: #3C356B;
 }
 
 .izquierdaFaccion {
-	width: 150px;
-	background: var(--plum);
-	display: flex;
-	justify-content: center;
-	align-items: center;
+  width: 150px;
+  background-color: #262143;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .izquierdaClan,
 .izquierdaClase {
-	width: 35px;
-	background: var(--plum3);
-	display: flex;
-	justify-content: center;
+  width: 35px;
+  background-color: #4B4286;
+  display: flex;
+  justify-content: center;
 }
 
 .derechaClan,
 .derechaClase {
-	width: 280px;
-	background: var(--plum2);
+  width: 280px;
+  background-color: #3C356B;
 }
 
 /** Estilos para textos de tabs con Kanji **/
@@ -525,180 +535,187 @@ span.barraByakugoText {
 .izquierdaRango span,
 .izquierdaClan span,
 .izquierdaAldea span {
-	font-size: 20px;
+  font-size: 20px;
 }
 
 /** Estilos de FilaTab **/
 
 .filaTab {
-	display: flex;
-	flex-direction: row;
-	justify-content: space-between;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
 }
 
 /* Codigo de personaje */
 
 .personaje_stats_title {
 	font-weight: bold;
-	text-decoration: underline;
+    text-decoration: underline;
 }
 
 .personaje_stats {
 	font-weight: bold;
-	color: var(--oxide2);
+    color: #ff8700;
 }
 
+.personaje_vida {
+/* 	font-weight: bold; */
+}
+
+.personaje_chakra {
+/* 	font-weight: bold; */
+}
 
 /* Tecnicas */
 
 .tecnica_spoiler_title {
-	padding: 10px;
-	cursor: pointer;
+    padding: 10px;
+    cursor: pointer;	
 }
 
 .tecnica_spoiler_content {
-	padding: 5px 20px;
-	text-align: left;
-	display: grid;
-	grid-template-columns: 3fr 2fr 3fr;
-	grid-template-rows: 20px 20px 20px 20px 1fr 20px 20px;
-	grid-row-gap: 5px;
-	background: var(--bg3);
-	border: 0.5px solid var(--border);
-	color: var(--ink);
-	cursor: default;
-	font-family: 'Noto Serif JP', serif;
-	font-size: 14px;
+    padding: 5px 20px;
+    text-align: left;
+    display: grid;
+    grid-template-columns: 3fr 2fr 3fr;
+    grid-template-rows: 20px 20px 20px 20px 1fr 20px 20px;
+    grid-row-gap: 5px;
+    background-color: #E6EFF5;
+    color: #0f1520;
+    cursor: default;
+	font-family: 'Inter';
+    font-size: 14px;
 	transition: all 1s ease-out;
 }
 
+
 .tecnicaId {
-	grid-row: 1;
-	grid-column: 2;
-	text-align: center;
+    grid-row: 1;
+    grid-column: 2;
+    text-align: center
 }
 
 .tecnicaId span, .tecnicaType span, .tecnicaSello span {
-	background: var(--plum);
-	color: rgba(255, 255, 255, 0.9);
-	padding: 4px 7px;
-	border: 0.5px solid var(--border);
-	letter-spacing: 1.5px;
+    background: #014C7D;
+    color: white;
+    padding: 4px 7px;
+    border: 1px solid #5d83a9;	
+	letter-spacing: 2px;
 	margin-right: 5px;
-	font-family: 'Cinzel', serif;
-	font-size: 9px;
+	text-shadow: 1px 1px 1px #00121e;
+	font-family: InterMedium;
 }
 
 .tecnicaCost span, .tecnicaEfect span {
-	color: var(--plum2);
-	letter-spacing: 1px;
-	font-family: 'Noto Serif JP', serif;
+	color: #014c7d;
+    letter-spacing: 1px;
+    font-family: InterRegular;
 }
 
 .efectoTitulo {
-	background: var(--plum);
-	color: rgba(255, 255, 255, 0.9) !important;
-	padding: 4px 6px;
-	margin-right: 2px;
+	background-color: #014c7d;
+    color: white !important;
+    padding: 4px 6px;
+    margin-right: 2px;
+	text-shadow: 1px 1px 1px #00121e;
 }
 
 .tecnicaLvl span {
-	letter-spacing: 1.5px;
-	font-family: 'Cinzel', serif;
-	color: var(--plum2);
+	letter-spacing: 2px;
+    font-family: InterMedium;
+    color: #014c7d;
 }
 
+
 .tecnicaType {
-	grid-row: 2;
-	grid-column: 3;
-	text-align: right;
+    grid-row: 2;
+    grid-column: 3;
+    text-align: right
 }
 
 .tecnicaSello {
-	grid-row: 2;
+    grid-row: 2
 }
 
 .tecnicaReq {
-	grid-row: 3;
-	grid-column: 1 / -1;
+    grid-row: 3;
+    grid-column: 1 / -1
 }
 
 .tecnicaLvl {
-	grid-row: 3;
-	grid-column: 3;
-	text-align: right;
-	font-family: 'Cinzel', serif !important;
+    grid-row: 3;
+    grid-column: 3;
+    text-align: right;
+	font-family: InterMedium !important;
 }
 
 .tecnicaDes {
-	margin-bottom: 15px;
-	text-align: justify;
+    margin-bottom: 15px;
+    text-align: justify;
 }
 
 .tecnicaCost {
-	text-align: center;
+    text-align: center;
 	margin: 0px 0px 5px;
 }
 
 .tecnicaEfect {
-	text-align: center;
+    text-align: center;
 	margin: 5px 0px 5px;
 }
 
 .tecnicaReward {
-	grid-row: 6;
-	grid-column: 3;
-	text-align: right;
+    grid-row: 6;
+    grid-column: 3;
+    text-align: right
 }
 
 /* Contenedor Padre de Post */
 
 .post_container {
-	display: flex;
-	flex-direction: column;
+    display: flex;
+    flex-direction: column;
 	width: 100%;
 }
 
 /* Zona de Contenido de Post */
-.post_content {
-	width: 100% !important;
+ .post_content {
+width: 100% !important;
 }
 
-.message_Section {
+ .message_Section {
 	width: 50%;
 }
 
-.author_Section {
+ .author_Section {
 	width: 50%;
 }
 
 /* Cabecera de Temas/Posts */
 .thread_Controls {
 	display: flex;
-	flex-direction: row;
-	justify-content: space-between;
-	align-items: center;
-	padding: 10px;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
 	margin-top: 10px;
-	background: var(--bg3);
-	border: 0.5px solid var(--border);
+    background-color: #11161B;
 }
 
-.right_controls {
+.right_controls{
 	height: 35px;
 	display: flex;
-	gap: 10px;
+	gap:10px;
 }
 
 .thread_bottom_controls {
 	display: flex;
-	flex-direction: column;
-	justify-content: space-between;
-	align-items: center;
-	padding: 10px;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
 	margin-top: 10px;
-	background: var(--bg3);
-	border: 0.5px solid var(--border);
+    background-color: #11161B;
 }
 
 .bottom_controls {
@@ -713,79 +730,77 @@ span.barraByakugoText {
 	text-transform: uppercase;
 	display: flex;
 	flex-direction: row;
-	justify-content: center;
-	align-items: center;
-	font-family: 'Cinzel', serif;
-	font-size: 11px;
-	font-weight: 700;
-	letter-spacing: 1.5px;
+	justify-content:center;
+	align-items:center;
+	font-size: 1.25rem;
+	letter-spacing: 0.25rem;
 	padding: 15px 0px;
-	background: var(--plum);
-	color: rgba(255, 255, 255, 0.9);
+	background-color: #014C7D;
+
 }
 
 /* Zona de Post - Contenedor Global */
-.posts_container {
-	flex-grow: 1;
-	overflow: auto;
+ .posts_container {
+    flex-grow: 1;
+    overflow: auto;
 }
 
 /* Zona de Contenido + Avatar */
-.post_general {
-	display: flex;
-	flex-direction: row;
-	gap: 10px;
-	margin-bottom: 15px;
-	padding: 10px;
-	background: var(--bg2);
-	border: 0.5px solid var(--border);
-	overflow: hidden;
+ .post_general {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    margin-bottom: 15px;
+    padding: 10px;
+    background-color: #11161B;
+    border: 1px solid #014C7D;
+		overflow: hidden;
 }
 
-/* Contenedor Padre del Mensaje del Post */
-.post_message_section {
-	width: 100%;
-	height: 100%;
+/*Contenedor Padre del Mensaje del Post */
+ .post_message_section {
+    width: 100%;
+    height: 100%;
 }
+
 
 /* Zona del Avatar */
 /* Contenedor del Avatar */
-.post_author {
-	max-width: 300px;
-	min-width: 300px;
+ .post_author {
+    max-width: 300px;
+    min-width: 300px;
 }
 
 /** Avatar en Zona de Post */
 
-.author_avatar {
-	box-sizing: border-box;
+ .author_avatar {
+    box-sizing: border-box;
 }
 
-.author_avatar img {
-	min-width: 100%;
-	min-height: 450px;
+ .author_avatar img {
+min-width: 100%;
+min-height: 450px;
 }
 
 /* Texto del Post */
 
-.post_body {
+ .post_body {
 	font-size: 0.80rem !important;
-	background: var(--bg);
-	border-top: 0.5px solid var(--border);
+	background-color: #0c0f13;
 	padding-bottom: 20px;
 	margin-top: 10px;
 }
 
-.post_body_content {
-	text-align: justify;
-	padding: 20px 30px 0px;
-	margin: 0px 15px 0px 15px;
-	font-size: 0.95rem;
-	min-height: 400px;
+ .post_body_content {
+    text-align: justify;
+    padding: 20px 30px 0px;
+    margin: 0px 15px 0px 15px;
+    font-size: 0.95rem;
+    min-height: 400px;
 }
 
 /* Encabezado del Post */
-.post_head {
+ .post_head {
 	display: flex;
 	flex-direction: row;
 	gap: 10px;
@@ -793,92 +808,80 @@ span.barraByakugoText {
 }
 
 /* Mensaje de Edición de Post */
-.post_edition_text {
-	border-bottom: 0.5px solid var(--border) !important;
+ .post_edition_text {
+	border-bottom: 1px solid #6492A0 !important;
 	padding: 10px 5px;
 	text-align: center;
 	margin: 0px 15px 0px 15px;
 }
 
 /* Enlace del Post */
-.post_link {
-	width: 35%;
-	height: 35px;
-	background: var(--plum);
-	color: rgba(255, 255, 255, 0.9);
-	text-transform: uppercase;
-	font-family: 'Cinzel', serif;
-	font-size: 9px;
-	letter-spacing: 1.5px;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	gap: 10px;
+ .post_link {
+width: 35%;
+height: 35px;
+background-color: #585C5F;
+text-transform: uppercase;
+letter-spacing: 0.25rem;
+display: flex;
+justify-content: center;
+align-items:center;
+gap: 10px;
 }
 
 /* Fecha del Post */
 
-.post_date {
+ .post_date {
 	width: 100%;
 	height: 35px;
-	background: var(--bg3);
-	border-bottom: 0.5px solid var(--border);
+	background-color: #292D32;
 	display: flex;
-	justify-content: center;
+	justify-content:center;
 	align-items: center;
 	text-transform: uppercase;
-	font-family: 'Cinzel', serif;
-	font-size: 9px;
-	letter-spacing: 1.5px;
-	font-weight: 700;
-	color: var(--plum2) !important;
+	letter-spacing: 0.25rem;
+	font-weight: bold;
+	color: white !important; 
 }
 
 /* Boton de Eliminar Post */
-.delete_button, .delete_button a {
-	background: var(--oxide);
+ .delete_button, .delete_button a {
+	background-color: #AF2828;
+    height: 35px;
+    color: white;
+    text-transform: uppercase;
+    width: 125px;
+    font-weight: 800;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+ .edit_button, .edit_button a {
+	background-color: #6492A0;
 	height: 35px;
-	color: rgba(255, 255, 255, 0.9);
+	color: white !important;
 	text-transform: uppercase;
-	font-family: 'Cinzel', serif;
-	font-size: 9px;
-	letter-spacing: 1.5px;
-	width: 125px;
-	font-weight: 700;
+    width: 125px;
+	font-weight: 800;
 	display: flex;
 	justify-content: center;
 	align-items: center;
 }
 
-.edit_button, .edit_button a {
-	background: var(--plum2);
-	height: 35px;
-	color: rgba(255, 255, 255, 0.9) !important;
-	text-transform: uppercase;
-	font-family: 'Cinzel', serif;
-	font-size: 9px;
-	letter-spacing: 1.5px;
-	width: 125px;
-	font-weight: 700;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-}
 
-/* Codigo para Botones de Ficha */
+/*Codigo para Botones de Ficha */
 
 .post-avatar {
 	text-align: center;
 	width: 100%;
 }
 
-.post-avatar-mitad-texto a {
-	color: var(--plum2);
-	font-family: 'Cinzel', serif;
-	font-size: 9px;
-	font-weight: 700;
-	letter-spacing: 1.5px;
-	text-transform: uppercase;
+.post-avatar-mitad-texto a{
+	color:white;
+	font-family: 'Inter';
+	font-size: 1rem;
+	font-weight: 800;
 	display: block;
-	padding: 5px 0px;
+	padding: 5px 0px;	
 }
+	
