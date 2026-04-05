@@ -1,6 +1,5 @@
-    <script>
+<script>
 (function() {
-  // Dark is the CSS default (no attribute). Only apply light when explicitly saved.
   if (localStorage.getItem('sg-theme') === 'light') {
     document.documentElement.setAttribute('data-theme', 'light');
   }
@@ -15,7 +14,7 @@ function toggleTheme() {
   var html = document.documentElement;
   var isLight = html.getAttribute('data-theme') === 'light';
   if (isLight) {
-    html.removeAttribute('data-theme'); // back to dark (CSS default)
+    html.removeAttribute('data-theme');
     localStorage.setItem('sg-theme', 'dark');
   } else {
     html.setAttribute('data-theme', 'light');
@@ -24,202 +23,397 @@ function toggleTheme() {
   var btn = document.getElementById('theme-toggle');
   if (btn) btn.textContent = isLight ? '☀' : '☾';
 }
-    </script>
-<div id="container">
-    <a name="top" id="top"></a>
-    <div id="header" style=" width: 1100px; margin: auto; ">
-        <div class="top-menu">
-			<div class="menu-op">
-				<ul>
-					<li style="padding: 0px 10px;border-left: 0px;"><a href="/" style=" padding: 0; "><img src="/images/sg/misc/LogoHeader.png" style="height: 42px;"></a></li>
-					<if $g_tiene_ficha == true then><li><a href="{$mybb->settings['bburl']}/sg/ficha.php?uid={$mybb->user['uid']}">Ficha</a></li></if>
-					<li><a href="{$mybb->settings['bburl']}/forumdisplay.php?fid=25">Guías</a></li>
-					<li><a href="{$mybb->settings['bburl']}/sg/tecnicas.php">Técnicas</a></li>
-					<li>
-						<a href="#" id="informacion">Información &dtrif;</a>
-						<ul>
-							<a href="{$mybb->settings['bburl']}/sg/mapa_mundo.php"><li>Mapa del Mundo</li></a>
-							<if $mybb->user['uid'] != '0' then>
-<!-- 								<a href="{$mybb->settings['bburl']}/sg/recompensa_diaria.php" id="recompensas"><li>Recompensa de Posts</li></a> -->
-							</if>
-							<a href="{$mybb->settings['bburl']}/sg/calculadora.php"><li>Calc. de Estadísticas</li></a>
-<!-- 							<a href="{$mybb->settings['bburl']}/sg/registro_fisicos.php"><li>Registro de PJs</li></a> -->
-<!-- 							<a href="{$mybb->settings['bburl']}/sg/objetos.php"><li>Objetos</li></a> -->
-							<a href="{$mybb->settings['bburl']}/sg/censo.php"><li>Censo y Estadísticas</li></a>
-							
-						</ul>
-					</li>
-					<li>
-						<a href="#" id="rol">Rol &dtrif;</a>
-						<ul>
-<!-- 							<a href="{$mybb->settings['bburl']}/sg/entrenamientos.php" id="entrenamientos"><li>Entrenamientos</li></a> -->
-							<a href="{$mybb->settings['bburl']}/sg/misiones.php" id="misiones"><li>Misiones</li></a>
-<!-- 							<a href="{$mybb->settings['bburl']}/sg/inventario.php"><li>Inventario</li></a> -->
-<!-- 							<a href="{$mybb->settings['bburl']}/sg/tienda.php"><li>Tienda</li></a> -->
-						</ul>
-					</li>
-					<if $g_tiene_ficha == false && $g_uid != 0 then><li><a href="{$mybb->settings['bburl']}/sg/ficha.php?uid={$mybb->user['uid']}" style=" color: #da9039; ">Nueva Ficha</a></li></if>	
-					<if $mybb->user['uid'] != '0' then>
-					<li>
-						<a href="#">Usuario &dtrif;</a>
-						<ul>
-							<if $mybb->user['uid'] == '196' then><a href="{$mybb->settings['bburl']}/admin/index.php"><li>Consola Admin</li></a></if>
-							<if $g_is_staff then><a href="{$mybb->settings['bburl']}/sg/admin/consola_mod.php"><li>Consola de Mods</li></a></if>
-							<if $mybb->user['uid'] != '0' then>
-								<a href="{$mybb->settings['bburl']}/sg/peticiones.php"><li>Petición Administrativa</li></a>
-								<a href="{$mybb->settings['bburl']}/private.php"><li>Mensajes Privados</li></a>
-								<a href="{$mybb->settings['bburl']}/usercp.php"><li>Panel de Usuario</li></a>
-								<a href="{$mybb->settings['bburl']}/search.php"><li>Búsqueda</li></a>
-								<a href="{$mybb->settings['bburl']}/usercp.php?action=drafts"><li>Borradores de Posts</li></a>
-								<a href="{$mybb->settings['bburl']}/usercp.php?action=subscriptions"><li>Temas Suscritos</li></a>
-								<a href="{$mybb->settings['bburl']}/usercp.php?action=as_edit"><li>Gestión Multicuenta</li></a>
-								<if $g_is_staff then><a href="{$mybb->settings['bburl']}/forumdisplay.php?fid=282"><li>Guarida Secreta</li></a></if>
-							</if>					
-						</ul>
-					</li>
-					</if>
-					<if $mybb->user['uid'] == '0' then><li><a href="{$mybb->settings['bburl']}/member.php?action=login" 
-															  onclick="$('#quick_login').modal({ fadeDuration: 250, keepelement: true, zIndex: (typeof modal_zindex !== 'undefined' ? modal_zindex : 9999) }); return false;">Iniciar Sesión</a></li></if>
-					<if $mybb->user['uid'] == '0' then><li><a href="{$mybb->settings['bburl']}/member.php?action=register">Regístrate</a></li></if>
-					<if $mybb->user['uid'] != '0' then>
-						<li style=" border-right: 0px; ">
-							<a href="#" id="ficha">{$mybb->user['username']} &dtrif;</a>
-							<ul>
-								{$as_header_dropdown}
-								<if $mybb->user['uid'] != '0' then><li><a href="{$mybb->settings['bburl']}/member.php?action=logout&amp;logoutkey={$mybb->user['logoutkey']}">Desconectarse</a></li></if>
-							</ul>
-						</li>
-						<li style="padding: 0px 0px;border-right: 0px;border-left: 0px;"><a href="{$mybb->settings['bburl']}/member.php?action=profile&uid={$mybb->user['uid']}" style=" padding: 0; ">
-							<if $mybb->user['avatar'] then><img src="{$g_avatar}" style="height: 46px;margin-top: -10px;border: 2px solid var({$g_villa_color});position: relative;top: 5px;"></if>
-							<if !$mybb->user['avatar'] then><img src="/images/default_avatar.png" style="height: 46px;margin-top: -10px;border: 2px solid var({$g_villa_color});position: relative;top: 5px;"></if>
-							
-							</a></li>
-					</if>
-					<if $mybb->user['uid'] == '0' then><li style=" border-right: 0px; "><a href="{$mybb->settings['bburl']}/showthread.php?tid=1938" style=" color: #da9039; ">Primeros pasos</a></li></if>
-					<li style="padding: 0; border-left: 0.5px solid var(--border);">
-						<button id="theme-toggle" onclick="toggleTheme()" title="Cambiar tema" style="background: none; border: none; cursor: pointer; width: 46px; height: 50px; font-size: 16px; color: var(--plum2); display: flex; align-items: center; justify-content: center;">☀</button>
-					</li>
-				</ul>
-			</div>  
-		</div>
-        <hr class="hrDivider">
-		
-        <!-- <div id="bannerBox" style="background-image: url(https://i.postimg.cc/hPxymVDm/Banner.png);"></div> -->
-		<a href="https://shinobigaiden.net/index.php">
-			<div id="logo">
-				<if $g_is_banner_horny then>
-					<if $banner_horny_or_not == '1' then>
-						<img src="/images/sg/bannersfreeia/banner{$banner_horny_number}.png">
-					<else />	
-						<img src="/images/sg/banners/banner{$banner_number}.jpeg">
-					</if> 
-				<elseif $g_enable_hentai == '1' then>
-					<img src="/images/sg/bannershitsu/banner{$banner_hitsu_number}.png">
-				<elseif $g_is_banner_nami then>
-<!-- 					<img src="/images/sg/bannersnami/banner{$banner_nami_number}.png"> -->
-				<else />	
-					<img src="/images/sg/uploads/narutobanner.jpg">
-<!-- 					<img src="/images/sg/banners/banner{$banner_number}.jpeg"> -->
-<!-- 					<img src="/images/sg/especiales/bannergoku.png"> -->
-				</if>
-			</div>
-		</a>
-			
-			<!-- <div class="sidebar">
-    <div class="toggle-btn" onclick="toggleSidebar()">
-      <span class="toggle-icon">☰</span>
-    </div>
-    <div class="options">
-		<a href="{$mybb->settings['bburl']}/usercp.php">Panel de Usuario</a>
-        <a href="{$mybb->settings['bburl']}/tecnicas.php">Técnicas</a>
-        <a href="{$mybb->settings['bburl']}/forumdisplay.php?fid=25">Guías</a>
-        <a href="{$mybb->settings['bburl']}/member.php?action=logout&amp;logoutkey={$mybb->user['logoutkey']}">Cerrar Sesión</a>
-    </div>
-  </div> -->
-
-        
-        </a>
-        <hr class="hrDivider">
-    </div>
-	<div style="text-align: center; width: 1100px; margin: auto; background: var(--bg2); border: 0.5px solid var(--border); padding: 10px 20px; box-sizing: border-box; font-family: 'Noto Serif JP', serif; font-size: 13px; font-weight: 300; color: var(--stone); line-height: 1.9;">
-		<span style="display: block; font-family: 'Cinzel', serif; font-size: 10px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--plum2); margin-bottom: 6px;">¡Shinobi Gaiden está en Reset!</span>
-		Nos preparamos para una gran reapertura con nuevas mecánicas, jutsus renovados y muchas sorpresas que cambiarán por completo la experiencia ninja.<br>
-		Un nuevo comienzo se acerca… y tú puedes ser parte de él desde el inicio.<br>
-		Únete a nuestro <a href="https://discord.com/invite/UMBSGnWmwt">Discord</a> para enterarte de todas las novedades y prepararte para el regreso.<br>
-		<span style="font-family: 'Cinzel', serif; font-size: 9px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--mist);">Shinobi Gaiden: Donde las leyendas renacen.</span>
-	</div>
-	<if $g_is_staff then>
-	<div style="text-align: center;width: 1100px;margin: auto;height: 27px;background-color: #013b53;box-shadow: 0px 1px 2px black;background-image: linear-gradient(#091926, #203d53);">
-			<span style="color: white !important;font-family: Verdana;font-size: 17px;text-shadow: 2px 2px 2px black;">
-				<a href="/sg/admin/fichas_en_cola.php">Fichas en cola</a>: {$g_fichas_en_cola} || 
-				<a href="/sg/admin/peticiones_admin.php">Peticiones</a>: {$g_peticiones} ||  
-				<a href="/sg/admin/tecnicas_creacion.php">Creaciones</a>: {$g_total_creaciones_sin_moderar} / {$g_total_creaciones_pendientes}
-			</span>
-	</div>
-	</if>
-	<if $mybb->user['uid'] == '0' then>
-			<div id="logo">
-				<a href="/showthread.php?tid=1938">
-					<img style="padding: 0px 0px;" src="/images/sg/misc/inicia_tu_camino.jpg">
-				</a>
-			</div>
-	</if>
-	
-	<div id="logo">
-<!-- 		<a href="/showthread.php?tid=12721">
-			<img style="padding: 0px 0px;" src="/images/sg/especiales/minibannergoku.png">
-		</a> -->
-	</div>
-		
-	<if $current_page != "index.php" && $current_page != "ficha.php" && ($g_is_staff || $mybb->user['uid'] == '501') then>
-		<div style="position: relative;width: 1100px;margin: auto;">
-			<if $banner_sabias_que == '1' then>
-				<div style="position: absolute;color: white;font-family: 'interRegular';font-size: 19px;text-shadow: 2px 2px black;top: 26px;left: 508px;"><span>¿Sabías que…?</span></div>
-				<div style="position: absolute;color: black;font-family: 'InterRegular';font-size: 16px;top: 55px;left: 243px;width: 667px;"><span>{$g_sabiasque['texto']}</span></div>
-			</if>
-			<if $banner_sabias_que == '2' then>
-				<div style="position: absolute;color: white;font-family: 'interRegular';font-size: 19px;text-shadow: 2px 2px black;top: 26px;left: 508px;"><span>Hay rumores sobre…</span></div>
-				<div style="position: absolute;color: black;font-family: 'InterRegular';font-size: 16px;top: 55px;left: 243px;width: 667px;"><span>{$g_sabiasque['texto']}</span></div>
-			</if>
-			<if $banner_sabias_que == '3' then>
-				<div style="position: absolute;color: white;font-family: 'interRegular';font-size: 19px;text-shadow: 2px 2px black;top: 26px;left: 508px;"><span>En este foro…</span></div>
-				<div style="position: absolute;color: black;font-family: 'InterRegular';font-size: 16px;top: 55px;left: 243px;width: 667px;"><span>{$g_sabiasque['texto']}</span></div>
-			</if>
-<!-- 			<img src="https://onepiecegaiden.com/images/op/uploads/SabiasQue{$banner_sabias_que}_One_Piece_Gaiden_Foro_Rol.png"> -->
-			<img src="https://i.ibb.co/Smmx810/sabiasque1sinletras.png">
-			
-		</div>
-	</if>
-	
-<div class="modal login-modal" id="quick_login" style="display: none; background-color: var(--bg2);">
-	<form method="post" action="{$mybb->settings['bburl']}/member.php">
-		<input name="action" type="hidden" value="do_login" />
-		<input name="url" type="hidden" value="" />
-		<input name="quick_login" type="hidden" value="1" />
-		<input name="my_post_key" type="hidden" value="{$mybb->post_code}" />
-		<table style="background-color: var(--bg2);" width="100%" cellspacing="{$theme['borderwidth']}" cellpadding="{$theme['tablespace']}" border="0" class="tborder">
-			<tr>
-				<td class="thead signin" colspan="3" style="background-color: var(--plum); color: var(--lavender) !important;">{$lang->login}</td>
-			</tr>
-			{$loginform}
-		</table>
-	</form>
-</div>
-<script type="text/javascript">
-	$("#quick_login input[name='url']").val($(location).attr('href'));
-	(function() {
-		var btn = document.getElementById('theme-toggle');
-		var saved = localStorage.getItem('sg-theme') || 'dark';
-		if (btn) btn.textContent = saved === 'light' ? '☾' : '☀';
-	})();
 </script>
+
+<div id="container">
+<a name="top" id="top"></a>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     FIXED NAVIGATION BAR
+     ═══════════════════════════════════════════════════════════════ -->
+<div class="top-menu">
+  <div class="menu-op">
+    <div class="sg-nav-shell">
+
+      <div class="sg-nav-brand">
+        <a class="sg-nav-brand-link" href="/">
+          <img src="/images/sg/misc/LogoHeader.png" style="height: 36px; filter: drop-shadow(0 2px 10px rgba(0,0,0,0.22));">
+          <span class="sg-nav-brand-copy">
+            <span class="sg-nav-brand-title">Shinobi Gaiden</span>
+            <span class="sg-nav-brand-subtitle">Foro Rol</span>
+          </span>
+        </a>
+      </div>
+
+      <div class="sg-nav-main">
+        <ul class="sg-nav-list sg-nav-primary">
+          <if $g_tiene_ficha == true then>
+          <li class="sg-nav-item">
+            <a href="{$mybb->settings['bburl']}/sg/ficha.php?uid={$mybb->user['uid']}">
+              <span class="sg-nav-spiral"><svg viewBox="0 0 16 16" width="10" height="10" aria-hidden="true" fill="none"><path d="M8 13.2c-2.9 0-5.2-2-5.2-4.9 0-2.5 1.9-4.5 4.5-4.5 2.1 0 3.8 1.4 3.8 3.3 0 1.6-1.2 2.8-2.7 2.8-1.1 0-1.9-.7-1.9-1.7 0-.9.7-1.5 1.5-1.5.7 0 1.2.3 1.6.9" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Ficha
+            </a>
+          </li>
+          </if>
+
+          <li class="sg-nav-item">
+            <a href="{$mybb->settings['bburl']}/forumdisplay.php?fid=25">
+              <span class="sg-nav-spiral"><svg viewBox="0 0 16 16" width="10" height="10" aria-hidden="true" fill="none"><path d="M8 13.2c-2.9 0-5.2-2-5.2-4.9 0-2.5 1.9-4.5 4.5-4.5 2.1 0 3.8 1.4 3.8 3.3 0 1.6-1.2 2.8-2.7 2.8-1.1 0-1.9-.7-1.9-1.7 0-.9.7-1.5 1.5-1.5.7 0 1.2.3 1.6.9" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Guías
+            </a>
+          </li>
+
+          <li class="sg-nav-item">
+            <a href="{$mybb->settings['bburl']}/sg/tecnicas.php">
+              <span class="sg-nav-spiral"><svg viewBox="0 0 16 16" width="10" height="10" aria-hidden="true" fill="none"><path d="M8 13.2c-2.9 0-5.2-2-5.2-4.9 0-2.5 1.9-4.5 4.5-4.5 2.1 0 3.8 1.4 3.8 3.3 0 1.6-1.2 2.8-2.7 2.8-1.1 0-1.9-.7-1.9-1.7 0-.9.7-1.5 1.5-1.5.7 0 1.2.3 1.6.9" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Técnicas
+            </a>
+          </li>
+
+          <li class="sg-nav-item sg-nav-item-dropdown">
+            <a href="#" id="informacion">
+              <span class="sg-nav-spiral"><svg viewBox="0 0 16 16" width="10" height="10" aria-hidden="true" fill="none"><path d="M8 13.2c-2.9 0-5.2-2-5.2-4.9 0-2.5 1.9-4.5 4.5-4.5 2.1 0 3.8 1.4 3.8 3.3 0 1.6-1.2 2.8-2.7 2.8-1.1 0-1.9-.7-1.9-1.7 0-.9.7-1.5 1.5-1.5.7 0 1.2.3 1.6.9" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Información
+              <span class="sg-nav-caret">▾</span>
+            </a>
+            <ul class="sg-nav-dropdown">
+              <li><a href="{$mybb->settings['bburl']}/sg/calculadora.php">Calc. de Estadísticas</a></li>
+              <li><a href="{$mybb->settings['bburl']}/sg/censo.php">Censo y Estadísticas</a></li>
+            </ul>
+          </li>
+
+          <li class="sg-nav-item sg-nav-item-dropdown">
+            <a href="#" id="rol">
+              <span class="sg-nav-spiral"><svg viewBox="0 0 16 16" width="10" height="10" aria-hidden="true" fill="none"><path d="M8 13.2c-2.9 0-5.2-2-5.2-4.9 0-2.5 1.9-4.5 4.5-4.5 2.1 0 3.8 1.4 3.8 3.3 0 1.6-1.2 2.8-2.7 2.8-1.1 0-1.9-.7-1.9-1.7 0-.9.7-1.5 1.5-1.5.7 0 1.2.3 1.6.9" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Rol
+              <span class="sg-nav-caret">▾</span>
+            </a>
+            <ul class="sg-nav-dropdown">
+              <li><a href="{$mybb->settings['bburl']}/sg/misiones.php" id="misiones">Misiones</a></li>
+            </ul>
+          </li>
+
+          <if $g_tiene_ficha == false && $g_uid != 0 then>
+          <li class="sg-nav-item sg-nav-item-highlight">
+            <a href="{$mybb->settings['bburl']}/sg/ficha.php?uid={$mybb->user['uid']}">
+              <span class="sg-nav-spiral"><svg viewBox="0 0 16 16" width="10" height="10" aria-hidden="true" fill="none"><path d="M8 13.2c-2.9 0-5.2-2-5.2-4.9 0-2.5 1.9-4.5 4.5-4.5 2.1 0 3.8 1.4 3.8 3.3 0 1.6-1.2 2.8-2.7 2.8-1.1 0-1.9-.7-1.9-1.7 0-.9.7-1.5 1.5-1.5.7 0 1.2.3 1.6.9" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Nueva Ficha
+            </a>
+          </li>
+          </if>
+        </ul>
+      </div>
+
+      <div class="sg-nav-actions">
+        <if $mybb->user['uid'] == '0' then>
+        <ul class="sg-nav-list sg-nav-secondary">
+          <li class="sg-nav-item sg-nav-item-ghost">
+            <a href="{$mybb->settings['bburl']}/member.php?action=login"
+               onclick="$('#quick_login').modal({ fadeDuration: 250, keepelement: true, zIndex: (typeof modal_zindex !== 'undefined' ? modal_zindex : 9999) }); return false;">Iniciar Sesión</a>
+          </li>
+          <li class="sg-nav-item sg-nav-item-highlight">
+            <a href="{$mybb->settings['bburl']}/member.php?action=register">Regístrate</a>
+          </li>
+          <li class="sg-nav-item sg-nav-item-ghost">
+            <a href="{$mybb->settings['bburl']}/showthread.php?tid=1938">Primeros pasos</a>
+          </li>
+        </ul>
+        </if>
+
+        <if $mybb->user['uid'] != '0' then>
+        <ul class="sg-nav-list sg-nav-secondary">
+          <li class="sg-nav-item sg-nav-item-dropdown sg-nav-item-user">
+            <a href="#" id="ficha">
+              <span class="sg-nav-user-meta">
+                <span class="sg-nav-user-label">Perfil</span>
+                <span class="sg-nav-user-name">{$mybb->user['username']}</span>
+              </span>
+              <span class="sg-nav-caret">▾</span>
+            </a>
+            <ul class="sg-nav-dropdown sg-nav-dropdown-user">
+              {$as_header_dropdown}
+              <if $mybb->user['uid'] == '196' then><li><a href="{$mybb->settings['bburl']}/admin/index.php">Consola Admin</a></li></if>
+              <if $g_is_staff then><li><a href="{$mybb->settings['bburl']}/sg/admin/consola_mod.php">Consola de Mods</a></li></if>
+              <li><a href="{$mybb->settings['bburl']}/sg/peticiones.php">Petición Administrativa</a></li>
+              <li><a href="{$mybb->settings['bburl']}/private.php">Mensajes Privados</a></li>
+              <li><a href="{$mybb->settings['bburl']}/usercp.php">Panel de Usuario</a></li>
+              <li><a href="{$mybb->settings['bburl']}/search.php">Búsqueda</a></li>
+              <li><a href="{$mybb->settings['bburl']}/usercp.php?action=drafts">Borradores de Posts</a></li>
+              <li><a href="{$mybb->settings['bburl']}/usercp.php?action=subscriptions">Temas Suscritos</a></li>
+              <li><a href="{$mybb->settings['bburl']}/usercp.php?action=as_edit">Gestión Multicuenta</a></li>
+              <if $g_is_staff then><li><a href="{$mybb->settings['bburl']}/forumdisplay.php?fid=282">Guarida Secreta</a></li></if>
+              <li><a href="{$mybb->settings['bburl']}/member.php?action=logout&amp;logoutkey={$mybb->user['logoutkey']}">Desconectarse</a></li>
+            </ul>
+          </li>
+          <li class="sg-nav-avatar-item">
+            <a href="{$mybb->settings['bburl']}/member.php?action=profile&uid={$mybb->user['uid']}" class="sg-nav-avatar-link">
+              <if $mybb->user['avatar'] then>
+                <img src="{$g_avatar}" class="sg-nav-avatar" style="border-color: var({$g_villa_color});">
+              </if>
+              <if !$mybb->user['avatar'] then>
+                <img src="/images/default_avatar.png" class="sg-nav-avatar" style="border-color: var(--border);">
+              </if>
+            </a>
+          </li>
+        </ul>
+        </if>
+
+        <button id="theme-toggle" onclick="toggleTheme()" title="Cambiar tema" class="sg-nav-theme-btn">☀</button>
+      </div>
+
+    </div>
+  </div>
+</div><!-- /.top-menu -->
+
+
+<!-- ═══════════════════════════════════════════════════════════════
+     HEADER BLOCK — banner + identity overlay
+     ═══════════════════════════════════════════════════════════════ -->
+<div id="header" style="width: 1100px; margin: auto;">
+
+  <div class="hrDivider"></div>
+
+  <!-- Banner wrapper with identity overlay -->
+  <div style="position: relative; width: 100%; overflow: hidden;">
+
+    <!-- Banner image -->
+    <a href="https://shinobigaiden.net/index.php" style="display: block; line-height: 0;">
+      <div id="logo">
+        <if $g_is_banner_horny then>
+          <if $banner_horny_or_not == '1' then>
+            <img src="/images/sg/bannersfreeia/banner{$banner_horny_number}.png">
+          <else />
+            <img src="/images/sg/banners/banner{$banner_number}.jpeg">
+          </if>
+        <elseif $g_enable_hentai == '1' then>
+          <img src="/images/sg/bannershitsu/banner{$banner_hitsu_number}.png">
+        <elseif $g_is_banner_nami then>
+          <!-- nami banners disabled -->
+        <else />
+          <img src="/images/banners/sg_banner1.jpg">
+        </if>
+      </div>
+    </a>
+
+    <!-- Identity overlay — bottom edge of banner -->
+    <div style="position: absolute; bottom: 0; left: 0; right: 0; pointer-events: none;
+                background: linear-gradient(to top, rgba(15,12,24,0.88) 0%, rgba(15,12,24,0.4) 50%, transparent 100%);
+                padding: 22px 24px 14px;">
+      <div style="display: flex; align-items: flex-end; justify-content: space-between;">
+
+        <!-- Left: hanko + title block -->
+        <div style="display: flex; align-items: flex-end; gap: 16px;">
+
+          <!-- Hanko seal -->
+          <div style="width: 48px; height: 48px; border: 1.5px solid var(--oxide); border-radius: 50%;
+                      display: flex; flex-direction: column; align-items: center; justify-content: center;
+                      background: rgba(192,88,42,0.10); flex-shrink: 0;">
+            <span style="font-family: 'Noto Serif JP', serif; font-size: 16px; font-weight: 700; color: var(--oxide); line-height: 1;">忍</span>
+            <small style="font-family: 'Cinzel', serif; font-size: 7px; letter-spacing: 1.7px; color: var(--oxide); text-transform: uppercase; line-height: 1.5;">SG</small>
+          </div>
+
+          <!-- Title block -->
+          <div>
+            <div style="width: 32px; height: 2px; background: var(--oxide); margin-bottom: 6px;"></div>
+            <div style="font-family: 'Cinzel', serif; font-size: 28px; font-weight: 900; letter-spacing: 2.4px;
+                        color: #e8dff8; text-transform: uppercase; line-height: 1;
+                        text-shadow: 0 2px 12px rgba(0,0,0,0.9);">Shinobi Gaiden</div>
+            <div style="font-family: 'Cinzel', serif; font-size: 10px; font-weight: 400; letter-spacing: 5.6px;
+                        color: rgba(232,223,248,0.52); text-transform: uppercase; margin-top: 6px;">Foro Rol · Universo Naruto</div>
+          </div>
+        </div>
+
+        <!-- Right: logged-in user greeting -->
+        <if $mybb->user['uid'] != '0' then>
+        <div style="text-align: right; pointer-events: auto;">
+          <div style="font-family: 'Cinzel', serif; font-size: 9px; letter-spacing: 2.2px;
+                      text-transform: uppercase; color: rgba(232,223,248,0.48); margin-bottom: 4px;">Bienvenido</div>
+          <a href="{$mybb->settings['bburl']}/member.php?action=profile&uid={$mybb->user['uid']}"
+             style="font-family: 'Cinzel', serif; font-size: 15px; font-weight: 700; letter-spacing: 1.6px;
+                    color: var(--oxide2); text-transform: uppercase; text-decoration: none;">{$mybb->user['username']}</a>
+        </div>
+        </if>
+
+      </div>
+    </div>
+  </div><!-- /banner wrapper -->
+
+  <!-- Guest CTA banner -->
+  <if $mybb->user['uid'] == '0' then>
+  <div class="sg-guest-cta">
+    <a href="/showthread.php?tid=1938" style="display: block; line-height: 0;">
+      <img style="width: 100%; display: block;" src="/images/sg/misc/inicia_tu_camino.jpg">
+    </a>
+  </div>
+  </if>
+
+  <div class="hrDivider"></div>
+
+</div><!-- /#header -->
+
+
+<!-- ═══════════════════════════════════════════════════════════════
+     ANNOUNCEMENT STRIP
+     ═══════════════════════════════════════════════════════════════ -->
+<div style="width: 1100px; margin: auto; background: var(--bg2); border-bottom: 0.5px solid var(--border);
+            padding: 10px 24px; box-sizing: border-box; display: flex; align-items: center; gap: 16px;">
+  <!-- Section-head oxide bar -->
+  <div style="width: 3px; height: 32px; background: var(--oxide); flex-shrink: 0;"></div>
+  <!-- Text content -->
+  <div style="flex: 1; min-width: 0;">
+    <div style="font-family: 'Cinzel', serif; font-size: 12px; font-weight: 700; letter-spacing: 2.2px;
+                text-transform: uppercase; color: var(--plum2); margin-bottom: 4px;">¡Shinobi Gaiden está en Reset!</div>
+    <div style="font-family: 'Noto Serif JP', serif; font-size: 13px; font-weight: 400; color: var(--stone); line-height: 1.75;
+                white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+      Nos preparamos para una gran reapertura con nuevas mecánicas y sorpresas —
+      <a href="https://discord.com/invite/UMBSGnWmwt" style="color: var(--plum3);">únete a nuestro Discord</a> y prepárate para el regreso.
+    </div>
+  </div>
+  <!-- Right label -->
+  <div style="font-family: 'Cinzel', serif; font-size: 8px; letter-spacing: 2.2px; text-transform: uppercase;
+              color: var(--mist); flex-shrink: 0; text-align: right; line-height: 1.9;">
+    Shinobi Gaiden<br>Donde las leyendas renacen
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════════════════════
+     STAFF ADMIN BAND (staff only)
+     ═══════════════════════════════════════════════════════════════ -->
+<if $g_is_staff then>
+<div style="width: 1100px; margin: auto; background: var(--bg3); border-bottom: 0.5px solid var(--border);
+            padding: 8px 24px; box-sizing: border-box; display: flex; align-items: center; gap: 12px;">
+  <div style="width: 2px; height: 18px; background: var(--oxide); flex-shrink: 0;"></div>
+  <span style="font-family: 'Cinzel', serif; font-size: 9px; font-weight: 700; letter-spacing: 2.2px;
+               text-transform: uppercase; color: var(--mist);">Staff</span>
+  <div style="flex: 1; height: 0.5px; background: var(--border);"></div>
+  <span style="font-family: 'Cinzel', serif; font-size: 11px; color: var(--stone); letter-spacing: 0.7px; line-height: 1.5;">
+    <a href="/sg/admin/fichas_en_cola.php" style="color: var(--plum3);">Fichas en cola</a>: {$g_fichas_en_cola}
+    <span style="color: var(--mist); margin: 0 8px;">·</span>
+    <a href="/sg/admin/peticiones_admin.php" style="color: var(--plum3);">Peticiones</a>: {$g_peticiones}
+    <span style="color: var(--mist); margin: 0 8px;">·</span>
+    <a href="/sg/admin/tecnicas_creacion.php" style="color: var(--plum3);">Creaciones</a>: {$g_total_creaciones_sin_moderar} / {$g_total_creaciones_pendientes}
+  </span>
+</div>
+</if>
+
+
+<!-- ═══════════════════════════════════════════════════════════════
+     SABÍAS QUE — staff / specific user only
+     ═══════════════════════════════════════════════════════════════ -->
+<if $current_page != "index.php" && $current_page != "ficha.php" && ($g_is_staff || $mybb->user['uid'] == '501') then>
+<div style="position: relative; width: 1100px; margin: 0 auto;">
+  <div style="position: relative; overflow: hidden; background: var(--bg2); border-top: 0.5px solid var(--border); border-bottom: 0.5px solid var(--border); min-height: 180px;">
+    
+    <!-- Washi fiber overlay -->
+    <div style="position: absolute; inset: 0; pointer-events: none; opacity: 1;
+                background-image:
+                  repeating-linear-gradient(14deg, transparent 0, transparent 24px, var(--fiber) 24px, var(--fiber) 25px),
+                  repeating-linear-gradient(84deg, transparent 0, transparent 36px, var(--fiber) 36px, var(--fiber) 37px),
+                  repeating-linear-gradient(152deg, transparent 0, transparent 19px, var(--fiber) 19px, var(--fiber) 19.5px);"></div>
+
+    <!-- Corner color washes -->
+    <div style="position: absolute; inset: 0; pointer-events: none;
+                background:
+                  radial-gradient(ellipse at 100% 0%, rgba(90,46,154,0.07) 0%, transparent 58%),
+                  radial-gradient(ellipse at 0% 100%, rgba(122,42,16,0.05) 0%, transparent 42%);"></div>
+
+    <!-- Watermark kanji -->
+    <div style="position: absolute; left: 18px; top: 16px; pointer-events: none;
+                font-family: 'Noto Serif JP', serif; font-size: 92px; font-weight: 700; line-height: 1;
+                color: var(--plum); opacity: 0.055;">聞</div>
+
+    <!-- Main content -->
+    <div style="position: relative; z-index: 1; display: flex; align-items: stretch; gap: 26px; padding: 24px 26px 22px;">
+      
+      <!-- Left rail -->
+      <div style="width: 82px; flex-shrink: 0; display: flex; flex-direction: column; align-items: center; justify-content: space-between;">
+        <div style="width: 54px; height: 54px; border: 1.5px solid var(--oxide); border-radius: 50%;
+                    display: flex; flex-direction: column; align-items: center; justify-content: center;
+                    background: rgba(192,88,42,0.10);">
+          <span style="font-family: 'Noto Serif JP', serif; font-size: 16px; font-weight: 700; line-height: 1; color: var(--oxide);">知</span>
+          <small style="font-family: 'Cinzel', serif; font-size: 7px; letter-spacing: 1.7px; text-transform: uppercase; line-height: 1.4; color: var(--oxide);">nota</small>
+        </div>
+        <div style="font-family: 'Noto Serif JP', serif; font-size: 21px; font-weight: 700; letter-spacing: 7px;
+                    writing-mode: vertical-rl; color: rgba(61,31,110,0.34);">噂録</div>
+      </div>
+
+      <!-- Center column -->
+      <div style="flex: 1; min-width: 0; padding-top: 6px;">
+        <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 12px;">
+          <div style="width: 42px; height: 1.5px; background: var(--oxide); flex-shrink: 0;"></div>
+          <div style="font-family: 'Cinzel', serif; font-size: 10px; font-weight: 700; letter-spacing: 2.2px;
+                      text-transform: uppercase; color: var(--mist);">Apunte del encabezado</div>
+        </div>
+
+        <div style="font-family: 'Cinzel', serif; font-size: 19px; font-weight: 900; letter-spacing: 2.2px;
+                    text-transform: uppercase; color: var(--plum); margin-bottom: 12px; line-height: 1.3;">
+          <if $banner_sabias_que == '1' then>¿Sabías que…?</if>
+          <if $banner_sabias_que == '2' then>Hay rumores sobre…</if>
+          <if $banner_sabias_que == '3' then>En este foro…</if>
+        </div>
+
+        <div style="max-width: 760px; font-family: 'Noto Serif JP', serif; font-size: 14px; font-weight: 400; line-height: 1.95;
+                    color: var(--ink); text-align: justify; position: relative;">
+          <span>{$g_sabiasque['texto']}</span>
+        </div>
+      </div>
+
+      <!-- Right aside -->
+      <div style="width: 182px; flex-shrink: 0; align-self: center; border-left: 0.5px solid var(--border);
+                  padding-left: 20px; display: flex; flex-direction: column; justify-content: center;">
+        <div style="font-family: 'Cinzel', serif; font-size: 10px; font-weight: 700; letter-spacing: 2.2px;
+                    text-transform: uppercase; color: var(--mist); margin-bottom: 10px;">Marca de archivo</div>
+        <div style="font-family: 'Cinzel', serif; font-size: 13px; font-weight: 700; letter-spacing: 1.1px;
+                    text-transform: uppercase; color: var(--oxide2); line-height: 1.8; margin-bottom: 12px;">
+          <if $banner_sabias_que == '1' then>Crónica shinobi</if>
+          <if $banner_sabias_que == '2' then>Rumores de la villa</if>
+          <if $banner_sabias_que == '3' then>Nota del foro</if>
+        </div>
+        <div style="width: 100%; height: 0.5px; background: var(--border); margin-bottom: 12px;"></div>
+        <div style="font-family: 'Noto Serif JP', serif; font-size: 11px; font-weight: 400; line-height: 1.85;
+                    color: var(--stone); text-align: left;">
+          Archivo breve del mundo shinobi y sus pequeños ecos.
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+</if>
+
+
+<!-- ═══════════════════════════════════════════════════════════════
+     LOGIN MODAL
+     ═══════════════════════════════════════════════════════════════ -->
+<div class="modal login-modal" id="quick_login" style="display: none; background-color: var(--bg2);">
+  <form method="post" action="{$mybb->settings['bburl']}/member.php">
+    <input name="action" type="hidden" value="do_login" />
+    <input name="url" type="hidden" value="" />
+    <input name="quick_login" type="hidden" value="1" />
+    <input name="my_post_key" type="hidden" value="{$mybb->post_code}" />
+    <table style="background-color: var(--bg2);" width="100%" cellspacing="{$theme['borderwidth']}" cellpadding="{$theme['tablespace']}" border="0" class="tborder">
+      <tr>
+        <td class="thead signin" colspan="3" style="background-color: var(--plum); color: var(--lavender) !important;">{$lang->login}</td>
+      </tr>
+      {$loginform}
+    </table>
+  </form>
+</div>
+
+<script type="text/javascript">
+  $("#quick_login input[name='url']").val($(location).attr('href'));
+  (function() {
+    var btn = document.getElementById('theme-toggle');
+    var saved = localStorage.getItem('sg-theme') || 'dark';
+    if (btn) btn.textContent = saved === 'light' ? '☾' : '☀';
+  })();
+</script>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     CONTENT AREA
+     ═══════════════════════════════════════════════════════════════ -->
 <div id="content">
-    <div class="wrapper">
-        {$bbclosedwarning}
-        {$modnotice}
-        {$pm_notice}
-        {$remote_avatar_notice}
-        {$bannedwarning}
-        {$pending_joinrequests}
-        {$awaitingusers}
-		<navigation>
+  <div class="wrapper">
+    {$bbclosedwarning}
+    {$modnotice}
+    {$pm_notice}
+    {$remote_avatar_notice}
+    {$bannedwarning}
+    {$pending_joinrequests}
+    {$awaitingusers}
+    <navigation>

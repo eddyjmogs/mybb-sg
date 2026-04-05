@@ -1,0 +1,11 @@
+<li class="sg-nav-accountswitcher-item as_head_drop">
+  <a id="menuswitch_{$userUid}" href="#switch" class="switchlink sg-nav-accountswitcher-link" style="display:flex !important;align-items:center;gap:12px;padding:12px 14px !important;">
+    <span class="sg-nav-accountswitcher-avatar" style="display:flex;align-items:center;justify-content:center;flex:0 0 40px;width:40px;height:40px;line-height:1;">{$userAvatar}</span>
+    <span class="sg-nav-accountswitcher-copy" style="display:flex;flex-direction:column;justify-content:center;gap:2px;min-width:0;">
+      <span class="sg-nav-accountswitcher-kicker" style="display:block;font-family:'Cinzel',serif;font-size:9px;letter-spacing:1.8px;text-transform:uppercase;color:var(--mist);line-height:1.1;">Cambiar a</span>
+      <span class="sg-nav-accountswitcher-name" style="display:block;font-family:'Source Serif 4',serif;font-size:15px;line-height:1.25;color:var(--ink);">
+        <span class="noscript" title="{$lang->aj_no_script}" style="display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{$attachedUser}</span>
+      </span>
+    </span>
+  </a>
+</li>

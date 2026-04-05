@@ -1,5 +1,3 @@
-/* Attached to all pages */
-
 #accountswitcher_header {
     position: relative;
     float: right;
@@ -115,10 +113,10 @@
     white-space: nowrap;
 }
 
-.as_head_drop > img {
+/* .as_head_drop > img {
     height: 22px;
     width: auto;
-}
+} */
 
 .as_head_userbit {
     list-style: none;
