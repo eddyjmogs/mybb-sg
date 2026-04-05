@@ -571,105 +571,294 @@ background-color: #4B4286;
 /* Tecnicas */
 
 .tecnica_spoiler_title {
-    padding: 10px;
-    cursor: pointer;	
+    padding: 0;
+    cursor: pointer;
 }
 
 .tecnica_spoiler_content {
-    padding: 5px 20px;
+    padding: 0;
     text-align: left;
-    display: grid;
-    grid-template-columns: 3fr 2fr 3fr;
-    grid-template-rows: 20px 20px 20px 20px 1fr 20px 20px;
-    grid-row-gap: 5px;
-    background-color: #E6EFF5;
-    color: #0f1520;
+    display: block;
+    background-color: rgba(9, 8, 14, 0.94);
+    color: #e8dff8;
     cursor: default;
-	font-family: 'Inter';
+    font-family: "Source Serif 4", serif;
     font-size: 14px;
-	transition: all 1s ease-out;
+    transition: max-height 0.28s ease, opacity 0.22s ease, padding 0.22s ease;
 }
 
-
-.tecnicaId {
-    grid-row: 1;
-    grid-column: 2;
-    text-align: center
+.tecnica-card {
+    padding: 14px;
 }
 
-.tecnicaId span, .tecnicaType span, .tecnicaSello span {
-    background: #014C7D;
-    color: white;
-    padding: 4px 7px;
-    border: 1px solid #5d83a9;	
-	letter-spacing: 2px;
-	margin-right: 5px;
-	text-shadow: 1px 1px 1px #00121e;
-	font-family: InterMedium;
+.tecnica-layout {
+    display: grid;
+    grid-template-columns: 220px minmax(0, 1fr);
+    gap: 14px;
+    align-items: start;
 }
 
-.tecnicaCost span, .tecnicaEfect span {
-	color: #014c7d;
-    letter-spacing: 1px;
-    font-family: InterRegular;
+.tecnica-side,
+.tecnica-main {
+    display: grid;
+    gap: 10px;
 }
 
+.tecnica-badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.tecnica-badge,
+.tecnicaId span,
+.tecnicaType span,
+.tecnicaSello span {
+    display: inline-flex;
+    align-items: center;
+    min-height: 28px;
+    padding: 0 10px;
+    border: 1px solid rgba(156, 107, 204, 0.14);
+    background: rgba(20, 16, 31, 0.88);
+    color: #d4b8f0;
+    font: 700 9px/1 "Cinzel", serif;
+    letter-spacing: 1.3px;
+    text-transform: uppercase;
+    box-sizing: border-box;
+}
+
+.tecnica-badge-rango {
+    color: #f0c1ac;
+    border-color: rgba(192, 88, 42, 0.2);
+}
+
+.tecnica-badge-balance.balance_positive {
+    color: #b4e5bd;
+}
+
+.tecnica-badge-balance.balance_negative {
+    color: #f0a0a0;
+}
+
+.tecnica-badge a {
+    color: inherit;
+    text-decoration: underline;
+    text-decoration-color: rgba(212, 184, 240, 0.28);
+}
+
+.tecnica-side-panels {
+    display: grid;
+    gap: 10px;
+}
+
+.tecnica-data-block,
+.tecnicaCost,
+.tecnicaEfect {
+    padding: 12px 14px;
+    border: 1px solid rgba(156, 107, 204, 0.1);
+    background: rgba(20, 16, 31, 0.88);
+    margin: 0;
+    text-align: left;
+    box-sizing: border-box;
+}
+
+.tecnica-data-label,
+.tecnicaCost span,
 .efectoTitulo {
-	background-color: #014c7d;
-    color: white !important;
-    padding: 4px 6px;
-    margin-right: 2px;
-	text-shadow: 1px 1px 1px #00121e;
+    display: block;
+    margin-bottom: 6px;
+    color: #8a7a9a;
+    font: 700 10px/1 "Cinzel", serif;
+    letter-spacing: 1.6px;
+    text-transform: uppercase;
+    background: transparent;
+    padding: 0;
+    text-shadow: none;
 }
 
+.tecnica-data-value,
 .tecnicaLvl span {
-	letter-spacing: 2px;
-    font-family: InterMedium;
-    color: #014c7d;
+    display: block;
+    color: #e8dff8;
+    font: 700 14px/1.55 "Source Serif 4", serif;
+    letter-spacing: 0;
 }
 
-
-.tecnicaType {
-    grid-row: 2;
-    grid-column: 3;
-    text-align: right
-}
-
-.tecnicaSello {
-    grid-row: 2
-}
-
-.tecnicaReq {
-    grid-row: 3;
-    grid-column: 1 / -1
-}
-
-.tecnicaLvl {
-    grid-row: 3;
-    grid-column: 3;
-    text-align: right;
-	font-family: InterMedium !important;
-}
-
+.tecnica-reading,
+.tecnica-effect-box,
 .tecnicaDes {
-    margin-bottom: 15px;
+    padding: 14px 16px;
+    border: 1px solid rgba(156, 107, 204, 0.08);
+    background: #ece5f6;
+    color: #20192d;
+    text-align: left;
+    box-sizing: border-box;
+}
+
+.tecnica-reading-label {
+    display: block;
+    margin-bottom: 8px;
+    color: #715968;
+    font: 700 10px/1 "Cinzel", serif;
+    letter-spacing: 1.8px;
+    text-transform: uppercase;
+}
+
+.tecnica-description,
+.tecnica-effect-text,
+.tecnicaDes,
+.tecnicaEfect {
+    margin: 0;
+    color: #20192d;
+    font: 400 14px/1.82 "Source Serif 4", serif;
     text-align: justify;
 }
 
-.tecnicaCost {
-    text-align: center;
-	margin: 0px 0px 5px;
+.tecnica-effect-box-empty .tecnica-effect-text,
+.tecnica-data-muted {
+    color: #7e6a89;
 }
 
-.tecnicaEfect {
-    text-align: center;
-	margin: 5px 0px 5px;
-}
-
+.tecnicaId,
+.tecnicaType,
+.tecnicaSello,
+.tecnicaReq,
+.tecnicaLvl,
 .tecnicaReward {
-    grid-row: 6;
-    grid-column: 3;
-    text-align: right
+    grid-row: auto;
+    grid-column: auto;
+    text-align: left;
+}
+
+/* Reusable SG technique card */
+
+.sg-technique {
+    display: grid;
+    grid-template-columns: 240px minmax(0, 1fr);
+    gap: 16px;
+    align-items: start;
+}
+
+.sg-technique__rail,
+.sg-technique__main {
+    display: grid;
+    gap: 12px;
+}
+
+.sg-technique__badges {
+    display: grid;
+    gap: 8px;
+}
+
+.sg-technique__badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 8px;
+    width: 100%;
+    min-height: 34px;
+    padding: 7px 10px;
+    border: 1px solid rgba(192, 88, 42, 0.18);
+    background: rgba(79, 48, 31, 0.82);
+    color: #f2d8c8;
+    font: 700 10px/1.35 "Cinzel", serif;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+    box-sizing: border-box;
+}
+
+.sg-technique__badge--accent {
+    border-color: rgba(240, 193, 172, 0.28);
+    background: rgba(95, 55, 33, 0.9);
+    color: #ffe2cf;
+}
+
+.sg-technique__badge-icon {
+    width: 12px;
+    color: rgba(240, 193, 172, 0.86);
+    font-size: 10px;
+    text-align: center;
+    flex: 0 0 auto;
+}
+
+.sg-technique__stat {
+    padding: 16px;
+    border: 1px solid rgba(192, 88, 42, 0.18);
+    background:
+        linear-gradient(180deg, rgba(138, 82, 50, 0.22), rgba(88, 53, 34, 0.16));
+    box-shadow: inset 0 0 0 1px rgba(240, 193, 172, 0.06);
+}
+
+.sg-technique__stat-label,
+.sg-technique__section-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 10px;
+    color: #855f4b;
+    font: 700 10px/1 "Cinzel", serif;
+    letter-spacing: 1.8px;
+    text-transform: uppercase;
+}
+
+.sg-technique__stat-label {
+    color: #d7b4a0;
+}
+
+.sg-technique__label-icon {
+    width: 12px;
+    color: #d7743d;
+    font-size: 10px;
+    text-align: center;
+    flex: 0 0 auto;
+}
+
+.sg-technique__stat-value {
+    color: #f5e5d8;
+    font: 700 18px/1.45 "Source Serif 4", serif;
+}
+
+.sg-technique__stat::after {
+    content: "";
+    display: block;
+    width: 42px;
+    height: 1px;
+    margin-top: 14px;
+    background: rgba(240, 193, 172, 0.28);
+}
+
+.sg-technique__section {
+    padding: 15px 16px;
+    border: 1px solid rgba(192, 88, 42, 0.12);
+    background: rgba(246, 239, 233, 0.97);
+    color: #2b211d;
+}
+
+.sg-technique__text {
+    margin: 0;
+    color: #2b211d;
+    font: 400 14px/1.82 "Source Serif 4", serif;
+    text-align: justify;
+}
+
+.sg-technique__text--muted {
+    color: #7c6b61;
+}
+
+@media (max-width: 720px) {
+  .sg-technique {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 720px) {
+  .tecnica-card {
+    padding: 12px;
+  }
+
+  .tecnica-layout {
+    grid-template-columns: 1fr;
+  }
 }
 
 /* Contenedor Padre de Post */
