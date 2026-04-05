@@ -513,101 +513,54 @@ $g_ultimos_post_rol = '';
 $g_ultimos_post_off = '';
 $ultimos_post_count = 0;
 
+function sg_build_recent_post_card($thread)
+{
+	$up_titulo = htmlspecialchars_uni($thread['subject']);
+	$up_tid = (int)$thread['tid'];
+	$up_uid = (int)$thread['lastposteruid'];
+	$up_fid = (int)$thread['fid'];
+	$up_username = htmlspecialchars_uni($thread['lastposter']);
+	$up_username_display = str_replace("{username}", $up_username, $thread['namestyle']);
+	$up_forum_name = htmlspecialchars_uni($thread['name']);
+	$up_lastpost = (int)$thread['lastpost'];
+	$up_thread_url = "/showthread.php?tid={$up_tid}&action=lastpost";
+	$up_user_profile = "/member.php?action=profile&uid={$up_uid}";
+	$up_forum = "/forumdisplay.php?fid={$up_fid}";
+	$up_fecha = date('d/m', $up_lastpost);
+	$up_hora = date('H:i', $up_lastpost);
+
+	return "
+		<article class='sg-index-recent-entry'>
+			<div class='sg-index-recent-entry__spiral' aria-hidden='true'></div>
+			<div class='sg-index-recent-entry__body'>
+				<a class='sg-index-recent-entry__thread' href='{$up_thread_url}'>{$up_titulo}</a>
+				<div class='sg-index-recent-entry__meta'>
+					<span class='sg-index-recent-entry__date'>{$up_fecha} · {$up_hora}</span>
+					<span class='sg-index-recent-entry__separator'>/</span>
+					<span class='sg-index-recent-entry__author'>por <a href='{$up_user_profile}'>{$up_username_display}</a></span>
+				</div>
+				<div class='sg-index-recent-entry__forum'>
+					<span class='sg-index-recent-entry__forum-label'>En</span>
+					<a href='{$up_forum}'>{$up_forum_name}</a>
+				</div>
+			</div>
+		</article>";
+}
+
 $g_ultimos_post_query = $db->query(" SELECT th.tid, th.fid, th.subject, th.prefix, th.username, th.lastpost, th.lastposter, th.lastposteruid, th.uid, mybb_sg_forums.name, mybb_sg_usergroups.namestyle as namestyle FROM `mybb_sg_threads` AS th INNER JOIN mybb_sg_forums ON th.fid=mybb_sg_forums.fid INNER JOIN mybb_sg_users ON th.lastposteruid=mybb_sg_users.uid INNER JOIN mybb_sg_usergroups ON mybb_sg_users.usergroup=mybb_sg_usergroups.gid WHERE mybb_sg_forums.pid != 282 AND mybb_sg_forums.fid != 282 AND th.subject NOT LIKE '%+18%' AND th.visible > 0 ORDER BY th.lastpost DESC LIMIT 20; ");
 $g_ultimos_post_query_rol = $db->query(" SELECT th.tid, th.fid, th.subject, th.prefix, th.username, th.lastpost, th.lastposter, th.lastposteruid, th.uid, mybb_sg_forums.name, mybb_sg_usergroups.namestyle as namestyle FROM `mybb_sg_threads` AS th INNER JOIN mybb_sg_forums ON th.fid=mybb_sg_forums.fid INNER JOIN mybb_sg_users ON th.lastposteruid=mybb_sg_users.uid INNER JOIN mybb_sg_usergroups ON mybb_sg_users.usergroup=mybb_sg_usergroups.gid WHERE  mybb_sg_forums.pid != 282 AND mybb_sg_forums.fid != 282 AND mybb_sg_forums.fid = 37 OR mybb_sg_forums.parentlist LIKE '%37,%' AND th.subject NOT LIKE '%+18%' AND th.visible > 0  ORDER BY th.lastpost DESC LIMIT 20; ");
 $g_ultimos_post_query_off = $db->query(" SELECT th.tid, th.fid, th.subject, th.prefix, th.username, th.lastpost, th.lastposter, th.lastposteruid, th.uid, mybb_sg_forums.name, mybb_sg_usergroups.namestyle as namestyle FROM `mybb_sg_threads` AS th INNER JOIN mybb_sg_forums ON th.fid=mybb_sg_forums.fid INNER JOIN mybb_sg_users ON th.lastposteruid=mybb_sg_users.uid INNER JOIN mybb_sg_usergroups ON mybb_sg_users.usergroup=mybb_sg_usergroups.gid WHERE mybb_sg_forums.pid != 282 AND mybb_sg_forums.fid != 282 AND mybb_sg_forums.fid != 37 AND mybb_sg_forums.parentlist NOT LIKE '%37,%' AND th.subject NOT LIKE '%+18%' AND th.visible > 0 ORDER BY th.lastpost DESC LIMIT 20; ");
 
 while ($q = $db->fetch_array($g_ultimos_post_query)) { 
-
-	$up_titulo = $q['subject'];
-	$up_tid = $q['tid'];
-	$up_uid = $q['lastposteruid'];
-	$up_fid = $q['fid'];
-	$up_username = $q['lastposter'];
-	$up_username_display = str_replace("{username}",$up_username,$q['namestyle']);
-
-	$up_forum_name = $q['name'];
-	$up_lastpost = $q['lastpost'];
-
-	$up_thread_url = "/showthread.php?tid=$up_tid&action=lastpost";
-	$up_user_profile = "/member.php?action=profile&uid=$up_uid";
-	$up_forum = "/forumdisplay.php?fid=$up_fid";
-	$timestamp = "1696037165";
-
-	$up_fecha = date('d/m ', $up_lastpost);
-	$up_hora = date('H:i ', $up_lastpost);
-	
-	$ultimos_post_count = $ultimos_post_count + 1;
-	$up_bg_color = $ultimos_post_count % 2 ? '#0e1a28' : '#111d2c';
-
-	$g_ultimos_post .= "
-		<div class='ultimos_post_section' style=' font-family: interRegular; font-size: 11px; color: #bebebe; padding: 7px 24px; background-color: $up_bg_color; '>
-			<a href='$up_thread_url'><span><strong>$up_titulo</strong></span></a>
-			$up_fecha publicado a las $up_hora por <a href='$up_user_profile'><span>$up_username_display</span></a> En... 
-			<a href='$up_forum'><span><strong>$up_forum_name</strong></span></a>.
-		</div>";
+	$g_ultimos_post .= sg_build_recent_post_card($q);
 }
 
 while ($q = $db->fetch_array($g_ultimos_post_query_rol)) { 
-
-	$up_titulo = $q['subject'];
-	$up_tid = $q['tid'];
-	$up_uid = $q['lastposteruid'];
-	$up_fid = $q['fid'];
-	$up_username = $q['lastposter'];
-	$up_username_display = str_replace("{username}",$up_username,$q['namestyle']);
-
-	$up_forum_name = $q['name'];
-	$up_lastpost = $q['lastpost'];
-
-	$up_thread_url = "/showthread.php?tid=$up_tid&action=lastpost";
-	$up_user_profile = "/member.php?action=profile&uid=$up_uid";
-	$up_forum = "/forumdisplay.php?fid=$up_fid";
-	$timestamp = "1696037165";
-
-	$up_fecha = date('d/m ', $up_lastpost);
-	$up_hora = date('H:i ', $up_lastpost);
-	
-	$ultimos_post_count = $ultimos_post_count + 1;
-	$up_bg_color = $ultimos_post_count % 2 ? '#0e1a28' : '#111d2c';
-
-	$g_ultimos_post_rol .= "
-		<div class='ultimos_post_section' style=' font-family: interRegular; font-size: 11px; color: #bebebe; padding: 7px 24px; background-color: $up_bg_color; '>
-			<a href='$up_thread_url'><span><strong>$up_titulo</strong></span></a>
-			$up_fecha publicado a las $up_hora por <a href='$up_user_profile'><span>$up_username_display</span></a> En... 
-			<a href='$up_forum'><span><strong>$up_forum_name</strong></span></a>.
-		</div>";
+	$g_ultimos_post_rol .= sg_build_recent_post_card($q);
 }
 
 while ($q = $db->fetch_array($g_ultimos_post_query_off)) { 
-
-	$up_titulo = $q['subject'];
-	$up_tid = $q['tid'];
-	$up_uid = $q['lastposteruid'];
-	$up_fid = $q['fid'];
-	$up_username = $q['lastposter'];
-	$up_username_display = str_replace("{username}",$up_username,$q['namestyle']);
-
-	$up_forum_name = $q['name'];
-	$up_lastpost = $q['lastpost'];
-
-	$up_thread_url = "/showthread.php?tid=$up_tid&action=lastpost";
-	$up_user_profile = "/member.php?action=profile&uid=$up_uid";
-	$up_forum = "/forumdisplay.php?fid=$up_fid";
-	$timestamp = "1696037165";
-
-	$up_fecha = date('d/m ', $up_lastpost);
-	$up_hora = date('H:i ', $up_lastpost);
-	
-	$ultimos_post_count = $ultimos_post_count + 1;
-	$up_bg_color = $ultimos_post_count % 2 ? '#0e1a28' : '#111d2c';
-
-	$g_ultimos_post_off .= "
-		<div class='ultimos_post_section' style=' font-family: interRegular; font-size: 11px; color: #bebebe; padding: 7px 24px; background-color: $up_bg_color; '>
-			<a href='$up_thread_url'><span><strong>$up_titulo</strong></span></a>
-			$up_fecha publicado a las $up_hora por <a href='$up_user_profile'><span>$up_username_display</span></a> En... 
-			<a href='$up_forum'><span><strong>$up_forum_name</strong></span></a>.
-		</div>";
+	$g_ultimos_post_off .= sg_build_recent_post_card($q);
 }
 
 $g_uid = $mybb->user['uid'];
@@ -1623,4 +1576,3 @@ if(!empty($mybb->cookies['collapsed']))
 $plugins->run_hooks('global_end');
 
 $globaltime = $maintimer->getTime();
-
