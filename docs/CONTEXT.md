@@ -14,6 +14,11 @@ For database orientation:
 - `docs/DATABASE.md` is the practical schema summary for agents and new contributors.
 - `docs/shinobi9_mybb.sql` is the underlying dump/source used to derive that summary.
 
+Template note:
+
+- `templates/html/` and `templates/css/` now contain a much larger and more important set of reference files than before.
+- They include not only SG pages, but also wrapper/core-facing references and many staff/admin-facing templates.
+
 ## How The Repo Is Actually Organized
 
 The practical structure is:
@@ -26,6 +31,10 @@ The practical structure is:
   Shared helper functions used across custom pages.
 - `templates/`
   HTML/CSS/JS reference copies for templates and styling, not necessarily the active runtime source.
+- `templates/html/`
+  Now contains a broad set of reference templates, including `header.html`, `footer.html`, `headerinclude.html`, `index.html`, `redirect.html`, many `sg_*` templates, and many `staff_*` templates.
+- `templates/css/`
+  Now contains a broader set of important stylesheet references such as `global.css`, `sg_global.css`, `showthread.css`, `ficha.css`, `train_missions.css`, `modcp.css`, `usercp.css`, and `subforum_index.css`.
 - `inc/`
   MyBB internals plus custom plugin and core-level changes.
 - `admin/`
@@ -137,6 +146,8 @@ Look in:
 - `inc/functions_post.php`
 - `inc/plugins/hidetag.php`
 - `inc/plugins/tecnicatag.php`
+- `templates/html/`
+- `templates/css/`
 
 ### Layout, templates, or styles
 
@@ -147,6 +158,8 @@ Look in:
 - `templates/js/`
 - `docs/STYLE.md`
 - `tests/`
+
+Treat `templates/html/` and `templates/css/` as major reference areas, not minor leftovers.
 
 ## How `sg/`, Templates, MyBB Core, And The Database Fit Together
 
@@ -164,6 +177,7 @@ That means:
 - `sg/` contains most custom domain logic.
 - MyBB core still provides the bootstrap, globals, session, templating, and forum runtime.
 - `templates/` contains reference files, but many live templates are stored in MyBB's database.
+- `templates/html/` and `templates/css/` now cover a larger part of the forum surface area, including SG pages, staff views, and wrapper-level references.
 - some active behavior is implemented in modified core files and plugins, not just custom pages.
 - `docs/DATABASE.md` should be treated as the fast schema map, while `docs/shinobi9_mybb.sql` remains the raw schema source.
 
@@ -177,6 +191,7 @@ Do not assume filesystem template files are the runtime source of truth.
 - Custom forum mechanics are table-driven through `mybb_sg_` and `mybb_sg_sg_` tables.
 - Staff tooling is built directly into the same application under `sg/admin/`.
 - Reference templates are often edited in files, then copied manually into MyBB-managed templates.
+- The reference template layer has become more complete over time, especially under `templates/html/` and `templates/css/`.
 - Schema relationships are often enforced by application convention rather than explicit foreign keys.
 
 ## Common Custom Data Areas
@@ -200,6 +215,7 @@ There are also standard MyBB tables in use with the project's prefix, such as `m
 ## Frequent Editing Risks
 
 - Editing `templates/` and assuming production will update automatically.
+- Ignoring `templates/html/` or `templates/css/` because they look like secondary backups when they now contain many important references.
 - Changing only `sg/` when part of the behavior actually lives in a plugin or core file.
 - Treating `inc/functions_post.php` as stock MyBB code.
 - Changing SQL without understanding how fields are used in templates.
@@ -211,6 +227,8 @@ There are also standard MyBB tables in use with the project's prefix, such as `m
 
 - `sg/` is the main custom backend, but not the whole custom system.
 - `templates/` is a reference/editing layer, not guaranteed runtime truth.
+- `templates/html/` is now a major reference area for SG, wrapper, and staff templates.
+- `templates/css/` is now a major reference area for forum styling and feature-specific UI behavior.
 - MyBB database templates matter here.
 - Core files contain custom patches.
 - `inc/functions_post.php` is a high-value file for many forum UI behaviors.
@@ -226,6 +244,7 @@ There are also standard MyBB tables in use with the project's prefix, such as `m
 - Read `docs/DATABASE.md` before making assumptions about custom tables.
 - Fall back to `docs/shinobi9_mybb.sql` if column names, defaults, or table shape need confirmation.
 - Check whether the behavior spans PHP, plugin hooks, templates, and CSS.
+- Check `templates/html/` and `templates/css/` early, because they now contain many important reference files for real features.
 - Preserve existing procedural style unless there is a strong reason not to.
 - Do not assume modern tooling, CI, or a reliable local setup exists.
 - Do not assume template files and DB templates are synchronized.
@@ -239,5 +258,5 @@ If you need to orient quickly:
 - Start in `sg/` for custom feature logic.
 - Check `inc/functions_post.php` for post/thread rendering behavior.
 - Check `inc/plugins/` for parser, tag, hide, or hook-based behavior.
-- Check `templates/` for reference markup/styles.
+- Check `templates/html/` and `templates/css/` for reference markup/styles early.
 - Assume final rendering may still depend on MyBB database templates.

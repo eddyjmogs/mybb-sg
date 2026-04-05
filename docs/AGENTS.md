@@ -10,6 +10,13 @@ This repository contains a MyBB 1.8 forum codebase with a significant custom app
 - template references in `templates/`
 - database-stored MyBB templates and styles
 
+The `templates/html/` and `templates/css/` folders have grown in scope and now contain many important reference files, including:
+
+- global wrapper templates such as `header.html`, `headerinclude.html`, `footer.html`, `index.html`, `redirect.html`, and `codebuttons.html`
+- many SG-facing templates such as `sg_ficha.html`, `sg_misiones.html`, `sg_entrenamientos.html`, `sg_objetos.html`, `sg_tienda.html`, `sg_tecnicas*.html`, and `sg_censo.html`
+- many staff/admin templates such as `staff_fichas_en_cola.html`, `staff_modificar_objetos.html`, `staff_modificar_tecnicas.html`, `staff_peticiones_admin.html`, and `staff_npcs_*`
+- stylesheet references such as `global.css`, `sg_global.css`, `showthread.css`, `ficha.css`, `train_missions.css`, `subforum_index.css`, `usercp.css`, `modcp.css`, and `mapaMundo.css`
+
 Treat this as a hybrid MyBB + custom legacy application, not as a cleanly separated plugin project.
 
 Database reference:
@@ -87,7 +94,7 @@ Check:
 - `inc/functions_post.php`
 - `inc/plugins/hidetag.php`
 - `inc/plugins/tecnicatag.php`
-- template references under `templates/`
+- template references under `templates/html/` and `templates/css/`
 
 ### Staff/admin workflows
 
@@ -95,6 +102,7 @@ Check:
 
 - `sg/admin/`
 - `admin/`
+- `templates/html/staff_*.html`
 - any related audit/log table usage
 
 ### Styling or layout
@@ -107,13 +115,18 @@ Check:
 - `docs/STYLE.md`
 - `tests/`
 
+Assume these folders now contain many high-value reference files, not just a handful of backups.
+
 ## Rules For Template Changes
 
 - `templates/` is a reference layer, not necessarily the active runtime source.
 - Do not assume editing a file under `templates/` will change production output immediately.
 - MyBB stores many templates in the database, so some changes must still be copied manually into MyBB's template manager or corresponding DB-managed template.
+- Even so, treat `templates/html/` and `templates/css/` as important working references because they now cover a much larger portion of the forum UI than before.
 - Before editing a template reference, identify the PHP path that calls `$templates->get(...)`.
 - If a change affects markup, check the related CSS and JS references too.
+- If the feature is SG-specific or staff-facing, check whether there is already a matching `sg_*` or `staff_*` file under `templates/html/` before assuming the markup only exists in the DB.
+- If the feature is layout-heavy, check `templates/css/` before assuming the styling lives only in database-managed theme records.
 - If you change anything under `templates/`, explicitly state whether the change still requires manual copy/paste into MyBB.
 - Do not move logic between PHP and templates unless you understand the DB template dependency and the active render path.
 
@@ -147,6 +160,8 @@ Check:
 - Do not assume all custom code lives in `sg/`.
 - Do not assume `templates/` is the active source of truth at runtime.
 - Do not assume there is automatic synchronization between `templates/` files and MyBB database templates.
+- Do not assume `templates/html/` only contains a few SG examples; it now contains many important reference templates, including wrapper and staff/admin views.
+- Do not assume `templates/css/` is just incidental styling; it now contains many core visual references used to understand forum behavior.
 - Do not assume there is a modern build pipeline, test runner, or CI workflow.
 - Do not assume the schema is fully documented.
 - Do not assume `docs/DATABASE.md` replaces checking the real SQL dump and nearby PHP usage.
@@ -183,6 +198,8 @@ When reporting work back, include:
 - Search for `$templates->get("...")` to find render paths.
 - Search `docs/DATABASE.md` and then `docs/shinobi9_mybb.sql` before changing custom-table logic.
 - Search for `mybb_sg_` and `mybb_sg_sg_` table references before changing data logic.
+- Search `templates/html/` for `sg_*`, `staff_*`, and wrapper template names before assuming the only copy lives in MyBB's database.
+- Search `templates/css/` for feature-specific styles before assuming the visual change belongs in a DB-managed stylesheet.
 - Search `inc/functions_post.php` whenever the issue touches posts, postbits, likes, or thread-level character behavior.
 - Search `inc/plugins/` whenever the issue looks like custom MyCode, parser, hide, or posting hook behavior.
 
@@ -192,6 +209,7 @@ When reporting work back, include:
 - Shared helper file: `sg/functions/sg_functions.php`
 - Staff tooling: `sg/admin/`
 - Template references: `templates/html/`, `templates/css/`, `templates/js/`
+  These folders now include a broad set of SG, staff, wrapper, and styling references and should be checked early.
 - Visual documentation: `docs/STYLE.md`
 - Database working reference: `docs/DATABASE.md`
 - Raw schema source: `docs/shinobi9_mybb.sql`
