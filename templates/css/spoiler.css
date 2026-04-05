@@ -1,0 +1,47 @@
+/* Attached to ficha.php, showthread.php, private.php, newreply.php, tecnicas_show.php, newthread.php, editpost.php, announcements.php, entrenamientos.php, tecnicas_show2.php and tecnicas_lista.php */
+
+.spoiler {        
+/*     background: #18212a; */
+    border: 1px solid #5d83a9;
+    margin-bottom: 5px;
+	box-shadow: 2px 2px 1px #08274f;
+}        
+        
+.spoiler_button {        
+    background-color: #1b549c;
+    display: flex;
+    justify-content: center;
+    text-transform: uppercase;
+    color: white;
+    font-family: 'Inter';
+    font-weight: bolder;
+    padding: 10px;
+    margin: auto auto;
+    cursor: pointer;
+    transition: all 0.5s ease-out;
+    letter-spacing: 1px;
+    text-shadow: 1px 1px 3px #001a3a;
+}      
+
+.spoiler_button:hover {
+	background-color: #095dc7; 
+}
+        
+.spoiler_title {        
+text-align: center        
+}        
+        
+.spoiler_content_title{        
+font-weight: bold;border-bottom:1px dashed #bab7b7        
+}        
+        
+.spoiler_content {        
+	border-radius: 5px 5px 0px 0px;        
+	border-top: 1px solid #052646;
+	justify-content: center;        
+	padding: 10px;        
+	margin: auto;        
+}        
+        
+        
+		
