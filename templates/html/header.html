@@ -1,7 +1,9 @@
     <script>
 (function() {
-  var t = localStorage.getItem('sg-theme') || 'dark';
-  if (t !== 'light') document.documentElement.setAttribute('data-theme', t);
+  // Dark is the CSS default (no attribute). Only apply light when explicitly saved.
+  if (localStorage.getItem('sg-theme') === 'light') {
+    document.documentElement.setAttribute('data-theme', 'light');
+  }
 })();
 
 function toggleSidebar() {
@@ -11,15 +13,16 @@ function toggleSidebar() {
 
 function toggleTheme() {
   var html = document.documentElement;
-  var next = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
-  if (next === 'light') {
-    html.removeAttribute('data-theme');
+  var isLight = html.getAttribute('data-theme') === 'light';
+  if (isLight) {
+    html.removeAttribute('data-theme'); // back to dark (CSS default)
+    localStorage.setItem('sg-theme', 'dark');
   } else {
-    html.setAttribute('data-theme', next);
+    html.setAttribute('data-theme', 'light');
+    localStorage.setItem('sg-theme', 'light');
   }
-  localStorage.setItem('sg-theme', next);
   var btn = document.getElementById('theme-toggle');
-  if (btn) btn.textContent = next === 'dark' ? '☀' : '☾';
+  if (btn) btn.textContent = isLight ? '☀' : '☾';
 }
     </script>
 <div id="container">
@@ -188,15 +191,15 @@ function toggleTheme() {
 		</div>
 	</if>
 	
-<div class="modal login-modal" id="quick_login" style="display: none;background-color: #111d2c;">
+<div class="modal login-modal" id="quick_login" style="display: none; background-color: var(--bg2);">
 	<form method="post" action="{$mybb->settings['bburl']}/member.php">
 		<input name="action" type="hidden" value="do_login" />
 		<input name="url" type="hidden" value="" />
 		<input name="quick_login" type="hidden" value="1" />
 		<input name="my_post_key" type="hidden" value="{$mybb->post_code}" />
-		<table style=" background-color: #111d2c; " width="100%" cellspacing="{$theme['borderwidth']}" cellpadding="{$theme['tablespace']}" border="0" class="tborder">
+		<table style="background-color: var(--bg2);" width="100%" cellspacing="{$theme['borderwidth']}" cellpadding="{$theme['tablespace']}" border="0" class="tborder">
 			<tr>
-				<td class="thead signin" colspan="3" style=" background-color: #111d2c; color: white !important; ">{$lang->login}</td>
+				<td class="thead signin" colspan="3" style="background-color: var(--plum); color: var(--lavender) !important;">{$lang->login}</td>
 			</tr>
 			{$loginform}
 		</table>
@@ -207,7 +210,7 @@ function toggleTheme() {
 	(function() {
 		var btn = document.getElementById('theme-toggle');
 		var saved = localStorage.getItem('sg-theme') || 'dark';
-		if (btn) btn.textContent = saved === 'dark' ? '☀' : '☾';
+		if (btn) btn.textContent = saved === 'light' ? '☾' : '☀';
 	})();
 </script>
 <div id="content">

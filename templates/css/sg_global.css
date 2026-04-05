@@ -37,6 +37,7 @@
    1. CSS VARIABLES
    ---------------------------------------------------------- */
 
+/* Group colors (theme-independent) */
 :root {
     --staff-group-color:      #346971;
     --konoha-group-color:     #4e7424;
@@ -48,6 +49,52 @@
     --nsa-group-color:        #b72626;
     --narradores-group-color: #4758bf;
     --npcs-group-color:       #615c5d;
+}
+
+/* Dark Mode — Nocturnal Plum (default) */
+:root {
+    --bg:       #0f0c18;
+    --bg2:      #130f1e;
+    --bg3:      #171224;
+    --bg4:      #1c162c;
+    --border:   rgba(156, 107, 204, 0.12);
+    --ink:      #e8dff8;
+    --plum:     #7b4ab8;
+    --plum2:    #9c6bcc;
+    --plum3:    #b890e0;
+    --plum4:    #d4b8f0;
+    --dim:      #4a3a6a;
+    --lilac:    #c4a0e0;
+    --lavender: #ede0fa;
+    --oxide:    #c0582a;
+    --oxide2:   #e07040;
+    --stone:    #8a7a9a;
+    --mist:     #5a4a6a;
+    --gold:     #c09840;
+    --fiber:    rgba(156, 107, 204, 0.04);
+}
+
+/* Light Mode — Cold Washi */
+[data-theme="light"] {
+    --bg:       #f4f2f8;
+    --bg2:      #ede9f4;
+    --bg3:      #e6e1f0;
+    --bg4:      #ddd8ea;
+    --border:   rgba(90, 46, 154, 0.14);
+    --ink:      #1e1428;
+    --plum:     #3d1f6e;
+    --plum2:    #5a2e9a;
+    --plum3:    #7b4ab8;
+    --plum4:    #9c6bcc;
+    --dim:      #9c6bcc;
+    --lilac:    #c4a0e0;
+    --lavender: #ede0fa;
+    --oxide:    #7a2a10;
+    --oxide2:   #a83a18;
+    --stone:    #6a587a;
+    --mist:     #a898b8;
+    --gold:     #8a6010;
+    --fiber:    rgba(140, 120, 180, 0.06);
 }
 
 
@@ -65,7 +112,7 @@
 }
 
 body {
-    background: #cbc6c6;
+    background: var(--bg);
     background-image: url('https://i.ibb.co/Gfx7f89p/naruto-wallpaper-1.jpg');
     background-attachment: fixed;
     background-size: cover;
@@ -73,11 +120,11 @@ body {
 }
 
 table {
-    color: #b6b6b6;
+    color: var(--stone);
 }
 
 #container {
-    color: #d6e9ff;
+    color: var(--ink);
 }
 
 
@@ -92,7 +139,7 @@ table {
 #logo {
     width: 1100px !important;
     height: auto;
-    background: #0e1a28 !important;
+    background: var(--bg2) !important;
     background-size: cover !important;
     margin: auto;
     padding: 0;
@@ -119,7 +166,7 @@ table {
 }
 
 .fondo-blanco {
-    background-color: #0e1a28;
+    background-color: var(--bg2);
     padding: 20px;
 }
 
@@ -133,7 +180,7 @@ table {
 }
 
 .menu-op {
-    background: #232323;
+    background: var(--bg3);
     height: 60px;
     font-family: Helvetica;
     font-size: 15px;
@@ -159,11 +206,11 @@ table {
 }
 
 .menu-op ul li:hover {
-    background-color: #2d82c9;
+    background-color: var(--plum2);
 }
 
 .menu-op ul li a {
-    color: #fff;
+    color: var(--lavender);
     text-decoration: none;
     padding: 5px 10px;
 }
@@ -181,11 +228,11 @@ table {
     position: absolute;
     margin-top: 4px;
     margin-left: -10px;
-    background: #232323;
+    background: var(--bg3);
+    border: 0.5px solid var(--border);
     border-radius: 1px;
     width: 195px;
     padding: 10px 2px;
-    box-shadow: 0px 20px 100px 0px rgba(0, 0, 0, 0.5);
 }
 
 
@@ -227,11 +274,15 @@ table {
 }
 
 .nav-item:hover {
-    background: rgba(90, 46, 154, 0.06);
+    background: rgba(123, 74, 184, 0.08);
 }
 
 .nav-item:hover a {
     color: var(--ink);
+}
+
+[data-theme="light"] .nav-item:hover {
+    background: rgba(90, 46, 154, 0.05);
 }
 
 .dropdown-content {
@@ -390,7 +441,7 @@ table {
 }
 
 .options a:hover {
-    background: rgba(90, 46, 154, 0.06);
+    background: rgba(123, 74, 184, 0.08);
     color: var(--ink);
 }
 
@@ -673,7 +724,8 @@ tr td.trow_shaded:last-child {
    ---------------------------------------------------------- */
 
 .thead {
-    background-color: #07607c;
+    background-color: var(--plum);
+    color: var(--lavender);
     border-top-left-radius: 2px;
     border-top-right-radius: 2px;
 }
@@ -687,22 +739,26 @@ tr td.trow_shaded:last-child {
 .thead_right { border-top-left-radius: 0; }
 
 .tcat {
-    background: #00516a;
+    background: var(--bg3);
+    color: var(--plum3);
+    border-bottom: 0.5px solid var(--border);
 }
 
 .trow1 {
-    background: #0e1a28;
-    border-bottom: 1px solid #7aa9b7;
+    background: var(--bg2);
+    border-bottom: 0.5px solid var(--border);
+    color: var(--ink);
 }
 
 .trow2 {
-    background: #111d2c;
-    border-bottom: 1px solid #7aa9b7;
+    background: var(--bg);
+    border-bottom: 0.5px solid var(--border);
+    color: var(--ink);
 }
 
 .trow_sep {
-    background: #7aa9b7;
-    color: white;
+    background: var(--plum2);
+    color: var(--lavender);
 }
 
 
@@ -711,7 +767,9 @@ tr td.trow_shaded:last-child {
    ---------------------------------------------------------- */
 
 input.textbox, select {
-    color: #252424;
+    color: var(--ink);
+    background: var(--bg3);
+    border-color: var(--border);
 }
 
 form #message {
@@ -752,8 +810,8 @@ a.button {
 }
 
 div.sceditor-dropdown .button {
-    color: white !important;
-    background: #07607c !important;
+    color: var(--lavender) !important;
+    background: var(--plum) !important;
 }
 
 .select2-search input {
@@ -771,26 +829,28 @@ div.sceditor-dropdown textarea {
    ---------------------------------------------------------- */
 
 .post_content, .post_controls, #posts_container, .tfoot {
-    background-color: #11161b;
+    background-color: var(--bg2);
 }
 
 .signature {
-    border-top: 1px solid #6492a0 !important;
+    border-top: 0.5px solid var(--border) !important;
 }
 
 .post_body, .post_date, .post_edit, .tfoot, .tfoot a {
-    color: #bebebe;
+    color: var(--stone);
     font-size: 15px;
 }
 
 blockquote {
-    border: 1px solid #6492a0;
-    background: #1c262f;
+    border: 0.5px solid var(--border);
+    background: var(--bg3);
+    color: var(--stone);
 }
 
 .codeblock {
-    border: 1px solid #6492a0;
-    background: #1c262f;
+    border: 0.5px solid var(--border);
+    background: var(--bg3);
+    color: var(--stone);
 }
 
 .mycode_list {
@@ -808,11 +868,11 @@ blockquote {
    ---------------------------------------------------------- */
 
 a:link, a:visited {
-    color: #518dd1;
+    color: var(--plum3);
 }
 
 a:hover, a:active {
-    color: #47cdff;
+    color: var(--plum2);
 }
 
 
@@ -834,7 +894,7 @@ a:hover, a:active {
 }
 
 #whosonline .thead.side {
-    background: #55306b;
+    background: var(--plum2);
 }
 
 .avatarep_online_row_nor {
@@ -861,28 +921,28 @@ a:hover, a:active {
 .ultimos-post-todo {
     width: 96px;
     height: 27px;
-    background-color: #00516a;
-    border-left: 1px solid #4e7482;
-    border-bottom: 1px solid #4e7482;
+    background-color: var(--bg3);
+    border-left: 0.5px solid var(--border);
+    border-bottom: 0.5px solid var(--border);
     box-sizing: border-box;
 }
 
 .ultimos-post-rol {
     width: 97px;
     height: 27px;
-    background-color: #00516a;
-    border-left: 1px solid #4e7482;
-    border-bottom: 1px solid #4e7482;
+    background-color: var(--bg3);
+    border-left: 0.5px solid var(--border);
+    border-bottom: 0.5px solid var(--border);
     box-sizing: border-box;
 }
 
 .ultimos-post-off {
     width: 99px;
     height: 27px;
-    background-color: #00516a;
-    border-right: 1px solid #4e7482;
-    border-bottom: 1px solid #4e7482;
-    border-left: 1px solid #4e7482;
+    background-color: var(--bg3);
+    border-right: 0.5px solid var(--border);
+    border-bottom: 0.5px solid var(--border);
+    border-left: 0.5px solid var(--border);
     box-sizing: border-box;
 }
 
@@ -903,11 +963,11 @@ a:hover, a:active {
 }
 
 .ultimos-post:hover {
-    background-color: #11618a;
+    background-color: rgba(123, 74, 184, 0.15);
 }
 
 .ultimos-active {
-    background-color: #1c78a7;
+    background-color: var(--plum);
 }
 
 .ultimos_post_section:hover {
@@ -953,15 +1013,16 @@ a:hover, a:active {
 .mpage a:link,
 .mpage a:visited,
 .mpage a:focus {
-    background: #fcfdfe;
+    background: var(--bg3);
     font-size: 11px;
-    border: 1px solid #ddd;
-    color: #78909C;
+    border: 0.5px solid var(--border);
+    color: var(--stone);
     padding: 0 4px;
 }
 
 .mpage a:hover {
-    border: 1px solid #aaa;
+    border: 0.5px solid var(--plum3);
+    color: var(--plum3);
 }
 
 .trow1 .mpage,
@@ -1091,15 +1152,15 @@ a:hover, a:active {
     padding: 5px 7px 5px 6px !important;
     margin-bottom: 3px !important;
     margin-left: 1px;
-    color: #fff;
+    color: var(--lavender) !important;
     text-align: center;
     border-radius: 2px !important;
     font-size: 12px !important;
     width: 100%;
     box-sizing: border-box;
     font-family: inherit;
-    background: #4fc3f7 !important;
-    border: 1px solid #29b6f6;
+    background: var(--plum2) !important;
+    border: 0.5px solid var(--plum3) !important;
 }
 
 
@@ -1114,12 +1175,12 @@ a:hover, a:active {
 
 .discord-button {
     font-size: 20px;
-    background-color: #103b6a;
+    background-color: var(--plum);
     transition: all 0.5s ease-out;
 }
 
 .discord-button:hover {
-    background-color: #1459a5;
+    background-color: var(--plum2);
 }
 
 .temporada_index {
@@ -1169,37 +1230,39 @@ a:hover, a:active {
     overflow: hidden;
     padding: 20px 23px 23px;
     border-bottom: 0 !important;
-    background: #fff;
-    border: 1px solid #ddd;
+    background: var(--bg2);
+    border: 0.5px solid var(--border);
+    color: var(--ink);
 }
 
 .profcontainer .left-sidebar .sidebar-container {
-    background: #fff;
+    background: var(--bg2);
     padding: 0;
     margin-bottom: 15px;
-    border: 1px solid #ddd;
+    border: 0.5px solid var(--border);
 }
 
 .profcontainer .left-sidebar .sidebar-container .sidebar-inner {
     padding: 12px 18px 12px 17px;
     overflow: hidden;
-    color: #777;
+    color: var(--stone);
     line-height: 1.65;
 }
 
 .resp .sidebar-container .sidebar-inner {
     padding: 10px 15px 10px 12px;
     overflow: hidden;
-    background: #fff;
+    background: var(--bg2);
     margin-bottom: 5px;
-    border: 1px solid rgb(229, 230, 231);
+    border: 0.5px solid var(--border);
+    color: var(--stone);
 }
 
 .thead.profile-side {
     padding: 0.8rem 1.1rem 0.7rem;
-    color: #555;
-    border-bottom: 1px solid #e5e5e5;
-    background: #fcfdfe;
+    color: var(--stone);
+    border-bottom: 0.5px solid var(--border);
+    background: var(--bg3);
 }
 
 .fw-fn {
@@ -1210,9 +1273,9 @@ a:hover, a:active {
 
 .tabs-wrap {
     margin-left: 290px;
-    border: 1px solid #ddd;
+    border: 0.5px solid var(--border);
     border-top: 0;
-    background: #fff;
+    background: var(--bg2);
 }
 
 ul.tabs {
@@ -1222,24 +1285,25 @@ ul.tabs {
     padding: 0;
     box-sizing: border-box;
     overflow: hidden;
-    background: rgb(245, 247, 249);
+    background: var(--bg3);
 }
 
 ul.tabs li {
     background: none;
-    color: #777;
+    color: var(--stone);
     float: left;
     padding: 15px 27px 15px 24px;
     cursor: pointer;
 }
 
 ul.tabs li:hover {
-    background: #f1f2f3;
+    background: rgba(123, 74, 184, 0.08);
+    color: var(--ink);
 }
 
 ul.tabs li.current {
-    background: #4fc3f7;
-    color: #fff;
+    background: var(--plum);
+    color: var(--lavender);
     float: left;
     font-weight: 600;
 }
@@ -1247,7 +1311,8 @@ ul.tabs li.current {
 .tab-content {
     display: none;
     padding: 25px;
-    background: #fff;
+    background: var(--bg2);
+    color: var(--stone);
 }
 
 .tab-content.current {
@@ -1269,7 +1334,7 @@ ul.tabs li.current {
 .ib-hs { display: none; }
 
 .profile-ctbox {
-    border-bottom: 1px solid rgb(247, 248, 249);
+    border-bottom: 0.5px solid var(--border);
     padding-bottom: 15px;
     margin-bottom: 15px;
 }
@@ -1291,13 +1356,13 @@ ul.tabs li.current {
 
 .box_profile {
     text-align: center;
-    color: #545454;
+    color: var(--stone);
     height: 26px !important;
     width: 26px !important;
     line-height: 26px;
     margin: 0 9px 0 -2px;
     border-radius: 1000px;
-    background: #f3f3f3;
+    background: var(--bg3);
 }
 
 .outer-postbit {
@@ -1328,8 +1393,8 @@ span.toggle-container {
 
 [class*="add_buddy_button"]         { margin-top: 13px !important; }
 [class*="add_buddy_button"]:hover,
-[class*="add_ignore_button"]:hover  { background: #29b6f6 !important; }
-[class*="report_user_button"]:hover { background: #29b6f6 !important; color: #fff !important; }
+[class*="add_ignore_button"]:hover  { background: var(--plum2) !important; }
+[class*="report_user_button"]:hover { background: var(--plum2) !important; color: var(--lavender) !important; }
 
 
 /* ----------------------------------------------------------
@@ -1347,12 +1412,14 @@ span.toggle-container {
 .lgn {
     padding: 13px !important;
     border: 0 !important;
-    border-left: 2px solid #ddd !important;
-    background: #f3f3f3 !important;
+    border-left: 2px solid var(--plum3) !important;
+    background: var(--bg3) !important;
+    color: var(--ink) !important;
 }
 
 .lgn:focus {
-    background: #ececec !important;
+    background: var(--bg) !important;
+    border-left-color: var(--plum2) !important;
 }
 
 .lgn-btn {
@@ -1374,11 +1441,12 @@ span.toggle-container {
     padding: 0 !important;
     height: 36px !important;
     line-height: 36px !important;
-    background: #27ae60 !important;
+    background: var(--plum) !important;
+    color: var(--lavender) !important;
 }
 
 .rgs-btn:hover {
-    background: #2ecc71 !important;
+    background: var(--plum2) !important;
 }
 
 .rmb-login {
@@ -1390,7 +1458,7 @@ span.toggle-container {
     position: relative;
     z-index: 5;
     float: right;
-    color: #888;
+    color: var(--mist);
     margin-right: 24px;
     margin-top: -21px;
 }
@@ -1415,7 +1483,7 @@ span.toggle-container {
 .ft-col-2 h3,
 .ft-col-3 h4 {
     font-size: 16px;
-    color: #666;
+    color: var(--stone);
     font-weight: 600;
     margin-bottom: 18px;
 }
@@ -1440,7 +1508,7 @@ span.toggle-container {
 .ft-head {
     font-weight: 600;
     font-size: 15px;
-    color: #777;
+    color: var(--stone);
     padding-bottom: 16px;
 }
 
@@ -1456,12 +1524,12 @@ span.toggle-container {
 }
 
 .ft-menu li a {
-    color: #999 !important;
+    color: var(--mist) !important;
     text-decoration: none;
 }
 
 .ft-menu li a:hover {
-    color: #555 !important;
+    color: var(--ink) !important;
     padding-left: 2px;
 }
 
@@ -1470,9 +1538,10 @@ span.toggle-container {
     position: relative;
     padding: 8px;
     font-family: inherit;
-    color: #999;
+    color: var(--stone);
     border-radius: 2px;
-    background: #e0e6ec;
+    background: var(--bg3);
+    border: 0.5px solid var(--border);
 }
 
 .ft-col-item-icon {
@@ -1484,12 +1553,12 @@ span.toggle-container {
     text-align: center;
     border-radius: 1000px;
     font-size: 18px;
-    background: #b0bec5;
+    background: var(--plum2);
 }
 
 .ft-col-item-icon i {
     line-height: 36px;
-    color: #eee;
+    color: var(--lavender);
 }
 
 .ft-col-item-title {
@@ -1566,4 +1635,29 @@ span.toggle-container {
     .fb-pt               { display: none; }
     ul.tabs li.current   { float: none; }
     ul.tabs li           { float: none; display: block; }
+}
+
+
+/* ----------------------------------------------------------
+   27. THEME TOGGLE BUTTON
+   ---------------------------------------------------------- */
+
+.theme-toggle-btn {
+    width: 28px;
+    height: 28px;
+    border: 0.5px solid var(--border);
+    background: var(--bg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: border-color 0.15s, background 0.15s;
+    color: var(--plum2);
+    font-size: 14px;
+}
+
+.theme-toggle-btn:hover {
+    border-color: var(--plum3);
+    background: var(--bg3);
+    color: var(--plum3);
 }
