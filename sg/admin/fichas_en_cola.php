@@ -20,6 +20,26 @@ $action = $mybb->get_input('action');
 $fid = $mybb->get_input('fid');
 $villa = $mybb->get_input('villa');
 
+function staff_escape($value) {
+    return htmlspecialchars_uni($value);
+}
+
+function villa_label($villa) {
+    $labels = array(
+        '1' => 'Konoha',
+        '3' => 'Kiri',
+        '4' => 'Iwa',
+        '5' => 'Kumo',
+        '7' => 'Sin Aldea'
+    );
+
+    if (isset($labels[$villa])) {
+        return $labels[$villa];
+    }
+
+    return 'Sin asignar';
+}
+
 $reload_js = "<script>window.location.href = window.location.pathname;</script>";
 
 if ($action == 'aprobar' && $fid && $villa) {
@@ -67,19 +87,27 @@ if (is_mod($uid) || is_staff($uid) || is_user($uid)) {
     ");
     while ($f = $db->fetch_array($query_fichas)) {
         $fid = $f['fid'];
-        $nombre = $f['nombre'];
+        $nombre = staff_escape($f['nombre']);
         $villa = $f['villa'];
+        $villa_nombre = staff_escape(villa_label($villa));
         $url = "/sg/admin/fichas_en_cola.php";
         $aprobar_a = "$url?action=aprobar&fid=$fid&villa=$villa";
         $borrar_a = "$url?action=borrar&fid=$fid";
-        $fichas_li .= "<li>";
-        $fichas_li .= "UID: <span><a href='/member.php?action=profile&uid=$fid' target='_blank'>$fid</a></span> ||| Cuenta: $nombre ||| ";
-        $fichas_li .= "<span><a href='/sg/ficha.php?action=profile&uid=$fid' target='_blank'>Link de la ficha</a></span> ||| ";
+        $fichas_li .= "<article class='queue-card'>";
+        $fichas_li .= "<div class='queue-head'><h3 class='queue-title'>Ficha de <span class='queue-uid'>{$nombre}</span></h3></div>";
+        $fichas_li .= "<div class='queue-grid'>";
+        $fichas_li .= "<div class='queue-meta'><strong>UID:</strong> <a href='/member.php?action=profile&uid=$fid' target='_blank' rel='noopener noreferrer'>$fid</a></div>";
+        $fichas_li .= "<div class='queue-meta'><strong>Villa:</strong> {$villa_nombre}</div>";
+        $fichas_li .= "<div class='queue-meta'><strong>Cuenta:</strong> {$nombre}</div>";
+        $fichas_li .= "<div class='queue-meta'><strong>Ficha:</strong> <a href='/sg/ficha.php?uid=$fid' target='_blank' rel='noopener noreferrer'>Abrir ficha</a></div>";
+        $fichas_li .= "</div>";
         if (is_mod($uid) || is_staff($uid)) {
-            $fichas_li .= "<span><a href='$aprobar_a' target='_blank'>Aprobar</a></span> ||| ";
-            $fichas_li .= "<span><a href='$borrar_a' target='_blank'>Borrar</a></span>";
+            $fichas_li .= "<div class='queue-actions'>";
+            $fichas_li .= "<a class='queue-action queue-action--primary' href='$aprobar_a'>Aprobar</a>";
+            $fichas_li .= "<a class='queue-action queue-action--danger' href='$borrar_a'>Borrar</a>";
+            $fichas_li .= "</div>";
         }
-        $fichas_li .= "</li>";
+        $fichas_li .= "</article>";
     }
     eval('$li_fichas = $fichas_li;');
     eval("\$page = \"".$templates->get("staff_fichas_en_cola")."\";");

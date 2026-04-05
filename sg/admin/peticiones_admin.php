@@ -19,6 +19,10 @@ $username = $mybb->user['username'];
 $accion = $mybb->get_input('accion');
 $peti_id = $mybb->get_input('peti_id');
 
+function staff_admin_escape($value) {
+    return htmlspecialchars_uni($value);
+}
+
 $reload_js = "<script>window.location.href = window.location.pathname;</script>";
 
 if ($accion == 'resolver' && $peti_id) {
@@ -51,30 +55,36 @@ if (is_mod($uid) || is_staff($uid) || is_user($uid)) {
         while ($q = $db->fetch_array($query_peticion)) {
             $pid = $q['id'];
             $u_uid = $q['uid'];
-            $categoria = $q['categoria'];
-            $resumen = $q['resumen'];
-            $descripcion =  nl2br($q['descripcion']);
-            $url = $q['url'];
-            $url = "<a href='$url' target='_blank'>$url</a>";
-            $nombre = $q['nombre'];
-            $nombre = "<a href='/sg/ficha.php?uid=$u_uid' target='_blank'>$nombre</a>";
-            $fecha = $q['tiempo'];
+            $categoria_actual = staff_admin_escape($q['categoria']);
+            $resumen = staff_admin_escape($q['resumen']);
+            $descripcion = nl2br(staff_admin_escape($q['descripcion']));
+            $url = trim($q['url']);
+            $url_html = "<span>Sin enlace</span>";
+            if ($url !== "") {
+                $url_segura = staff_admin_escape($url);
+                $url_html = "<a href='$url_segura' target='_blank' rel='noopener noreferrer'>$url_segura</a>";
+            }
+            $nombre_texto = staff_admin_escape($q['nombre']);
+            $nombre = "<a class='peti-user' href='/sg/ficha.php?uid=$u_uid' target='_blank' rel='noopener noreferrer'>$nombre_texto</a>";
+            $fecha = staff_admin_escape($q['tiempo']);
             
-            $peticiones_li .= "<li>";
-            $peticiones_li .= "[$nombre - $u_uid] <br> <strong>Categoría</strong>: $categoria <br> <strong>Resumen</strong>: $resumen <br> <strong>Descripción</strong>: $descripcion <br> <strong>URL</strong>: $url <br> <strong>Fecha</strong>: $fecha <br>";
+            $peticiones_li .= "<article class='peti-card'>";
+            $peticiones_li .= "<div class='peti-head'><h3 class='peti-title'>{$resumen}</h3></div>";
+            $peticiones_li .= "<p class='peti-meta'><strong>Usuario:</strong> {$nombre} <strong>UID:</strong> {$u_uid}<br><strong>Categoria:</strong> {$categoria_actual}<br><strong>Fecha:</strong> {$fecha}<br><strong>URL:</strong> {$url_html}</p>";
+            $peticiones_li .= "<p class='peti-description'>{$descripcion}</p>";
             
             if (is_mod($uid) || is_staff($uid)) {
                 $url_page = "/sg/admin/peticiones_admin.php";
                 $resolver_a = "$url_page?accion=resolver&peti_id=$pid";
-                $peticiones_li .= "<span><a href='$resolver_a' >Resolver</a></span>";
+                $peticiones_li .= "<div class='peti-actions'><a class='peti-action' href='$resolver_a'>Resolver</a></div>";
             }
-            // $peticiones_li .= "<span><a href='$borrar_a' target='_blank'>Borrar</a></span>";
-            $peticiones_li .= "</li><br>";
+            $peticiones_li .= "</article>";
         
         }
 
         if ($peticiones_li != "") {
-            return "<h5>$nombre_categoria</h5>" . $peticiones_li;
+            $nombre_categoria_seguro = staff_admin_escape($nombre_categoria);
+            return "<section class='peti-section'><div class='peti-section-head'><h2 class='peti-section-title'>{$nombre_categoria_seguro}</h2></div><div class='peti-section-body'>{$peticiones_li}</div></section>";
         } else {
             return "";
         }
