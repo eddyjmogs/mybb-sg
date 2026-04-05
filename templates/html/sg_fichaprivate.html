@@ -1,44 +1,69 @@
-<div class="privatezone">
-  <div class="greytitle"><span class="privtitle">Zona Privada</span></div>
-  <div class="tecscontainer">
-    <div class="greytitle"><span class="privtitle">• Técnicas •</span></div>
-    <div style="display: inline-block;">
-      <div id="tecDiv">
-        <div class="tecblock ninjutsu ninjutsu_general" id="ninblock" style="display: inline-block;"></div>
-        <div class="tecblock taijutsu taijutsu_general" id="taiblock" style="display: none;"></div>
-        <div class="tecblock genjutsu genjutsu_general" id="genblock" style="display: none;"></div>
+<section class="sg-profile-private">
+  <div class="sg-profile-panel sg-profile-panel--techniques">
+    <div class="sg-profile-panel__head">
+      <h2>Técnicas y Progreso</h2>
+      <span class="sg-profile-meta-pill">Sección pública</span>
+    </div>
+    <div class="sg-profile-panel__body sg-profile-private-stack">
+      <div class="sg-profile-private-grid">
+        <div class="sg-profile-private-item">
+          <span class="sg-profile-private-item__label">Slots restantes</span>
+          <span class="sg-profile-private-item__value">{$ficha['slots']}</span>
+        </div>
+        <div class="sg-profile-private-item">
+          <span class="sg-profile-private-item__label">Límite de nivel</span>
+          <span class="sg-profile-private-item__value">{$ficha['limite_nivel']}</span>
+        </div>
+        <div class="sg-profile-private-item">
+          <span class="sg-profile-private-item__label">Límite de clase</span>
+          <span class="sg-profile-private-item__value" id="sg-profile-class-limit">E</span>
+        </div>
       </div>
-      <div class="tecselector">
-        <input type="button" id="ninbutton" value="Ninjutsu" onclick="showBlock('ninblock')">
-        <input type="button" id="taibutton" value="Taijutsu" onclick="showBlock('taiblock')">
-        <input type="button" id="genbutton" value="Genjutsu" onclick="showBlock('genblock')">
+
+      <div class="sg-profile-panel sg-profile-panel--inner">
+        <div class="sg-profile-panel__head">
+          <h3>Técnicas Aprendidas</h3>
+        </div>
+        <div class="sg-profile-panel__body">
+          <div class="sg-profile-techniques-toolbar">
+            <div class="sg-profile-techniques-toolbar__meta">
+              <span class="sg-profile-techniques-toolbar__eyebrow">Biblioteca</span>
+              <strong id="sg-profile-technique-count">0 técnicas</strong>
+            </div>
+            <button type="button" id="sg-profile-filter-toggle" class="sg-profile-filter-toggle" onclick="sgFichaToggleTechniqueFilters()">
+              Filtro
+            </button>
+          </div>
+          <div id="sg-profile-technique-filters" class="sg-profile-technique-filters" aria-hidden="true">
+            <div class="sg-profile-technique-filters__grid">
+              <input type="text" id="sg-profile-technique-search" class="sg-profile-technique-search" placeholder="Buscar por nombre, ID, tipo o requisito" oninput="sgFichaApplyTechniqueFilters()">
+              <select id="sg-profile-technique-family" class="sg-profile-technique-select" onchange="sgFichaApplyTechniqueFilters()">
+                <option value="">Todas las familias</option>
+              </select>
+              <select id="sg-profile-technique-rank" class="sg-profile-technique-select" onchange="sgFichaApplyTechniqueFilters()">
+                <option value="">Todos los rangos</option>
+              </select>
+            </div>
+          </div>
+          <div id="sg-profile-techniques" class="sg-profile-techniques"></div>
+        </div>
       </div>
+
+      <if $sgFichaCanViewStaffNotes then>
+        <div class="sg-profile-panel sg-profile-panel--inner">
+          <div class="sg-profile-panel__head">
+            <h3>Anotaciones de Staff</h3>
+            <span class="sg-profile-meta-pill">Privado</span>
+          </div>
+          <div class="sg-profile-panel__body">
+            <div class="sg-profile-notes">
+              <textarea disabled>{$ficha['notas']}</textarea>
+            </div>
+          </div>
+        </div>
+      </if>
+
+      {$fichaprivate_script}
     </div>
   </div>
-  <div style=" background-color: #1a1a1a; font-size: 21px; color: white; padding-top: 15px; ">
-	<span>Anotaciones de Staff:</span><br>
-	<textarea required="" disabled="" style="text-align: left; border-radius: 3px; background-color: rgb(230, 219, 253); width: 400px; height: 140px;">{$ficha['notas']}</textarea>
-  </div>
-  <div style=" background-color: #1a1a1a; font-size: 21px; color: white; padding-top: 15px; ">Slots restantes: {$ficha['slots']}</div>
-  <div style=" background-color: #1a1a1a; font-size: 21px; color: white; padding-top: 15px; ">Limite de clase: <span id="limite_clase">{$ficha['limite_nivel']}</span></div>
-	<script>
-		let limiteClase = 'E';
-		if (limiteNivel == 8) {
-		  limiteClase = 'S+';
-		} else if (limiteNivel == 7) {
-		  limiteClase = 'S';
-		} else if (limiteNivel == 6) {
-		  limiteClase = 'A+';
-		} else if (sumaStats >= 320) {
-		  limiteClase = 'A';
-		} else if (sumaStats >= 240) {
-		  limiteClase = 'B';
-		} else if (sumaStats >= 160) {
-		  limiteClase = 'C';
-		} else if (sumaStats >= 80) {
-		  limiteClase = 'D';
-		}
-		document.getElementById('limite_clase').innerHTML = limiteClase;
-	</script>
-	{$fichaprivate_script}
-</div>
+</section>

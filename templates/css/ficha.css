@@ -1,1103 +1,1024 @@
 /* Attached to ficha.php */
 
-/** Aquí inician los estilos del contenido del foro **/
-#mainBackground {
-	background-color: #0E1A28;
-    padding: 10px;
-    height: auto;
-    box-sizing: border-box;
+:root {
+  --ficha-bg: #0f0c18;
+  --ficha-surface: rgba(21, 15, 31, 0.96);
+  --ficha-surface-2: rgba(28, 21, 41, 0.96);
+  --ficha-panel: rgba(18, 13, 27, 0.94);
+  --ficha-card: rgba(22, 16, 33, 0.92);
+  --ficha-card-soft: rgba(26, 20, 39, 0.76);
+  --ficha-border: rgba(255, 255, 255, 0.08);
+  --ficha-border-strong: rgba(255, 255, 255, 0.14);
+  --ficha-text: #f5efff;
+  --ficha-muted: #b9aec8;
+  --ficha-soft: #8f829d;
+  --ficha-accent: #b63d34;
+  --ficha-accent-strong: #d45144;
+  --ficha-accent-soft: rgba(182, 61, 52, 0.16);
+  --ficha-accent-glow: rgba(182, 61, 52, 0.24);
+  --ficha-paper: #f3ece7;
+  --ficha-paper-text: #2b221e;
+  --ficha-shadow: 0 28px 60px rgba(0, 0, 0, 0.3);
+  --ficha-shadow-soft: 0 18px 34px rgba(0, 0, 0, 0.2);
+  --ficha-fiber: rgba(255, 255, 255, 0.02);
 }
 
-#secondBackground {
-    padding: 10px;
-    background-color: #1A304C;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: auto;
+body {
+  background: var(--ficha-bg);
 }
 
-#thirdFichaBackground {
-    width: 1060px;
-    background-color: #0E1A28;
-    border: 1px solid #6492A0;
-    margin: auto;
-    height: auto;
+.sg-profile-page {
+  position: relative;
+  max-width: 1320px;
+  margin: 18px auto 34px;
+  padding: 0 14px;
+  color: var(--ficha-text);
+  font-family: "Source Serif 4", serif;
 }
 
-#fichaBox {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-evenly;
-    margin-top: 8px;
+.sg-profile-page::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background-image:
+    repeating-linear-gradient(18deg, transparent 0, transparent 30px, var(--ficha-fiber) 30px, var(--ficha-fiber) 31px),
+    repeating-linear-gradient(102deg, transparent 0, transparent 36px, var(--ficha-fiber) 36px, var(--ficha-fiber) 37px);
+  z-index: 0;
 }
 
-/** Estilos de contenedores de la ficha **/
-
-#seccionIzquierda {
-  width: 310px;
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
+.sg-profile-shell {
+  position: relative;
+  z-index: 1;
+  overflow: hidden;
+  border: 1px solid var(--ficha-border);
+  border-radius: 18px;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.02), transparent 14%),
+    var(--ficha-surface);
+  box-shadow: var(--ficha-shadow);
 }
 
-#seccionIzquierda span {
-  font-family: 'LemonMilkLight';
+.sg-profile-shell::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(circle at top left, var(--ficha-accent-soft), transparent 24%),
+    radial-gradient(circle at bottom right, rgba(255, 255, 255, 0.03), transparent 32%);
 }
 
-#seccionIzquierda p {
-  font-family: 'LemonMilkLight';
+.sg-dossier-hero {
+  position: relative;
+  min-height: 248px;
+  border-bottom: 1px solid var(--ficha-border);
+  background: var(--ficha-surface-2);
+  overflow: hidden;
 }
 
-/** Estilos generales **/
-
-.fichaTab {
-  display: flex;
-  flex-direction: row;
+.sg-dossier-hero__banner {
+  position: absolute;
+  inset: 0;
+  background-position: center;
+  background-size: cover;
+  filter: saturate(0.95) contrast(1.02);
 }
 
-.parteIzq {
-  height: 30px;
-  display: flex;
+.sg-dossier-hero__overlay {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(90deg, rgba(12, 10, 18, 0.9) 0%, rgba(12, 10, 18, 0.74) 28%, rgba(12, 10, 18, 0.32) 60%, rgba(12, 10, 18, 0.16) 100%),
+    linear-gradient(180deg, rgba(12, 10, 18, 0.18), rgba(12, 10, 18, 0.82));
+}
+
+.sg-dossier-hero__content {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: 164px minmax(0, 1fr) 200px;
+  gap: 16px;
+  align-items: end;
+  min-height: 248px;
+  padding: 18px;
+}
+
+.sg-dossier-hero__avatar {
+  width: 164px;
+  border: 1px solid var(--ficha-border-strong);
+  border-radius: 16px;
+  background: rgba(10, 8, 15, 0.68);
+  box-shadow: var(--ficha-shadow-soft);
+  overflow: hidden;
+}
+
+.sg-dossier-hero__avatar img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 2 / 3;
+  object-fit: cover;
+}
+
+.sg-profile-editable {
+  cursor: pointer;
+  transition: transform 0.18s ease, box-shadow 0.18s ease, filter 0.18s ease;
+}
+
+.sg-profile-editable:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 16px 30px rgba(0, 0, 0, 0.24);
+  filter: saturate(1.05);
+}
+
+.sg-dossier-hero__identity {
+  display: grid;
+  gap: 10px;
+  align-content: end;
+}
+
+.sg-dossier-hero__village {
+  display: inline-flex;
   align-items: center;
-}
-
-.parteDer {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-/* Estilos comunes para todas las partes izquierdas y derechas */
-
-.parteIzq span {
+  gap: 10px;
+  width: fit-content;
+  min-height: 32px;
+  padding: 0 12px;
+  border: 1px solid var(--ficha-border-strong);
+  border-radius: 999px;
+  background: rgba(15, 12, 24, 0.46);
+  color: var(--ficha-text);
+  font: 700 10px/1 "Cinzel", serif;
+  letter-spacing: 1.8px;
   text-transform: uppercase;
-  color: white;
-  font-family: 'Inter';
-	letter-spacing: 3px;
-	text-shadow: 0px 1px 1px #010101;
 }
 
-.parteIzq p {
+.sg-dossier-hero__village::before {
+  content: "";
+  width: 14px;
+  height: 1px;
+  background: var(--ficha-accent);
+}
+
+.sg-dossier-hero__name {
+  margin: 0;
+  font: 900 clamp(28px, 4vw, 44px)/0.96 "Cinzel", serif;
+  letter-spacing: 1px;
   text-transform: uppercase;
-  color: white;
-  font-family: 'Inter';
-  font-weight: 300;
-  letter-spacing: 3px;
+  text-shadow: 0 4px 18px rgba(0, 0, 0, 0.35);
+}
+
+.sg-dossier-hero__alias {
+  margin: 0;
+  color: var(--ficha-muted);
   font-size: 16px;
-  margin: auto;
-  text-shadow: 0px 1px 1px #010101;
+  line-height: 1.4;
+  font-style: italic;
 }
 
-.parteDer span {
-    text-transform: uppercase;
-    color: white;
-    font-weight: 300;
-    font-size: 18px;
+.sg-dossier-hero__summary {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
 }
 
-/** Estilos de tamaño de secciones de tabs **/
-
-.izquierdaPR,
-.izquierdaPE {
-  width: 260px;
- background-color: #4B4286;
+.sg-dossier-chip {
+  display: grid;
+  gap: 4px;
+  min-height: 66px;
+  padding: 10px 11px;
+  border: 1px solid var(--ficha-border);
+  border-radius: 14px;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.02), transparent 48%),
+    rgba(15, 12, 24, 0.42);
 }
 
-.derechaPR,
-.derechaPE {
-  width: 50px;
-background-color: #4B4286;
+.sg-dossier-chip__label,
+.sg-dossier-meta__label,
+.sg-profile-private-item__label,
+.sg-technique__stat-label,
+.sg-technique__section-label {
+  display: block;
+  color: var(--ficha-soft);
+  font: 700 8px/1.2 "Cinzel", serif;
+  letter-spacing: 1.55px;
+  text-transform: uppercase;
 }
 
-.izquierdaPR span,
-.izquierdaPE span {
-  margin-left: 10px;
-  letter-spacing: 2px !important;
-  font-size: 16px;
-  margin-left: 10px !important;
-  margin-top: 3px;
+.sg-dossier-chip__value {
+  color: var(--ficha-text);
+  font: 700 16px/1.25 "Source Serif 4", serif;
 }
 
-.izquierdaEdad,
-.izquierdaRango {
-  width: 35px;
-  background-color: #4B4286;
-  display: flex;
-  justify-content: center;
+.sg-dossier-hero__actions {
+  display: grid;
+  gap: 8px;
+  align-content: end;
 }
 
-.derechaEdad,
-.derechaRango {
-  width: 115px;
-  background-color: #3C356B;
-}
-
-.izquierdaAldea {
-  width: 35px;
-  background-color: #4B4286;
-  display: flex;
-  justify-content: center;
-}
-
-.derechaAldea {
-  width: 115px;
-  background-color: #3C356B;
-}
-
-.izquierdaFaccion {
-  width: 150px;
-  background-color: #262143;
-  display: flex;
-  justify-content: center;
+.sg-profile-action,
+.sg-profile-button {
+  display: inline-flex;
   align-items: center;
-}
-
-.izquierdaClan,
-.izquierdaClase {
-  width: 35px;
-  background-color: #4B4286;
-  display: flex;
   justify-content: center;
+  min-height: 40px;
+  padding: 0 14px;
+  border: 1px solid var(--ficha-border);
+  border-radius: 12px;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.03), transparent),
+    var(--ficha-card);
+  color: var(--ficha-text);
+  font: 700 9px/1 "Cinzel", serif;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  text-align: center;
+  cursor: pointer;
+  transition: transform 0.18s ease, border-color 0.18s ease, background 0.18s ease;
 }
 
-.derechaClan,
-.derechaClase {
-  width: 280px;
-  background-color: #3C356B;
+.sg-profile-action:hover,
+.sg-profile-button:hover {
+  transform: translateY(-1px);
+  border-color: var(--ficha-accent-glow);
+  color: var(--ficha-text);
+  text-decoration: none;
 }
 
-/** Estilos para textos de tabs con Kanji **/
-
-.izquierdaEdad span,
-.izquierdaRango span,
-.izquierdaClan span,
-.izquierdaAldea span {
-  font-size: 20px;
+.sg-dossier-grid,
+.sg-dossier-story {
+  position: relative;
+  z-index: 1;
+  padding: 14px;
 }
 
-/** Estilos de FilaTab **/
+.sg-dossier-grid {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  gap: 12px;
+}
 
-.filaTab {
+.sg-dossier-story {
+  display: grid;
+  gap: 12px;
+  padding-top: 0;
+}
+
+.sg-dossier-story-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.sg-dossier-card,
+.sg-profile-panel {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid var(--ficha-border);
+  border-radius: 16px;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.02), transparent 28%),
+    var(--ficha-panel);
+  box-shadow: var(--ficha-shadow-soft);
+}
+
+.sg-dossier-card--identity {
+  grid-column: span 4;
+}
+
+.sg-dossier-card--resources {
+  grid-column: span 3;
+}
+
+.sg-dossier-card--combat {
+  grid-column: span 5;
+}
+
+.sg-dossier-card--stats,
+.sg-dossier-card--full {
+  grid-column: 1 / -1;
+}
+
+.sg-dossier-card__head,
+.sg-profile-panel__head {
+  position: relative;
   display: flex;
-  flex-direction: row;
+  align-items: center;
   justify-content: space-between;
+  gap: 12px;
+  min-height: 46px;
+  padding: 0 14px;
+  border-bottom: 1px solid var(--ficha-border);
+  background: rgba(10, 8, 15, 0.34);
 }
 
-/** Avatar de Ficha **/
+.sg-dossier-card__head::before,
+.sg-profile-panel__head::before {
+  content: "";
+  width: 16px;
+  height: 1px;
+  background: var(--ficha-accent);
+  flex: 0 0 auto;
+}
 
-.avatarBox {
-  width: 310px;
-  height: auto;
-  background-color: #4B4286;
+.sg-dossier-card__head h2,
+.sg-profile-panel__head h2,
+.sg-profile-panel__head h3 {
+  margin: 0;
+  color: var(--ficha-text);
+  font: 700 11px/1 "Cinzel", serif;
+  letter-spacing: 1.8px;
+  text-transform: uppercase;
+}
+
+.sg-dossier-card__head h2,
+.sg-profile-panel__head h2,
+.sg-profile-panel__head h3 {
+  flex: 1 1 auto;
+}
+
+.sg-dossier-card__body,
+.sg-profile-panel__body {
+  position: relative;
+  z-index: 1;
+  padding: 13px;
+}
+
+.sg-dossier-meta-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.sg-dossier-meta,
+.sg-profile-private-item,
+.sg-dossier-stat,
+.sg-dossier-bar-card {
+  border: 1px solid var(--ficha-border);
+  border-radius: 14px;
+  background: var(--ficha-card);
+}
+
+.sg-dossier-meta,
+.sg-profile-private-item {
+  display: grid;
+  gap: 5px;
+  min-height: 74px;
+  padding: 10px 11px;
+}
+
+.sg-dossier-meta__value,
+.sg-profile-private-item__value {
+  color: var(--ficha-text);
+  font: 700 15px/1.35 "Source Serif 4", serif;
+}
+
+.sg-dossier-bars {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.sg-dossier-bar-card {
+  display: grid;
+  gap: 10px;
+  min-height: 96px;
+  padding: 11px;
+}
+
+.sg-dossier-bar-card__top {
   display: flex;
-  justify-content: center;
-  align-items: center;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
 }
 
-.avatarPic {
-  width: 300px;
-  height: auto;
-  background-color: black;
+.sg-dossier-bar-card__top strong {
+  color: var(--ficha-text);
+  font: 700 18px/1.1 "Source Serif 4", serif;
 }
 
-#seccionDerecha {
-  width: 700px;
+.sg-profile-bar {
+  position: relative;
+  height: 9px;
+  overflow: hidden;
+  border: 1px solid var(--ficha-border);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.sg-profile-bar::after {
+  content: "";
+  display: block;
+  height: 100%;
+  width: var(--fill, 50%);
+  border-radius: inherit;
+}
+
+.sg-profile-bar--life::after {
+  background: linear-gradient(90deg, #bb3636, #f16868);
+}
+
+.sg-profile-bar--chakra::after {
+  background: linear-gradient(90deg, #59c4ff, #8fdfff);
+}
+
+.sg-dossier-stat-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.sg-dossier-stat {
   display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 10px;
+  min-height: 56px;
+  padding: 10px 12px;
+}
+
+.sg-dossier-stat span {
+  color: var(--ficha-muted);
+  font-size: 13px;
+  line-height: 1.35;
+}
+
+.sg-dossier-stat strong {
+  color: var(--ficha-text);
+  font: 700 18px/1 "Source Serif 4", serif;
+}
+
+.sg-dossier-prose {
+  color: var(--ficha-muted);
+  font-size: 15px;
+  line-height: 1.78;
+  text-align: left;
+}
+
+.sg-dossier-prose p:first-child,
+.sg-dossier-prose__lead {
+  margin-top: 0;
+}
+
+.sg-dossier-prose p:last-child,
+.sg-dossier-prose__tail {
+  margin-bottom: 0;
+}
+
+.sg-dossier-origin {
+  padding: 12px 14px;
+  border: 1px solid var(--ficha-border);
+  border-radius: 14px;
+  background: rgba(15, 12, 24, 0.4);
+  color: var(--ficha-text);
+  font: 700 10px/1.45 "Cinzel", serif;
+  letter-spacing: 1.25px;
+  text-transform: uppercase;
+}
+
+.sg-profile-private {
+  position: relative;
+  z-index: 1;
+  padding: 0 14px 14px;
+}
+
+.sg-profile-private-stack {
+  display: grid;
   gap: 10px;
 }
 
-#bannerFicha {
-  width: 700px;
-  height: 100px;
-  position: relative;
-  border: 3px solid var(--grupo-sin-aldea);
-  box-sizing: border-box;
-  margin-bottom: -5px;
+.sg-profile-private-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
 }
 
-#gradient {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(to left, var(--grupo-sin-aldea) 0%, transparent 100%);
-  opacity: 0.8;
+.sg-profile-panel--techniques > .sg-profile-panel__body {
+  padding: 10px;
 }
 
-#bannerFichaImagen {
-  width: 700px;
-  height: 100px;
+.sg-profile-panel--inner > .sg-profile-panel__body {
+  padding: 10px;
 }
 
-/** Divisor de información de Personaje **/
-
-.divisorInformacion {
-width: 100%;
-    height: 50px;
-    background: white;
-    font-family: 'Inter';
-    font-size: 24px;
-    letter-spacing: 5px;
-    font-weight: 200;
-    color: white;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	font-family: 'LemonMilkLight';
+.sg-profile-panel--inner {
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.02), transparent 30%),
+    var(--ficha-card-soft);
+  box-shadow: none;
 }
 
-/** Estilos Tabs y variables de colores según ID de grupo**/
-
-.seccionesTab {
+.sg-profile-techniques-toolbar {
   display: flex;
+  align-items: center;
   justify-content: space-between;
-  width: 700px;
+  gap: 10px;
+  margin-bottom: 10px;
+  padding: 10px 12px;
+  border: 1px solid var(--ficha-border);
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.03);
 }
 
-.tab {
-  height: 45px;
-  font-family: "Inter", sans-serif;
-  font-size: 16px;
-  font-weight: 600;
+.sg-profile-techniques-toolbar__meta {
+  display: grid;
+  gap: 2px;
+}
+
+.sg-profile-techniques-toolbar__eyebrow {
+  color: var(--ficha-soft);
+  font: 700 8px/1 "Cinzel", serif;
+  letter-spacing: 1.5px;
   text-transform: uppercase;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+}
+
+.sg-profile-techniques-toolbar__meta strong {
+  color: var(--ficha-text);
+  font: 700 15px/1.2 "Source Serif 4", serif;
+}
+
+.sg-profile-filter-toggle {
+  min-height: 34px;
+  padding: 0 12px;
+  border: 1px solid var(--ficha-border);
+  border-radius: 999px;
+  background: var(--ficha-card);
+  color: var(--ficha-text);
+  font: 700 8px/1 "Cinzel", serif;
+  letter-spacing: 1.45px;
+  text-transform: uppercase;
   cursor: pointer;
+  transition: border-color 0.18s ease, background 0.18s ease;
+}
+
+.sg-profile-filter-toggle.is-active {
+  border-color: var(--ficha-accent-glow);
+  background: var(--ficha-accent-soft);
+}
+
+.sg-profile-technique-filters {
+  display: none;
+  margin-bottom: 10px;
+  padding: 10px;
+  border: 1px solid var(--ficha-border);
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.sg-profile-technique-filters.is-open {
+  display: block;
+}
+
+.sg-profile-technique-filters__grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.4fr) repeat(2, minmax(0, 0.8fr));
+  gap: 8px;
+}
+
+.sg-profile-technique-search,
+.sg-profile-technique-select {
+  width: 100%;
+  min-height: 38px;
+  padding: 0 12px;
+  border: 1px solid var(--ficha-border);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--ficha-text);
+  font: 400 13px/1 "Source Serif 4", serif;
   box-sizing: border-box;
-  /* Añadida propiedad box-sizing */
-  transition: background-color 0.3s ease;
-  /* Agregada transición para el cambio de color de fondo */
 }
 
-.tab.active-tab {
-  background-color: #AEAEAE;
-  /* Color del primer tab activo */
-  color: #FFFFFF;
-  /* Color del texto del primer tab activo */
-  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
-  /* Sombra del primer tab activo */
-  text-decoration: underline;
-  /* Texto subrayado del primer tab activo */
+.sg-profile-technique-search::placeholder {
+  color: var(--ficha-muted);
 }
 
-.tab.inactive-tab {
-  background-color: #D9D9D9;
-  /* Color de los tabs inactivos */
-  color: #FFFFFF;
-  /* Color del texto de los tabs inactivos */
-  box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.2);
-  /* Sombra de los tabs inactivos */
+.sg-profile-techniques {
+  display: grid;
+  gap: 8px;
 }
 
-.tab-text {
+.sg-profile-techniques-empty {
+  padding: 14px;
+  border: 1px solid var(--ficha-border);
+  border-radius: 14px;
+  background: var(--ficha-card);
+  color: var(--ficha-muted);
   text-align: center;
+  font-size: 13px;
+  line-height: 1.65;
 }
 
-
-/** Estilo de la caja de información de los tabs **/
-
-
-.content {
-  background-color: #5D5592;
-  /* Color de fondo del contenido */
-  width: 700px;
-  height: auto;
-}
-
-#content-info {
-  margin: 20px;
-  color: #FFFFFF;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-evenly;
-  height: auto;
-	gap: 30px;
-}
-
-#content-techniques {
-margin: 5px;
-    flex-direction: column;
-    display: flex;
-    justify-content: space-between;
-    gap: 5px;
-}
-
-/** Estilos de cajas contenedores de información de Historia, Apariencia, etc... **/
-
-.boxHistoria, .boxExtra, .boxFisico, .boxPersonalidad {
-  display: flex;
-}
-
-.boxHistoria {
-  position: relative;
-  background-color: #3C356B;
-  width: auto;
-  height: 300px;
-  color: #FFF;
-  transition: all 0.5s ease-out;
-}
-
-.boxHistoria:hover {
-	height: 500px;
-}
-
-.boxFisico:hover, .boxPersonalidad:hover {
-	height: 400px;
-}
-
-.boxExtra:hover {
-	height: 200px;
-}
-
-.boxFisico {
-  position: relative;
-  background-color: #3C356B;
-  width: auto;
-  height: 260px;
-  color: #FFF;
-  transition: all 0.5s ease-out;
-}
-
-.boxPersonalidad {
-  position: relative;
-  background-color: #3C356B;
-  width: auto;
-  height: 260px;
-  color: #FFF;
-  transition: all 0.5s ease-out;
-}
-
-.boxExtra {
-  position: relative;
-  background-color: #3C356B;
-  width: auto;
-  height: 150px;
-  color: #FFF;
-  transition: all 0.5s ease-out;
-}
-
-/** Botón de edición de información de personaje **/
-
-.boxInformationbtn {
-display: flex;
-justify-content: center;
-}
-
-.editInformationButton {
-	width: 70%;
-text-align: center;
-    padding: 10px;
-    font-family: 'Inter';
-    font-size: 16px;
-    background-color: #B60000;
-    border: 5px solid #A40000;
-	cursor: pointer;
-}
-
-.informationButtonInput {
-background: none;
-    font-size: 16px;
-    text-transform: uppercase;
-    font-family: 'Inter';
-    font-weight: bolder;
-    color: white;
-}
-
-/** Botón de asignar estadisticas **/
-
-.editstatsbutton {
-	box-sizing: border-box;
-    background: #B60000;
-    width: 123px;
-    border: 3px solid #A40000;
-    height: 30px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-	cursor: pointer;
-}
-
-.editstatsbutton input {
-background: none;
-    font-family: 'Inter';
-    text-transform: uppercase;
-    color: white;
-    font-weight: bold;
-}
-
-/** Estilos para titulos de secciones de ficha **/
-
-.titleH, .titleP {
-  position: absolute;
-  top: -20px;
-  left: 20px;
-  font-family: Inter;
-  font-size: 32px;
-  font-weight: 800;
-  font-style: italic;
-  text-transform: uppercase;
-  font-family: 'LemonMilkMedium';
-}
-
-.titleA {
-  position: absolute;
-  top: -20px;
-  right: 20px;
-  font-family: Inter;
-  font-size: 32px;
-  font-weight: 800;
-  font-style: italic;
-  text-transform: uppercase;
-	  font-family: 'LemonMilkMedium';
-}
-
-.titleE {
-    position: absolute;
-	left: 53%;
-    top: -20px;
-    font-family: Inter;
-    font-size: 32px;
-    font-weight: 800;
-    font-style: italic;
-    text-transform: uppercase;
-	  font-family: 'LemonMilkMedium';
-}
-
-
-/** Estilos para cajas de texto con scroll **/
-
-.boxTexto {
-  width: 90%;
-  height: 80%;
-  margin: auto;
-  display: flex;
-  flex-direction: column;
+.sg-profile-meta-pill {
+  display: inline-flex;
   align-items: center;
-  justify-content: center;
-  overflow: inherit;
-}
-
-.texto {
-  font-family: InterRegular, sans-serif;
-  font-size: 14px;
-  color: #FFFFFF;
-  font-weight: 100;
-  text-align: justify;
-  overflow: auto;
-  width: 100%;
-  padding-right: 15px; /* Agregado espacio para la barra de desplazamiento */
-  margin-top: 6px;
-}
-
-.texto::-webkit-scrollbar {
-  width: 6px;
-}
-
-.texto::-webkit-scrollbar-thumb {
-	background-color: #AEAEAE;
-  border-radius: 3px; /* Toque moderno: esquinas redondeadas */
-}
-
-.texto::-webkit-scrollbar-track {
-	background-color: #D9D9D9;
-  border-radius: 5px;
-}
-
-/** Estilos de la caja de PB **/
-
-#cajaPB {
-    width: 700px;
-    height: 35px;
-    font-family: 'Inter';
-    font-weight: 300;
-    text-transform: uppercase;
-    letter-spacing: 0.25em;
-    color: white;
-    margin-bottom: 20px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-	font-family: 'LemonMilkLight';
-	text-align: center;
-}
-
-/** Estilos de las tabs **/
-
-.cajaTabs {
-    height: 35px;
-    font-family: 'Inter';
-    font-weight: 300;
-    text-transform: uppercase;
-    letter-spacing: 0.25em;
-    color: white;
-    margin-bottom: 20px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-	font-family: 'LemonMilkLight';
-    width: 50%;
-    margin: -20px 0px;
-	cursor: pointer;
-	transition: all 0.3s;
-}
-
-/** Estilos de información de sección inferior de sección izquierda **/
-
-#userInfo {
-  position: absolute;
-  bottom: 20px;
-  right: 20px;
-  text-align: right;
-  color: white;
-}
-
-.userNombre {
-  font-size: 24px;
-  font-weight: bold;
-  font-family: 'LemonMilkLight';
+  gap: 8px;
+  min-height: 28px;
+  padding: 0 10px;
+  border: 1px solid var(--ficha-border);
+  border-radius: 999px;
+  background: rgba(15, 12, 24, 0.44);
+  color: var(--ficha-text);
+  font: 700 8px/1 "Cinzel", serif;
+  letter-spacing: 1.4px;
   text-transform: uppercase;
-  letter-spacing: 2px;
-	  text-shadow: 2px 2px 2px #010101;
+  white-space: nowrap;
 }
 
-.userApodo {
-  font-size: 20px;
-  font-weight: normal;
-  font-family: 'LemonMilkLight';
-  text-transform: uppercase;
-  letter-spacing: 2px;
-	  text-shadow: 2px 2px 2px #010101;
+.sg-profile-meta-pill::before {
+  content: "";
+  width: 8px;
+  height: 1px;
+  background: var(--ficha-accent);
 }
 
-/** Estilos para sección de técnicas en Ficha **/
-
-.privatezone {
-padding: 0px 15px 15px 15px;
-    box-sizing: border-box;
-    display: flex;
-    flex-direction: column;
-	gap: 10px;
+.sg-profile-notes {
+  overflow: hidden;
+  border-radius: 14px;
 }
 
-.divisortecnicas {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    height: 50px;
-    color: white;
-    font-family: 'Inter';
-    letter-spacing: 20px;
-    text-transform: uppercase;
-    font-weight: 200;
-    font-size: 32px;
-}
-
-.cajaTecnicas {
-	width: 100%;
-	height: auto;
-}
-
-/** Estilos de cajas de técnicas **/
-
-.tecscontainer {
-    background-color: #1a1a1a;
-    width: 992px;
-    padding-bottom: 10px;
-    margin-bottom: 0px;
-}
-
-.tecselector {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-		cursor: pointer;
-}
-
-.tecselectorBox {
-	display:flex;
-	flex-direction: row;
-}
-
-.tecselector input{
-    width: 175px;
-    height: 35px;
-    color: #FFF;
-    font-size: 16px;
-    font-family: 'Inter';
-    letter-spacing: 3px;
-    text-transform: uppercase;
-    font-weight: bold;
-	cursor: pointer;
-	border-top-right-radius: 0px !important;
-    border-bottom-right-radius: 0px !important;
-    border-top-left-radius: 15px !important;
-    border-bottom-left-radius: 15px !important;
-	font-family: InterRegular;
-}
-
-/**Estilos generales de Kanji **/
-
-.kanjiBox {
-width: 35px;
-height: 35px;
-display: flex;
-justify-content: center;
-	align-items: center;
-}
-
-.kanjiBox span {
-    font-family: 'Inter';
-    text-transform: uppercase;
-    font-weight: bold;
-    color: white;
-    font-size: 24px;
-}
-
-#ninKanji {
-background-color: #014C7D;
-}
-
-#taiKanji {
-background-color: #B63606;
-}
-
-#genKanji {
-background-color: #48224C;
-}
-
-
-#ninbutton, .ninjutsu { background-color: #004069 !important; transition: all 0.5s ease-out; }
-#ninbutton:hover { background-color: #067bc6 !important; }
-
-#taibutton, .taijutsu { background-color: #882804 !important; transition: all 0.5s ease-out; }
-#taibutton:hover { background-color: #E34307 !important; }
-
-#genbutton, .genjutsu { background-color: #361a39 !important; transition: all 0.5s ease-out; }
-#genbutton:hover { background-color: #a83ab4 !important; }
-
-#clanbutton, .clan { background-color: #022935 !important; transition: all 0.5s ease-out; }
-#clanbutton:hover { background-color: #177997 !important; }
-
-/* #ma1button {
-     background-color: #62162F !important;
-} */
-
-/* .maestria {
-      background-color: #67171f;
-} */
-
-/* #ma2button {
-background-color: #62162F !important;
-} */
-
-#unibutton, .unicas { background-color: #0A5455 !important; transition: all 0.5s ease-out; }
-#unibutton:hover { background-color: #16a6a8 !important; }
-
-#pasivasbutton, .pasivas { background-color: #138183 !important; transition: all 0.5s ease-out; }
-#pasivasbutton:hover { background-color: #1bbabd !important; }
-
-.Suiton { background-color: #639ec4 !important; transition: all 0.5s ease-out; }
-input.Suiton:hover { background-color: #7bcafd !important; }
-
-.Raiton { background-color: #d9bc21 !important; transition: all 0.5s ease-out; }
-input.Raiton:hover { background-color: #ffda16 !important; }
-
-.Doton { background-color: #a34439 !important; transition: all 0.5s ease-out; }
-input.Doton:hover { background-color: #c4685e !important; }
-
-.Katon { background-color: #b60000 !important; transition: all 0.5s ease-out; }
-input.Katon:hover { background-color: red !important; }
-
-.Fuuton { background-color: #42a576 !important; transition: all 0.5s ease-out; }
-input.Fuuton:hover { background-color: #22cf7d !important; }
-
-.maestria1 { background-color: #62162f !important; transition: all 0.5s ease-out; }
-input.maestria1:hover { background-color: #af2150 !important; }
-
-.maestria2 { background-color: #96305a !important; transition: all 0.5s ease-out; }
-input.maestria2:hover { background-color: #b30a41 !important; }
-
-.pasivaSlot { background-color: #1b770d !important; transition: all 0.5s ease-out; }
-input.pasivaSlot:hover { background-color: #2ab914 !important; }
-
-.kosei1 { background-color: #1b770d !important; transition: all 0.5s ease-out; }
-input.kosei1:hover { background-color: #2ab914 !important; }
-
-.kosei2 { background-color: #934f0f !important; transition: all 0.5s ease-out; }
-input.kosei2:hover { background-color: #b96314 !important; }
-
-.invo1 { background-color: #632c6a !important; transition: all 0.5s ease-out; }
-input.invo1:hover { background-color: #a243ae !important; }
-
-.invo2 { background-color: #632c6a !important; transition: all 0.5s ease-out; }
-input.invo2:hover { background-color: #a243ae !important; }
-
-/** Estilos de caja de técnicas y fondos **/
-
-.tecblock {
-width: 100%;
-    height: 700px;
-    overflow-y: scroll;
-}
-
-.tecblock::-webkit-scrollbar-track {
-	background-color: #bcc3d1;
-}
-
-.tecblock::-webkit-scrollbar {
-	width: 10px;
-}
-
-.tecblock::-webkit-scrollbar-thumb {
-	background-color: #0f1520;
-}
-
-.suiton_general {
-  background-color: #4a6779; 
-}
-
-.katon_general {
-background-color: #6d0000;
-}
-
-.raiton_general {
-background-color: #85772f;
-}
-
-.doton_general {
-
-}
-
-.fuuton_general {
-}
-
-#ma1block {
-background-color: #3b0d1c;
-}
-
-#ma2block {
-background-color: #3b0d1c;
-}
-
-#uniblock {
-background-color: #063233;
-}
-
-#pasivasblock {
-background-color: #0b4d4f;
-}
-
-/** Contenedor de técnicas en spoilers **/
-
-#tecDiv {
-    width: 100%;
-    text-align: center;
-}
-
-#tecDiv h4 {
-    font-size: 24px;
-    text-decoration: none;
-    font-family: 'Inter';
-    letter-spacing: 5px;
-    font-weight: 900;
-    text-transform: uppercase;
-    color: white;
-	font-family: 'LemonMilkLight';
-	text-shadow: 1px 1px 1px black;
-	margin-top: 6px;
-    margin-bottom: 10px;
-}
-
-/** Estilos de Stats **/
-
-
-.puntosHabilidadPJ {
+.sg-profile-notes textarea {
+  display: block;
   width: 100%;
-  height: 30px;
+  min-height: 140px;
+  padding: 14px;
+  border: 0;
+  background: var(--ficha-paper);
+  color: var(--ficha-paper-text);
+  font: 400 14px/1.68 "Source Serif 4", serif;
+  resize: vertical;
+  box-sizing: border-box;
+}
+
+.sg-profile-page .sg-spoiler {
+  border-radius: 14px;
+  border-color: var(--ficha-border);
+  background: rgba(18, 14, 28, 0.94);
+  box-shadow: none;
+}
+
+.sg-profile-page .sg-spoiler::before {
+  display: none;
+}
+
+.sg-profile-page .sg-spoiler + .sg-spoiler {
+  margin-top: 0;
+}
+
+.sg-profile-page .sg-spoiler__toggle {
+  min-height: 46px;
+  padding: 0 12px;
+}
+
+.sg-profile-page .sg-spoiler__panel {
+  background: transparent;
+}
+
+.sg-profile-page .sg-spoiler__body {
+  padding: 0 10px 10px;
+}
+
+.sg-profile-page .sg-spoiler__content {
+  display: grid;
+  gap: 8px;
+  background: transparent;
+  border-top: 1px solid var(--ficha-border);
+}
+
+.sg-profile-page .sg-spoiler__title {
+  font-size: 11px;
+  letter-spacing: 1.45px;
+}
+
+.sg-profile-page .sg-spoiler__eyebrow,
+.sg-profile-page .sg-spoiler__count {
+  color: var(--ficha-soft);
+}
+
+.sg-profile-page .sg-spoiler__caret {
+  color: var(--ficha-accent);
+}
+
+.sg-profile-page .sg-spoiler--warm {
+  border-color: rgba(192, 88, 42, 0.16);
+  background: rgba(54, 34, 25, 0.96);
+}
+
+.sg-profile-page .sg-spoiler--warm > .sg-spoiler__toggle {
+  background: rgba(68, 41, 29, 0.98);
+}
+
+.sg-profile-page .sg-spoiler--warm > .sg-spoiler__panel > .sg-spoiler__body > .sg-spoiler__content {
+  border-top-color: rgba(240, 193, 172, 0.12);
+  background: rgba(62, 39, 29, 0.98);
+}
+
+.sg-profile-page .sg-technique {
   display: flex;
-  flex-direction: row;
-  background-color: #014C7D;
+  flex-direction: column;
+  gap: 8px;
 }
 
-/** Estilos de suma de stats para vida, chakra y regeneración **/
-
-.statsum {
-    justify-content: center;
-    display: flex;
-    flex-direction: row;
-	gap: 40px;
+.sg-profile-page .sg-technique__layout {
+  display: flex;
+  gap: 8px;
+  align-items: start;
 }
 
-.charhp, .charck, .charregck{
-display: flex;
-    flex-direction: row;
+.sg-profile-page .sg-technique__rail {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  flex: 0 0 220px;
 }
 
-.lefthp, .leftck, .leftregck {
-width: auto;
-    padding: 0px 5px 0 5px;
-    height: 30px;
-    background-color: #3C356B;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-family: 'Inter';
-    font-weight: bolder;
-    letter-spacing: 3px;
-    color: white;
+.sg-profile-page .sg-technique__badges {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
 }
 
-.righthp, .rightck, .rightregck {
-    background-color: #4B4286;
-    width: 50px;
-    height: 30px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-family: 'Inter';
-    font-weight: bolder;
-    color: white;
+.sg-profile-page .sg-technique__badge,
+.sg-profile-page .sg-technique__stat,
+.sg-profile-page .sg-technique__section {
+  border: 1px solid var(--ficha-border);
+  border-radius: 14px;
 }
 
-/** Estilos de tab de nivel **/
-
-.nivelIzq {
-width: 640px;
-    background-color: #D9D9D9;
-    height: 30px;
-    color: #3C356B;
-    font-family: 'Inter';
-    font-weight: bold;
-    text-transform: uppercase;
-    display: flex;
-    align-items: center;
+.sg-profile-page .sg-technique__badge {
+  display: inline-flex;
+  align-items: center;
+  min-height: 34px;
+  padding: 0 10px;
+  background: rgba(255, 255, 255, 0.03);
+  color: var(--ficha-text);
+  font: 600 12px/1.3 "Source Serif 4", serif;
 }
 
-.nivelIzq span {
-margin-left: 5px;
+.sg-profile-page .sg-technique__badge--accent {
+  border-color: var(--ficha-accent-glow);
+  background: var(--ficha-accent-soft);
 }
 
-.nivelDer {
-width: 50px;
-    background-color: #AEAEAE;
-    height: 30px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-family: 'Inter';
-    font-weight: bold;
-    color: white;
+.sg-profile-page .sg-technique__side-panels {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 }
 
-/** Estilos de cajas de estadisticas regulares **/
-
-.statsRowFirst {
-	display: flex;
-	flex-direction: row;
-	justify-content: space-between;
+.sg-profile-page .sg-technique__stat {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 10px;
+  background: rgba(255, 255, 255, 0.03);
 }
 
-.statRowSecond {
-	display: flex;
-	flex-direction: row;
-	justify-content: space-between;
+.sg-profile-page .sg-technique__stat-value {
+  color: var(--ficha-text);
+  font: 700 15px/1.25 "Source Serif 4", serif;
 }
 
-.statboxregular {
-	display: flex;
-	flex-direction: row;
-	font-family: 'Inter';
-	font-size: 16px;
-	font-weight: bold;
+.sg-profile-page .sg-technique__main {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  flex: 1 1 auto;
+  min-width: 0;
 }
 
-.statboxleft {
-    width: 73px;
-    height: 30px;
-    background-color: #D9D9D9;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: #3C356B;
+.sg-profile-page .sg-technique__section {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 10px;
+  width: 100%;
+  box-sizing: border-box;
 }
 
-.statboxleft span, .irrstatboxleft span {
-letter-spacing: 2px;
-	text-transform: uppercase;
+.sg-profile-page .sg-technique__section--reading,
+.sg-profile-page .sg-technique__section--effect {
+  background: rgba(243, 236, 231, 0.96);
+  border-color: rgba(156, 107, 204, 0.1);
 }
 
-.statboxright {
-    width: 50px;
-    height: 30px;
-    background-color: #AEAEAE;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: white;
+.sg-profile-page .sg-technique__section--reading .sg-technique__section-label,
+.sg-profile-page .sg-technique__section--effect .sg-technique__section-label {
+  color: #715968;
 }
 
-.statboxirregular {
-	display: flex;
-	flex-direction: row;
+.sg-profile-page .sg-technique__text {
+  color: #20192d;
+  font-size: 13px;
+  line-height: 1.62;
+  text-align: justify;
 }
 
-.irrstatboxleft {
-	width: 214.5px;
-    height: 30px;
-    background-color: #D9D9D9;
-    color: #3C356B;
-    font-weight: bold;
-    font-family: 'Inter';
-    display: flex;
-    justify-content: center;
-    align-items: center;
+.sg-profile-page .sg-technique__text--muted {
+  color: #7e6a89;
 }
 
-.irrstatboxrigth {
-width: 50px;
-    height: 30px;
-    background-color: #AEAEAE;
-    color: white;
-    font-family: 'Inter';
-    font-weight: bold;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+.sg-technique-family.is-hidden,
+.sg-technique-item.is-hidden {
+  display: none;
 }
 
-/* Tecnicas spoiler */
-
-
-.tecnica_spoiler {
-    background-color: #1b549c;
-/*     border-radius: 3px; */
-    margin: 10px;
-    color: #fff;
-	border: 1px solid #5d83a9;
+.sg-profile-modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 999;
+  background: rgba(12, 10, 18, 0.72);
+  backdrop-filter: blur(4px);
 }
 
-.tecnica_spoiler_title {
-    padding: 10px;
-    cursor: pointer;
+.sg-profile-modal.is-open {
+  display: grid;
+  place-items: center;
 }
 
-.tecnica_spoiler_content {
-    padding: 20px;
-    text-align: left;
+.sg-profile-modal__dialog {
+  width: min(560px, calc(100vw - 24px));
+  overflow: hidden;
+  border: 1px solid var(--ficha-border-strong);
+  border-radius: 16px;
+  background: var(--ficha-surface);
+  box-shadow: var(--ficha-shadow);
+}
+
+.sg-profile-modal__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 50px;
+  padding: 0 14px;
+  border-bottom: 1px solid var(--ficha-border);
+  background: var(--ficha-surface-2);
+}
+
+.sg-profile-modal__head h3 {
+  margin: 0;
+  color: var(--ficha-text);
+  font: 700 12px/1 "Cinzel", serif;
+  letter-spacing: 1.9px;
+  text-transform: uppercase;
+}
+
+.sg-profile-modal__close {
+  border: 0;
+  background: transparent;
+  color: var(--ficha-muted);
+  font-size: 22px;
+  cursor: pointer;
+}
+
+.sg-profile-modal__body {
+  display: grid;
+  gap: 12px;
+  padding: 14px;
+}
+
+.sg-profile-modal__copy {
+  color: var(--ficha-muted);
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.sg-profile-modal__body input[type="text"] {
+  width: 100%;
+  min-height: 42px;
+  padding: 0 12px;
+  border: 1px solid var(--ficha-border);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--ficha-text);
+  font: 400 13px/1 "Source Serif 4", serif;
+  box-sizing: border-box;
+}
+
+.sg-profile-modal__actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.sg-profile-button--primary {
+  border-color: rgba(255, 255, 255, 0.12);
+  background:
+    linear-gradient(180deg, var(--ficha-accent-soft), rgba(255, 255, 255, 0.02)),
+    var(--ficha-card);
+}
+
+@media (max-width: 1120px) {
+  .sg-dossier-hero__content {
+    grid-template-columns: 152px minmax(0, 1fr);
+  }
+
+  .sg-dossier-hero__actions {
+    grid-column: 1 / -1;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  .sg-dossier-chip {
+    min-height: 62px;
+  }
+
+  .sg-dossier-card--identity,
+  .sg-dossier-card--resources,
+  .sg-dossier-card--combat {
+    grid-column: span 6;
+  }
+
+  .sg-dossier-story-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 860px) {
+  .sg-profile-page {
+    margin-top: 14px;
+    padding: 0 10px;
+  }
+
+  .sg-profile-shell {
+    border-radius: 14px;
+  }
+
+  .sg-dossier-hero__content {
+    grid-template-columns: 1fr;
+    align-items: start;
+    min-height: 0;
+    padding: 14px;
+  }
+
+  .sg-dossier-hero__avatar {
+    width: min(180px, 100%);
+  }
+
+  .sg-dossier-hero__summary,
+  .sg-dossier-bars,
+  .sg-profile-private-grid,
+  .sg-dossier-story-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .sg-dossier-grid,
+  .sg-dossier-story,
+  .sg-profile-private {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+
+  .sg-dossier-grid {
+    gap: 10px;
+  }
+
+  .sg-dossier-card--identity,
+  .sg-dossier-card--resources,
+  .sg-dossier-card--combat,
+  .sg-dossier-card--stats {
+    grid-column: 1 / -1;
+  }
+
+  .sg-dossier-stat-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .sg-profile-page .sg-technique__layout {
     display: grid;
-    grid-template-columns: 3fr 2fr 3fr;
-    grid-template-rows: 20px 20px 20px 20px 1fr 20px 20px;
-    grid-row-gap: 5px;
-    background-color: #fff;
-    color: #0f1520;
-    cursor: default;
+    grid-template-columns: 1fr;
+  }
+
+  .sg-profile-page .sg-technique__rail {
+    flex: initial;
+  }
+
+  .sg-profile-technique-filters__grid {
+    grid-template-columns: 1fr;
+  }
 }
 
+@media (max-width: 580px) {
+  .sg-dossier-hero__actions,
+  .sg-dossier-hero__summary,
+  .sg-dossier-meta-grid,
+  .sg-dossier-bars,
+  .sg-dossier-stat-grid,
+  .sg-profile-private-grid,
+  .sg-dossier-story-grid {
+    grid-template-columns: 1fr;
+  }
 
-.tecnicaId {
-    grid-row: 1;
-    grid-column: 2;
-    text-align: center;
-}
+  .sg-dossier-card__head,
+  .sg-profile-panel__head {
+    padding-left: 12px;
+    padding-right: 12px;
+  }
 
-.tecnicaType {
-    grid-row: 2;
-    grid-column: 3;
-    text-align: right;
-}
-
-.tecnicaSello {
-    grid-row: 2;
-}
-
-.tecnicaReq {
-    grid-row: 3;
-    grid-column: 1 / -1;
-}
-
-.tecnicaLvl {
-    grid-row: 3;
-    grid-column: 3;
-    text-align: right;
-}
-
-.tecnicaDesTit {
-    grid-row: 4;
-}
-
-.tecnicaDes {
-    grid-row: 5;
-    grid-column: 1 / -1;
-    margin-left: 50px;
-    margin-bottom: 20px;
-	text-align: justify;
-}
-
-.tecnicaCost {
-    grid-row: 6;
-    grid-column: 1 / -1;
-    text-align: center;
-}
-
-.tecnicaEfect {
-    grid-row: 7;
-    grid-column: 1 / -1;
-    text-align: center;
-}
-
-.tecnicaReward {
-    grid-row: 6;
-    grid-column: 3;
-    text-align: right;
-}
-
-/* Nueva ficha */
-
-fieldset {
-	border: 1px solid #7aa9b7;
-}
-
-fieldset legend {
-    font-size: 1.5rem;
-    font-weight: normal;
-    font-family: Lemon MIlk
-}
-
-label {
-    display: inline-block;
-    padding: 0 2rem
-}
-
-[type=radio] {
-    position: absolute;
-    opacity: 0;
-    width: 0;
-    height: 0
-}
-
-[type=radio] + img {
-    cursor: pointer;
-    filter: grayscale(80%);
-    opacity: 0.7;
-	border-radius: 50%;
-}
-
-[type=radio]:checked + img {
-    border: solid;
-    border-radius: 50%;
-    filter: grayscale(0%);
-    opacity: 1;
-}
-
-[type=radio]:hover + img {
-    filter: grayscale(0%);
-    opacity: 1
-}
-
-fieldset p {
-    padding: 1rem 0
+  .sg-dossier-card__body,
+  .sg-profile-panel__body,
+  .sg-profile-modal__body {
+    padding: 12px;
+  }
 }

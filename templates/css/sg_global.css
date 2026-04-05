@@ -1129,6 +1129,14 @@ input.textbox, select {
     border-color: var(--border);
 }
 
+button:hover,
+input.button:hover,
+a.button:hover {
+	border-color: rgba(156, 107, 204, 0.24) !important;
+    filter: brightness(1.30) saturate(1.38);
+    color: var(--ink) !important;
+}
+
 form #message {
     width: 100%;
 }

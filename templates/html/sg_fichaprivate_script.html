@@ -1,368 +1,315 @@
 <script>
-  const tecAprendidas = {$tec_aprendidas};
-  const tecKeys = Object.keys(tecAprendidas);
-  const nombreVilla = "{$villa['nombreVilla']}";
-  let segundaVilla = "";
-  const vid = "{$villa['vid']}";
-  const cid = "{$ficha['clan']}";
-  const elemento1 = "{$elemento1}";
-  const elemento2 = "{$elemento2}";
-  const elemento3 = "{$elemento3}";
-  const elemento4 = "{$elemento4}";
-  const elemento5 = "{$elemento5}";
-  const maestria1 = "{$maestria1}";
-  const maestria2 = "{$maestria2}";
-  const invo1 = "{$invo1}";
-  const invo2 = "{$invo2}";
-  const pasivaSlot = "{$pasivaSlot}";
-  const kosei1 = "{$kosei1}";
-  const kosei2 = "{$kosei2}";
-  const nombreClan = "{$nClan}";
+var sgFichaTecAprendidas = {$tec_aprendidas};
 
-  if (vid != "1001") {
-	const cleanNombreClan = nombreClan.toLowerCase().replace(" ", "_");
-	const tipoAldea = cleanNombreClan + '_general';
-    $('#tecDiv').append(`<div class="tecblock clan ` + tipoAldea + `" id="clanblock" style="display: none;"></div>`);
-    $('.tecselector').append(`<input class="button" type="button" id="clanbutton" value="` + nombreClan + `" onclick="showBlock('clanblock')">`);
+function sgFichaEscapeHtml(value) {
+  if (value === null || value === undefined) {
+    return '';
   }
 
-  $('#tecDiv').append(`<div class="tecblock 1elemento ` + elemento1 + ` ` + elemento1.toLowerCase() +`_general" id="el1block" style="display: none;"></div>`);
-  $('.tecselector').append(`<input class="` + elemento1 + ` button" type="button" id="el1button" value="` + elemento1 + `" onclick="showBlock('el1block')">`);
-
-  if (elemento2) {
-	$('#tecDiv').append(`<div class="tecblock 2elemento ` + elemento2 + ` ` + elemento2.toLowerCase() +`_general" id="el2block" style="display: none;"></div>`);
-  	$('.tecselector').append(`<input class="` + elemento2 + ` button" type="button" id="el2button" value="` + elemento2 + `" onclick="showBlock('el2block')">`);
-  }
-	
-  if (elemento3) {
-	$('#tecDiv').append(`<div class="tecblock 3elemento ` + elemento3 + ` ` + elemento3.toLowerCase() +`_general" id="el3block" style="display: none;"></div>`);
-  	$('.tecselector').append(`<input class="` + elemento3 + ` button" type="button" id="el3button" value="` + elemento3 + `" onclick="showBlock('el3block')">`);
-  }
-	
-  if (elemento4) {
-	$('#tecDiv').append(`<div class="tecblock 4elemento ` + elemento4 + ` ` + elemento4.toLowerCase() +`_general" id="el4block" style="display: none;"></div>`);
-  	$('.tecselector').append(`<input class="` + elemento4 + ` button" type="button" id="el4button" value="` + elemento4 + `" onclick="showBlock('el4block')">`);
-  }
-	
-  if (elemento5) {
-	$('#tecDiv').append(`<div class="tecblock 5elemento ` + elemento5 + ` ` + elemento5.toLowerCase() +`_general " id="el5block" style="display: none;"></div>`);
-  	$('.tecselector').append(`<input class="` + elemento5 + ` button" type="button" id="el5button" value="` + elemento5 + `" onclick="showBlock('el5block')">`);
-  }
-	
-  if (maestria1) {
-	const cleanMaestria1 = getMaestriaName(maestria1).toLowerCase().replace(" ", "_");
-	$('#tecDiv').append(`<div class="tecblock maestria1 ` + cleanMaestria1.toLowerCase() +`_maestrias" id="ma1block" style="display: none;"></div>`);
-  	$('.tecselector').append(`<input class="maestria1 button" type="button" id="ma1button" value="` + getMaestriaName(maestria1) + `" onclick="showBlock('ma1block')">`);
-  }
-	
-  if (maestria2) {
-	const cleanMaestria2 = getMaestriaName(maestria2).toLowerCase().replace(" ", "_");
-	$('#tecDiv').append(`<div class="tecblock maestria2 ` + cleanMaestria2.toLowerCase() +`_maestrias" id="ma2block" style="display: none;"></div>`);
-  	$('.tecselector').append(`<input class="maestria2 button" type="button" id="ma2button" value="` + getMaestriaName(maestria2) + `" onclick="showBlock('ma2block')">`);
-  }	
-	
-  if (invo1) {
-	const cleanInvo1 = getInvoTecName(invo1).toLowerCase().replace(" ", "_");
-	$('#tecDiv').append(`<div class="tecblock invo1 ` + cleanInvo1 +`_invo" id="invo1block" style="display: none;"></div>`);
-  	$('.tecselector').append(`<input class="invo1 button" type="button" id="invo1button" value="` + getInvoName(invo1) + `" onclick="showBlock('invo1block')">`);
-  }
-	
-  if (invo2) {
-	const cleanInvo2 = getInvoTecName(invo2).toLowerCase().replace(" ", "_");  
-	$('#tecDiv').append(`<div class="tecblock invo2 ` + cleanInvo2 +`_invo" id="invo2block" style="display: none;"></div>`);
-  	$('.tecselector').append(`<input class="invo2 button" type="button" id="invo2button" value="` + getInvoName(invo2) + `" onclick="showBlock('invo2block')">`);
-  }
-	
-  if (pasivaSlot) {
-	const cleanPasivaSlot = getPasivaSlotName(pasivaSlot).toLowerCase().replace(" ", "_");  
-	$('#tecDiv').append(`<div class="tecblock pasivaSlot ` + cleanPasivaSlot +`_general" id="pasivaSlotblock" style="display: none;"></div>`);
-  	$('.tecselector').append(`<input class="pasivaSlot button" type="button" id="pasivaSlotbutton" value="` + getPasivaSlotName(pasivaSlot) + `" onclick="showBlock('pasivaSlotblock')">`);
-  }
-	
-  if (kosei1) {
-	const cleanKosei1 = getKoseiName(kosei1).toLowerCase().replace(" ", "_");  
-	$('#tecDiv').append(`<div class="tecblock kosei1 ` + cleanKosei1 +`_general" id="kosei1block" style="display: none;"></div>`);
-  	$('.tecselector').append(`<input class="kosei1 button" type="button" id="kosei1button" value="` + getKoseiName(kosei1) + `" onclick="showBlock('kosei1block')">`);
-  }
-	
-	if (kosei2) {
-	const cleanKosei2 = getKoseiName(kosei2).toLowerCase().replace(" ", "_");  
-	$('#tecDiv').append(`<div class="tecblock kosei2 ` + cleanKosei2 +`_general" id="kosei2block" style="display: none;"></div>`);
-	$('.tecselector').append(`<input class="kosei2 button" type="button" id="kosei2button" value="` + getKoseiName(kosei2) + `" onclick="showBlock('kosei2block')">`);
-	}
-	
-  $('#tecDiv').append(`<div class="tecblock unicas personaje_general" id="uniblock" style="display: none">`);
-  $('.tecselector').append(`<input class="button" type="button" id="unibutton" value="Personaje" onclick="showBlock('uniblock')">`);
-	
-  $('#tecDiv').append(`<div class="tecblock pasivas pasivas_general" id="pasivasblock" style="display: none">`);
-  $('.tecselector').append(`<input class="button" type="button" id="pasivasbutton" value="Pasivas" onclick="showBlock('pasivasblock')">`);
-
-  // sort all techniques by TID
-  for (let i = 0; i < tecKeys.length; i++) { 
-	  tecAprendidas[tecKeys[i]].sort(compareTid);
-  }
-	
-  // append techniques to tec blocks
-  for (let i = 0; i < tecKeys.length; i++) { 
-    const tipo = tecAprendidas[tecKeys[i]];
-
-	for (let j = 0; j < tipo.length; j++) {
-		const tecBlock = '.tecblock.';
-		let tipoAldea = tecKeys[i].toLowerCase().replace(" ", "_");
-		tipoAldea = tipoAldea.replace(" ", "_").replace("konoha", "general")
-			.replace("kiri", "general").replace("kumo", "general")
-			.replace("suna", "general").replace("iwa", "general");
-		let tipoAldeaRango = tipoAldea + tipo[j].rango;
-
-		tipoAldeaRango = tipoAldeaRango.replace("A+", "APlus");         
-		tipoAldeaRango = tipoAldeaRango.replace("S+", "SPlus");
-		tipoAldeaRango = tipoAldeaRango.replace("konoha", "general");
-		tipoAldeaRango = tipoAldeaRango.replace("suna", "general");
-		tipoAldeaRango = tipoAldeaRango.replace("kiri", "general");		  
-		tipoAldeaRango = tipoAldeaRango.replace("iwa", "general");
-		tipoAldeaRango = tipoAldeaRango.replace("kumo", "general");
-
-		if ($("." + tipoAldeaRango).length == 0) {
-			$(tecBlock + tipoAldea).append('<div class="rangoTec ' + tipoAldeaRango + '"></div>'); 
-			$("." + tipoAldeaRango).append('<h4>~ Rango ' + tipo[j].rango + ' ~</h4>'); 
-		}
-
-		$("." + tipoAldeaRango).append(crearTecnica(tipo[j])); 
-      
-    }
-  }
-	
-	
-function crearTecnica(tecnica) {
-    const onclickCodigo = `javascript: if(parentNode.getElementsByTagName('div')[1].style.display == 'block'){ parentNode.getElementsByTagName('div')[1].style.display = 'none'; } else { parentNode.getElementsByTagName('div')[1].style.display = 'block'; }`;
-	
-	let tec_sellos_html = '';
-	let tec_categoria_html = '';
-	if (tecnica.sellos) {
-		tec_sellos_html += "<div class='tecnicaType'><span>SELLOS: " + tecnica.sellos.toUpperCase() + "</span></div>";
-	}
-	if (tecnica.categoria && (tecnica.categoria != tecnica.tipo)) {
-		tec_categoria_html += "<div class='tecnicaType'><span>" + tecnica.categoria.toUpperCase() + "</span></div>";
-	}
-	
-    return `
-    <div class="spoiler" style="margin: 10px;">
-      <div class="spoiler_title"
-      onclick="j` + onclickCodigo + `">
-      <span class="spoiler_button" style="text-transform: uppercase;"><strong>[` + tecnica.tid + `] ` + tecnica.nombre + `</strong></span>
-      </div>
-      <div class="tecnica_spoiler_content" style="display: none;">
-	  <div style='display: flex;flex-direction: column;'>
-	  	<div style='display: flex;flex-direction: row;justify-content: space-between;margin-bottom: 10px;margin-top: 7px;'>
-			<div class='tecnicaLvl'><span>Rango ` + tecnica.rango + `</span></div>
-			<div class='tecnicaLvl'><span>Aprendida en ` + tecnica.tiempo + `</span></div>
-		</div>
-		<div style='display: flex;flex-direction: row;justify-content: space-between;margin-bottom: 10px;margin-top: -11px;'>` +
-	      (tecnica.requisito ? `<div class='tecnicaLvl'><span>` + tecnica.requisito + `</span></div>` : ``) + `
-		</div>
-		<div style='display: flex;flex-direction: row;justify-content: center;margin: 9px 8px 10px;'>
-			<div class='tecnicaId'><span>ID: ` + tecnica.tid.toUpperCase() + `</span></div> 
-			` + tec_sellos_html + `
-			<div class='tecnicaType'><span>` + tecnica.tipo.toUpperCase() + `</span></div> 
-			` + tec_categoria_html + `
-		</div>
-		<p class='tecnicaDes'><span>` + tecnica.descripcion + `</span></p>` +
-	  (tecnica.coste ? `<div class='tecnicaCost'><span class='tecnicaLvl'>Coste:</span> <span class='efectoDescripcion'>` + tecnica.coste + `</span></div>` : ``) + 
-	  (tecnica.efecto ? `<div class='tecnicaEfect'><span class='tecnicaLvl'>Efecto:</span> <span class='efectoDescripcion'>` + tecnica.efecto + `</span></div>` : ``) + `
-	  </div>
-    </div>`;
-  }	
-	
-//   function crearTecnica(tecnica) {
-//     const onclickCodigo = `javascript: if(parentNode.getElementsByTagName('div')[1].style.display == 'grid'){ parentNode.getElementsByTagName('div')[1].style.display = 'none'; } else { parentNode.getElementsByTagName('div')[1].style.display = 'grid'; }`;
-// //` - Aprendida en ` + tecnica.tiempo +`
-//     return `
-//     <div class="tecnica_spoiler">
-//       <div class="tecnica_spoiler_title"
-//       onclick="j` + onclickCodigo + `">
-//       <span style="text-transform: uppercase; font-family: monospace"><strong>[` + tecnica.tid + `] ` + tecnica.nombre + ` - Aprendida en ` + tecnica.tiempo + `</strong></span>
-//       </div>
-//       <div class="tecnica_spoiler_content" style="display: none;">
-//       <p class="tecnicaId"><span>ID -</span> ` + tecnica.tid + `</p>
-//       <p class="tecnicaType"><span> ` + tecnica.tipo + `</span></p>
-//       <p class="tecnicaSello"><span>Sellos - </span> ` + tecnica.sellos + ` | <span>Categoria - </span> ` + tecnica.categoria + `</p>` +
-// 	  (tecnica.requisito ? `<p class="tecnicaReq"><span>Requisitos - ` + tecnica.requisito + `</p>` : ``) + `
-//       <p class="tecnicaLvl"><span> Rango ` + tecnica.rango + `</span></p>
-//       <p class="tecnicaDes">` + tecnica.descripcion + `</p>` +
-//       (tecnica.coste ? `<p class="tecnicaCost"><span>Coste - ` + tecnica.coste + `</p>` : ``) + 
-// 	  (tecnica.efecto ? `<p class="tecnicaEfect"><span>Efecto - ` + tecnica.efecto + `</p>` : ``) + `
-//       </div>
-//     </div>`;
-//   }	
-
-  function showBlock(blockId) {
-    var nodes = document.getElementById('tecDiv').childNodes;
-    for (var i = 0; i < nodes.length; i++) {
-      if (nodes[i].nodeName.toLowerCase() == 'div') {
-        nodes[i].style.display = "none";
-      }
-    }
-    var show = document.getElementById(blockId);
-    show.style.display = "inline-block";
-  }
-	
-  function compareTid(a, b) {
-	  if (a.tid < b.tid){
-		return -1;
-	  }
-	  if (a.tid > b.tid){
-		return 1;
-	  }
-	  return 0;
-  }
-	  function compareTid2(a, b) {
-	  if (a.tid < b.tid){
-		return 1;
-	  }
-	  if (a.tid > b.tid){
-		return -1;
-	  }
-	  return 0;
-  }
-	
-  function getMaestriaName(maestriaCode) {
-	  switch(maestriaCode) {
-		  case 'SEN':
-			return 'Senjutsu';
-		  case 'FUI':
-			  return 'Fūinjutsu';
-		  case 'KEK':
-			  return 'Kekkaijutsu';
-		  case 'IRY':
-			  return 'Iryou Ninjutsu';
-		  case 'ANK':
-			  return 'Ankoku Ijutsu';
-		  case 'YIN':
-			  return 'Yin';
-		  case 'SHO':
-			  return 'Shoten';
-		  case 'KEN':
-			  return 'Kenjutsu';
-		  case 'BOU':
-			  return 'Bōjutsu';
-		  case 'SHU':
-			  return 'Shurikenjutsu';
-		  case 'GOT':
-			  return 'Gotai';
-		  case 'HAC':
-			  return 'Hachimon';
-		  case 'TAN':
-			  return 'Tansakujutsu';
-		  case 'NIN':
-			  return 'Ninshu';
-		  default:
-			return 'Error';
-    }
-  }
-	
-  function getInvoName(invoCode) {
-	  switch(invoCode) {
-		  case 'GAM':
-			return 'Gama';
-		  case 'HEB':
-			  return 'Hebi';
-		  case 'NAM':
-			  return 'Namekuji';
-		  case 'NEK':
-			  return 'Neko';
-		  case 'KUM':
-			  return 'Kumo';
-		  case 'KOM':
-			  return 'Kōmori';
-		  case 'OKA':
-			  return 'Ōkami';
-		  case 'TORI':
-			  return 'Tori';
-		  case 'KMA':
-			  return 'Kuma';
-		  case 'SAN':
-			  return 'Sanshōuo';
-		  case 'KAM':
-			  return 'Kame';
-		  case 'SAR':
-			  return 'Saru';
-		  default:
-			return 'Error';
-    }
+  return String(value)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
 }
-	  
-function getInvoTecName(invoCode) {
-	  switch(invoCode) {
-		  case 'GAM':
-			return 'gama';
-		  case 'HEB':
-			  return 'serpientes';
-		  case 'NAM':
-			  return 'babosas';
-		  case 'NEK':
-			  return 'gatos';
-		  case 'KUM':
-			  return 'arañas';
-		  case 'KOM':
-			  return 'murcielagos';
-		  case 'OKA':
-			  return 'lobos';
-		  case 'TORI':
-			  return 'aves';
-		  case 'KMA':
-			  return 'osos';
-		  case 'SAN':
-			  return 'salamandras';
-		  case 'KAM':
-			  return 'tortugas';
-		  case 'SAR':
-			  return 'monos';
-		  default:
-			return 'Error';
-    }
-  }	
-	
-  function getPasivaSlotName(pasivaSlotCode) {
-	  switch(pasivaSlotCode) {
-		  case 'JAS':
-			return 'Jashin';
-		  case 'GEM':
-			  return 'Gemelo Parasito';
-		  case 'PSE':
-			  return 'Pseudo Jinchuuriki';
-		  case 'MAL':
-			  return 'Sello Maldito';
-		  case 'JIO':
-			  return 'Jiongu';
-		  default:
-			return 'Error';
+
+function sgFichaNormalizeText(value) {
+  if (!value) {
+    return '';
+  }
+
+  return String(value).toLowerCase().replace(/\s+/g, ' ').replace(/^\s+|\s+$/g, '');
+}
+
+function sgFichaSlugify(value) {
+  return sgFichaNormalizeText(value).replace(/[^a-z0-9]+/g, '-');
+}
+
+function sgFichaCreateTechniqueBadge(icon, text, accent) {
+  if (!text) {
+    return '';
+  }
+
+  return ''
+    + '<div class="sg-technique__badge' + (accent ? ' sg-technique__badge--accent' : '') + '">'
+    +   text
+    + '</div>';
+}
+
+function sgFichaCreateTechniqueCard(tecnica) {
+  var badges = [];
+  var description = tecnica.descripcion ? tecnica.descripcion : 'Sin descripción disponible.';
+  var effectText = tecnica.efecto ? tecnica.efecto : 'No tiene efecto adicional especificado.';
+  var costText = tecnica.coste ? tecnica.coste : 'Sin coste indicado';
+
+  badges.push(sgFichaCreateTechniqueBadge('', 'Rango ' + tecnica.rango, true));
+
+  if (tecnica.requisito) {
+    badges.push(sgFichaCreateTechniqueBadge('', tecnica.requisito, false));
+  }
+  if (tecnica.tipo) {
+    badges.push(sgFichaCreateTechniqueBadge('', tecnica.tipo, false));
+  }
+  if (tecnica.categoria && tecnica.categoria != tecnica.tipo) {
+    badges.push(sgFichaCreateTechniqueBadge('', tecnica.categoria, false));
+  }
+  if (tecnica.sellos) {
+    badges.push(sgFichaCreateTechniqueBadge('', 'Sellos: ' + tecnica.sellos, false));
+  }
+  if (tecnica.tiempo) {
+    badges.push(sgFichaCreateTechniqueBadge('', 'Aprendida en ' + tecnica.tiempo, false));
+  }
+  badges.push(sgFichaCreateTechniqueBadge('', 'ID: ' + tecnica.tid, false));
+
+  return ''
+    + '<div class="sg-technique">'
+    +   '<div class="sg-technique__layout">'
+    +     '<div class="sg-technique__rail">'
+    +       '<div class="sg-technique__badges">' + badges.join('') + '</div>'
+    +       '<div class="sg-technique__side-panels">'
+    +         '<div class="sg-technique__stat">'
+      +         '<div class="sg-technique__stat-label">Coste</div>'
+      +         '<div class="sg-technique__stat-value">' + costText + '</div>'
+    +         '</div>'
+    +       '</div>'
+    +     '</div>'
+    +     '<div class="sg-technique__main">'
+    +       '<div class="sg-technique__section sg-technique__section--reading">'
+    +         '<div class="sg-technique__section-label">Descripción</div>'
+    +         '<p class="sg-technique__text">' + description + '</p>'
+    +       '</div>'
+    +       '<div class="sg-technique__section sg-technique__section--effect">'
+    +         '<div class="sg-technique__section-label">Efecto</div>'
+    +         '<div class="sg-technique__text' + (tecnica.efecto ? '' : ' sg-technique__text--muted') + '">' + effectText + '</div>'
+    +       '</div>'
+    +     '</div>'
+    +   '</div>'
+    + '</div>';
+}
+
+function sgFichaCreateTechniqueSpoiler(tecnica, familyKey) {
+  var searchIndex = sgFichaNormalizeText([
+    tecnica.nombre,
+    tecnica.tid,
+    tecnica.tipo,
+    tecnica.categoria,
+    tecnica.requisito,
+    tecnica.sellos,
+    tecnica.descripcion,
+    tecnica.efecto,
+    familyKey
+  ].join(' '));
+
+  return ''
+    + '<div class="sg-technique-item" data-family="' + sgFichaEscapeHtml(familyKey) + '" data-rank="' + sgFichaEscapeHtml(String(tecnica.rango || '')) + '" data-search="' + sgFichaEscapeHtml(searchIndex) + '">'
+    + sgCreateSpoiler({
+    classes: 'sg-spoiler--warm',
+    icon: '●',
+    eyebrow: 'Rango ' + tecnica.rango,
+    title: sgFichaEscapeHtml(tecnica.nombre),
+    count: sgFichaEscapeHtml(tecnica.tid),
+    open: false,
+    content: sgFichaCreateTechniqueCard(tecnica)
+    })
+    + '</div>';
+}
+
+function sgFichaSortTechniquesByTid(a, b) {
+  if (a.tid < b.tid) {
+    return -1;
+  }
+  if (a.tid > b.tid) {
+    return 1;
+  }
+  return 0;
+}
+
+function sgFichaHumanizeKey(key) {
+  return key.replace(/_/g, ' ');
+}
+
+function sgFichaCreateTechniqueGroup(key, techniques) {
+  var sorted = techniques.slice().sort(sgFichaSortTechniquesByTid);
+  var content = '';
+  var familyLabel = sgFichaHumanizeKey(key);
+  var familySlug = sgFichaSlugify(key);
+  var i = 0;
+
+  for (i = 0; i < sorted.length; i++) {
+    content += sgFichaCreateTechniqueSpoiler(sorted[i], familySlug);
+  }
+
+  return ''
+    + '<div class="sg-technique-family" data-family="' + sgFichaEscapeHtml(familySlug) + '" data-family-label="' + sgFichaEscapeHtml(familyLabel) + '">'
+    + sgCreateSpoiler({
+    classes: '',
+    icon: '◈',
+    eyebrow: 'Familia',
+    title: sgFichaEscapeHtml(familyLabel),
+    count: sorted.length + ' tecnicas',
+    open: false,
+    content: content
+    })
+    + '</div>';
+}
+
+function sgFichaCountAllTechniques(data) {
+  var keys = Object.keys(data || {});
+  var total = 0;
+  var i = 0;
+
+  for (i = 0; i < keys.length; i++) {
+    total += (data[keys[i]] || []).length;
+  }
+
+  return total;
+}
+
+function sgFichaPopulateTechniqueFilters() {
+  var familySelect = document.getElementById('sg-profile-technique-family');
+  var rankSelect = document.getElementById('sg-profile-technique-rank');
+  var families = {};
+  var ranks = {};
+  var familyNodes;
+  var techniqueNodes;
+  var i;
+  var familyValue;
+  var familyLabel;
+  var rankValue;
+  var familyKeys;
+  var rankKeys;
+
+  if (!familySelect || !rankSelect) {
+    return;
+  }
+
+  familyNodes = document.querySelectorAll('.sg-technique-family');
+  techniqueNodes = document.querySelectorAll('.sg-technique-item');
+
+  for (i = 0; i < familyNodes.length; i++) {
+    familyValue = familyNodes[i].getAttribute('data-family');
+    familyLabel = familyNodes[i].getAttribute('data-family-label');
+    if (familyValue && familyLabel) {
+      families[familyValue] = familyLabel;
     }
   }
-	  
-  function getKoseiName(koseiCode) {
-	  switch(koseiCode) {
-		  case 'SENJUTSU':
-			return 'Senjutsu';
-		  case 'JUINJUTSU':
-			  return 'Juinjutsu';
-		  case 'JINCHUURIKI':
-			return 'Pseudo Jinchuuriki'; //
-		  case 'JASHIN':
-			  return 'Jashin';
-		  case 'JIONGU':
-			  return 'Jiongu';
-	      case 'TENSAI':
-			  return 'Tensai';
-	      case 'YOBIDASHI':
-			  return 'Yobidashi';
-	      case 'KAZOKU':
-			  return 'Kazoku';
-		  case 'TOKUBETSU':
-			  return 'Tokubetsu';
-		  default:
-			return 'Error';
+
+  for (i = 0; i < techniqueNodes.length; i++) {
+    rankValue = techniqueNodes[i].getAttribute('data-rank');
+    if (rankValue) {
+      ranks[rankValue] = true;
     }
   }
-	
-	// make hover of label ppointer cursor
+
+  familySelect.innerHTML = '<option value="">Todas las familias</option>';
+  familyKeys = Object.keys(families).sort();
+  for (i = 0; i < familyKeys.length; i++) {
+    familySelect.innerHTML += '<option value="' + sgFichaEscapeHtml(familyKeys[i]) + '">' + sgFichaEscapeHtml(families[familyKeys[i]]) + '</option>';
+  }
+
+  rankSelect.innerHTML = '<option value="">Todos los rangos</option>';
+  rankKeys = Object.keys(ranks).sort();
+  for (i = 0; i < rankKeys.length; i++) {
+    rankSelect.innerHTML += '<option value="' + sgFichaEscapeHtml(rankKeys[i]) + '">Rango ' + sgFichaEscapeHtml(rankKeys[i]) + '</option>';
+  }
+}
+
+function sgFichaUpdateTechniqueCount(visibleCount) {
+  var counter = document.getElementById('sg-profile-technique-count');
+  if (!counter) {
+    return;
+  }
+
+  counter.textContent = visibleCount + (visibleCount === 1 ? ' técnica' : ' técnicas');
+}
+
+function sgFichaToggleTechniqueFilters(forceOpen) {
+  var panel = document.getElementById('sg-profile-technique-filters');
+  var button = document.getElementById('sg-profile-filter-toggle');
+  var shouldOpen;
+
+  if (!panel || !button) {
+    return;
+  }
+
+  shouldOpen = typeof forceOpen === 'boolean' ? forceOpen : !panel.classList.contains('is-open');
+  panel.classList.toggle('is-open', shouldOpen);
+  panel.setAttribute('aria-hidden', shouldOpen ? 'false' : 'true');
+  button.classList.toggle('is-active', shouldOpen);
+}
+
+function sgFichaApplyTechniqueFilters() {
+  var searchInput = document.getElementById('sg-profile-technique-search');
+  var familySelect = document.getElementById('sg-profile-technique-family');
+  var rankSelect = document.getElementById('sg-profile-technique-rank');
+  var familyNodes = document.querySelectorAll('.sg-technique-family');
+  var itemNodes = document.querySelectorAll('.sg-technique-item');
+  var query = sgFichaNormalizeText(searchInput ? searchInput.value : '');
+  var familyValue = familySelect ? familySelect.value : '';
+  var rankValue = rankSelect ? rankSelect.value : '';
+  var visibleCount = 0;
+  var i;
+  var item;
+  var matches;
+  var familyNode;
+  var visibleInFamily;
+
+  for (i = 0; i < itemNodes.length; i++) {
+    item = itemNodes[i];
+    matches = true;
+
+    if (query && item.getAttribute('data-search').indexOf(query) === -1) {
+      matches = false;
+    }
+    if (matches && familyValue && item.getAttribute('data-family') !== familyValue) {
+      matches = false;
+    }
+    if (matches && rankValue && item.getAttribute('data-rank') !== rankValue) {
+      matches = false;
+    }
+
+    item.classList.toggle('is-hidden', !matches);
+
+    if (matches) {
+      visibleCount++;
+    }
+  }
+
+  for (i = 0; i < familyNodes.length; i++) {
+    familyNode = familyNodes[i];
+    visibleInFamily = familyNode.querySelector('.sg-technique-item:not(.is-hidden)');
+    familyNode.classList.toggle('is-hidden', !visibleInFamily);
+  }
+
+  sgFichaUpdateTechniqueCount(visibleCount);
+}
+
+function sgFichaRenderPrivateTechniques() {
+  var container = document.getElementById('sg-profile-techniques');
+  var keys = Object.keys(sgFichaTecAprendidas || {});
+  var html = '';
+  var i = 0;
+
+  if (!container) {
+    return;
+  }
+
+  if (!keys.length) {
+    container.innerHTML = '<div class="sg-profile-techniques-empty">No hay técnicas aprendidas registradas todavía.</div>';
+    sgFichaUpdateTechniqueCount(0);
+    return;
+  }
+
+  for (i = 0; i < keys.length; i++) {
+    html += sgFichaCreateTechniqueGroup(keys[i], sgFichaTecAprendidas[keys[i]]);
+  }
+
+  container.innerHTML = html;
+  sgFichaPopulateTechniqueFilters();
+  sgFichaUpdateTechniqueCount(sgFichaCountAllTechniques(sgFichaTecAprendidas));
+  sgFichaApplyTechniqueFilters();
+}
+
+window.addEventListener('load', sgFichaRenderPrivateTechniques);
 </script>

@@ -62,6 +62,8 @@ if ($ficha_existe == true && ($moderated == true || (is_mod($s_uid) || is_staff(
             $avatar = './.' . $u['avatar'];
         }
 
+        $avatar_img = $avatar;
+        eval('$avatar = $avatar_img;');
         eval('$user_avatar = $avatar;');
         eval('$usuario = $u;');
         $puntos_rol = intval(floor($usuario['newpoints']));
@@ -124,19 +126,56 @@ if ($ficha_existe == true && ($moderated == true || (is_mod($s_uid) || is_staff(
             $villa_var_color = '';
             $sombra1 = '';
             $sombra2 = '';
+            $sg_ficha_theme = 'neutral';
+            $sg_ficha_accent = '#b63d34';
+            $sg_ficha_accent_strong = '#d45144';
+            $sg_ficha_accent_soft = 'rgba(182, 61, 52, 0.16)';
+            $sg_ficha_accent_glow = 'rgba(182, 61, 52, 0.24)';
+            $sg_ficha_surface = 'rgba(24, 16, 22, 0.96)';
+            $sg_ficha_surface2 = 'rgba(35, 22, 30, 0.96)';
+            $sg_ficha_panel = 'rgba(26, 18, 24, 0.94)';
+            $sg_ficha_card = 'rgba(31, 21, 29, 0.92)';
+            $sg_ficha_card_soft = 'rgba(39, 27, 36, 0.78)';
+            $sg_ficha_border = 'rgba(255, 255, 255, 0.08)';
+            $sg_ficha_border_strong = 'rgba(255, 255, 255, 0.14)';
+            $sg_ficha_paper = '#f3ece7';
+            $sg_ficha_paper_text = '#2b221e';
+            $sg_ficha_theme_label = $v['nombreVilla'];
 
             if ($villa == 1) { 
                 $villa_color = 'fhko'; 
                 $villa_var_color = '--konoha-group-color'; 
-                $sombra1 = '#3e5d1d';
-                $sombra2 = '#2f4616';
+                $sombra1 = '#4b1822';
+                $sombra2 = '#341019';
+                $sg_ficha_theme = 'konoha';
+                $sg_ficha_accent = '#8e3145';
+                $sg_ficha_accent_strong = '#b24b63';
+                $sg_ficha_accent_soft = 'rgba(142, 49, 69, 0.18)';
+                $sg_ficha_accent_glow = 'rgba(178, 75, 99, 0.28)';
+                $sg_ficha_surface = 'rgba(24, 12, 18, 0.97)';
+                $sg_ficha_surface2 = 'rgba(34, 16, 24, 0.97)';
+                $sg_ficha_panel = 'rgba(29, 14, 21, 0.94)';
+                $sg_ficha_card = 'rgba(37, 18, 27, 0.92)';
+                $sg_ficha_card_soft = 'rgba(47, 25, 35, 0.78)';
+                $sg_ficha_theme_label = 'Konoha';
             }
                
             if ($villa == 3) { 
                 $villa_color = 'fhki';
                 $villa_var_color = '--kiri-group-color';  
-                $sombra1 = '#527ca7';
-                $sombra2 = '#3e5d7d';
+                $sombra1 = '#1a2e4c';
+                $sombra2 = '#122038';
+                $sg_ficha_theme = 'kiri';
+                $sg_ficha_accent = '#4c6fa8';
+                $sg_ficha_accent_strong = '#7192c9';
+                $sg_ficha_accent_soft = 'rgba(76, 111, 168, 0.18)';
+                $sg_ficha_accent_glow = 'rgba(113, 146, 201, 0.28)';
+                $sg_ficha_surface = 'rgba(12, 18, 30, 0.97)';
+                $sg_ficha_surface2 = 'rgba(16, 24, 40, 0.97)';
+                $sg_ficha_panel = 'rgba(14, 21, 35, 0.94)';
+                $sg_ficha_card = 'rgba(19, 28, 45, 0.92)';
+                $sg_ficha_card_soft = 'rgba(24, 37, 58, 0.78)';
+                $sg_ficha_theme_label = 'Kiri';
             }
             // if ($villa == 4) { 
             //     $villa_color = 'fhiw'; 
@@ -147,30 +186,81 @@ if ($ficha_existe == true && ($moderated == true || (is_mod($s_uid) || is_staff(
             if ($villa == 4) { 
                 $villa_color = 'fhiw'; 
                 $villa_var_color = '--iwa-group-color';  
-                $sombra1 = '#6e370f';
-                $sombra2 = '#52290b';
+                $sombra1 = '#6d4020';
+                $sombra2 = '#533018';
+                $sg_ficha_accent = '#ca8740';
+                $sg_ficha_accent_strong = '#e4ab68';
+                $sg_ficha_accent_soft = 'rgba(202, 135, 64, 0.18)';
+                $sg_ficha_accent_glow = 'rgba(228, 171, 104, 0.28)';
+                $sg_ficha_surface = 'rgba(28, 20, 14, 0.97)';
+                $sg_ficha_surface2 = 'rgba(40, 28, 19, 0.97)';
+                $sg_ficha_panel = 'rgba(34, 24, 16, 0.94)';
+                $sg_ficha_card = 'rgba(44, 31, 21, 0.92)';
+                $sg_ficha_card_soft = 'rgba(56, 40, 28, 0.78)';
             }
             if ($villa == 5) { 
                 $villa_color = 'fhku'; 
                 $villa_var_color = '--kumo-group-color';
-                $sombra1 = '#a48a26';
-                $sombra2 = '#7b681c';  
+                $sombra1 = '#7b6421';
+                $sombra2 = '#5d4a18';
+                $sg_ficha_accent = '#cfb04a';
+                $sg_ficha_accent_strong = '#ead07a';
+                $sg_ficha_accent_soft = 'rgba(207, 176, 74, 0.18)';
+                $sg_ficha_accent_glow = 'rgba(234, 208, 122, 0.28)';
+                $sg_ficha_surface = 'rgba(28, 24, 13, 0.97)';
+                $sg_ficha_surface2 = 'rgba(39, 33, 17, 0.97)';
+                $sg_ficha_panel = 'rgba(33, 28, 14, 0.94)';
+                $sg_ficha_card = 'rgba(42, 36, 18, 0.92)';
+                $sg_ficha_card_soft = 'rgba(54, 46, 24, 0.78)';
             }
             if ($villa == 6) { 
                 $villa_color = 'fhre'; 
                 $villa_var_color = '--nsa-group-color';  
-                $sombra1 = '#9c0c0c';
-                $sombra2 = '#750909';
+                $sombra1 = '#6e1117';
+                $sombra2 = '#530b10';
+                $sg_ficha_accent = '#cb3f4c';
+                $sg_ficha_accent_strong = '#e46672';
+                $sg_ficha_accent_soft = 'rgba(203, 63, 76, 0.18)';
+                $sg_ficha_accent_glow = 'rgba(228, 102, 114, 0.28)';
+                $sg_ficha_surface = 'rgba(28, 13, 17, 0.97)';
+                $sg_ficha_surface2 = 'rgba(40, 18, 24, 0.97)';
+                $sg_ficha_panel = 'rgba(34, 15, 20, 0.94)';
+                $sg_ficha_card = 'rgba(44, 19, 25, 0.92)';
+                $sg_ficha_card_soft = 'rgba(56, 25, 32, 0.78)';
             }
             if ($villa == 7) { 
                 $villa_color = 'fhnsa'; 
                 $villa_var_color = '--renegados-group-color'; 
-                $sombra1 = '#69394f';
-                $sombra2 = '#4f2b3b'; 
+                $sombra1 = '#5a2f4f';
+                $sombra2 = '#43233b'; 
+                $sg_ficha_accent = '#b56aa3';
+                $sg_ficha_accent_strong = '#d494c4';
+                $sg_ficha_accent_soft = 'rgba(181, 106, 163, 0.18)';
+                $sg_ficha_accent_glow = 'rgba(212, 148, 196, 0.28)';
+                $sg_ficha_surface = 'rgba(25, 15, 24, 0.97)';
+                $sg_ficha_surface2 = 'rgba(35, 20, 33, 0.97)';
+                $sg_ficha_panel = 'rgba(30, 17, 28, 0.94)';
+                $sg_ficha_card = 'rgba(38, 22, 36, 0.92)';
+                $sg_ficha_card_soft = 'rgba(49, 30, 46, 0.78)';
             }
 
             eval('$villaVarColor = $villa_var_color;');
             eval('$villaColor = $villa_color;');
+            eval('$sgFichaTheme = $sg_ficha_theme;');
+            eval('$sgFichaAccent = $sg_ficha_accent;');
+            eval('$sgFichaAccentStrong = $sg_ficha_accent_strong;');
+            eval('$sgFichaAccentSoft = $sg_ficha_accent_soft;');
+            eval('$sgFichaAccentGlow = $sg_ficha_accent_glow;');
+            eval('$sgFichaSurface = $sg_ficha_surface;');
+            eval('$sgFichaSurface2 = $sg_ficha_surface2;');
+            eval('$sgFichaPanel = $sg_ficha_panel;');
+            eval('$sgFichaCard = $sg_ficha_card;');
+            eval('$sgFichaCardSoft = $sg_ficha_card_soft;');
+            eval('$sgFichaBorder = $sg_ficha_border;');
+            eval('$sgFichaBorderStrong = $sg_ficha_border_strong;');
+            eval('$sgFichaPaper = $sg_ficha_paper;');
+            eval('$sgFichaPaperText = $sg_ficha_paper_text;');
+            eval('$sgFichaThemeLabel = $sg_ficha_theme_label;');
             eval('$villa = $v;');
         }
     
@@ -204,6 +294,8 @@ if ($ficha_existe == true && ($moderated == true || (is_mod($s_uid) || is_staff(
         $reg_a = 0;
         $reg_c = round(((($f['str'] + $f['res'] + $f['spd'] + $f['agi'] + $f['dex'] + $f['pres'] + $f['inte'] + $f['ctrl']) * 2)) / 40) + 1;
         $suma_stats_var = $f['str'] + $f['res'] + $f['spd'] + $f['agi'] + $f['dex'] + $f['pres'] + $f['inte'] + $f['ctrl'];
+        $sg_vida_bar = min(100, max(8, round(($f['vida'] / max($v, 1)) * 100)));
+        $sg_chakra_bar = min(100, max(8, round(($f['chakra'] / max($c, 1)) * 100)));
 
         $historia_var = nl2br($ficha['historia']);
         $apariencia_var = nl2br($ficha['apariencia']);
@@ -314,37 +406,34 @@ if ($ficha_existe == true && ($moderated == true || (is_mod($s_uid) || is_staff(
         eval('$frase = $frase_var;');
         eval('$nivel_limite = $limite_nivel;');
         eval('$suma_stats = $suma_stats_var;');
+        eval('$sgVidaBar = $sg_vida_bar;');
+        eval('$sgChakraBar = $sg_chakra_bar;');
     }
-    eval("\$fichaleft = \"".$templates->get("sg_fichaleft")."\";");
-    eval("\$ficharight = \"".$templates->get("sg_ficharight")."\";");
+    $can_view_staff_notes = ($s_uid == $uid || is_staff($s_uid) || is_peti_mod($s_uid));
+    $query_tec_aprendidas = $db->query("
+        SELECT * FROM `mybb_sg_sg_tecnicas` 
+        INNER JOIN `mybb_sg_sg_tec_aprendidas` 
+        ON `mybb_sg_sg_tecnicas`.`tid`=`mybb_sg_sg_tec_aprendidas`.`tid` 
+        WHERE `mybb_sg_sg_tec_aprendidas`.`uid`='$uid'
+    ");
 
-    // zona privada, solo para admins
-    if ($s_uid == $uid || is_staff($s_uid) || is_peti_mod($s_uid)) {
-        $query_tec_aprendidas = $db->query("
-            SELECT * FROM `mybb_sg_sg_tecnicas` 
-            INNER JOIN `mybb_sg_sg_tec_aprendidas` 
-            ON `mybb_sg_sg_tecnicas`.`tid`=`mybb_sg_sg_tec_aprendidas`.`tid` 
-            WHERE `mybb_sg_sg_tec_aprendidas`.`uid`='$uid'
-        ");
+    $tec_aprendidas = array();
+    
+    while ($tec_aprendida = $db->fetch_array($query_tec_aprendidas)) {
+        $tec_aprendida['descripcion'] = nl2br($tec_aprendida['descripcion']);
+        $key = strtolower($tec_aprendida['tipo']) . '_' . strtolower($tec_aprendida['aldea']);
 
-        $tec_aprendidas = array();
-        
-        while ($tec_aprendida = $db->fetch_array($query_tec_aprendidas)) {
-            $tec_aprendida['descripcion'] = nl2br($tec_aprendida['descripcion']);
-            $key = strtolower($tec_aprendida['tipo']) . '_' . strtolower($tec_aprendida['aldea']);
-
-            if (!$tec_aprendidas[$key]) {
-                $tec_aprendidas[$key] = array();
-            }
-            array_push($tec_aprendidas[$key], $tec_aprendida);
+        if (!$tec_aprendidas[$key]) {
+            $tec_aprendidas[$key] = array();
         }
-        $tec_aprendidas_json = json_encode($tec_aprendidas);
-        
-        // create variables
-        eval('$tec_aprendidas = "'.addslashes($tec_aprendidas_json).'";');
-        eval("\$fichaprivate_script = \"".$templates->get("sg_fichaprivate_script")."\";");
-        eval("\$fichaprivate = \"".$templates->get("sg_fichaprivate")."\";");
+        array_push($tec_aprendidas[$key], $tec_aprendida);
     }
+    $tec_aprendidas_json = json_encode($tec_aprendidas);
+    
+    eval('$tec_aprendidas = "'.addslashes($tec_aprendidas_json).'";');
+    eval('$sgFichaCanViewStaffNotes = "'.$can_view_staff_notes.'";');
+    eval("\$fichaprivate_script = \"".$templates->get("sg_fichaprivate_script")."\";");
+    eval("\$fichaprivate = \"".$templates->get("sg_fichaprivate")."\";");
 
     eval("\$page = \"".$templates->get("sg_ficha")."\";");
     output_page($page);
@@ -429,6 +518,3 @@ if ($ficha_existe == true && ($moderated == true || (is_mod($s_uid) || is_staff(
 }
 // eval("\$page = \"".$templates->get("ficha")."\";");
 // output_page($page);
-
-
-

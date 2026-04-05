@@ -1,546 +1,425 @@
 <html>
-
 <head>
-  <style>
-	
-	#gradient {
-	  background: linear-gradient(to left, var({$villaVarColor}) 0%, transparent 100%);
-	} 
-	 
-    .avatarPic {
-	  background-color: {$sombra2} !important;
-	}
-/*     .atributos-texto { */
-      color: #f2f2f2 !important;
-      font-family: 'LemonMilkLight';
-    }
-
-    .post-avatar-final {
-      background-color: #7c1e1e !important;
-    }
-
-    .izquierdaPR,
-    .izquierdaPE {
-      
-    }
-
-    .izquierdaPR span,
-    .izquierdaPE span {
-      margin-left: 0px !important;
-      letter-spacing: 2px !important;
-    }
-
-    .cajaTabs:hover {
-      color: var({$villaVarColor});
-    }
-	  
-    /* Style the tab */
-    .tab {
-      overflow: hidden;
-      border: 1px solid #ccc;
-      background-color: #f1f1f1;
-    }
-
-    /* Create an active/current tablink class */
-    .tab-active {
-      color: var({$villaVarColor});
-    }
-
-    /* Style the tab content */
-    .tabcontent {
-      display: none;
-      animation: fadeEffect 1s;
-      /* Fading effect takes 1 second */
-    }
-	  
-	a:visited, a:link {
-    	color: #ffffff;
-	}
-	 
-    /* Fade in tabs */
-    @-webkit-keyframes fadeEffect {
-      from {
-        opacity: 0;
-      }
-
-      to {
-        opacity: 1;
-      }
-    }
-
-    @keyframes fadeEffect {
-      from {
-        opacity: 0;
-      }
-
-      to {
-        opacity: 1;
-      }
-    }
-  
-	<if $is_owner then>
-	  #bannerFicha, .avatarImagen {
-		transition: all 0.2s ease-out;
-		cursor: pointer;
-	  }
-	  
-	  #bannerFicha:hover, .avatarImagen:hover {
-		filter: sepia(0.5);	
-	  }
-  	</if>
-  </style>
   <title>Ficha</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Source+Serif+4:wght@300;400;600;700&family=Zen+Old+Mincho:wght@400;700&display=swap" rel="stylesheet">
   {$headerinclude}
+  <style>
+    :root {
+      --ficha-accent: {$sgFichaAccent};
+      --ficha-accent-strong: {$sgFichaAccentStrong};
+      --ficha-accent-soft: {$sgFichaAccentSoft};
+      --ficha-accent-glow: {$sgFichaAccentGlow};
+      --ficha-surface: {$sgFichaSurface};
+      --ficha-surface-2: {$sgFichaSurface2};
+      --ficha-panel: {$sgFichaPanel};
+      --ficha-card: {$sgFichaCard};
+      --ficha-card-soft: {$sgFichaCardSoft};
+      --ficha-border: {$sgFichaBorder};
+      --ficha-border-strong: {$sgFichaBorderStrong};
+      --ficha-paper: {$sgFichaPaper};
+      --ficha-paper-text: {$sgFichaPaperText};
+    }
+  </style>
 </head>
 
-<body>
+<body class="sg-profile-theme-{$sgFichaTheme}">
   {$header}
-   <main>
-            <div id="mainBackground">
-                <div id="secondBackground">
-                    <div id="thirdFichaBackground">
-						
-						<div id="fichaBox"><div id="seccionIzquierda" style=" background-color: {$sombra1};height: fit-content; ">
-							<div class="avatarBox" style="background-color: {$sombra1};margin-top: 6px;">
-                                <div class="avatarPic">
-									<if $avatar then><img class="avatarImagen" onclick="openAvatar1Modal()" src="{$avatar}" style=" width: 300px; "></if>
-									<if !$avatar then><img class="avatarImagen" src="/images/default_avatar.png"></if>
-								</div>
-                            </div>
-							
-							<div style="display: flex;margin-top: 0px;margin-bottom: 0px;">
-								<div class="post-avatar" style="background-color: {$sombra2};width: 100%;text-align: center;"><div style=" color: white; font-size: 1.5rem; font-weight: 800; letter-spacing: 0.25rem; ">DATOS</div></div>
-							</div>
-							
-							<div style="display: flex;">
-								<div class="fichaTab tabPuntosRol">
-								  <div class="parteIzq izquierdaPR" style="background-color: var({$villaVarColor});text-align: center;">
-									<span>Nivel</span>
-								  </div>
-								  <div class="parteDer derechaPR" style="background-color: {$sombra2};">
-									<span>{$ficha['nivel']}</span>
-								  </div>
-								</div>
-							</div>
-							
-							<div style="display: flex;">
-								<div class="fichaTab tabPuntosRol">
-								  <div class="parteIzq izquierdaPR" style="background-color: var({$villaVarColor});text-align: center;">
-									<span>Experiencia</span>
-								  </div>
-								  <div class="parteDer derechaPR" style="background-color: {$sombra2};">
-									<span>{$puntos_rol}</span>
-								  </div>
-								</div>
-							</div>
-							
-							<div style="display: flex;">
-								<div class="fichaTab tabPuntosRol">
-								  <div class="parteIzq izquierdaPR" style="background-color: var({$villaVarColor});text-align: center;">
-									<span>Rins</span>
-								  </div>
-								  <div class="parteDer derechaPR" style="background-color: {$sombra2};">
-									<span>{$ficha['rin']}</span>
-								  </div>
-								</div>
-							</div>
-							
-							<div style="display: flex;">
-								<div class="fichaTab tabPuntosRol">
-								  <div class="parteIzq izquierdaPR" style="background-color: var({$villaVarColor});text-align: center;">
-									<span>Tobis</span>
-								  </div>
-								  <div class="parteDer derechaPR" style="background-color: {$sombra2};">
-									<span>{$ficha['tobi']}</span>
-								  </div>
-								</div>
-							</div>
-							
-							<div style="display: flex;">
-								<div class="fichaTab tabPuntosRol">
-								  <div class="parteIzq izquierdaPR" style="background-color: var({$villaVarColor});text-align: center;">
-									<span>Reputación</span>
-								  </div>
-								  <div class="parteDer derechaPR" style="background-color: {$sombra2};">
-									<span>{$ficha['reputacion']}</span>
-								  </div>
-								</div>
-							</div>
-							
-							<div style="display: flex;">
-								<div class="fichaTab tabPuntosRol">
-								  <div class="parteIzq izquierdaPR" style="background-color: var({$villaVarColor});text-align: center;">
-									<span>Peso</span>
-								  </div>
-								  <div class="parteDer derechaPR" style="background-color: {$sombra2};">
-									<span>{$ficha['peso']}</span>
-								  </div>
-								</div>
-							</div>
-							
-							<div style="display: flex;">
-								<div class="fichaTab tabPuntosRol">
-								  <div class="parteIzq izquierdaPR" style="background-color: var({$villaVarColor});text-align: center;">
-									<span>Altura</span>
-								  </div>
-								  <div class="parteDer derechaPR" style="background-color: {$sombra2};">
-									<span>{$ficha['altura']}</span>
-								  </div>
-								</div>
-							</div>
-							
-							<div style="display: flex;">
-								<div class="fichaTab tabPuntosRol">
-								  <div class="parteIzq izquierdaPR" style="background-color: var({$villaVarColor});text-align: center;width: 235px;">
-									<span>Ryos</span>
-								  </div>
-								  <div class="parteDer derechaPR" style="background-color: {$sombra2};width: 75px;">
-									<span>{$ficha['ryos']}</span>
-								  </div>
-								</div>
-							</div>
-						
-                            <div class="filaTab">
-                                <div class="fichaTab tabEdad">
-                                    <div class="parteIzq izquierdaEdad" style="background-color: {$sombra2};">
-                                        <span>歳</span>
-                                    </div>
-                                    <div class="parteDer derechaEdad" style="background-color: var({$villaVarColor});">
-                                        <span>{$ficha['edad']} Años</span>
-                                    </div>
-                                </div>
-                                <div class="fichaTab tabRango">
-                                    <div class="parteIzq izquierdaRango" style="background-color: {$sombra2};">
-                                        <span>位</span>
-                                    </div>
-                                    <div class="parteDer derechaRango" style="background-color: var({$villaVarColor});">
-                                        <span>{$ficha['rango']}</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="filaTab">
-                                <div class="fichaTab tabAldea">
-                                    <div class="parteIzq izquierdaAldea" style="background-color: {$sombra2};">
-                                        <span>里</span>
-                                    </div>
-                                    <div class="parteDer derechaAldea" style="background-color: var({$villaVarColor});">
-                                        <span>{$villa['nombreVilla']}</span>
-                                    </div>
-                                </div>
-                                <div class="fichaTab tabFaccion">
-                                    <div class="parteIzq izquierdaFaccion" style="background-color: {$sombra2};">
-                                        <span>{$ficha['sexo']}</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="fichaTab tabClan">
-                                <div class="parteIzq izquierdaClan" style="background-color: {$sombra2};">
-                                    <span>族</span>
-                                </div>
-                                <div class="parteDer derechaClan" style="background-color: var({$villaVarColor});">
-                                    <span>{$nClan}</span>
-                                </div>
-                            </div>
-<!--                             <div class="fichaTab tabClase">
-                                <div class="parteIzq izquierdaClase" style="background-color: {$sombra2};">
-                                    <span style=" font-size: 20px;">級</span>
-                                </div>
-                                <div class="parteDer derechaClase" style="background-color: var({$villaVarColor});">
-                                    <span></span>
-                                </div>
-                            </div> -->
-							
-<div style="display: flex;margin-top: 0px;margin-bottom: 0px;">
-	<div class="post-avatar" style="background-color: {$sombra2};width: 100%;text-align: center;">
-		<div style=" color: white; font-size: 1.5rem; font-weight: 800; letter-spacing: 0.25rem; ">ESTADÍSTICAS</div>
-</div>
-							</div>
-							
-							<div style="display: flex;">
-								<div style="width: 73%;margin-left: 7px;margin-top: 7px;">
-								  <p class="atributos-texto">Fuerza</p>
-								  <p class="atributos-texto">Destreza</p>
-								  <p class="atributos-texto">Control de Chakra</p>
-								  <p class="atributos-texto">Inteligencia</p>
-								  <p class="atributos-texto">Salud</p>
-								  <p class="atributos-texto">Velocidad</p>
-								  <p class="atributos-texto">Tenketsu</p>
-								  <p class="atributos-texto">Sigilo</p>
-<!-- 								  <p class="atributos-texto">Reg. de Chakra</p>         -->
-								</div>
-								<div style=" width: 20%; margin-top: 7px;">
-								  <p class="atributos-texto" style=" text-align: right; ">{$ficha['fuerza']} (M: 1)</p>
-								  <p class="atributos-texto" style=" text-align: right; ">{$ficha['destreza']} (M: 1)</p>
-								  <p class="atributos-texto" style=" text-align: right; ">{$ficha['cchakra']} (M: 1)</p>
-								  <p class="atributos-texto" style=" text-align: right; ">{$ficha['inteligencia']} (M: 1)</p>
-								  <p class="atributos-texto" style=" text-align: right; ">{$ficha['salud']}</p>
-								  <p class="atributos-texto" style=" text-align: right; ">{$ficha['velocidad']}</p>
-								  <p class="atributos-texto" style=" text-align: right; ">{$ficha['tenketsu']}</p>
-								  <p class="atributos-texto" style=" text-align: right; ">{$ficha['sigilo']}</p>
-<!-- 								  <p class="atributos-texto" style=" text-align: right; ">{$regC}</p> -->
-								</div>
-							  </div>
-							
-							<div style="text-align: center;">
-								<div class="vidaStatusBar" style=" border: 2px solid {$sombra2}; border-radius: 5px; background-color: #dd4444; width: 293px; margin: auto; ">
-									<div class="barrasVida" style=" background-image: none; height: auto; ">
-										<span class="barraVidaText" style=" top: -3px; font-size: 16px; ">Vida: {$ficha['vida']}</span><br>
-									</div>
-								</div>
-								
-								 <div class="vidaStatusBar" style=" border: 2px solid {$sombra2}; border-radius: 5px; background-color: #6bd; width: 293px; margin: auto;margin-top: 3px; ">
-									 <div class="barrasVida" style=" background-image: none; height: auto; ">
-										 <span class="barraVidaText" style=" top: -3px; font-size: 16px; ">Chakra: {$ficha['chakra']}</span><br>
-									 </div>
-								</div>
 
-							</div>
-							
-							<div class="post-avatar" style="background-color: {$sombra2};margin-top: 5px;margin-bottom: -5px;">
+  <main class="sg-profile-page">
+    <div class="sg-profile-shell">
+      <section class="sg-dossier-hero">
+        <div class="sg-dossier-hero__banner <if $is_owner then>sg-profile-editable</if>" style="background-image: url({$ficha['banner']});" <if $is_owner then>onclick="openProfileAssetModal('banner')"</if>></div>
+        <div class="sg-dossier-hero__overlay"></div>
+        <div class="sg-dossier-hero__content">
+          <div class="sg-dossier-hero__avatar <if $is_owner then>sg-profile-editable</if>" <if $is_owner then>onclick="openProfileAssetModal('avatar')"</if>>
+            <if $avatar then>
+              <img src="{$avatar}" alt="Avatar de {$ficha['nombre']}">
+            <else>
+              <img src="/images/default_avatar.png" alt="Avatar por defecto">
+            </if>
+          </div>
 
-							<span class="post-avatar-mitad-texto">
-								<a href="/sg/inventario.php?uid={$ficha['fid']}">INVENTARIO</a>
-							</span>
-							</div>
-							
-							<div class="post-avatar" style="background-color: {$sombra2};margin-top: 5px;margin-bottom: -5px;">
-								<span class="post-avatar-mitad-texto"><a href="/member.php?action=profile&uid={$ficha['fid']}">PERFIL</a></span>
-							</div>
-							<!-- || g_is_staff -->
-							 <if $mybb->user['uid'] == $ficha['fid'] then>
-								<div class="post-avatar" style="background-color: {$sombra2};margin-top: 5px;margin-bottom: -5px;">
-									<span class="post-avatar-mitad-texto"><a href="{$mybb->settings['bburl']}/sg/editar_ficha.php?uid={$ficha['fid']}">ASIGNAR STATS</a></span>
-								</div>
-							 </if>
-							 <if $mybb->user['uid'] == $ficha['fid'] || $g_is_staff then>
-								<div class="post-avatar" style="background-color: {$sombra2};margin-top: 5px;margin-bottom: -5px;">
-									<span class="post-avatar-mitad-texto"><a href="{$mybb->settings['bburl']}/sg/editar_descripcion.php?uid={$ficha['fid']}">EDITAR FICHA</a></span>
-								</div>
-							 </if>
-							
-							<div style="display: flex;margin-top: 14px;">
-								<div class="post-avatar-final" style="background-color: {$sombra2} !important;"></div>
-							  </div>
-							
-                        </div>
-							
-                        <div id="seccionDerecha">
-                            <div onclick="openAvatar2Modal()" id="bannerFicha" style="border: 3px solid var({$villaVarColor});background-image: url({$ficha['banner']});">
-                                <div id="gradient" style="background: linear-gradient(to left,var({$villaVarColor}) 0%,transparent 100%);"></div>
-                                <div id="bannerFichaImagen"> </div>
-                                <div id="userInfo">
-                                    <span class="userNombre">{$ficha['nombre']}</span><br>
-                                    <span class="userApodo">{$ficha['apodo']}</span>
-                                </div>
-                            </div>
-							<div class=divisorInformacion style=" background-color: {$sombra2}; text-shadow: 2px 2px 2px #010101;">INFORMACION DE PERSONAJE</div>
-                            <div class="content" style="background-color: var({$villaVarColor}); border: 2px solid {$sombra1};box-sizing: border-box;margin-top: -10px;">
-                                <div class="content-text" id="content-info">
-                                    <div class="boxHistoria" style="background-color: {$sombra1}; border: 5px solid {$sombra2}" >
-                                        <div class="titleH">Historia</div>
-                                        <div class="boxTexto">
-                                            <div class="texto">{$historia}
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="boxFisico" style="background-color: {$sombra1}; border: 5px solid {$sombra2}" >
-                                        <div class="titleA">Apariencia</div>
-                                        <div class="boxTexto">
-                                            <div class="texto">{$apariencia}
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="boxPersonalidad" style="background-color: {$sombra1}; border: 5px solid {$sombra2}">
-                                        <div class="titleP">Personalidad</div>
-                                        <div class="boxTexto">
-                                            <div class="texto">{$personalidad}
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="boxExtra" style="background-color: {$sombra1}; border: 5px solid {$sombra2}">
-                                        <div class="titleE">Frases y Extras</div>
-                                        <div class="boxTexto">
-                                            <div class="texto">{$frase}<br /><br />{$extra}
-                                            </div>
-                                        </div>
-                                    </div>					
-                                </div>
-                        </div>
-						<div id="cajaPB" style="background-color: {$sombra1};">{$ficha['fisico_de_pj']}</div>
+          <div class="sg-dossier-hero__identity">
+            <div class="sg-dossier-hero__village">{$sgFichaThemeLabel}</div>
+            <h1 class="sg-dossier-hero__name">{$ficha['nombre']}</h1>
+            <if $ficha['apodo'] then>
+              <p class="sg-dossier-hero__alias">{$ficha['apodo']}</p>
+            </if>
+            <div class="sg-dossier-hero__summary">
+              <div class="sg-dossier-chip">
+                <span class="sg-dossier-chip__label">Clase</span>
+                <span class="sg-dossier-chip__value" id="sg-profile-class">E</span>
+              </div>
+              <div class="sg-dossier-chip">
+                <span class="sg-dossier-chip__label">Nivel</span>
+                <span class="sg-dossier-chip__value">{$ficha['nivel']}</span>
+              </div>
+              <div class="sg-dossier-chip">
+                <span class="sg-dossier-chip__label">Vida Base</span>
+                <span class="sg-dossier-chip__value">{$vida}</span>
+              </div>
+              <div class="sg-dossier-chip">
+                <span class="sg-dossier-chip__label">Chakra Base</span>
+                <span class="sg-dossier-chip__value">{$chakra}</span>
+              </div>
+              <div class="sg-dossier-chip">
+                <span class="sg-dossier-chip__label">Experiencia</span>
+                <span class="sg-dossier-chip__value">{$puntos_rol}</span>
+              </div>
+              <div class="sg-dossier-chip">
+                <span class="sg-dossier-chip__label">P. Habilidad</span>
+                <span class="sg-dossier-chip__value">{$ficha['puntos_habilidad']}</span>
+              </div>
+            </div>
+          </div>
 
-						</div>
-							
-                    </div>
-					<div class="privatezone">
-						<div class="divisortecnicas" style="background-color: {$sombra2}">Zona Privada</div>
-						<div class="cajaTecnicas" style="background-color: #0e1a28">
-							<div class="tecscontainer" style="background-color: #0e1a28">
-								<div style="display: flex;gap: 10px;margin: 10px;">
-		      						<div class="tecselector">
-										<div class=tecselectorBox>
-				  							<input class="button" type="button" id="ninbutton" value="Ninjutsu" onclick="showBlock('ninblock')">
-										</div>
-										<div class=tecselectorBox>  
-											<input class="button" type="button" id="taibutton" value="Taijutsu" onclick="showBlock('taiblock')"></div>
-        								<div class="tecselectorBox">
-											<input class="button" type="button" id="genbutton" value="Genjutsu" onclick="showBlock('genblock')"></div>
-									</div>
-								  <div id="tecDiv" style=" margin-left: -10px; ">
-									<div class="tecblock ninjutsu ninjutsu_general" id="ninblock" style="display: inline-block;"></div>
-									<div class="tecblock taijutsu taijutsu_general" id="taiblock" style="display: none;"></div>
-									<div class="tecblock genjutsu genjutsu_general" id="genblock" style="display: none;"></div>
-								  </div>
-								</div>
-							  </div>
-						</div>	
-						<div style="font-family: InterRegular;text-align: center;font-size: 20px;">
-<!-- 							Slots libres: {$ficha['slots']}<br> -->
-							<span>Notas del Staff:</span><br>
-							<textarea disabled="" style="width: 441px; height: 76px;">{$ficha['notas']}</textarea>
-						</div>
-					</div>
-        </main>
-		<!-- The Modal -->
-		<div id="myModal" class="modal">
+          <div class="sg-dossier-hero__actions">
+            <a class="sg-profile-action" href="/sg/inventario.php?uid={$ficha['fid']}">Inventario</a>
+            <a class="sg-profile-action" href="/member.php?action=profile&uid={$ficha['fid']}">Perfil</a>
+            <if $mybb->user['uid'] == $ficha['fid'] then>
+              <a class="sg-profile-action" href="{$mybb->settings['bburl']}/sg/editar_ficha.php?uid={$ficha['fid']}">Asignar Stats</a>
+            </if>
+            <if $mybb->user['uid'] == $ficha['fid'] || $g_is_staff then>
+              <a class="sg-profile-action" href="{$mybb->settings['bburl']}/sg/editar_descripcion.php?uid={$ficha['fid']}">Editar Ficha</a>
+            </if>
+          </div>
+        </div>
+      </section>
 
-		  <!-- Modal content -->
-		  <div class="modal-content" style="background-color: #2a4058;border: 4px solid #061018;border-radius: 8px;height: 206px;width: 620px;">
-			<div class="modal-body" style=" display: flex; flex-direction: column; ">
+      <section class="sg-dossier-grid">
+        <div class="sg-dossier-card sg-dossier-card--compact sg-dossier-card--identity">
+          <div class="sg-dossier-card__head">
+            <h2>Dossier</h2>
+          </div>
+          <div class="sg-dossier-card__body">
+            <div class="sg-dossier-meta-grid">
+              <div class="sg-dossier-meta">
+                <span class="sg-dossier-meta__label">Edad</span>
+                <span class="sg-dossier-meta__value">{$ficha['edad']} años</span>
+              </div>
+              <div class="sg-dossier-meta">
+                <span class="sg-dossier-meta__label">Rango</span>
+                <span class="sg-dossier-meta__value">{$ficha['rango']}</span>
+              </div>
+              <div class="sg-dossier-meta">
+                <span class="sg-dossier-meta__label">Aldea</span>
+                <span class="sg-dossier-meta__value">{$villa['nombreVilla']}</span>
+              </div>
+              <div class="sg-dossier-meta">
+                <span class="sg-dossier-meta__label">Sexo</span>
+                <span class="sg-dossier-meta__value">{$ficha['sexo']}</span>
+              </div>
+              <div class="sg-dossier-meta">
+                <span class="sg-dossier-meta__label">Clan</span>
+                <span class="sg-dossier-meta__value">{$nClan}</span>
+              </div>
+              <div class="sg-dossier-meta">
+                <span class="sg-dossier-meta__label">Peso</span>
+                <span class="sg-dossier-meta__value">{$ficha['peso']}</span>
+              </div>
+              <div class="sg-dossier-meta">
+                <span class="sg-dossier-meta__label">Altura</span>
+                <span class="sg-dossier-meta__value">{$ficha['altura']}</span>
+              </div>
+              <div class="sg-dossier-meta">
+                <span class="sg-dossier-meta__label">Clase</span>
+                <span class="sg-dossier-meta__value" id="sg-profile-class-summary">E</span>
+              </div>
+            </div>
+          </div>
+        </div>
 
-			</div>
-		  </div>
+        <div class="sg-dossier-card sg-dossier-card--compact sg-dossier-card--resources">
+          <div class="sg-dossier-card__head">
+            <h2>Recursos</h2>
+          </div>
+          <div class="sg-dossier-card__body">
+            <div class="sg-dossier-meta-grid">
+              <div class="sg-dossier-meta">
+                <span class="sg-dossier-meta__label">Rins</span>
+                <span class="sg-dossier-meta__value">{$ficha['rin']}</span>
+              </div>
+              <div class="sg-dossier-meta">
+                <span class="sg-dossier-meta__label">Tobis</span>
+                <span class="sg-dossier-meta__value">{$ficha['tobi']}</span>
+              </div>
+              <div class="sg-dossier-meta">
+                <span class="sg-dossier-meta__label">Ryos</span>
+                <span class="sg-dossier-meta__value">{$ficha['ryos']}</span>
+              </div>
+              <div class="sg-dossier-meta">
+                <span class="sg-dossier-meta__label">Reputación</span>
+                <span class="sg-dossier-meta__value">{$ficha['reputacion']}</span>
+              </div>
+            </div>
+          </div>
+        </div>
 
-		</div>
-		<!-- End Modal -->
-   {$footer}
-				
-<script>
-function changeTab(tabIndex) {
-  const tabs = document.querySelectorAll('.tab');
-  const contentInfo = document.getElementById('content-info');
-  const contentInventory = document.getElementById('content-inventory');
-  const contentTechniques = document.getElementById('content-techniques');
+        <div class="sg-dossier-card sg-dossier-card--compact sg-dossier-card--combat">
+          <div class="sg-dossier-card__head">
+            <h2>Combate</h2>
+          </div>
+          <div class="sg-dossier-card__body">
+            <div class="sg-dossier-bars">
+              <div class="sg-dossier-bar-card">
+                <div class="sg-dossier-bar-card__top">
+                  <span class="sg-dossier-meta__label">Vida</span>
+                  <strong>{$ficha['vida']}</strong>
+                </div>
+                <div class="sg-profile-bar sg-profile-bar--life" style="--fill: {$sgVidaBar}%;"></div>
+              </div>
+              <div class="sg-dossier-bar-card">
+                <div class="sg-dossier-bar-card__top">
+                  <span class="sg-dossier-meta__label">Chakra</span>
+                  <strong>{$ficha['chakra']}</strong>
+                </div>
+                <div class="sg-profile-bar sg-profile-bar--chakra" style="--fill: {$sgChakraBar}%;"></div>
+              </div>
+              <div class="sg-dossier-bar-card">
+                <div class="sg-dossier-bar-card__top">
+                  <span class="sg-dossier-meta__label">Reg. Chakra</span>
+                  <strong>{$regC}</strong>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
 
-  tabs.forEach(tab => {
-    tab.classList.remove('active-tab');
-    tab.classList.add('inactive-tab');
-  });
+        <div class="sg-dossier-card sg-dossier-card--wide sg-dossier-card--stats">
+          <div class="sg-dossier-card__head">
+            <h2>Estadísticas</h2>
+          </div>
+          <div class="sg-dossier-card__body">
+            <div class="sg-dossier-stat-grid">
+              <div class="sg-dossier-stat"><span>Fuerza</span><strong>{$ficha['str']}</strong></div>
+              <div class="sg-dossier-stat"><span>Resistencia</span><strong>{$ficha['res']}</strong></div>
+              <div class="sg-dossier-stat"><span>Velocidad</span><strong>{$ficha['spd']}</strong></div>
+              <div class="sg-dossier-stat"><span>Agilidad</span><strong>{$ficha['agi']}</strong></div>
+              <div class="sg-dossier-stat"><span>Destreza</span><strong>{$ficha['dex']}</strong></div>
+              <div class="sg-dossier-stat"><span>Presencia</span><strong>{$ficha['pres']}</strong></div>
+              <div class="sg-dossier-stat"><span>Inteligencia</span><strong>{$ficha['inte']}</strong></div>
+              <div class="sg-dossier-stat"><span>Control Chakra</span><strong>{$ficha['ctrl']}</strong></div>
+            </div>
+          </div>
+        </div>
+      </section>
 
-  tabs[tabIndex].classList.remove('inactive-tab');
-  tabs[tabIndex].classList.add('active-tab');
+      <section class="sg-dossier-story">
+        <div class="sg-dossier-card sg-dossier-card--full sg-dossier-card--bio">
+          <div class="sg-dossier-card__head">
+            <h2>Biografía</h2>
+          </div>
+          <div class="sg-dossier-card__body sg-dossier-prose">{$historia}</div>
+        </div>
 
-  // Ocultar todos los contenidos
-  contentInfo.style.position = 'absolute';
-  contentInfo.style.visibility = 'hidden';
-  contentInventory.style.position = 'absolute';
-  contentInventory.style.visibility = 'hidden';
-  contentTechniques.style.position = 'absolute';
-  contentTechniques.style.visibility = 'hidden';
+        <div class="sg-dossier-story-grid">
+          <div class="sg-dossier-card sg-dossier-card--appearance">
+            <div class="sg-dossier-card__head">
+              <h2>Apariencia</h2>
+            </div>
+            <div class="sg-dossier-card__body sg-dossier-prose">{$apariencia}</div>
+          </div>
 
-  // Mostrar contenido correspondiente al tab activo
-  if (tabIndex === 0) {
-    contentInfo.style.position = 'relative';
-    contentInfo.style.visibility = 'visible';
-  } else if (tabIndex === 1) {
-    contentInventory.style.position = 'relative';
-    contentInventory.style.visibility = 'visible';
-  } else if (tabIndex === 2) {
-    contentTechniques.style.position = 'relative';
-    contentTechniques.style.visibility = 'visible';
-  }
-}
-</script>
-					
-					<script>
-const limiteNivel = Math.round({$nivel_limite} / 2);
-const sumaStats = {$suma_stats};
-let clase = 'E';
-if (limiteNivel == 8 && sumaStats >= 560) {
-  clase = 'S+';
-} else if (limiteNivel >= 7 && sumaStats >= 480) {
-  clase = 'S';
-} else if (limiteNivel >= 6 && sumaStats >= 400) {
-  clase = 'A+';
-} else if (sumaStats >= 320) {
-  clase = 'A';
-} else if (sumaStats >= 240) {
-  clase = 'B';
-} else if (sumaStats >= 160) {
-  clase = 'C';
-} else if (sumaStats >= 80) {
-  clase = 'D';
-}
-document.getElementById('clase').innerHTML = clase;
-</script>
-<script>
-let limiteClase = 'E';
-if (limiteNivel == 8) {
-  limiteClase = 'S+';
-} else if (limiteNivel == 7) {
-  limiteClase = 'S';
-} else if (limiteNivel == 6) {
-  limiteClase = 'A+';
-} else if (sumaStats >= 320) {
-  limiteClase = 'A';
-} else if (sumaStats >= 240) {
-  limiteClase = 'B';
-} else if (sumaStats >= 160) {
-  limiteClase = 'C';
-} else if (sumaStats >= 80) {
-  limiteClase = 'D';
-}
-document.getElementById('limite_clase').innerHTML = limiteClase;
-</script>
-<script>
-	
-function openAvatar1Modal() {
-	<if $is_owner then>
-	$('.modal-body').html(`
-		<div style="font-size: 20px;text-align: center;font-family: interRegular;margin-top: 10px;">Editar Imagen</div>
-		<div style="margin-top: 10px;font-size: 18px;text-align: justify;">La imagen tiene unas dimensiones de 300x450.</div>
+          <div class="sg-dossier-card sg-dossier-card--personality">
+            <div class="sg-dossier-card__head">
+              <h2>Personalidad</h2>
+            </div>
+            <div class="sg-dossier-card__body sg-dossier-prose">{$personalidad}</div>
+          </div>
 
-		<input id="avatar1URL" type="text" class="textbox" style="width: 540px;margin: auto;margin-top: 20px;" placeholder="URL de la imagen">
-		<button onclick="cambiarAvatar1();" style=" width: 100px; margin: auto; margin-top: 20px; ">Guardar</button>
-	`);
-	modal.style.display = "block";
-	</if>
-}	
+          <div class="sg-dossier-card sg-dossier-card--extras">
+            <div class="sg-dossier-card__head">
+              <h2>Frase y Extras</h2>
+            </div>
+            <div class="sg-dossier-card__body sg-dossier-prose">
+              <if $frase then><p class="sg-dossier-prose__lead">{$frase}</p></if>
+              <if $extra then><p class="sg-dossier-prose__tail">{$extra}</p></if>
+            </div>
+          </div>
+        </div>
 
-function openAvatar2Modal() {
-	<if $is_owner then>
-	$('.modal-body').html(`
-		<div style="font-size: 20px;text-align: center;font-family: interRegular;margin-top: 10px;">Editar Imagen</div>
-		<div style="margin-top: 10px;font-size: 18px;text-align: justify;">La imagen tiene unas dimensiones de 700x100.</div>
+        <if $ficha['fisico_de_pj'] then>
+          <div class="sg-dossier-origin">Origen físico del personaje: {$ficha['fisico_de_pj']}</div>
+        </if>
+      </section>
 
-		<input id="avatar2URL" type="text" class="textbox" style="width: 540px;margin: auto;margin-top: 20px;" placeholder="URL de la imagen">
-		<button onclick="cambiarAvatar2();" style=" width: 100px; margin: auto; margin-top: 20px; ">Guardar</button>
-	`);
-	modal.style.display = "block";
-	</if>
-}
+      <if $fichaprivate then>
+        {$fichaprivate}
+      </if>
+    </div>
+  </main>
 
-function cambiarAvatar1() { $.post("/sg/ficha.php", { cambiar_avatar1: $('#avatar1URL').val() }, function( data ) { location.reload(); }); }	
-function cambiarAvatar2() { $.post("/sg/ficha.php", { cambiar_avatar2: $('#avatar2URL').val() }, function( data ) { location.reload(); }); }		
-	
-// Get the modal
-var modal = document.getElementById("myModal");
+  <form id="sg-profile-asset-form" method="post" action="{$mybb->settings['bburl']}/sg/ficha.php?uid={$ficha['fid']}" style="display:none;">
+    <input type="hidden" id="sg-avatar-input" name="cambiar_avatar1" value="">
+    <input type="hidden" id="sg-banner-input" name="cambiar_avatar2" value="">
+  </form>
 
-// When the user clicks on <span> (x), close the modal
-function closeModal() {
-	modal.style.display = "none";
-}
-	
-function clickAkuma(id) {
-	modal.style.display = "block";
-}
+  <div id="sg-profile-modal" class="sg-profile-modal" aria-hidden="true">
+    <div class="sg-profile-modal__dialog">
+      <div class="sg-profile-modal__head">
+        <h3 id="sg-profile-modal-title">Editar recurso</h3>
+        <button type="button" class="sg-profile-modal__close" onclick="closeProfileAssetModal()">×</button>
+      </div>
+      <div class="sg-profile-modal__body">
+        <div id="sg-profile-modal-copy" class="sg-profile-modal__copy"></div>
+        <input type="text" id="sg-profile-modal-input" placeholder="URL de la imagen">
+        <div class="sg-profile-modal__actions">
+          <button type="button" class="sg-profile-button" onclick="closeProfileAssetModal()">Cancelar</button>
+          <button type="button" class="sg-profile-button sg-profile-button--primary" onclick="saveProfileAsset()">Guardar</button>
+        </div>
+      </div>
+    </div>
+  </div>
 
-$(window).click(function(e) {
-	if (event.target == modal) {
-		modal.style.display = "none";
-	}
-});
-</script>
+  {$footer}
 
-	{$fichaprivate_script}				
+  <script>
+    var sgProfileState = {
+      currentAsset: ''
+    };
+
+    function sgCreateSpoiler(config) {
+      var openClass = config.open ? ' is-open' : '';
+      var countMarkup = config.count ? '<span class="sg-spoiler__count">' + config.count + '</span>' : '';
+      var eyebrowMarkup = config.eyebrow ? '<span class="sg-spoiler__eyebrow">' + config.eyebrow + '</span>' : '';
+      var contentHtml = config.content || '';
+
+      return ''
+        + '<div class="sg-spoiler ' + config.classes + openClass + '">'
+        +   '<button class="sg-spoiler__toggle" type="button" onclick="sgToggleSpoiler(this)" aria-expanded="' + (config.open ? 'true' : 'false') + '">'
+        +     '<span class="sg-spoiler__lead">'
+        +       '<span class="sg-spoiler__titles">'
+        +         eyebrowMarkup
+        +         '<span class="sg-spoiler__title">' + config.title + '</span>'
+        +       '</span>'
+        +     '</span>'
+        +     '<span class="sg-spoiler__aside">'
+        +       countMarkup
+        +       '<span class="sg-spoiler__caret">+</span>'
+        +     '</span>'
+        +   '</button>'
+        +   '<div class="sg-spoiler__panel">'
+        +     '<div class="sg-spoiler__body">'
+        +       '<div class="sg-spoiler__content">' + contentHtml + '</div>'
+        +     '</div>'
+        +   '</div>'
+        + '</div>';
+    }
+
+    function sgToggleSpoiler(button) {
+      var wrapper = button.parentNode;
+      if (!wrapper || !wrapper.classList.contains('sg-spoiler')) {
+        return;
+      }
+
+      var isOpen = wrapper.classList.contains('is-open');
+      wrapper.classList.toggle('is-open', !isOpen);
+      button.setAttribute('aria-expanded', !isOpen ? 'true' : 'false');
+    }
+
+    function computeFichaClass(limiteNivel, sumaStats) {
+      if (limiteNivel == 8 && sumaStats >= 560) return 'S+';
+      if (limiteNivel >= 7 && sumaStats >= 480) return 'S';
+      if (limiteNivel >= 6 && sumaStats >= 400) return 'A+';
+      if (sumaStats >= 320) return 'A';
+      if (sumaStats >= 240) return 'B';
+      if (sumaStats >= 160) return 'C';
+      if (sumaStats >= 80) return 'D';
+      return 'E';
+    }
+
+    function computeClassLimit(limiteNivel, sumaStats) {
+      if (limiteNivel == 8) return 'S+';
+      if (limiteNivel == 7) return 'S';
+      if (limiteNivel == 6) return 'A+';
+      if (sumaStats >= 320) return 'A';
+      if (sumaStats >= 240) return 'B';
+      if (sumaStats >= 160) return 'C';
+      if (sumaStats >= 80) return 'D';
+      return 'E';
+    }
+
+    function syncFichaClassValues() {
+      var limiteNivel = Math.round({$nivel_limite} / 2);
+      var sumaStats = {$suma_stats};
+      var clase = computeFichaClass(limiteNivel, sumaStats);
+      var limiteClase = computeClassLimit(limiteNivel, sumaStats);
+      var classTargets = document.querySelectorAll('#sg-profile-class, #sg-profile-class-summary');
+      var limitTarget = document.getElementById('sg-profile-class-limit');
+      var i = 0;
+
+      for (i = 0; i < classTargets.length; i++) {
+        classTargets[i].textContent = clase;
+      }
+
+      if (limitTarget) {
+        limitTarget.textContent = limiteClase;
+      }
+    }
+
+    function openProfileAssetModal(type) {
+      <if !$is_owner then>return;</if>
+      var modal = document.getElementById('sg-profile-modal');
+      var title = document.getElementById('sg-profile-modal-title');
+      var copy = document.getElementById('sg-profile-modal-copy');
+      var input = document.getElementById('sg-profile-modal-input');
+
+      sgProfileState.currentAsset = type;
+
+      if (type === 'avatar') {
+        title.textContent = 'Editar avatar';
+        copy.textContent = 'La imagen del avatar debe funcionar bien en formato vertical. Se recomienda una composición clara y centrada.';
+      } else {
+        title.textContent = 'Editar banner';
+        copy.textContent = 'El banner debe funcionar en formato panorámico para la cabecera principal de la ficha.';
+      }
+
+      input.value = '';
+      modal.classList.add('is-open');
+      modal.setAttribute('aria-hidden', 'false');
+      input.focus();
+    }
+
+    function closeProfileAssetModal() {
+      var modal = document.getElementById('sg-profile-modal');
+      modal.classList.remove('is-open');
+      modal.setAttribute('aria-hidden', 'true');
+      sgProfileState.currentAsset = '';
+    }
+
+    function saveProfileAsset() {
+      var form = document.getElementById('sg-profile-asset-form');
+      var avatarInput = document.getElementById('sg-avatar-input');
+      var bannerInput = document.getElementById('sg-banner-input');
+      var urlInput = document.getElementById('sg-profile-modal-input');
+      var value = urlInput.value.replace(/^\s+|\s+$/g, '');
+
+      if (!value) {
+        return;
+      }
+
+      avatarInput.value = '';
+      bannerInput.value = '';
+
+      if (sgProfileState.currentAsset === 'avatar') {
+        avatarInput.value = value;
+      } else if (sgProfileState.currentAsset === 'banner') {
+        bannerInput.value = value;
+      }
+
+      form.submit();
+    }
+
+    window.addEventListener('load', syncFichaClassValues);
+
+    window.addEventListener('click', function(event) {
+      var modal = document.getElementById('sg-profile-modal');
+      if (event.target === modal) {
+        closeProfileAssetModal();
+      }
+    });
+  </script>
 </body>
 </html>
