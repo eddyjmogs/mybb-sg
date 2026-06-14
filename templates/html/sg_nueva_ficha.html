@@ -1,238 +1,474 @@
 <html>
 
 <head>
-  <title>Ficha Nueva</title>
+  <title>Nueva Ficha — Shinobi Gaiden</title>
   {$headerinclude}
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Noto+Serif+JP:wght@300;400;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Source+Serif+4:ital,wght@0,300;0,400;0,600;1,300&family=Zen+Old+Mincho:wght@400;700&display=swap" rel="stylesheet">
   <style>
-    :root {
-      --bg:       #f4f2f8;
-      --bg2:      #ede9f4;
-      --bg3:      #e6e1f0;
-      --border:   rgba(90, 46, 154, 0.14);
-      --ink:      #1e1428;
-      --plum:     #3d1f6e;
-      --plum2:    #5a2e9a;
-      --plum3:    #7b4ab8;
-      --plum4:    #9c6bcc;
-      --lilac:    #c4a0e0;
-      --lavender: #ede0fa;
-      --oxide:    #7a2a10;
-      --oxide2:   #a83a18;
-      --stone:    #6a587a;
-      --mist:     #a898b8;
-      --fiber:    rgba(140, 120, 180, 0.06);
-    }
 
-    [data-theme="dark"] {
-      --bg:     #0f0c18;
-      --bg2:    #130f1e;
-      --bg3:    #171224;
-      --bg4:    #1c162c;
-      --border: rgba(156, 107, 204, 0.12);
-      --ink:    #e8dff8;
-      --plum:   #7b4ab8;
-      --plum2:  #9c6bcc;
-      --plum3:  #b890e0;
-      --plum4:  #d4b8f0;
-      --dim:    #4a3a6a;
-      --oxide:  #c0582a;
-      --oxide2: #e07040;
-      --stone:  #8a7a9a;
-      --mist:   #5a4a6a;
-      --fiber:  rgba(156, 107, 204, 0.04);
-    }
-
-    /* ── Form wrapper ── */
-    #newfichaform {
+    /* ─── Page wrapper ─────────────────────────────────────────── */
+    #nf-page {
+      max-width: 980px;
+      margin: 0 auto;
+      padding: 0 0 60px;
       color: var(--ink);
-      width: 960px;
-      max-width: 100%;
-      margin: 24px auto;
-      font-family: 'Noto Serif JP', serif;
-      font-size: 12px;
-      font-weight: 300;
-      text-align: left;
-      background: var(--bg2);
-      border: 0.5px solid var(--border);
-      padding: 28px 32px;
-      position: relative;
-      box-sizing: border-box;
+      font-family: 'Source Serif 4', serif;
     }
 
-    /* ── Section headings ── */
-    #newfichaform .form-section-head {
+    /* ─── Banner ────────────────────────────────────────────────── */
+    .nf-banner {
+      position: relative;
+      overflow: hidden;
+      background: var(--bg2);
+      border-bottom: 0.5px solid var(--border);
+      padding: 40px 40px 32px;
+      display: flex;
+      align-items: flex-end;
+      gap: 24px;
+      min-height: 140px;
+    }
+
+    /* Washi fiber texture */
+    .nf-banner::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background-image:
+        repeating-linear-gradient(13deg,  transparent 0, transparent 24px, var(--fiber) 24px, var(--fiber) 25px),
+        repeating-linear-gradient(82deg,  transparent 0, transparent 36px, var(--fiber) 36px, var(--fiber) 37px),
+        repeating-linear-gradient(151deg, transparent 0, transparent 19px, var(--fiber) 19px, var(--fiber) 19.5px);
+    }
+
+    /* Corner washes */
+    .nf-banner::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background:
+        radial-gradient(ellipse at 100% 0%,  rgba(123,74,184,0.07) 0%, transparent 55%),
+        radial-gradient(ellipse at 0%  100%, rgba(192,88,42,0.05)  0%, transparent 40%);
+    }
+
+    /* Large watermark kanji */
+    .nf-banner-kanji {
+      position: absolute;
+      right: 28px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-family: 'Zen Old Mincho', serif;
+      font-size: 160px;
+      font-weight: 700;
+      line-height: 1;
+      color: var(--plum);
+      opacity: 0.05;
+      pointer-events: none;
+      user-select: none;
+    }
+
+    /* Hanko seal */
+    .nf-hanko {
+      position: relative;
+      z-index: 1;
+      width: 60px;
+      height: 60px;
+      border: 1.5px solid var(--oxide);
+      border-radius: 50%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background: rgba(192,88,42,0.07);
+      flex-shrink: 0;
+    }
+
+    .nf-hanko-kanji {
+      font-family: 'Zen Old Mincho', serif;
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--oxide);
+      line-height: 1;
+    }
+
+    .nf-hanko-sub {
+      font-family: 'Cinzel', serif;
+      font-size: 7px;
+      letter-spacing: 1.5px;
+      color: var(--oxide);
+      text-transform: uppercase;
+      margin-top: 2px;
+    }
+
+    /* Title block */
+    .nf-banner-text {
+      position: relative;
+      z-index: 1;
+    }
+
+    .nf-banner-label {
+      font-family: 'Cinzel', serif;
+      font-size: 9px;
+      font-weight: 400;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--mist);
+      margin-bottom: 8px;
       display: flex;
       align-items: center;
       gap: 10px;
-      margin: 28px 0 16px;
     }
-    #newfichaform .form-section-head:first-child { margin-top: 0; }
-    #newfichaform .form-section-head::before {
+
+    .nf-banner-label::before {
       content: '';
-      width: 3px;
-      height: 16px;
+      display: inline-block;
+      width: 32px;
+      height: 1.5px;
       background: var(--oxide);
+    }
+
+    .nf-banner-title {
+      font-family: 'Cinzel', serif;
+      font-size: 28px;
+      font-weight: 900;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--ink);
+      line-height: 1;
+      margin-bottom: 8px;
+    }
+
+    .nf-banner-subtitle {
+      font-family: 'Cinzel', serif;
+      font-size: 9px;
+      font-weight: 400;
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+      color: var(--stone);
+    }
+
+    /* ─── Progress strip ─────────────────────────────────────────── */
+    .nf-progress {
+      background: var(--bg3);
+      border-bottom: 0.5px solid var(--border);
+      display: flex;
+      align-items: center;
+      padding: 0 40px;
+      height: 38px;
+      gap: 0;
+      overflow-x: auto;
+    }
+
+    .nf-progress-step {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 0 16px;
       flex-shrink: 0;
     }
-    #newfichaform .form-section-head::after {
+
+    .nf-progress-step:first-child { padding-left: 0; }
+    .nf-progress-step:last-child  { padding-right: 0; }
+
+    .nf-progress-num {
+      font-family: 'Cinzel', serif;
+      font-size: 9px;
+      font-weight: 900;
+      letter-spacing: 1px;
+      color: var(--oxide);
+    }
+
+    .nf-progress-label {
+      font-family: 'Cinzel', serif;
+      font-size: 8px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--mist);
+    }
+
+    .nf-progress-sep {
+      width: 20px;
+      height: 0.5px;
+      background: var(--border);
+      flex-shrink: 0;
+    }
+
+    /* ─── Form ───────────────────────────────────────────────────── */
+    #newfichaform {
+      padding: 0;
+    }
+
+    /* ─── Section ────────────────────────────────────────────────── */
+    .nf-section {
+      border-bottom: 0.5px solid var(--border);
+      padding: 32px 40px;
+      background: var(--bg2);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .nf-section:nth-child(odd) {
+      background: var(--bg);
+    }
+
+    /* Ghost step number behind section */
+    .nf-section::before {
+      content: attr(data-step);
+      position: absolute;
+      right: 24px;
+      top: 16px;
+      font-family: 'Cinzel', serif;
+      font-size: 72px;
+      font-weight: 900;
+      line-height: 1;
+      color: var(--plum);
+      opacity: 0.04;
+      pointer-events: none;
+      user-select: none;
+      letter-spacing: -2px;
+    }
+
+    /* Section header */
+    .nf-section-head {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+
+    .nf-step-badge {
+      font-family: 'Cinzel', serif;
+      font-size: 9px;
+      font-weight: 900;
+      letter-spacing: 1px;
+      color: var(--oxide);
+      flex-shrink: 0;
+      line-height: 1;
+      padding: 4px 8px;
+      border: 0.5px solid var(--oxide);
+      background: rgba(192,88,42,0.06);
+    }
+
+    .nf-step-name {
+      font-family: 'Cinzel', serif;
+      font-size: 15px;
+      font-weight: 900;
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+      color: var(--ink);
+      line-height: 1;
+    }
+
+    .nf-section-head::after {
       content: '';
       flex: 1;
       height: 0.5px;
       background: var(--border);
     }
-    #newfichaform .form-section-head span {
-      font-family: 'Cinzel', serif;
-      font-size: 14px;
-      font-weight: 900;
-      color: var(--ink);
-      letter-spacing: 2px;
-      text-transform: uppercase;
-      white-space: nowrap;
+
+    /* ─── Field grid ─────────────────────────────────────────────── */
+    .nf-fields {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+      gap: 20px 24px;
     }
 
-    /* ── Basic rows ── */
-    #newfichaform .form-row {
+    .nf-fields-wide {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px 24px;
+    }
+
+    .nf-field {
       display: flex;
-      gap: 16px;
-      margin-bottom: 16px;
-      align-items: flex-start;
-      flex-wrap: wrap;
+      flex-direction: column;
+      gap: 6px;
     }
 
-    #newfichaform .form-row-basic {
-      display: flex;
-      gap: 16px;
-      margin-bottom: 16px;
-      align-items: flex-start;
-      flex-wrap: wrap;
-    }
-
-    #newfichaform .form-row-basic .form-field,
-    #newfichaform .form-field {
-      flex: 1;
-      min-width: 150px;
-      max-width: 280px;
-      margin-bottom: 0;
-    }
-
-    #newfichaform .form-field label {
-      display: block;
-      margin-bottom: 6px;
+    .nf-field-label {
       font-family: 'Cinzel', serif;
-      font-size: 9px;
+      font-size: 8px;
       font-weight: 700;
-      letter-spacing: 2px;
-      color: var(--stone);
+      letter-spacing: 2.2px;
       text-transform: uppercase;
-    }
-
-    #newfichaform .form-field input.textbox,
-    #newfichaform .form-field select.textbox {
-      width: 100%;
-      box-sizing: border-box;
-      padding: 8px 10px;
-      border: 0.5px solid var(--border);
-      border-radius: 0;
-      background: var(--bg);
-      color: var(--ink);
-      font-family: 'Noto Serif JP', serif;
-      font-size: 12px;
-      font-weight: 300;
-      transition: border-color 0.15s;
-    }
-
-    #newfichaform .form-field input.textbox:focus,
-    #newfichaform .form-field select.textbox:focus {
-      outline: none;
-      border-color: var(--plum3);
-    }
-
-    #newfichaform .form-field input.textbox::placeholder {
       color: var(--mist);
     }
 
-    /* ── Selector grid (pending selection) ── */
-    #newfichaform .selectors-column {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 3px;
-      margin-bottom: 20px;
+    .nf-field-label .nf-required {
+      color: var(--oxide);
+      margin-left: 2px;
     }
 
-    #newfichaform .selectors-column fieldset {
-      box-sizing: border-box;
-      text-align: center;
-      padding: 12px 10px;
-      border: 0.5px solid var(--border);
-      border-radius: 0;
-      background: var(--bg);
-      transition: background 0.15s;
+    .nf-field input.textbox,
+    .nf-field select.textbox {
       width: 100%;
-    }
-
-    #newfichaform .selectors-column fieldset:hover {
+      box-sizing: border-box;
+      padding: 9px 12px;
       background: var(--bg3);
+      border: none;
+      border-bottom: 1.5px solid var(--border);
+      border-left: 1.5px solid var(--border);
+      color: var(--ink);
+      font-family: 'Source Serif 4', serif;
+      font-size: 13px;
+      font-weight: 400;
+      transition: border-color 0.15s, background 0.15s;
+      outline: none;
+      -webkit-appearance: none;
+      appearance: none;
     }
 
-    /* ── Selector row (after selection) ── */
-    #newfichaform .selectors-row {
+    .nf-field input.textbox:focus,
+    .nf-field select.textbox:focus {
+      border-bottom-color: var(--plum3);
+      border-left-color: var(--plum3);
+      background: var(--bg2);
+    }
+
+    .nf-field input.textbox::placeholder {
+      color: var(--mist);
+      font-style: italic;
+      font-size: 12px;
+    }
+
+    /* ─── Sex toggle ─────────────────────────────────────────────── */
+    .nf-sex-group {
       display: flex;
       gap: 3px;
-      margin-bottom: 20px;
-      flex-wrap: wrap;
-      min-height: 0;
-      justify-content: flex-start;
-      align-items: flex-start;
+      margin-top: 2px;
     }
 
-    #newfichaform .selectors-row fieldset {
-      flex: 0 0 auto;
-      min-width: 160px;
-      max-width: 260px;
-      box-sizing: border-box;
-      text-align: center;
-      padding: 10px;
+    .nf-sex-option {
+      flex: 1;
+      position: relative;
+    }
+
+    .nf-sex-option input[type="radio"] {
+      position: absolute;
+      opacity: 0;
+      width: 0; height: 0;
+    }
+
+    .nf-sex-option label {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 38px;
+      background: var(--bg3);
       border: 0.5px solid var(--border);
-      border-radius: 0;
-      background: var(--bg);
-      transition: background 0.15s;
-    }
-
-    #newfichaform .selectors-row fieldset:hover { background: var(--bg3); }
-
-    /* ── Fieldset legends ── */
-    #newfichaform fieldset legend {
       font-family: 'Cinzel', serif;
       font-size: 9px;
       font-weight: 700;
       letter-spacing: 2px;
-      padding: 0 8px;
-      margin-bottom: 10px;
-      color: var(--plum2);
       text-transform: uppercase;
+      color: var(--stone);
+      cursor: pointer;
+      transition: background 0.15s, border-color 0.15s, color 0.15s;
     }
 
+    .nf-sex-option input[type="radio"]:checked + label {
+      background: rgba(123,74,184,0.12);
+      border-color: var(--plum3);
+      color: var(--ink);
+    }
+
+    .nf-sex-option label:hover {
+      background: rgba(123,74,184,0.08);
+      color: var(--ink);
+    }
+
+    /* ─── Selector containers ───────────────────────────────────── */
+    #selectors-column {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+
+    #selectors-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 3px;
+      margin-bottom: 12px;
+      min-height: 0;
+    }
+
+    #selectors-row:empty {
+      display: none;
+    }
+
+    /* Common fieldset base */
     #newfichaform fieldset.listaSeason,
     #newfichaform fieldset.listaAldeas,
-    #newfichaform fieldset.listaClanes,
-    #newfichaform fieldset.listaElementos {
+    #newfichaform fieldset.listaClanes {
+      border: 0.5px solid var(--border);
+      background: var(--bg3);
+      padding: 14px 12px 12px;
+      box-sizing: border-box;
       text-align: center;
       position: relative;
-      margin: 0 auto;
+      transition: background 0.15s;
     }
 
+    #newfichaform fieldset.listaSeason:hover,
+    #newfichaform fieldset.listaAldeas:hover,
+    #newfichaform fieldset.listaClanes:hover {
+      background: var(--bg2);
+    }
+
+    /* Clans: 3-column grid */
     #newfichaform fieldset.listaClanes {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: 6px;
-      padding: 12px 8px;
+      gap: 4px;
     }
 
     #newfichaform fieldset.listaClanes.expanded {
       grid-template-columns: repeat(3, 1fr);
     }
 
+    /* Fieldset legend (clickable toggle) */
+    #newfichaform fieldset legend {
+      font-family: 'Cinzel', serif;
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      padding: 0 10px;
+      margin-bottom: 12px;
+      color: var(--plum2);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      user-select: none;
+    }
+
+    #newfichaform fieldset.listaClanes legend {
+      grid-column: 1 / -1;
+    }
+
+    #newfichaform fieldset.listaSeason legend::after,
+    #newfichaform fieldset.listaAldeas legend::after,
+    #newfichaform fieldset.listaClanes legend::after {
+      content: '▼';
+      font-size: 7px;
+      opacity: 0.6;
+      color: var(--oxide);
+      transition: transform 0.25s ease;
+    }
+
+    #newfichaform fieldset.listaSeason.expanded legend::after,
+    #newfichaform fieldset.listaAldeas.expanded legend::after,
+    #newfichaform fieldset.listaClanes.expanded legend::after,
+    #newfichaform fieldset.listaSeason:not(.collapsed) legend::after,
+    #newfichaform fieldset.listaAldeas:not(.collapsed) legend::after,
+    #newfichaform fieldset.listaClanes:not(.collapsed) legend::after {
+      transform: rotate(180deg);
+    }
+
+    /* Clan section sub-titles */
     #newfichaform fieldset.listaClanes .clan-section-title,
     #newfichaform fieldset.listaClanes .clan-category,
     #newfichaform fieldset.listaClanes h3,
@@ -240,13 +476,14 @@
       grid-column: 1 / -1;
       text-align: left;
       font-family: 'Cinzel', serif;
-      font-size: 9px;
+      font-size: 8px;
       font-weight: 700;
-      letter-spacing: 1.5px;
+      letter-spacing: 1.8px;
       text-transform: uppercase;
       color: var(--plum2);
       margin: 8px 0 4px;
-      padding: 0;
+      padding: 4px 0;
+      border-bottom: 0.5px solid var(--border);
       display: block;
     }
 
@@ -254,13 +491,14 @@
       grid-column: 1 / -1;
       text-align: left;
       font-family: 'Cinzel', serif;
-      font-size: 9px;
+      font-size: 8px;
       font-weight: 700;
-      letter-spacing: 1.5px;
+      letter-spacing: 1.8px;
       text-transform: uppercase;
       color: var(--plum2);
       margin: 8px 0 4px;
-      padding: 0;
+      padding: 4px 0;
+      border-bottom: 0.5px solid var(--border);
       display: block;
     }
 
@@ -270,82 +508,19 @@
       grid-column: 1 / -1 !important;
       text-align: left !important;
       font-family: 'Cinzel', serif !important;
-      font-size: 9px !important;
+      font-size: 8px !important;
       font-weight: 700 !important;
-      letter-spacing: 1.5px !important;
+      letter-spacing: 1.8px !important;
       text-transform: uppercase !important;
       color: var(--plum2) !important;
       margin: 8px 0 4px !important;
-      padding: 0 !important;
       display: block !important;
     }
 
-    #newfichaform fieldset.listaClanes.expanded .clan-section-title,
-    #newfichaform fieldset.listaClanes.expanded .clan-category,
-    #newfichaform fieldset.listaClanes.expanded h3,
-    #newfichaform fieldset.listaClanes.expanded h4,
-    #newfichaform fieldset.listaClanes.expanded > div:not(label):not(.selected-item) {
-      display: block !important;
-      grid-column: 1 / -1 !important;
-    }
-
-    #newfichaform fieldset.listaSeason legend,
-    #newfichaform fieldset.listaAldeas legend,
-    #newfichaform fieldset.listaClanes legend,
-    #newfichaform fieldset.listaElementos legend {
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      user-select: none;
-      margin-bottom: 10px;
-    }
-
-    #newfichaform fieldset.listaClanes legend {
-      grid-column: 1 / -1;
-    }
-
-    #newfichaform fieldset.listaSeason legend::after,
-    #newfichaform fieldset.listaAldeas legend::after,
-    #newfichaform fieldset.listaClanes legend::after,
-    #newfichaform fieldset.listaElementos legend::after {
-      content: '▼';
-      font-size: 8px;
-      transition: transform 0.3s ease;
-      opacity: 0.6;
-      margin-left: 4px;
-      color: var(--oxide);
-    }
-
-    #newfichaform fieldset.listaSeason.expanded legend::after,
-    #newfichaform fieldset.listaAldeas.expanded legend::after,
-    #newfichaform fieldset.listaClanes.expanded legend::after,
-    #newfichaform fieldset.listaElementos.expanded legend::after,
-    #newfichaform fieldset.listaSeason:not(.collapsed) legend::after,
-    #newfichaform fieldset.listaAldeas:not(.collapsed) legend::after,
-    #newfichaform fieldset.listaClanes:not(.collapsed) legend::after,
-    #newfichaform fieldset.listaElementos:not(.collapsed) legend::after {
-      transform: rotate(180deg);
-    }
-
-    #newfichaform fieldset.listaClanes label {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      margin: 0;
-      padding: 6px;
-      cursor: pointer;
-      transition: background 0.15s;
-      position: relative;
-      min-height: 70px;
-    }
-
+    /* Collapsed state */
     #newfichaform fieldset.listaSeason.collapsed label:not(.selected-item),
     #newfichaform fieldset.listaAldeas.collapsed label:not(.selected-item),
-    #newfichaform fieldset.listaClanes.collapsed label:not(.selected-item),
-    #newfichaform fieldset.listaElementos.collapsed label:not(.selected-item) {
+    #newfichaform fieldset.listaClanes.collapsed label:not(.selected-item) {
       display: none;
     }
 
@@ -359,27 +534,17 @@
       display: none !important;
     }
 
-    #newfichaform fieldset.listaClanes.expanded .clan-section-title,
-    #newfichaform fieldset.listaClanes.expanded .clan-category,
-    #newfichaform fieldset.listaClanes.expanded h3,
-    #newfichaform fieldset.listaClanes.expanded h4 {
-      display: block !important;
-    }
-
     #newfichaform fieldset.listaSeason.collapsed,
-    #newfichaform fieldset.listaAldeas.collapsed,
-    #newfichaform fieldset.listaElementos.collapsed {
+    #newfichaform fieldset.listaAldeas.collapsed {
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      margin: 0 auto;
     }
 
     #newfichaform fieldset.listaClanes.collapsed {
       grid-template-columns: 1fr;
       justify-items: center;
-      margin: 0 auto;
     }
 
     #newfichaform fieldset.listaClanes.collapsed label.selected-item {
@@ -393,12 +558,10 @@
       order: 100;
       position: absolute;
       opacity: 0;
-      width: 0;
-      height: 0;
+      width: 0; height: 0;
       pointer-events: none;
     }
 
-    /* collapsed label text */
     #newfichaform fieldset.listaClanes.collapsed label.selected-item p {
       font-family: 'Cinzel', serif;
       font-size: 8px;
@@ -415,10 +578,9 @@
       display: block !important;
     }
 
-    /* ── Season / Aldeas / Elementos layout ── */
+    /* Season / Aldeas layout */
     #newfichaform fieldset.listaSeason,
-    #newfichaform fieldset.listaAldeas,
-    #newfichaform fieldset.listaElementos {
+    #newfichaform fieldset.listaAldeas {
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -426,23 +588,20 @@
     }
 
     #newfichaform fieldset.listaSeason.expanded,
-    #newfichaform fieldset.listaAldeas.expanded,
-    #newfichaform fieldset.listaElementos.expanded {
+    #newfichaform fieldset.listaAldeas.expanded {
       display: flex;
       flex-wrap: wrap;
       justify-content: center;
       align-items: center;
     }
 
-    /* ── Selected item highlight (oxide accent) ── */
+    /* Selected item highlight */
     #newfichaform fieldset.listaSeason label.selected-item,
     #newfichaform fieldset.listaAldeas label.selected-item,
-    #newfichaform fieldset.listaClanes label.selected-item,
-    #newfichaform fieldset.listaElementos label.selected-item {
+    #newfichaform fieldset.listaClanes label.selected-item {
       padding: 8px;
-      background: rgba(122, 42, 16, 0.06);
+      background: rgba(192,88,42,0.06);
       border: 0.5px solid var(--oxide);
-      border-radius: 0;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -457,9 +616,8 @@
       max-width: 200px;
     }
 
-    /* ── Label images ── */
-    #newfichaform fieldset.listaClanes label img,
-    #newfichaform fieldset:not(.listaClanes) label img {
+    /* Label images */
+    #newfichaform fieldset label img {
       display: block;
       margin: 0 auto 4px;
       max-width: 50px;
@@ -469,18 +627,15 @@
       border-radius: 50%;
       border: 1.5px solid transparent;
       transition: border-color 0.15s;
-      flex-shrink: 0;
     }
 
-    /* Selected image — oxide border only, no shadow */
     #newfichaform fieldset label input[type="radio"]:checked + img,
     #newfichaform fieldset label input[type="checkbox"]:checked + img {
       border-color: var(--oxide);
     }
 
-    /* ── Label text ── */
-    #newfichaform fieldset.listaClanes label p,
-    #newfichaform fieldset:not(.listaClanes) label p {
+    /* Label text */
+    #newfichaform fieldset label p {
       margin: 0;
       font-family: 'Cinzel', serif;
       font-size: 8px;
@@ -494,36 +649,39 @@
       max-width: 100%;
     }
 
-    /* ── Generic label ── */
+    /* Generic label container */
     #newfichaform fieldset label {
-      display: inline-block;
+      display: inline-flex;
+      flex-direction: column;
+      align-items: center;
       margin: 3px;
       cursor: pointer;
-      vertical-align: top;
-      padding: 5px;
+      padding: 6px;
       transition: background 0.15s;
       position: relative;
     }
 
-    #newfichaform fieldset.listaClanes label:hover,
-    #newfichaform fieldset:not(.listaClanes) label:hover {
-      background: rgba(90, 46, 154, 0.05);
+    #newfichaform fieldset.listaClanes label {
+      min-height: 70px;
+      justify-content: center;
+    }
+
+    #newfichaform fieldset label:hover {
+      background: rgba(123,74,184,0.06);
     }
 
     #newfichaform fieldset label input[type="radio"],
     #newfichaform fieldset label input[type="checkbox"] {
       position: absolute;
       opacity: 0;
-      width: 0;
-      height: 0;
+      width: 0; height: 0;
     }
 
-    /* ── Select dropdowns inside fieldsets ── */
+    /* Selects inside fieldsets */
     #newfichaform fieldset select {
       width: 100%;
-      padding: 6px 8px;
+      padding: 7px 10px;
       border: 0.5px solid var(--border);
-      border-radius: 0;
       background: var(--bg);
       color: var(--ink);
       font-family: 'Cinzel', serif;
@@ -531,90 +689,477 @@
       letter-spacing: 1px;
       text-transform: uppercase;
       cursor: pointer;
+      outline: none;
     }
 
     #newfichaform fieldset select:focus {
-      outline: none;
       border-color: var(--plum3);
     }
 
-    /* ── Textarea groups ── */
-    #newfichaform .textarea-group {
-      margin-bottom: 16px;
-      text-align: left;
+    /* ─── Hint / validation note ─────────────────────────────────── */
+    .nf-field-hint {
+      font-family: 'Cinzel', serif;
+      font-size: 8px;
+      letter-spacing: 1px;
+      color: var(--mist);
+      margin-top: 2px;
     }
 
-    #newfichaform .textarea-group label {
+    /* ─── Textarea groups ────────────────────────────────────────── */
+    .nf-textarea-group {
+      margin-bottom: 20px;
+    }
+
+    .nf-textarea-label {
       display: block;
-      margin-bottom: 6px;
       font-family: 'Cinzel', serif;
-      font-size: 9px;
+      font-size: 8px;
       font-weight: 700;
-      letter-spacing: 2px;
-      color: var(--stone);
+      letter-spacing: 2.2px;
       text-transform: uppercase;
+      color: var(--mist);
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .nf-textarea-label::before {
+      content: '';
+      display: inline-block;
+      width: 3px;
+      height: 10px;
+      background: var(--oxide);
+      flex-shrink: 0;
+    }
+
+    .nf-textarea-label .nf-required {
+      color: var(--oxide);
     }
 
     #newfichaform textarea {
       width: 100%;
-      padding: 10px 12px;
-      border: 0.5px solid var(--border);
-      border-radius: 0;
-      background: var(--bg);
+      box-sizing: border-box;
+      padding: 12px 14px;
+      background: var(--bg3);
+      border: none;
+      border-bottom: 1.5px solid var(--border);
+      border-left: 1.5px solid var(--border);
       color: var(--ink);
-      font-family: 'Noto Serif JP', serif;
-      font-size: 12px;
+      font-family: 'Source Serif 4', serif;
+      font-size: 13px;
       font-weight: 300;
+      line-height: 1.9;
       text-align: justify;
       resize: vertical;
-      transition: border-color 0.15s;
-      box-sizing: border-box;
-      line-height: 1.9;
+      transition: border-color 0.15s, background 0.15s;
+      outline: none;
     }
 
     #newfichaform textarea:focus {
-      outline: none;
-      border-color: var(--plum3);
+      border-bottom-color: var(--plum3);
+      border-left-color: var(--plum3);
+      background: var(--bg2);
     }
 
     #newfichaform textarea::placeholder {
       color: var(--mist);
       font-style: italic;
+      font-size: 12px;
     }
 
-    #newfichaform textarea.textarea-small {
-      height: 60px;
-      min-height: 60px;
+    #newfichaform textarea.nf-ta-small {
+      height: 72px;
+      min-height: 72px;
     }
 
-    #newfichaform textarea.textarea-large {
-      height: 130px;
-      min-height: 130px;
+    #newfichaform textarea.nf-ta-large {
+      height: 140px;
+      min-height: 140px;
     }
 
-    /* ── Submit button ── */
-    #newfichaform input[type="submit"],
-    #newfichaform #guardar_ficha {
-      border: none;
-      padding: 0 28px;
-      height: 34px;
-      border-radius: 0;
+    /* ─── Submit strip ───────────────────────────────────────────── */
+    .nf-submit-section {
+      background: var(--bg2);
+      border-top: 0.5px solid var(--border);
+      padding: 32px 40px;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 20px;
+    }
+
+    .nf-submit-lore {
       font-family: 'Cinzel', serif;
-      font-size: 10px;
-      font-weight: 700;
+      font-size: 9px;
       letter-spacing: 2px;
       text-transform: uppercase;
-      color: rgba(255, 255, 255, 0.92);
-      background: var(--plum);
-      margin: 28px 0 0 0;
-      display: inline-block;
-      cursor: pointer;
-      transition: background 0.15s;
+      color: var(--mist);
+      flex: 1;
     }
 
-    #newfichaform input[type="submit"]:hover,
-    #newfichaform #guardar_ficha:hover {
+    .nf-submit-lore strong {
+      color: var(--stone);
+      display: block;
+      font-size: 11px;
+      margin-bottom: 3px;
+    }
+
+    /* Decorative horizontal rule before button */
+    .nf-submit-rule {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .nf-submit-rule::before,
+    .nf-submit-rule::after {
+      content: '';
+      width: 24px;
+      height: 0.5px;
+      background: var(--oxide);
+      opacity: 0.6;
+    }
+
+    #guardar_ficha {
+      font-family: 'Cinzel', serif;
+      font-size: 10px;
+      font-weight: 900;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--lavender);
+      background: var(--plum);
+      border: none;
+      padding: 0 32px;
+      height: 42px;
+      cursor: pointer;
+      transition: background 0.15s, transform 0.12s;
+      position: relative;
+      outline: none;
+    }
+
+    #guardar_ficha:hover {
       background: var(--plum2);
+      transform: translateY(-1px);
+    }
+
+    #guardar_ficha:active {
+      transform: translateY(0);
+    }
+
+    /* ─── Responsive ─────────────────────────────────────────────── */
+    @media (max-width: 700px) {
+      .nf-banner          { padding: 24px 20px 20px; min-height: 100px; }
+      .nf-banner-title    { font-size: 20px; }
+      .nf-section         { padding: 24px 20px; }
+      .nf-progress        { padding: 0 20px; }
+      .nf-fields          { grid-template-columns: 1fr 1fr; }
+      .nf-fields-wide     { grid-template-columns: 1fr; }
+      .nf-submit-section  { padding: 24px 20px; flex-direction: column; align-items: flex-start; }
+      #selectors-column   { grid-template-columns: 1fr 1fr; }
+    }
+
+    @media (max-width: 440px) {
+      .nf-fields          { grid-template-columns: 1fr; }
+      .nf-banner-kanji    { display: none; }
+    }
+
+    /* ─── Season fieldset standalone (section 01) ───────────────── */
+    #newfichaform fieldset.listaSeason.nf-season-standalone {
+      border: none;
+      background: none;
+      padding: 0;
+      display: flex;
+      flex-direction: row;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-top: 20px;
+    }
+
+    #newfichaform fieldset.listaSeason.nf-season-standalone legend {
+      display: none;
+    }
+
+    #newfichaform fieldset.listaSeason.nf-season-standalone label {
+      flex: 1;
+      min-width: 90px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 16px 8px;
+      margin: 0;
+      background: var(--bg3);
+      border: 0.5px solid var(--border);
+      cursor: pointer;
+      transition: background 0.15s, border-color 0.15s;
+    }
+
+    #newfichaform fieldset.listaSeason.nf-season-standalone label:hover {
+      background: var(--bg2);
+      border-color: var(--plum);
+    }
+
+    #newfichaform fieldset.listaSeason.nf-season-standalone label img {
+      max-width: 48px;
+      max-height: 48px;
+      border: 1.5px solid transparent;
+      border-radius: 50%;
+      display: block;
+      margin: 0;
+    }
+
+    #newfichaform fieldset.listaSeason.nf-season-standalone label p {
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      color: var(--stone);
+      margin: 0;
+      text-align: center;
+    }
+
+    #newfichaform fieldset.listaSeason.nf-season-standalone label:has(input:checked) {
+      background: rgba(123,74,184,0.1);
+      border-color: var(--plum3);
+    }
+
+    #newfichaform fieldset.listaSeason.nf-season-standalone label input[type="radio"]:checked + img {
+      border-color: var(--plum3);
+    }
+
+    /* ─── Village cards (listaAldeas) ────────────────────────────── */
+    #newfichaform fieldset.listaAldeas.nf-village-fieldset {
+      border: none;
+      background: none;
+      padding: 0;
+      display: flex;
+      flex-direction: row;
+      gap: 12px;
+    }
+
+    #newfichaform fieldset.listaAldeas.nf-village-fieldset legend {
+      display: none;
+    }
+
+    #newfichaform fieldset.listaAldeas.nf-village-fieldset label {
+      flex: 1;
+      min-height: 130px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 14px;
+      padding: 28px 16px;
+      margin: 0;
+      background: var(--bg3);
+      border: 0.5px solid var(--border);
+      cursor: pointer;
+      transition: background 0.2s, border-color 0.2s, transform 0.15s;
+    }
+
+    #newfichaform fieldset.listaAldeas.nf-village-fieldset label:hover {
+      background: var(--bg2);
+      border-color: var(--plum);
+      transform: translateY(-2px);
+    }
+
+    #newfichaform fieldset.listaAldeas.nf-village-fieldset label:has(input:checked) {
+      background: rgba(192,88,42,0.08);
+      border-color: var(--oxide);
+    }
+
+    #newfichaform fieldset.listaAldeas.nf-village-fieldset label img {
+      max-width: 72px;
+      max-height: 72px;
+      border: 1.5px solid transparent;
+      border-radius: 50%;
+      display: block;
+      margin: 0;
+    }
+
+    #newfichaform fieldset.listaAldeas.nf-village-fieldset label input[type="radio"]:checked + img {
+      border-color: var(--oxide);
+    }
+
+    #newfichaform fieldset.listaAldeas.nf-village-fieldset label p {
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 2.5px;
+      color: var(--ink);
+      margin: 0;
+    }
+
+    /* ─── Origin cascading panels ────────────────────────────────── */
+    .nf-panel-hidden {
+      display: none;
+    }
+
+    .nf-origin-panel {
+      margin-top: 28px;
+      padding-top: 28px;
+      border-top: 0.5px solid var(--border);
+      animation: nf-fade-in 0.25s ease;
+    }
+
+    .nf-origin-panel-label {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-family: 'Cinzel', serif;
+      font-size: 8px;
+      font-weight: 700;
+      letter-spacing: 2.2px;
+      text-transform: uppercase;
+      color: var(--mist);
+      margin-bottom: 14px;
+    }
+
+    .nf-origin-panel-label::before {
+      content: '';
+      display: inline-block;
+      width: 3px;
+      height: 10px;
+      background: var(--oxide);
+      flex-shrink: 0;
+    }
+
+    /* ─── Active progress step ──────────────────────────────────── */
+    .nf-progress-step {
+      position: relative;
+      cursor: default;
+    }
+
+    .nf-progress-step--active .nf-progress-num {
+      color: var(--plum2);
+    }
+
+    .nf-progress-step--active .nf-progress-label {
+      color: var(--ink);
+    }
+
+    .nf-progress-step--active::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 16px;
+      right: 16px;
+      height: 1.5px;
+      background: var(--plum3);
+      opacity: 0.8;
+    }
+
+    .nf-progress-step:first-child.nf-progress-step--active::after { left: 0; }
+    .nf-progress-step:last-child.nf-progress-step--active::after  { right: 0; }
+
+    /* ─── Section entrance animation ────────────────────────────── */
+    .nf-section {
+      animation: nf-fade-in 0.3s ease both;
+    }
+
+    .nf-section:nth-child(2) { animation-delay: 0.04s; }
+    .nf-section:nth-child(3) { animation-delay: 0.08s; }
+    .nf-section:nth-child(4) { animation-delay: 0.12s; }
+    .nf-section:nth-child(5) { animation-delay: 0.16s; }
+
+    @keyframes nf-fade-in {
+      from { opacity: 0; transform: translateY(6px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ─── Fieldset legend toggle indicator ──────────────────────── */
+    #newfichaform fieldset legend {
+      user-select: none;
+    }
+
+    #newfichaform fieldset legend:hover {
+      color: var(--ink);
+    }
+
+    /* ─── Cascade step (clan aparece debajo de aldea) ───────────── */
+    #nf-clan-step {
+      margin-top: 28px;
+    }
+
+    #nf-clan-step:not(.nf-panel-hidden) {
+      animation: nf-cascade-reveal 0.3s ease;
+    }
+
+    @keyframes nf-cascade-reveal {
+      from { opacity: 0; transform: translateY(-10px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .nf-cascade-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 16px;
+      padding-top: 24px;
+      border-top: 0.5px solid var(--border);
+    }
+
+    .nf-cascade-header-label {
+      font-family: 'Cinzel', serif;
+      font-size: 8px;
+      font-weight: 700;
+      letter-spacing: 2.2px;
+      text-transform: uppercase;
+      color: var(--mist);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-shrink: 0;
+    }
+
+    .nf-cascade-header-label::before {
+      content: '';
+      display: inline-block;
+      width: 3px;
+      height: 10px;
+      background: var(--oxide);
+      flex-shrink: 0;
+    }
+
+    .nf-cascade-header::after {
+      content: '';
+      flex: 1;
+      height: 0.5px;
+      background: var(--border);
+    }
+
+    /* Clan grid dentro del cascade */
+    #nf-clan-step fieldset.listaClanes {
+      border: none;
+      background: none;
+      padding: 0;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 6px;
+    }
+
+    #nf-clan-step fieldset.listaClanes legend {
+      display: none;
+    }
+
+    #nf-clan-step fieldset.listaClanes label {
+      min-height: 90px;
+      width: 170px;
+      background: var(--bg3);
+      border: 0.5px solid var(--border);
+      margin: 0;
+      padding: 12px 8px;
+    }
+
+    #nf-clan-step fieldset.listaClanes label:hover {
+      background: var(--bg2);
+      border-color: var(--plum);
+    }
+
+    #nf-clan-step fieldset.listaClanes label:has(input:checked) {
+      background: rgba(192,88,42,0.08);
+      border-color: var(--oxide);
     }
 
   </style>
@@ -622,550 +1167,366 @@
 
 <body>
   {$header}
-  <div class="fondo-blanco">
-  <table border="0" cellspacing="{$theme['borderwidth']}" cellpadding="{$theme['tablespace']}" class="tborder">
-    <tr>
-      <td class="thead" colspan="1"><strong>Ficha Nueva</strong></td>
-    </tr>
-    <tr>
-      <td class="trow1" valign="top">
-        <div class="div_ficha">
-          <form method="post" action="/sg/nueva_ficha.php" name="newficha" id="newfichaform">
 
-            <div class="form-section-head"><span>Datos Básicos</span></div>
-            <div class="form-row-basic">
-              <div class="form-field">
-                <label>Nombre*</label>
-                <input class="textbox" type="text" name="name" required="">
-              </div>
-              <div class="form-field">
-                <label>Apodo</label>
-                <input class="textbox" type="text" name="alias">
-              </div>
-              <div class="form-field">
-                <label>Edad*</label>
-                <input class="textbox" type="number" name="age" min="12" max="90" required="">
-              </div>
-              <div class="form-field">
-                <label>Altura (cm)*</label>
-                <input class="textbox" type="number" name="altura" min="100" max="250" required="">
-              </div>
-              <div class="form-field">
-                <label>Peso (kg)*</label>
-                <input class="textbox" type="number" name="peso" min="30" max="300" required="">
-              </div>
-              <div class="form-field">
-                <label>Sexo*</label>
-                <select name="sexo" class="textbox" required>
-                  <option value="hombre" selected>Hombre</option>
-                  <option value="mujer">Mujer</option>
-                </select>
-              </div>
-            </div>
+  <div id="nf-page">
 
-            <div class="form-section-head"><span>Origen &amp; Afiliación</span></div>
-            <div class="selectors-row" id="selectors-row"></div>
-            <div class="selectors-column" id="selectors-column">
-              <fieldset class="listaSeason" data-selector="season" required="">
-                <legend>Cumpleaños (Estación)</legend>
-                <label>
-                  <input type="radio" name="season" value="1" required="">
-                  <img src="https://onepiecegaiden.com/images/op/ficha/InviernoCumple_One_Piece_Gaiden_Foro_Rol.png">
-                  <p>Invierno</p>
-                </label>
-                <label>
-                  <input type="radio" name="season" value="2" required="">
-                  <img src="https://onepiecegaiden.com/images/op/ficha/PrimaveraCumple_One_Piece_Gaiden_Foro_Rol.png">
-                  <p>Primavera</p>
-                </label>
-                <label>
-                  <input type="radio" name="season" value="3" required="">
-                  <img src="https://onepiecegaiden.com/images/op/ficha/VeranoCumple_One_Piece_Gaiden_Foro_Rol.png">
-                  <p>Verano</p>
-                </label>
-                <label>
-                  <input type="radio" name="season" value="4" required="">
-                  <img src="https://onepiecegaiden.com/images/op/ficha/OtonoCumple_One_Piece_Gaiden_Foro_Rol.png">
-                  <p>Otoño</p>
-                </label>
-              </fieldset>
-              <fieldset class="listaAldeas" data-selector="aldea" required="">
-                <legend>Aldea</legend>
-              </fieldset>
-              <fieldset class="listaClanes" data-selector="clan" required="">
-                <legend>Clan</legend>
-              </fieldset>
-              <fieldset class="listaElementos" data-selector="elementos" required="">
-                <legend>Elementos</legend>
-              </fieldset>
-            </div>
-            <div class="form-section-head"><span>Descripción</span></div>
-            <div class="textarea-group">
-              <label>Apariencia (mínimo 400 carácteres)</label>
-              <textarea name="phi" class="textarea-large" minlength="400" required=""></textarea>
-            </div>
-            <div class="textarea-group">
-              <label>Personalidad (mínimo 400 carácteres)</label>
-              <textarea name="psi" class="textarea-large" minlength="400" required=""></textarea>
-            </div>
-            <div class="textarea-group">
-              <label>Virtudes</label>
-              <textarea name="virtudes" class="textarea-large"></textarea>
-            </div>
-            <div class="textarea-group">
-              <label>Defectos</label>
-              <textarea name="defectos" class="textarea-large"></textarea>
-            </div>
+    <!-- ── Banner ───────────────────────────────────────────────────── -->
+    <div class="nf-banner">
+      <div class="nf-banner-kanji">忍</div>
+      <div class="nf-hanko">
+        <span class="nf-hanko-kanji">忍</span>
+        <span class="nf-hanko-sub">SG</span>
+      </div>
+      <div class="nf-banner-text">
+        <div class="nf-banner-label">Shinobi Gaiden · Foro Rol</div>
+        <div class="nf-banner-title">Crear Personaje</div>
+        <div class="nf-banner-subtitle">Registro de nuevo shinobi — completa todos los campos</div>
+      </div>
+    </div>
 
-            <div class="form-section-head"><span>Historia</span></div>
-            <div class="textarea-group">
-              <label>Biografía (mínimo 800 carácteres)</label>
-              <textarea name="history" class="textarea-large" minlength="800" required=""></textarea>
-            </div>
-            <div class="textarea-group">
-              <label>Información Extra (opcional)</label>
-              <textarea name="extra" class="textarea-large" placeholder="- Le gusta comer ramen."></textarea>
-            </div>
+    <!-- ── Progress strip ───────────────────────────────────────────── -->
+    <div class="nf-progress">
+      <div class="nf-progress-step">
+        <span class="nf-progress-num">01</span>
+        <span class="nf-progress-label">Identidad</span>
+      </div>
+      <div class="nf-progress-sep"></div>
+      <div class="nf-progress-step">
+        <span class="nf-progress-num">02</span>
+        <span class="nf-progress-label">Origen</span>
+      </div>
+      <div class="nf-progress-sep"></div>
+      <div class="nf-progress-step">
+        <span class="nf-progress-num">03</span>
+        <span class="nf-progress-label">Descripción</span>
+      </div>
+      <div class="nf-progress-sep"></div>
+      <div class="nf-progress-step">
+        <span class="nf-progress-num">04</span>
+        <span class="nf-progress-label">Historia</span>
+      </div>
+      <div class="nf-progress-sep"></div>
+      <div class="nf-progress-step">
+        <span class="nf-progress-num">05</span>
+        <span class="nf-progress-label">Registro</span>
+      </div>
+    </div>
 
-            <div class="form-section-head"><span>Registro</span></div>
-            <div class="textarea-group">
-              <label>Frase que representa al personaje (opcional)</label>
-              <textarea name="frase" class="textarea-small" placeholder="Un verdadero héroe siempre llega tarde."></textarea>
-            </div>
-            <div class="textarea-group">
-              <label>Origen del físico del personaje (obligatorio)</label>
-              <textarea name="fisico_de_pj" class="textarea-small" required="" placeholder="Nombre del Físico — Serie / Juego de donde proviene"></textarea>
-            </div>
-            <div class="textarea-group">
-              <label>¿Cómo conociste Shinobi Gaiden? (obligatorio)</label>
-              <textarea name="como_nos_conociste" class="textarea-small" placeholder="Google, afiliado, red social, otro usuario, etc..." required=""></textarea>
-            </div>
+    <!-- ── Form ─────────────────────────────────────────────────────── -->
+    <form method="post" action="/sg/nueva_ficha.php" name="newficha" id="newfichaform">
 
-            <div style="display: none">
-              <input type="text" value="false" id="comp" name="submit">
-              <input type="text" id="userid" name="uid" value="{$mybb->user['uid']}">
-              <input type="text" name="fichaurl" value="./ficha.php?action=profile&amp;uid={$mybb->user['uid']}">
-            </div>
-            <input id="guardar_ficha" class="button" type="submit" onclick="javascript: document.getElementById('comp').value = 'true';" value="Guardar">
-          </form>
+      <!-- Hidden backend fields — do not remove -->
+      <div style="display:none;">
+        <input type="text" value="false" id="comp" name="submit">
+        <input type="text" id="userid" name="uid" value="{$mybb->user['uid']}">
+        <input type="text" name="fichaurl" value="./ficha.php?action=profile&amp;uid={$mybb->user['uid']}">
+      </div>
+
+      <!-- ── 01 · Identidad ──────────────────────────────────────── -->
+      <div class="nf-section" data-step="01">
+        <div class="nf-section-head">
+          <span class="nf-step-badge">01</span>
+          <span class="nf-step-name">Identidad</span>
         </div>
-        <br />
-      </td>
-    </tr>
-  </table>
-	</div>
+
+        <div class="nf-fields" style="margin-bottom: 20px;">
+          <div class="nf-field">
+            <span class="nf-field-label">Nombre del personaje <span class="nf-required">*</span></span>
+            <input class="textbox" type="text" name="name" required placeholder="Uzumaki…">
+          </div>
+          <div class="nf-field">
+            <span class="nf-field-label">Apodo / Alias</span>
+            <input class="textbox" type="text" name="alias" placeholder="Opcional">
+          </div>
+          <div class="nf-field">
+            <span class="nf-field-label">Edad <span class="nf-required">*</span></span>
+            <input class="textbox" type="number" name="age" min="12" max="90" required placeholder="12–90">
+          </div>
+          <div class="nf-field">
+            <span class="nf-field-label">Altura (cm) <span class="nf-required">*</span></span>
+            <input class="textbox" type="number" name="altura" min="100" max="250" required placeholder="100–250">
+          </div>
+          <div class="nf-field">
+            <span class="nf-field-label">Peso (kg) <span class="nf-required">*</span></span>
+            <input class="textbox" type="number" name="peso" min="30" max="300" required placeholder="30–300">
+          </div>
+        </div>
+
+        <div style="max-width: 280px; margin-bottom: 24px;">
+          <span class="nf-field-label" style="display:block; font-family:'Cinzel',serif; font-size:8px; font-weight:700; letter-spacing:2.2px; text-transform:uppercase; color:var(--mist); margin-bottom:8px;">
+            Sexo <span class="nf-required">*</span>
+          </span>
+          <div class="nf-sex-group">
+            <div class="nf-sex-option">
+              <input type="radio" name="sexo" value="hombre" id="sexo-h" checked>
+              <label for="sexo-h">Hombre</label>
+            </div>
+            <div class="nf-sex-option">
+              <input type="radio" name="sexo" value="mujer" id="sexo-m">
+              <label for="sexo-m">Mujer</label>
+            </div>
+          </div>
+        </div>
+
+        <span class="nf-field-label" style="display:flex; align-items:center; gap:8px; font-family:'Cinzel',serif; font-size:8px; font-weight:700; letter-spacing:2.2px; text-transform:uppercase; color:var(--mist); margin-bottom:0;">
+          <span style="display:inline-block; width:3px; height:10px; background:var(--oxide); flex-shrink:0;"></span>
+          Estación de nacimiento <span class="nf-required">*</span>
+        </span>
+        <fieldset class="listaSeason nf-season-standalone" data-selector="season">
+          <legend>Cumpleaños (Estación)</legend>
+          <label>
+            <input type="radio" name="season" value="1" required>
+            <img src="https://onepiecegaiden.com/images/op/ficha/InviernoCumple_One_Piece_Gaiden_Foro_Rol.png" alt="Invierno">
+            <p>Invierno</p>
+          </label>
+          <label>
+            <input type="radio" name="season" value="2">
+            <img src="https://onepiecegaiden.com/images/op/ficha/PrimaveraCumple_One_Piece_Gaiden_Foro_Rol.png" alt="Primavera">
+            <p>Primavera</p>
+          </label>
+          <label>
+            <input type="radio" name="season" value="3">
+            <img src="https://onepiecegaiden.com/images/op/ficha/VeranoCumple_One_Piece_Gaiden_Foro_Rol.png" alt="Verano">
+            <p>Verano</p>
+          </label>
+          <label>
+            <input type="radio" name="season" value="4">
+            <img src="https://onepiecegaiden.com/images/op/ficha/OtonoCumple_One_Piece_Gaiden_Foro_Rol.png" alt="Otoño">
+            <p>Otoño</p>
+          </label>
+        </fieldset>
+      </div>
+
+      <!-- ── 02 · Origen & Afiliación ────────────────────────────── -->
+      <div class="nf-section" data-step="02">
+        <div class="nf-section-head">
+          <span class="nf-step-badge">02</span>
+          <span class="nf-step-name">Origen &amp; Afiliación</span>
+        </div>
+
+        <!-- Village intro label -->
+        <span class="nf-field-label" style="display:flex; align-items:center; gap:8px; font-family:'Cinzel',serif; font-size:8px; font-weight:700; letter-spacing:2.2px; text-transform:uppercase; color:var(--mist); margin-bottom:12px;">
+          <span style="display:inline-block; width:3px; height:10px; background:var(--oxide); flex-shrink:0;"></span>
+          Elige tu aldea <span class="nf-required">*</span>
+        </span>
+
+        <!-- Hidden compat container (do not remove) -->
+        <div id="selectors-row" style="display:none;"></div>
+
+        <div id="selectors-column">
+
+          <!-- Village: big horizontal cards -->
+          <fieldset class="listaAldeas nf-village-fieldset" data-selector="aldea"></fieldset>
+
+          <!-- Clan: slides in below after village selection -->
+          <div id="nf-clan-step" class="nf-panel-hidden">
+            <div class="nf-cascade-header">
+              <span class="nf-cascade-header-label">
+                Elige tu clan <span class="nf-required">*</span>
+              </span>
+            </div>
+            <fieldset class="listaClanes nf-origin-fieldset" data-selector="clan"></fieldset>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- ── 03 · Descripción ─────────────────────────────────────── -->
+      <div class="nf-section" data-step="03">
+        <div class="nf-section-head">
+          <span class="nf-step-badge">03</span>
+          <span class="nf-step-name">Descripción</span>
+        </div>
+
+        <div class="nf-textarea-group">
+          <label class="nf-textarea-label">
+            Apariencia física <span class="nf-required">*</span>
+            <span style="font-weight:400; color:var(--mist); letter-spacing:1px;">&nbsp;— mín. 400 caracteres</span>
+          </label>
+          <textarea name="phi" class="nf-ta-large" minlength="400" required
+            placeholder="Describe el aspecto físico del personaje con detalle…"></textarea>
+        </div>
+
+        <div class="nf-textarea-group">
+          <label class="nf-textarea-label">
+            Personalidad <span class="nf-required">*</span>
+            <span style="font-weight:400; color:var(--mist); letter-spacing:1px;">&nbsp;— mín. 400 caracteres</span>
+          </label>
+          <textarea name="psi" class="nf-ta-large" minlength="400" required
+            placeholder="¿Cómo es tu personaje? ¿Cómo actúa, piensa y siente?…"></textarea>
+        </div>
+
+        <div class="nf-fields-wide">
+          <div class="nf-textarea-group" style="margin-bottom:0;">
+            <label class="nf-textarea-label">Virtudes</label>
+            <textarea name="virtudes" class="nf-ta-large"
+              placeholder="Cualidades destacables…"></textarea>
+          </div>
+          <div class="nf-textarea-group" style="margin-bottom:0;">
+            <label class="nf-textarea-label">Defectos</label>
+            <textarea name="defectos" class="nf-ta-large"
+              placeholder="Fallos y debilidades del personaje…"></textarea>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── 04 · Historia ─────────────────────────────────────────── -->
+      <div class="nf-section" data-step="04">
+        <div class="nf-section-head">
+          <span class="nf-step-badge">04</span>
+          <span class="nf-step-name">Historia</span>
+        </div>
+
+        <div class="nf-textarea-group">
+          <label class="nf-textarea-label">
+            Biografía <span class="nf-required">*</span>
+            <span style="font-weight:400; color:var(--mist); letter-spacing:1px;">&nbsp;— mín. 800 caracteres</span>
+          </label>
+          <textarea name="history" class="nf-ta-large" minlength="800" required
+            placeholder="El pasado del personaje, su formación como shinobi, eventos que marcaron su vida…"
+            style="height:180px; min-height:180px;"></textarea>
+        </div>
+
+        <div class="nf-textarea-group">
+          <label class="nf-textarea-label">Información extra <span style="font-weight:400;">(opcional)</span></label>
+          <textarea name="extra" class="nf-ta-large"
+            placeholder="- Le gusta el ramen.&#10;- Tiene miedo a los gatos."></textarea>
+        </div>
+      </div>
+
+      <!-- ── 05 · Registro ─────────────────────────────────────────── -->
+      <div class="nf-section" data-step="05">
+        <div class="nf-section-head">
+          <span class="nf-step-badge">05</span>
+          <span class="nf-step-name">Registro</span>
+        </div>
+
+        <div class="nf-fields-wide">
+          <div class="nf-textarea-group">
+            <label class="nf-textarea-label">Frase del personaje <span style="font-weight:400;">(opcional)</span></label>
+            <textarea name="frase" class="nf-ta-small"
+              placeholder="Un verdadero héroe siempre llega tarde."></textarea>
+          </div>
+          <div class="nf-textarea-group">
+            <label class="nf-textarea-label">Físico del personaje <span class="nf-required">*</span></label>
+            <textarea name="fisico_de_pj" class="nf-ta-small" required
+              placeholder="Nombre del físico — Serie / Juego de donde proviene"></textarea>
+          </div>
+        </div>
+
+        <div class="nf-textarea-group" style="max-width: 480px;">
+          <label class="nf-textarea-label">¿Cómo conociste Shinobi Gaiden? <span class="nf-required">*</span></label>
+          <textarea name="como_nos_conociste" class="nf-ta-small" required
+            placeholder="Google, afiliado, red social, otro usuario…"></textarea>
+        </div>
+      </div>
+
+      <!-- ── Submit ─────────────────────────────────────────────────── -->
+      <div class="nf-submit-section">
+        <div class="nf-submit-lore">
+          <strong>¿Todo listo?</strong>
+          Tu ficha será revisada por el equipo de staff antes de ser aprobada.
+        </div>
+        <div class="nf-submit-rule">
+          <input id="guardar_ficha" type="submit"
+            onclick="javascript: document.getElementById('comp').value = 'true';"
+            value="Inscribir Personaje">
+        </div>
+      </div>
+
+    </form>
+  </div><!-- /#nf-page -->
+
   {$footer}
   {$nueva_ficha_script}
+
   <script>
     (function() {
-      const selectorsColumn = document.getElementById('selectors-column');
-      const selectorsRow = document.getElementById('selectors-row');
-      
-      function moveSelectorToRow(fieldset) {
-        if (fieldset && fieldset.parentNode === selectorsColumn) {
-          fieldset.classList.add('selected');
-          selectorsRow.appendChild(fieldset);
-        }
+      var selectorsColumn = document.getElementById('selectors-column');
+
+      /* ── Reveal clan step on village selection ─────────── */
+      function revealOriginPanels() {
+        var clanStep = document.getElementById('nf-clan-step');
+        if (clanStep) clanStep.classList.remove('nf-panel-hidden');
       }
-      
-      function checkSelector(fieldset) {
-        if (!fieldset) return;
-        
-        const inputs = fieldset.querySelectorAll('input[type="radio"], input[type="checkbox"]');
-        const selects = fieldset.querySelectorAll('select');
-        let hasSelection = false;
-        
-        inputs.forEach(input => {
-          if (input.checked) {
-            hasSelection = true;
-          }
+
+      function attachAldeasListeners(fieldset) {
+        fieldset.querySelectorAll('input[type="radio"]').forEach(function(i) {
+          i.addEventListener('change', revealOriginPanels);
         });
-        
-        selects.forEach(select => {
-          if (select.value && select.value !== '' && select.value !== '0') {
-            hasSelection = true;
-          }
-        });
-        
-        if (hasSelection && fieldset.parentNode === selectorsColumn) {
-          moveSelectorToRow(fieldset);
-        }
+        /* Reveal immediately if a village is already checked (e.g. page reload) */
+        if (fieldset.querySelector('input:checked')) revealOriginPanels();
       }
-      
-      function attachListeners(fieldset) {
-        if (!fieldset) return;
-        
-        const inputs = fieldset.querySelectorAll('input[type="radio"], input[type="checkbox"]');
-        const selects = fieldset.querySelectorAll('select');
-        
-        inputs.forEach(input => {
-          input.addEventListener('change', function() {
-            checkSelector(fieldset);
-          });
-        });
-        
-        selects.forEach(select => {
-          select.addEventListener('change', function() {
-            checkSelector(fieldset);
-          });
-        });
-      }
-      
+
       function initializeSelectors() {
         if (!selectorsColumn) return;
-        
-        const fieldsets = selectorsColumn.querySelectorAll('fieldset');
-        fieldsets.forEach(fieldset => {
-          attachListeners(fieldset);
-          checkSelector(fieldset);
-        });
-        
-        const observer = new MutationObserver(function(mutations) {
+
+        /* If listaAldeas already has inputs (static page), attach now */
+        var aldeas = selectorsColumn.querySelector('fieldset.listaAldeas');
+        if (aldeas) attachAldeasListeners(aldeas);
+
+        /* Watch for dynamically populating fieldsets */
+        var observer = new MutationObserver(function(mutations) {
           mutations.forEach(function(mutation) {
             mutation.addedNodes.forEach(function(node) {
-              if (node.nodeType === 1) {
-                const newInputs = node.querySelectorAll ? node.querySelectorAll('input[type="radio"], input[type="checkbox"], select') : [];
-                const fieldset = node.closest ? node.closest('fieldset') : null;
-                if (fieldset && fieldset.parentNode === selectorsColumn) {
-                  attachListeners(fieldset);
-                  checkSelector(fieldset);
-                }
+              if (node.nodeType !== 1) return;
+              /* Node itself is listaAldeas, or node is a label/input added inside it */
+              var fs = null;
+              if (node.classList && node.classList.contains('listaAldeas')) {
+                fs = node;
+              } else if (node.closest) {
+                var candidate = node.closest('fieldset.listaAldeas');
+                if (candidate && selectorsColumn.contains(candidate)) fs = candidate;
+              }
+              if (fs) { attachAldeasListeners(fs); return; }
+              /* Also check if a listaAldeas was added as a subtree descendant */
+              if (node.querySelectorAll) {
+                node.querySelectorAll('fieldset.listaAldeas').forEach(function(f) {
+                  if (selectorsColumn.contains(f)) attachAldeasListeners(f);
+                });
               }
             });
           });
         });
-        
-        observer.observe(selectorsColumn, {
-          childList: true,
-          subtree: true
-        });
+
+        observer.observe(selectorsColumn, { childList: true, subtree: true });
       }
-      
+
+      /* ── Progress strip scroll-spy ──────────────────────────────── */
+      function initProgressSpy() {
+        var progressSteps = document.querySelectorAll('.nf-progress-step');
+        var sections      = document.querySelectorAll('.nf-section[data-step]');
+        if (!progressSteps.length || !sections.length || !window.IntersectionObserver) return;
+
+        progressSteps[0].classList.add('nf-progress-step--active');
+
+        var observer = new IntersectionObserver(function(entries) {
+          entries.forEach(function(entry) {
+            if (!entry.isIntersecting) return;
+            var stepNum = parseInt(entry.target.getAttribute('data-step'), 10);
+            if (!stepNum) return;
+            progressSteps.forEach(function(s) { s.classList.remove('nf-progress-step--active'); });
+            var target = progressSteps[stepNum - 1];
+            if (target) target.classList.add('nf-progress-step--active');
+          });
+        }, { threshold: 0.25, rootMargin: '-15% 0px -55% 0px' });
+
+        sections.forEach(function(s) { observer.observe(s); });
+      }
+
+      /* ── Init ───────────────────────────────────────────────────── */
+      function init() {
+        initializeSelectors();
+        initProgressSpy();
+      }
+
       if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', initializeSelectors);
+        document.addEventListener('DOMContentLoaded', init);
       } else {
-        setTimeout(initializeSelectors, 100);
+        init();
       }
-
-      // Funcionalidad de colapso para todos los selectores
-      function initSelectorCollapse() {
-        const form = document.getElementById('newfichaform');
-        if (!form) return;
-        
-        const selectorFieldsets = [
-          'fieldset.listaSeason',
-          'fieldset.listaAldeas',
-          'fieldset.listaClanes',
-          'fieldset.listaElementos'
-        ];
-
-        function findFieldsets() {
-          return selectorFieldsets.map(selector => {
-            return form.querySelector(selector) || document.querySelector(selector);
-          }).filter(fieldset => fieldset !== null);
-        }
-
-        let fieldsets = findFieldsets();
-        if (fieldsets.length === 0) {
-          setTimeout(initSelectorCollapse, 500);
-          return;
-        }
-
-        function initFieldsetCollapse(fieldset) {
-          if (!fieldset) return;
-
-          let isManuallyExpanded = false;
-
-          function updateDisplay(forceCollapse = false) {
-            // Solo actualizar este fieldset específico
-            const selectedInput = fieldset.querySelector('input[type="radio"]:checked, input[type="checkbox"]:checked');
-            const selectedSelect = fieldset.querySelector('select');
-            const allLabels = fieldset.querySelectorAll('label');
-            
-            let hasSelection = false;
-            let selectedLabel = null;
-
-            if (selectedInput) {
-              hasSelection = true;
-              selectedLabel = selectedInput.closest('label');
-            } else if (selectedSelect && selectedSelect.value && selectedSelect.value !== '' && selectedSelect.value !== '0') {
-              hasSelection = true;
-            }
-            
-            // Actualizar solo las clases de este fieldset
-            if (hasSelection && selectedLabel) {
-              allLabels.forEach(label => {
-                label.classList.remove('selected-item');
-                if (label === selectedLabel) {
-                  label.classList.add('selected-item');
-                }
-              });
-              // Colapsar si hay selección y no está expandido manualmente (o si se fuerza)
-              if (forceCollapse || !isManuallyExpanded) {
-                fieldset.classList.add('collapsed');
-                fieldset.classList.remove('expanded');
-                isManuallyExpanded = false;
-                
-                // Ocultar elementos adicionales en el fieldset de clanes (excepto el label seleccionado)
-                if (fieldset.classList.contains('listaClanes') && selectedLabel) {
-                  // Reorganizar elementos dentro del label: texto primero, imagen después
-                  const img = selectedLabel.querySelector('img');
-                  const p = selectedLabel.querySelector('p');
-                  const input = selectedLabel.querySelector('input[type="radio"], input[type="checkbox"]');
-                  
-                  if (img && p && selectedLabel.contains(img) && selectedLabel.contains(p)) {
-                    // Verificar el orden actual y reorganizar si es necesario
-                    const children = Array.from(selectedLabel.childNodes).filter(node => 
-                      node.nodeType === 1 && (node === img || node === p || node === input)
-                    );
-                    
-                    // Si la imagen está antes del texto, reorganizar
-                    const imgIndex = children.indexOf(img);
-                    const pIndex = children.indexOf(p);
-                    
-                    if (imgIndex < pIndex) {
-                      // La imagen está antes del texto, mover el texto antes de la imagen
-                      selectedLabel.insertBefore(p, img);
-                    }
-                  }
-                  
-                  // Ocultar todos los elementos excepto el label seleccionado y el legend
-                  const allChildren = Array.from(fieldset.children);
-                  allChildren.forEach(el => {
-                    if (el.tagName !== 'LEGEND') {
-                      if (el.tagName === 'LABEL' && !el.classList.contains('selected-item')) {
-                        el.style.display = 'none';
-                      } else if (el.tagName !== 'LABEL') {
-                        // Ocultar divs, p, span, etc. que no sean el label seleccionado
-                        el.style.display = 'none';
-                      }
-                    }
-                  });
-                }
-              }
-            } else {
-              allLabels.forEach(label => {
-                label.classList.remove('selected-item');
-              });
-              if (!hasSelection) {
-                fieldset.classList.remove('collapsed');
-                fieldset.classList.add('expanded');
-                isManuallyExpanded = false;
-                
-                // Mostrar elementos adicionales cuando se expande
-                if (fieldset.classList.contains('listaClanes')) {
-                  // Mostrar todos los elementos hijos
-                  const allChildren = Array.from(fieldset.children);
-                  allChildren.forEach(el => {
-                    if (el.tagName !== 'LEGEND') {
-                      const textContent = el.textContent || '';
-                      // Si contiene texto de títulos, mostrarlo
-                      if (textContent.includes('Clanes Exclusivos') || 
-                          // textContent.includes('Otros Clanes') ||
-                          el.classList.contains('clan-section-title') || 
-                          el.classList.contains('clan-category') || 
-                          el.tagName === 'H3' || 
-                          el.tagName === 'H4' ||
-                          (el.tagName === 'DIV' && !el.classList.contains('selected-item') && (el.textContent.includes('Clanes Exclusivos') || 
-									   // el.textContent.includes('Otros Clanes')
-																							  ))) {
-                        el.style.display = 'block';
-                      } else if (el.tagName === 'LABEL') {
-                        el.style.display = '';
-                      } else if (el.tagName !== 'LABEL' && !el.classList.contains('selected-item')) {
-                        // Mostrar otros elementos que no sean labels
-                        el.style.display = '';
-                      }
-                    }
-                  });
-                }
-              }
-            }
-          }
-
-          // Hacer clic en el legend para expandir/colapsar
-          const legend = fieldset.querySelector('legend');
-          if (legend) {
-            legend.style.cursor = 'pointer';
-            legend.addEventListener('click', function(e) {
-              e.preventDefault();
-              e.stopPropagation();
-              if (fieldset.classList.contains('collapsed')) {
-                // Expandir manualmente
-                fieldset.classList.remove('collapsed');
-                fieldset.classList.add('expanded');
-                isManuallyExpanded = true;
-                
-                // Mostrar elementos adicionales cuando se expande manualmente
-                if (fieldset.classList.contains('listaClanes')) {
-                  // Mostrar todos los elementos hijos
-                  const allChildren = Array.from(fieldset.children);
-                  allChildren.forEach(el => {
-                    if (el.tagName !== 'LEGEND') {
-                      const textContent = el.textContent || '';
-                      // Si contiene texto de títulos, mostrarlo
-                      if (textContent.includes('Clanes Exclusivos') || 
-                          // textContent.includes('Otros Clanes') ||
-                          el.classList.contains('clan-section-title') || 
-                          el.classList.contains('clan-category') || 
-                          el.tagName === 'H3' || 
-                          el.tagName === 'H4' ||
-                          (el.tagName === 'DIV' && !el.classList.contains('selected-item') && (el.textContent.includes('Clanes Exclusivos') 
-												// || el.textContent.includes('Otros Clanes')
-))) {
-                        el.style.display = 'block';
-                      } else if (el.tagName === 'LABEL') {
-                        el.style.display = '';
-                      } else if (el.tagName !== 'LABEL' && !el.classList.contains('selected-item')) {
-                        // Mostrar otros elementos que no sean labels
-                        el.style.display = '';
-                      }
-                    }
-                  });
-                }
-              } else if (fieldset.classList.contains('expanded')) {
-                // Si está expandido, colapsar si hay selección
-                const hasSelection = fieldset.querySelector('input[type="radio"]:checked, input[type="checkbox"]:checked, select[value]:not([value=""])');
-                if (hasSelection) {
-                  updateDisplay(true);
-                } else {
-                  fieldset.classList.remove('expanded');
-                  fieldset.classList.add('collapsed');
-                  isManuallyExpanded = false;
-                }
-              } else {
-                updateDisplay(true);
-              }
-            });
-          }
-
-          // Hacer clic en el item seleccionado para expandir (solo si está colapsado)
-          fieldset.addEventListener('click', function(e) {
-            const clickedLabel = e.target.closest('label');
-            if (clickedLabel && clickedLabel.classList.contains('selected-item') && fieldset.classList.contains('collapsed')) {
-              // Solo expandir si está colapsado, no interferir con la selección
-              if (e.target.tagName !== 'INPUT') {
-                e.preventDefault();
-                fieldset.classList.remove('collapsed');
-                fieldset.classList.add('expanded');
-                isManuallyExpanded = true;
-                
-                // Mostrar elementos adicionales cuando se expande manualmente
-                if (fieldset.classList.contains('listaClanes')) {
-                  // Mostrar todos los elementos hijos
-                  const allChildren = Array.from(fieldset.children);
-                  allChildren.forEach(el => {
-                    if (el.tagName !== 'LEGEND') {
-                      const textContent = el.textContent || '';
-                      // Si contiene texto de títulos, mostrarlo
-                      if (textContent.includes('Clanes Exclusivos') || 
-                          // textContent.includes('Otros Clanes') ||
-                          el.classList.contains('clan-section-title') || 
-                          el.classList.contains('clan-category') || 
-                          el.tagName === 'H3' || 
-                          el.tagName === 'H4' ||
-                          (el.tagName === 'DIV' && !el.classList.contains('selected-item') && (el.textContent.includes('Clanes Exclusivos') 
-																							   // || el.textContent.includes('Otros Clanes')
-																							  ))) {
-                        el.style.display = 'block';
-                      } else if (el.tagName === 'LABEL') {
-                        el.style.display = '';
-                      } else if (el.tagName !== 'LABEL' && !el.classList.contains('selected-item')) {
-                        // Mostrar otros elementos que no sean labels
-                        el.style.display = '';
-                      }
-                    }
-                  });
-                }
-              }
-            }
-          });
-
-          // Usar delegación de eventos para inputs que se agreguen dinámicamente
-          fieldset.addEventListener('change', function(e) {
-            if (e.target.matches('input[type="radio"], input[type="checkbox"], select')) {
-              // Cuando se selecciona un nuevo item, forzar colapso
-              setTimeout(() => updateDisplay(true), 50);
-            }
-          });
-
-          // Observer para detectar cuando se agregan elementos dinámicamente
-          const observer = new MutationObserver(function(mutations) {
-            let shouldUpdate = false;
-            mutations.forEach(function(mutation) {
-              if (mutation.addedNodes.length > 0) {
-                shouldUpdate = true;
-              }
-            });
-            if (shouldUpdate) {
-              setTimeout(updateDisplay, 100);
-            }
-          });
-
-          observer.observe(fieldset, {
-            childList: true,
-            subtree: true
-          });
-
-          // Inicializar estado
-          setTimeout(updateDisplay, 500);
-          setTimeout(updateDisplay, 1500);
-        }
-
-        // Inicializar cada fieldset
-        fieldsets.forEach(fieldset => {
-          initFieldsetCollapse(fieldset);
-        });
-      }
-
-      // Intentar inicializar múltiples veces para asegurar que funcione
-      function tryInitSelectorCollapse() {
-        if (document.readyState === 'loading') {
-          document.addEventListener('DOMContentLoaded', function() {
-            setTimeout(initSelectorCollapse, 300);
-            setTimeout(initSelectorCollapse, 1000);
-            setTimeout(initSelectorCollapse, 2000);
-          });
-        } else {
-          setTimeout(initSelectorCollapse, 300);
-          setTimeout(initSelectorCollapse, 1000);
-          setTimeout(initSelectorCollapse, 2000);
-          setTimeout(initSelectorCollapse, 3000);
-        }
-      }
-
-      tryInitSelectorCollapse();
-
-      // También escuchar eventos personalizados si se usan para cargar selectores
-      document.addEventListener('selectorsLoaded', function() {
-        setTimeout(initSelectorCollapse, 100);
-      });
-
-      // Observer global para detectar cuando se agregan fieldsets
-      const globalObserver = new MutationObserver(function(mutations) {
-        mutations.forEach(function(mutation) {
-          mutation.addedNodes.forEach(function(node) {
-            if (node.nodeType === 1) {
-              if (node.matches && (node.matches('fieldset.listaSeason') || 
-                                   node.matches('fieldset.listaAldeas') || 
-                                   node.matches('fieldset.listaClanes') || 
-                                   node.matches('fieldset.listaElementos'))) {
-                setTimeout(initSelectorCollapse, 200);
-              }
-              if (node.querySelector && node.querySelector('fieldset.listaSeason, fieldset.listaAldeas, fieldset.listaClanes, fieldset.listaElementos')) {
-                setTimeout(initSelectorCollapse, 200);
-              }
-            }
-          });
-        });
-      });
-
-      globalObserver.observe(document.body, {
-        childList: true,
-        subtree: true
-      });
     })();
   </script>
-</body>
 
+</body>
 </html>

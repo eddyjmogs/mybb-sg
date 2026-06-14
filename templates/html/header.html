@@ -10,6 +10,16 @@ function toggleSidebar() {
   sidebar.classList.toggle('active');
 }
 
+function toggleMobileNav() {
+  var menuOp = document.querySelector('.menu-op');
+  var btn = document.getElementById('sg-nav-hamburger');
+  if (menuOp) menuOp.classList.toggle('sg-mobile-open');
+  if (btn) {
+    btn.classList.toggle('sg-mobile-active');
+    btn.setAttribute('aria-expanded', btn.classList.contains('sg-mobile-active') ? 'true' : 'false');
+  }
+}
+
 function toggleTheme() {
   var html = document.documentElement;
   var isLight = html.getAttribute('data-theme') === 'light';
@@ -78,6 +88,7 @@ function toggleTheme() {
             </ul>
           </li>
 
+		  <if $g_tiene_ficha == false && $g_uid != 0 then>
           <li class="sg-nav-item sg-nav-item-dropdown">
             <a href="#" id="rol">
               <span class="sg-nav-spiral"><svg viewBox="0 0 16 16" width="10" height="10" aria-hidden="true" fill="none"><path d="M8 13.2c-2.9 0-5.2-2-5.2-4.9 0-2.5 1.9-4.5 4.5-4.5 2.1 0 3.8 1.4 3.8 3.3 0 1.6-1.2 2.8-2.7 2.8-1.1 0-1.9-.7-1.9-1.7 0-.9.7-1.5 1.5-1.5.7 0 1.2.3 1.6.9" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Rol
@@ -87,6 +98,7 @@ function toggleTheme() {
               <li><a href="{$mybb->settings['bburl']}/sg/misiones.php" id="misiones">Misiones</a></li>
             </ul>
           </li>
+     	  </if>
 
           <if $g_tiene_ficha == false && $g_uid != 0 then>
           <li class="sg-nav-item sg-nav-item-highlight">
@@ -109,7 +121,7 @@ function toggleTheme() {
             <a href="{$mybb->settings['bburl']}/member.php?action=register">Regístrate</a>
           </li>
           <li class="sg-nav-item sg-nav-item-ghost">
-            <a href="{$mybb->settings['bburl']}/showthread.php?tid=1938">Primeros pasos</a>
+            <a href="{$mybb->settings['bburl']}/showthread.php?tid=13384">Primeros pasos</a>
           </li>
         </ul>
         </if>
@@ -152,7 +164,15 @@ function toggleTheme() {
         </ul>
         </if>
 
-        <!-- <button id="theme-toggle" onclick="toggleTheme()" title="Cambiar tema" class="sg-nav-theme-btn">☀</button> -->
+      </div><!-- /.sg-nav-actions -->
+
+      <div class="sg-nav-controls">
+        <button id="sg-nav-hamburger" class="sg-nav-hamburger" onclick="toggleMobileNav()" aria-label="Menú" aria-expanded="false">
+          <span class="sg-nav-hamburger-bar"></span>
+          <span class="sg-nav-hamburger-bar"></span>
+          <span class="sg-nav-hamburger-bar"></span>
+        </button>
+        <button id="theme-toggle" onclick="toggleTheme()" title="Cambiar tema" class="sg-nav-theme-btn">☀</button>
       </div>
 
     </div>
@@ -163,7 +183,7 @@ function toggleTheme() {
 <!-- ═══════════════════════════════════════════════════════════════
      HEADER BLOCK — banner + identity overlay
      ═══════════════════════════════════════════════════════════════ -->
-<div id="header" style="width: 1100px; margin: auto;">
+<div id="header" style="max-width: 1100px; width: 100%; margin: auto; box-sizing: border-box;">
 
   <div class="hrDivider"></div>
 
@@ -249,7 +269,7 @@ function toggleTheme() {
 <!-- ═══════════════════════════════════════════════════════════════
      ANNOUNCEMENT STRIP
      ═══════════════════════════════════════════════════════════════ -->
-<div style="width: 1100px; margin: auto; background: var(--bg2); border-bottom: 0.5px solid var(--border);
+<div style="max-width: 1100px; width: 100%; margin: auto; background: var(--bg2); border-bottom: 0.5px solid var(--border);
             padding: 10px 24px; box-sizing: border-box; display: flex; align-items: center; gap: 16px;">
   <!-- Section-head oxide bar -->
   <div style="width: 3px; height: 32px; background: var(--oxide); flex-shrink: 0;"></div>
@@ -275,7 +295,7 @@ function toggleTheme() {
      STAFF ADMIN BAND (staff only)
      ═══════════════════════════════════════════════════════════════ -->
 <if $g_is_staff then>
-<div style="width: 1100px; margin: auto; background: var(--bg3); border-bottom: 0.5px solid var(--border);
+<div style="max-width: 1100px; width: 100%; margin: auto; background: var(--bg3); border-bottom: 0.5px solid var(--border);
             padding: 8px 24px; box-sizing: border-box; display: flex; align-items: center; gap: 12px;">
   <div style="width: 2px; height: 18px; background: var(--oxide); flex-shrink: 0;"></div>
   <span style="font-family: 'Cinzel', serif; font-size: 9px; font-weight: 700; letter-spacing: 2.2px;
@@ -296,7 +316,7 @@ function toggleTheme() {
      SABÍAS QUE — staff / specific user only
      ═══════════════════════════════════════════════════════════════ -->
 <if $current_page != "index.php" && $current_page != "ficha.php" && ($g_is_staff || $mybb->user['uid'] == '501') then>
-<div style="position: relative; width: 1100px; margin: 0 auto;">
+<div style="position: relative; max-width: 1100px; width: 100%; margin: 0 auto; box-sizing: border-box;">
   <div style="position: relative; overflow: hidden; background: var(--bg2); border-top: 0.5px solid var(--border); border-bottom: 0.5px solid var(--border); min-height: 180px;">
     
     <!-- Washi fiber overlay -->
