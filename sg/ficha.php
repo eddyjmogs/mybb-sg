@@ -297,11 +297,13 @@ if ($ficha_existe == true && ($moderated == true || (is_mod($s_uid) || is_staff(
         $sg_vida_bar = min(100, max(8, round(($f['vida'] / max($v, 1)) * 100)));
         $sg_chakra_bar = min(100, max(8, round(($f['chakra'] / max($c, 1)) * 100)));
 
-        $historia_var = nl2br($ficha['historia']);
-        $apariencia_var = nl2br($ficha['apariencia']);
+        $historia_var     = nl2br($ficha['historia']);
+        $apariencia_var   = nl2br($ficha['apariencia']);
         $personalidad_var = nl2br($ficha['personalidad']);
-        $extra_var = nl2br($ficha['extra']);
-        $frase_var = nl2br($ficha['frase']);
+        $virtudes_var     = nl2br($ficha['virtudes']);
+        $defectos_var     = nl2br($ficha['defectos']);
+        $extra_var        = nl2br($ficha['extra']);
+        $frase_var        = nl2br($ficha['frase']);
         $limite_nivel = $ficha['limite_nivel'];
         $nivel = $ficha['nivel'];
         $puntos_estadistica = intval($ficha['puntos_estadistica']);
@@ -402,6 +404,8 @@ if ($ficha_existe == true && ($moderated == true || (is_mod($s_uid) || is_staff(
         eval('$historia = $historia_var;');
         eval('$apariencia = $apariencia_var;');
         eval('$personalidad = $personalidad_var;');
+        eval('$virtudes = $virtudes_var;');
+        eval('$defectos = $defectos_var;');
         eval('$extra = $extra_var;');
         eval('$frase = $frase_var;');
         eval('$nivel_limite = $limite_nivel;');

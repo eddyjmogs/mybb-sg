@@ -6,7 +6,7 @@
 })();
 
 function toggleSidebar() {
-  var sidebar = document.querySelector('.sidebar');
+  var sidebar = document.querySelector('.sidebar'); 
   sidebar.classList.toggle('active');
 }
 
@@ -57,13 +57,6 @@ function toggleTheme() {
 
       <div class="sg-nav-main">
         <ul class="sg-nav-list sg-nav-primary">
-          <if $g_tiene_ficha == true then>
-          <li class="sg-nav-item">
-            <a href="{$mybb->settings['bburl']}/sg/ficha.php?uid={$mybb->user['uid']}">
-              <span class="sg-nav-spiral"><svg viewBox="0 0 16 16" width="10" height="10" aria-hidden="true" fill="none"><path d="M8 13.2c-2.9 0-5.2-2-5.2-4.9 0-2.5 1.9-4.5 4.5-4.5 2.1 0 3.8 1.4 3.8 3.3 0 1.6-1.2 2.8-2.7 2.8-1.1 0-1.9-.7-1.9-1.7 0-.9.7-1.5 1.5-1.5.7 0 1.2.3 1.6.9" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Ficha
-            </a>
-          </li>
-          </if>
 
           <li class="sg-nav-item">
             <a href="{$mybb->settings['bburl']}/forumdisplay.php?fid=25">
@@ -88,7 +81,7 @@ function toggleTheme() {
             </ul>
           </li>
 
-		  <if $g_tiene_ficha == false && $g_uid != 0 then>
+		  <if $g_uid != 0 then>
           <li class="sg-nav-item sg-nav-item-dropdown">
             <a href="#" id="rol">
               <span class="sg-nav-spiral"><svg viewBox="0 0 16 16" width="10" height="10" aria-hidden="true" fill="none"><path d="M8 13.2c-2.9 0-5.2-2-5.2-4.9 0-2.5 1.9-4.5 4.5-4.5 2.1 0 3.8 1.4 3.8 3.3 0 1.6-1.2 2.8-2.7 2.8-1.1 0-1.9-.7-1.9-1.7 0-.9.7-1.5 1.5-1.5.7 0 1.2.3 1.6.9" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Rol
@@ -104,6 +97,14 @@ function toggleTheme() {
           <li class="sg-nav-item sg-nav-item-highlight">
             <a href="{$mybb->settings['bburl']}/sg/ficha.php?uid={$mybb->user['uid']}">
               <span class="sg-nav-spiral"><svg viewBox="0 0 16 16" width="10" height="10" aria-hidden="true" fill="none"><path d="M8 13.2c-2.9 0-5.2-2-5.2-4.9 0-2.5 1.9-4.5 4.5-4.5 2.1 0 3.8 1.4 3.8 3.3 0 1.6-1.2 2.8-2.7 2.8-1.1 0-1.9-.7-1.9-1.7 0-.9.7-1.5 1.5-1.5.7 0 1.2.3 1.6.9" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Nueva Ficha
+            </a>
+          </li>
+          </if>
+			
+		  <if $g_tiene_ficha == true then>
+          <li class="sg-nav-item">
+            <a href="{$mybb->settings['bburl']}/sg/ficha.php?uid={$mybb->user['uid']}">
+              <span class="sg-nav-spiral"><svg viewBox="0 0 16 16" width="10" height="10" aria-hidden="true" fill="none"><path d="M8 13.2c-2.9 0-5.2-2-5.2-4.9 0-2.5 1.9-4.5 4.5-4.5 2.1 0 3.8 1.4 3.8 3.3 0 1.6-1.2 2.8-2.7 2.8-1.1 0-1.9-.7-1.9-1.7 0-.9.7-1.5 1.5-1.5.7 0 1.2.3 1.6.9" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Ficha
             </a>
           </li>
           </if>

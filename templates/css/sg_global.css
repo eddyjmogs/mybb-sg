@@ -138,14 +138,12 @@ table {
 }
 
 #logo {
-    max-width: 1100px;
-    width: 100%;
+    width: 1100px !important;
     height: auto;
     background: var(--bg2) !important;
     background-size: cover !important;
     margin: auto;
     padding: 0;
-    box-sizing: border-box;
 }
 
 #logo img {
@@ -153,19 +151,15 @@ table {
 }
 
 #content {
-    max-width: 1100px;
-    width: 100%;
+    width: 1100px !important;
     margin: auto;
     padding: 0;
     background: unset;
-    box-sizing: border-box;
 }
 
 #footer {
-    max-width: 1100px;
-    width: 100%;
+    width: 1100px !important;
     margin: auto;
-    box-sizing: border-box;
 }
 
 #panel .upper {
@@ -226,24 +220,17 @@ table {
 }
 
 .sg-nav-shell {
-    width: 100%;
-    max-width: 1400px;
+    width: 1100px;
     min-height: 68px;
     margin: 0 auto;
     display: grid;
-    grid-template-columns: auto 1fr auto auto;
+    grid-template-columns: auto 1fr auto;
     align-items: center;
-    gap: 14px;
-    padding: 0 24px;
+    gap: 20px;
+    padding: 0 10px;
     box-sizing: border-box;
     position: relative;
     z-index: 1;
-}
-
-.sg-nav-controls {
-    display: flex;
-    align-items: center;
-    gap: 8px;
 }
 
 .sg-nav-brand {
@@ -299,7 +286,7 @@ table {
 .sg-nav-list {
     display: flex;
     align-items: center;
-    gap: 3px;
+    gap: 6px;
     list-style: none;
     margin: 0;
     padding: 0;
@@ -334,12 +321,12 @@ table {
 }
 
 .sg-nav-item > a {
-    padding: 0 11px;
-    gap: 6px;
+    padding: 0 15px;
+    gap: 8px;
     font-family: 'Cinzel', serif;
-    font-size: 11px;
+    font-size: 12px;
     font-weight: 700;
-    letter-spacing: 1px;
+    letter-spacing: 1.5px;
     text-transform: uppercase;
     color: var(--lavender);
 }
@@ -2013,199 +2000,6 @@ span.toggle-container {
     .fb-pt               { display: none; }
     ul.tabs li.current   { float: none; }
     ul.tabs li           { float: none; display: block; }
-
-    /* Fluid padding for the main content containers */
-    #content, #footer {
-        padding-left: 12px;
-        padding-right: 12px;
-    }
-}
-
-
-/* ----------------------------------------------------------
-   28. MOBILE NAV — Hamburger
-   ---------------------------------------------------------- */
-
-/* Hamburger button — hidden on desktop */
-.sg-nav-hamburger {
-    display: none;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    width: 42px;
-    height: 42px;
-    background: rgba(123, 74, 184, 0.12);
-    border: 0.5px solid var(--border);
-    border-radius: 999px;
-    cursor: pointer;
-    gap: 5px;
-    padding: 0;
-    flex-shrink: 0;
-    transition: background 0.15s ease, border-color 0.15s ease;
-}
-
-.sg-nav-hamburger:hover {
-    background: rgba(123, 74, 184, 0.20);
-    border-color: var(--border);
-}
-
-.sg-nav-hamburger-bar {
-    display: block;
-    width: 18px;
-    height: 1.5px;
-    background: var(--lavender);
-    border-radius: 2px;
-    transition: transform 0.22s ease, opacity 0.22s ease;
-    pointer-events: none;
-}
-
-/* Hamburger → X animation */
-.sg-nav-hamburger.sg-mobile-active .sg-nav-hamburger-bar:nth-child(1) {
-    transform: translateY(6.5px) rotate(45deg);
-}
-.sg-nav-hamburger.sg-mobile-active .sg-nav-hamburger-bar:nth-child(2) {
-    opacity: 0;
-    transform: scaleX(0);
-}
-.sg-nav-hamburger.sg-mobile-active .sg-nav-hamburger-bar:nth-child(3) {
-    transform: translateY(-6.5px) rotate(-45deg);
-}
-
-@media screen and (max-width: 1100px) {
-
-    /* Show hamburger */
-    .sg-nav-hamburger {
-        display: flex;
-    }
-
-    /* Allow navbar to grow vertically when open */
-    .menu-op {
-        height: auto;
-        min-height: 68px;
-    }
-
-    /* 3-column header row: brand | (empty flex) | controls */
-    .sg-nav-shell {
-        grid-template-columns: auto 1fr auto;
-        grid-template-rows: 68px auto auto;
-        row-gap: 0;
-        column-gap: 8px;
-        padding: 0 16px;
-        align-items: start;
-    }
-
-    .sg-nav-brand   { grid-column: 1; grid-row: 1; align-self: center; }
-    .sg-nav-controls { grid-column: 3; grid-row: 1; align-self: center; }
-
-    /* Primary nav: hidden by default, row 2 when open */
-    .sg-nav-main {
-        display: none;
-        grid-column: 1 / -1;
-        grid-row: 2;
-        border-top: 0.5px solid var(--border);
-        padding: 10px 4px 8px;
-    }
-
-    /* Secondary nav (actions): hidden by default, row 3 when open */
-    .sg-nav-actions {
-        display: none;
-        grid-column: 1 / -1;
-        grid-row: 3;
-        border-top: 0.5px solid var(--border);
-        padding: 8px 4px 16px;
-        flex-direction: column;
-        align-items: stretch;
-        gap: 0;
-    }
-
-    /* Show drawer contents when menu-op has .sg-mobile-open */
-    .menu-op.sg-mobile-open .sg-nav-main    { display: block; }
-    .menu-op.sg-mobile-open .sg-nav-actions { display: flex; }
-
-    /* ── Primary nav items (vertical stack) ── */
-    .sg-nav-primary {
-        flex-direction: column;
-        align-items: stretch;
-        gap: 2px;
-        flex-wrap: nowrap;
-    }
-
-    .sg-nav-item > a {
-        border-radius: 10px;
-        justify-content: flex-start;
-        min-height: 42px;
-        padding: 0 14px;
-    }
-
-    /* Expand dropdowns inline in primary nav */
-    .sg-nav-main .sg-nav-item-dropdown > .sg-nav-dropdown {
-        display: block;
-        position: static;
-        background: transparent;
-        backdrop-filter: none;
-        -webkit-backdrop-filter: none;
-        border: none;
-        border-radius: 0;
-        box-shadow: none;
-        padding: 2px 0 6px 28px;
-        min-width: 0;
-    }
-
-    .sg-nav-main .sg-nav-dropdown a {
-        font-size: 13px;
-        padding: 8px 12px;
-        border-radius: 6px;
-    }
-
-    .sg-nav-main .sg-nav-item-dropdown::after { display: none; }
-    .sg-nav-main .sg-nav-caret { display: none; }
-
-    /* ── Secondary nav in drawer (vertical stack) ── */
-    .sg-nav-secondary {
-        flex-direction: column;
-        align-items: stretch;
-        gap: 2px;
-        width: 100%;
-    }
-
-    /* Avatar item: hide the circle-link, handled by user dropdown trigger */
-    .sg-nav-avatar-item { display: none; }
-
-    /* Expand user dropdown inline */
-    .sg-nav-actions .sg-nav-item-dropdown > .sg-nav-dropdown {
-        display: block;
-        position: static;
-        background: transparent;
-        backdrop-filter: none;
-        -webkit-backdrop-filter: none;
-        border: none;
-        border-radius: 0;
-        box-shadow: none;
-        padding: 2px 0 6px 28px;
-        min-width: 0;
-        left: auto;
-        right: auto;
-    }
-
-    .sg-nav-actions .sg-nav-dropdown a {
-        font-size: 13px;
-        padding: 8px 12px;
-        border-radius: 6px;
-    }
-
-    .sg-nav-actions .sg-nav-item-dropdown::after { display: none; }
-    .sg-nav-actions .sg-nav-caret { display: none; }
-}
-
-@media screen and (max-width: 560px) {
-    /* On very small screens, hide brand text, keep just logo */
-    .sg-nav-brand-copy {
-        display: none;
-    }
-
-    .sg-nav-brand-link {
-        padding-right: 0;
-    }
 }
 
 

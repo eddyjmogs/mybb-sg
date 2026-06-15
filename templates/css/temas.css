@@ -1,124 +1,193 @@
 /* Attached to all pages */
 
-/* Accesos Rapidos */
+/* ════════ Postbit · Columna de autor ════════ */
+/* (--villa = color de aldea del usuario, se inyecta inline) */
 
-.quick_acces_tabs {
-	display:flex;
-	flex-direction: row;
-	justify-content: space-evenly;
-	margin-bottom: 7px;
-}
-
-.inventory_tab , .profile_tab , .character_profile_tab {
-height: 35px;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-}
-
-/* Animación para Contenido del Avatar */
-
- .author_avatar {
-	transition: all 0.5s ease-out;
-}
-
- .author_avatar:hover {
-	filter: brightness(0.7);
-}
-
-/* Contenido de la sección Avatar */
-
- .author_information {
-    display: flex;
-    justify-content: space-between;
-    height: 35px;
-    font-size: 1.20rem;
-    align-items: center;
-    text-transform: uppercase;
-    font-weight: 800;
-    color: white;
-    letter-spacing: 0.10rem;
-    margin-bottom: 5px;
-}
-
-/* Contenido de la Sección del Avatar */
-
- .character_info {
+.post_author {
 	display: flex;
 	flex-direction: column;
-	gap:5px;
+	gap: 6px;
+	max-width: 280px;
+	min-width: 280px;
+	flex-shrink: 0;
 }
 
- .row_data {
-	display: flex;
-	flex-direction: row;
-	gap: 5px;
+/* Avatar */
+.author_avatar {
+	position: relative;
+	overflow: hidden;
+	background: var(--bg3);
+	border: 0.5px solid var(--border);
+	border-top: 2px solid var(--villa, var(--oxide));
+	transition: filter 0.3s ease;
 }
 
- .row_data .char_data_tab {
-	width: 100%;
-}
-
- .char_data_tab  {
-	height: 35px;
-	display: flex;
-	flex-direction: row;
-	font-weight: 800;
-	color: white;
-	text-transform: uppercase;
-}
-
- .char_data_tab .kanji {
-	width: 50px;
-	height: auto;
-	display: flex;
-	justify-content: center;
-	align-items:center;
-	font-size: 1.35rem;
-}
-
- .char_data_tab .text {
+.author_avatar img {
+	display: block;
 	width: 100%;
 	height: auto;
-	display: flex;
-	justify-content: center;
-	align-items:center;
-	font-size: 1.20rem;
-	letter-spacing: 0.15rem;
 }
 
-/* Estilo para Estadisticas */
+.author_avatar:hover {
+	filter: brightness(0.85);
+}
 
- .stats_title {
-	display:block; 
-	background-color:#585C5F; 
-	color: white; 
-	font-size: 1.20rem; 
-	font-weight: 800;
+/* Nombre de usuario */
+.author_information {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	min-height: 34px;
+	padding: 0 10px;
+	background: var(--bg2);
+	border: 0.5px solid var(--border);
+	border-left: 2px solid var(--villa, var(--oxide));
+	font-family: 'Cinzel', serif;
+	font-size: 11px;
+	font-weight: 700;
+	letter-spacing: 1.5px;
 	text-transform: uppercase;
-	letter-spacing: 0.3rem;
+	color: var(--ink);
 	text-align: center;
 }
 
-.stats_value {
-	text-align: right;
+/* Accesos rápidos (inventario / perfil / ficha) */
+.quick_acces_tabs {
+	display: grid;
+	grid-template-columns: repeat(3, 1fr);
+	gap: 6px;
 }
 
- .stats_table {
+.inventory_tab,
+.profile_tab,
+.character_profile_tab {
 	display: flex;
-	flex-direction: row;
-	background-color: #292D32;
-	color: white;
-	font-weight: 800;
-	font-size: 0.90rem;
-	text-transform: uppercase;
-	justify-content: space-between;
-	padding: 10px 10px 0px 10px;
+	align-items: center;
+	justify-content: center;
+	height: 34px;
+	background: var(--bg3);
+	border: 0.5px solid var(--border);
+	transition: background 0.15s, border-color 0.15s;
 }
 
- .stats_table p {
-	margin: 0;
-	margin-bottom: 7px;
+.inventory_tab:hover,
+.profile_tab:hover,
+.character_profile_tab:hover {
+	background: var(--bg2);
+	border-color: var(--plum3);
+}
+
+.quick_acces_tabs a {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 100%;
+	height: 100%;
+	font-size: 14px;
+	text-decoration: none;
+	transition: opacity 0.15s;
+}
+
+.quick_acces_tabs a:hover {
+	opacity: 0.7;
+}
+
+/* Identidad: rango / clan / nivel */
+.character_info {
+	display: flex;
+	flex-direction: column;
+	gap: 4px;
+}
+
+.char_data_tab {
+	display: flex;
+	align-items: stretch;
+	min-height: 32px;
+	overflow: hidden;
+	background: var(--bg3);
+	border: 0.5px solid var(--border);
+}
+
+.char_data_tab .kanji {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 36px;
+	flex-shrink: 0;
+	background: var(--bg2);
+	border-right: 0.5px solid var(--border);
+	font-family: 'Noto Serif JP', serif;
+	font-size: 15px;
+	color: var(--villa, var(--oxide));
+}
+
+.char_data_tab .text {
+	display: flex;
+	align-items: center;
+	flex: 1;
+	padding: 0 12px;
+	font-family: 'Cinzel', serif;
+	font-size: 9px;
+	font-weight: 700;
+	letter-spacing: 1px;
+	text-transform: uppercase;
+	color: var(--stone);
+}
+
+/* Estadísticas */
+.char_stats {
+	background: var(--bg3);
+	border: 0.5px solid var(--border);
+}
+
+.stats_title {
+	display: block;
+	padding: 7px 10px;
+	background: var(--bg2);
+	border-bottom: 0.5px solid var(--border);
+	font-family: 'Cinzel', serif;
+	font-size: 8px;
+	font-weight: 700;
+	letter-spacing: 2px;
+	text-transform: uppercase;
+	text-align: center;
+	color: var(--mist);
+}
+
+.stats_table {
+	display: flex;
+	flex-direction: column;
+	gap: 2px;
+	padding: 8px;
+}
+
+/* Cada fila: etiqueta a la izquierda, valor a la derecha */
+.stat_row {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 10px;
+	height: 22px;
+	padding: 0 8px;
+	background: var(--bg2);
+	border: 0.5px solid var(--border);
+}
+
+.stat_label {
+	font-family: 'Cinzel', serif;
+	font-size: 8px;
+	font-weight: 700;
+	letter-spacing: 0.5px;
+	text-transform: uppercase;
+	color: var(--stone);
+	white-space: nowrap;
+}
+
+.stat_val {
+	font-family: 'Source Serif 4', serif;
+	font-size: 12px;
+	font-weight: 700;
+	color: var(--ink);
 }
 
 /* Barras */
@@ -169,66 +238,56 @@ span.barraChakraText {
 
 /* Barra de Vida */
 
+/* Vitales: vida y chakra */
 .bars_container {
-    padding: 5px;
-    background-color: #292D32;
-    color: white;
     display: flex;
     flex-direction: column;
-    gap: 7px;
+    gap: 4px;
 }
 
 .health_status_container, .chakra_status_container {
-    text-align: center;
-    font-size: 0.95rem;
-    font-weight: 800;
     position: relative;
-    height: 30px; /* Altura de las barras */
-    overflow: hidden; /* Para ocultar el contenido que sobresale */
+    height: 28px;
+    overflow: hidden;
+    border: 0.5px solid var(--border);
+    background: var(--bg3);
 }
 
-.health_status_container {
-    background-color: #ba3232;
-}
-
-.chakra_status_container {
-    background-color: #273974;
-}
-
-/* Barras de vida y chakra */
+/* Relleno (sin datos de porcentaje: queda como tinte de fondo) */
 .health_bar, .chakra_bar {
     position: absolute;
     top: 0;
     left: 0;
     height: 100%;
-    background-color: inherit;
+    width: 100%;
 }
 
 .health_bar {
-    background-color: #d44; /* Tono más claro de #ba3232 */
-    width: calc(100% * var(--vida-percentage, 1)); /* Default 100% */
-    transition: width 0.5s ease-in-out;
+    background: rgba(192, 88, 42, 0.16);
 }
 
 .chakra_bar {
-    background-color: #375a9b; /* Tono más claro de #273974 */
-    width: calc(100% * var(--chakra-percentage, 1)); /* Default 100% */
-    transition: width 0.5s ease-in-out;
+    background: rgba(89, 140, 200, 0.16);
 }
 
-/* Texto de las barras */
+/* Texto centrado sobre la barra */
 .health_bar_text, .chakra_bar_text {
     position: absolute;
-    width: 100%;
+    inset: 0;
+    z-index: 1;
     display: flex;
-	gap: 5px;
     align-items: center;
     justify-content: center;
-    height: 100%;
-    z-index: 1;
-    top: 0;
-    left: 0;
+    gap: 8px;
+    font-family: 'Cinzel', serif;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    color: var(--ink);
 }
+
+.health_bar_text i { color: #c0582a; }
+.chakra_bar_text i { color: #59a0d8; }
 
 span.barraVidaText, span.barraChakraText {
     font-family: MontserratVariableFont, sans-serif;
@@ -571,294 +630,105 @@ background-color: #4B4286;
 /* Tecnicas */
 
 .tecnica_spoiler_title {
-    padding: 0;
-    cursor: pointer;
+    padding: 10px;
+    cursor: pointer;	
 }
 
 .tecnica_spoiler_content {
-    padding: 0;
+    padding: 5px 20px;
     text-align: left;
-    display: block;
-    background-color: rgba(9, 8, 14, 0.94);
-    color: #e8dff8;
+    display: grid;
+    grid-template-columns: 3fr 2fr 3fr;
+    grid-template-rows: 20px 20px 20px 20px 1fr 20px 20px;
+    grid-row-gap: 5px;
+    background-color: #E6EFF5;
+    color: #0f1520;
     cursor: default;
-    font-family: "Source Serif 4", serif;
+	font-family: 'Inter';
     font-size: 14px;
-    transition: max-height 0.28s ease, opacity 0.22s ease, padding 0.22s ease;
+	transition: all 1s ease-out;
 }
 
-.tecnica-card {
-    padding: 14px;
+
+.tecnicaId {
+    grid-row: 1;
+    grid-column: 2;
+    text-align: center
 }
 
-.tecnica-layout {
-    display: grid;
-    grid-template-columns: 220px minmax(0, 1fr);
-    gap: 14px;
-    align-items: start;
+.tecnicaId span, .tecnicaType span, .tecnicaSello span {
+    background: #014C7D;
+    color: white;
+    padding: 4px 7px;
+    border: 1px solid #5d83a9;	
+	letter-spacing: 2px;
+	margin-right: 5px;
+	text-shadow: 1px 1px 1px #00121e;
+	font-family: InterMedium;
 }
 
-.tecnica-side,
-.tecnica-main {
-    display: grid;
-    gap: 10px;
+.tecnicaCost span, .tecnicaEfect span {
+	color: #014c7d;
+    letter-spacing: 1px;
+    font-family: InterRegular;
 }
 
-.tecnica-badges {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-}
-
-.tecnica-badge,
-.tecnicaId span,
-.tecnicaType span,
-.tecnicaSello span {
-    display: inline-flex;
-    align-items: center;
-    min-height: 28px;
-    padding: 0 10px;
-    border: 1px solid rgba(156, 107, 204, 0.14);
-    background: rgba(20, 16, 31, 0.88);
-    color: #d4b8f0;
-    font: 700 9px/1 "Cinzel", serif;
-    letter-spacing: 1.3px;
-    text-transform: uppercase;
-    box-sizing: border-box;
-}
-
-.tecnica-badge-rango {
-    color: #f0c1ac;
-    border-color: rgba(192, 88, 42, 0.2);
-}
-
-.tecnica-badge-balance.balance_positive {
-    color: #b4e5bd;
-}
-
-.tecnica-badge-balance.balance_negative {
-    color: #f0a0a0;
-}
-
-.tecnica-badge a {
-    color: inherit;
-    text-decoration: underline;
-    text-decoration-color: rgba(212, 184, 240, 0.28);
-}
-
-.tecnica-side-panels {
-    display: grid;
-    gap: 10px;
-}
-
-.tecnica-data-block,
-.tecnicaCost,
-.tecnicaEfect {
-    padding: 12px 14px;
-    border: 1px solid rgba(156, 107, 204, 0.1);
-    background: rgba(20, 16, 31, 0.88);
-    margin: 0;
-    text-align: left;
-    box-sizing: border-box;
-}
-
-.tecnica-data-label,
-.tecnicaCost span,
 .efectoTitulo {
-    display: block;
-    margin-bottom: 6px;
-    color: #8a7a9a;
-    font: 700 10px/1 "Cinzel", serif;
-    letter-spacing: 1.6px;
-    text-transform: uppercase;
-    background: transparent;
-    padding: 0;
-    text-shadow: none;
+	background-color: #014c7d;
+    color: white !important;
+    padding: 4px 6px;
+    margin-right: 2px;
+	text-shadow: 1px 1px 1px #00121e;
 }
 
-.tecnica-data-value,
 .tecnicaLvl span {
-    display: block;
-    color: #e8dff8;
-    font: 700 14px/1.55 "Source Serif 4", serif;
-    letter-spacing: 0;
+	letter-spacing: 2px;
+    font-family: InterMedium;
+    color: #014c7d;
 }
 
-.tecnica-reading,
-.tecnica-effect-box,
+
+.tecnicaType {
+    grid-row: 2;
+    grid-column: 3;
+    text-align: right
+}
+
+.tecnicaSello {
+    grid-row: 2
+}
+
+.tecnicaReq {
+    grid-row: 3;
+    grid-column: 1 / -1
+}
+
+.tecnicaLvl {
+    grid-row: 3;
+    grid-column: 3;
+    text-align: right;
+	font-family: InterMedium !important;
+}
+
 .tecnicaDes {
-    padding: 14px 16px;
-    border: 1px solid rgba(156, 107, 204, 0.08);
-    background: #ece5f6;
-    color: #20192d;
-    text-align: left;
-    box-sizing: border-box;
+    margin-bottom: 15px;
+    text-align: justify;
 }
 
-.tecnica-reading-label {
-    display: block;
-    margin-bottom: 8px;
-    color: #715968;
-    font: 700 10px/1 "Cinzel", serif;
-    letter-spacing: 1.8px;
-    text-transform: uppercase;
+.tecnicaCost {
+    text-align: center;
+	margin: 0px 0px 5px;
 }
 
-.tecnica-description,
-.tecnica-effect-text,
-.tecnicaDes,
 .tecnicaEfect {
-    margin: 0;
-    color: #20192d;
-    font: 400 14px/1.82 "Source Serif 4", serif;
-    text-align: justify;
+    text-align: center;
+	margin: 5px 0px 5px;
 }
 
-.tecnica-effect-box-empty .tecnica-effect-text,
-.tecnica-data-muted {
-    color: #7e6a89;
-}
-
-.tecnicaId,
-.tecnicaType,
-.tecnicaSello,
-.tecnicaReq,
-.tecnicaLvl,
 .tecnicaReward {
-    grid-row: auto;
-    grid-column: auto;
-    text-align: left;
-}
-
-/* Reusable SG technique card */
-
-.sg-technique {
-    display: grid;
-    grid-template-columns: 240px minmax(0, 1fr);
-    gap: 16px;
-    align-items: start;
-}
-
-.sg-technique__rail,
-.sg-technique__main {
-    display: grid;
-    gap: 12px;
-}
-
-.sg-technique__badges {
-    display: grid;
-    gap: 8px;
-}
-
-.sg-technique__badge {
-    display: inline-flex;
-    align-items: center;
-    justify-content: flex-start;
-    gap: 8px;
-    width: 100%;
-    min-height: 34px;
-    padding: 7px 10px;
-    border: 1px solid rgba(192, 88, 42, 0.18);
-    background: rgba(79, 48, 31, 0.82);
-    color: #f2d8c8;
-    font: 700 10px/1.35 "Cinzel", serif;
-    letter-spacing: 1.2px;
-    text-transform: uppercase;
-    box-sizing: border-box;
-}
-
-.sg-technique__badge--accent {
-    border-color: rgba(240, 193, 172, 0.28);
-    background: rgba(95, 55, 33, 0.9);
-    color: #ffe2cf;
-}
-
-.sg-technique__badge-icon {
-    width: 12px;
-    color: rgba(240, 193, 172, 0.86);
-    font-size: 10px;
-    text-align: center;
-    flex: 0 0 auto;
-}
-
-.sg-technique__stat {
-    padding: 16px;
-    border: 1px solid rgba(192, 88, 42, 0.18);
-    background:
-        linear-gradient(180deg, rgba(138, 82, 50, 0.22), rgba(88, 53, 34, 0.16));
-    box-shadow: inset 0 0 0 1px rgba(240, 193, 172, 0.06);
-}
-
-.sg-technique__stat-label,
-.sg-technique__section-label {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    margin-bottom: 10px;
-    color: #855f4b;
-    font: 700 10px/1 "Cinzel", serif;
-    letter-spacing: 1.8px;
-    text-transform: uppercase;
-}
-
-.sg-technique__stat-label {
-    color: #d7b4a0;
-}
-
-.sg-technique__label-icon {
-    width: 12px;
-    color: #d7743d;
-    font-size: 10px;
-    text-align: center;
-    flex: 0 0 auto;
-}
-
-.sg-technique__stat-value {
-    color: #f5e5d8;
-    font: 700 18px/1.45 "Source Serif 4", serif;
-}
-
-.sg-technique__stat::after {
-    content: "";
-    display: block;
-    width: 42px;
-    height: 1px;
-    margin-top: 14px;
-    background: rgba(240, 193, 172, 0.28);
-}
-
-.sg-technique__section {
-    padding: 15px 16px;
-    border: 1px solid rgba(192, 88, 42, 0.12);
-    background: rgba(246, 239, 233, 0.97);
-    color: #2b211d;
-}
-
-.sg-technique__text {
-    margin: 0;
-    color: #2b211d;
-    font: 400 14px/1.82 "Source Serif 4", serif;
-    text-align: justify;
-}
-
-.sg-technique__text--muted {
-    color: #7c6b61;
-}
-
-@media (max-width: 720px) {
-  .sg-technique {
-    grid-template-columns: 1fr;
-  }
-}
-
-@media (max-width: 720px) {
-  .tecnica-card {
-    padding: 12px;
-  }
-
-  .tecnica-layout {
-    grid-template-columns: 1fr;
-  }
+    grid-row: 6;
+    grid-column: 3;
+    text-align: right
 }
 
 /* Contenedor Padre de Post */
@@ -866,213 +736,320 @@ background-color: #4B4286;
 .post_container {
     display: flex;
     flex-direction: column;
-	width: 100%;
+    width: 100%;
+    border: 0.5px solid var(--border);
 }
 
 /* Zona de Contenido de Post */
- .post_content {
-width: 100% !important;
+.post_content {
+    width: 100% !important;
 }
 
- .message_Section {
-	width: 50%;
-}
-
- .author_Section {
-	width: 50%;
-}
-
-/* Cabecera de Temas/Posts */
+/* Cabecera del thread (barra superior) */
 .thread_Controls {
-	display: flex;
+    display: flex;
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    padding: 10px;
-	margin-top: 10px;
-    background-color: #11161B;
+    padding: 0 20px;
+    height: 46px;
+    background: var(--bg3);
+    border-bottom: 0.5px solid var(--border);
+    box-sizing: border-box;
 }
 
-.right_controls{
-	height: 35px;
-	display: flex;
-	gap:10px;
-}
-
+/* Pie del thread (columna: barra + footer) */
 .thread_bottom_controls {
-	display: flex;
+    display: flex;
     flex-direction: column;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px;
-	margin-top: 10px;
-    background-color: #11161B;
+    border-top: 0.5px solid var(--border);
 }
 
 .bottom_controls {
-	display: flex;
-	flex-direction: row;
-	justify-content: space-between;
-	width: 100%;
-	margin-bottom: 10px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding: 0 20px;
+    height: 46px;
+    background: var(--bg3);
+    border-bottom: 0.5px solid var(--border);
+    box-sizing: border-box;
 }
 
-.thread_title {
-	text-transform: uppercase;
-	display: flex;
-	flex-direction: row;
-	justify-content:center;
-	align-items:center;
-	font-size: 1.25rem;
-	letter-spacing: 0.25rem;
-	padding: 15px 0px;
-	background-color: #014C7D;
+.right_controls {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
 
+/* Nueva respuesta */
+.thread_reply_btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 30px;
+    padding: 0 20px;
+    background: var(--plum);
+    color: var(--lavender);
+    font-family: 'Cinzel', serif;
+    font-size: 8px;
+    font-weight: 900;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: background 0.15s;
+}
+
+.thread_reply_btn:hover {
+    background: var(--plum2);
+    color: var(--lavender);
+    text-decoration: none;
+}
+
+/* Título del thread */
+.thread_title {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 18px 28px;
+    background: var(--bg2);
+    border-bottom: 0.5px solid var(--border);
+    font-family: 'Cinzel', serif;
+    font-size: 13px;
+    font-weight: 900;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--ink);
+}
+
+.thread_title::before {
+    content: '';
+    width: 3px;
+    height: 18px;
+    background: var(--oxide);
+    flex-shrink: 0;
+}
+
+/* Pie inferior: moderation + forumjump + users browsing */
+.thread_footer {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 14px 20px;
+    background: var(--bg2);
+}
+
+.thread_footer_tools {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
 }
 
 /* Zona de Post - Contenedor Global */
- .posts_container {
+.posts_container {
     flex-grow: 1;
     overflow: auto;
 }
 
-/* Zona de Contenido + Avatar */
- .post_general {
+/* ════════ Postbit · Mensaje ════════ */
+
+.post_classic {
+    width: 100%;
+}
+
+/* Fila: autor + mensaje */
+.post_general {
     display: flex;
     flex-direction: row;
-    gap: 10px;
-    margin-bottom: 15px;
-    padding: 10px;
-    background-color: #11161B;
-    border: 1px solid #014C7D;
-		overflow: hidden;
+    gap: 14px;
+    padding: 14px;
+    background: var(--bg2);
+    border-bottom: 0.5px solid var(--border);
 }
 
-/*Contenedor Padre del Mensaje del Post */
- .post_message_section {
-    width: 100%;
-    height: 100%;
-}
-
-
-/* Zona del Avatar */
-/* Contenedor del Avatar */
- .post_author {
-    max-width: 300px;
-    min-width: 300px;
-}
-
-/** Avatar en Zona de Post */
-
- .author_avatar {
-    box-sizing: border-box;
-}
-
- .author_avatar img {
-min-width: 100%;
-min-height: 450px;
-}
-
-/* Texto del Post */
-
- .post_body {
-	font-size: 0.80rem !important;
-	background-color: #0c0f13;
-	padding-bottom: 20px;
-	margin-top: 10px;
-}
-
- .post_body_content {
-    text-align: justify;
-    padding: 20px 30px 0px;
-    margin: 0px 15px 0px 15px;
-    font-size: 0.95rem;
-    min-height: 400px;
-}
-
-/* Encabezado del Post */
- .post_head {
-	display: flex;
-	flex-direction: row;
-	gap: 10px;
-	font-size: 11px;
-}
-
-/* Mensaje de Edición de Post */
- .post_edition_text {
-	border-bottom: 1px solid #6492A0 !important;
-	padding: 10px 5px;
-	text-align: center;
-	margin: 0px 15px 0px 15px;
-}
-
-/* Enlace del Post */
- .post_link {
-width: 35%;
-height: 35px;
-background-color: #585C5F;
-text-transform: uppercase;
-letter-spacing: 0.25rem;
-display: flex;
-justify-content: center;
-align-items:center;
-gap: 10px;
-}
-
-/* Fecha del Post */
-
- .post_date {
-	width: 100%;
-	height: 35px;
-	background-color: #292D32;
-	display: flex;
-	justify-content:center;
-	align-items: center;
-	text-transform: uppercase;
-	letter-spacing: 0.25rem;
-	font-weight: bold;
-	color: white !important; 
-}
-
-/* Boton de Eliminar Post */
- .delete_button, .delete_button a {
-	background-color: #AF2828;
-    height: 35px;
-    color: white;
-    text-transform: uppercase;
-    width: 125px;
-    font-weight: 800;
+.post_message_section {
     display: flex;
-    justify-content: center;
+    flex: 1;
+    min-width: 0;
+}
+
+.post_content {
+    display: flex;
+    flex-direction: column;
+    width: 100% !important;
+}
+
+/* Cabecera: enlace + fecha */
+.post_head {
+    display: flex;
+    align-items: stretch;
+    gap: 6px;
+    margin-bottom: 8px;
+}
+
+.post_link {
+    display: flex;
     align-items: center;
+    gap: 8px;
+    flex: 1;
+    min-width: 0;
+    padding: 0 14px;
+    height: 34px;
+    background: var(--bg3);
+    border: 0.5px solid var(--border);
+    border-left: 2px solid var(--villa, var(--oxide));
+    font-family: 'Cinzel', serif;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--stone);
 }
 
- .edit_button, .edit_button a {
-	background-color: #6492A0;
-	height: 35px;
-	color: white !important;
-	text-transform: uppercase;
-    width: 125px;
-	font-weight: 800;
-	display: flex;
-	justify-content: center;
-	align-items: center;
+.post_link .iconLink {
+    width: 13px;
+    height: auto;
+    opacity: 0.6;
+    flex-shrink: 0;
 }
 
-
-/*Codigo para Botones de Ficha */
-
-.post-avatar {
-	text-align: center;
-	width: 100%;
+.post_link a {
+    color: var(--stone);
+    text-decoration: none;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
-.post-avatar-mitad-texto a{
-	color:white;
-	font-family: 'Inter';
-	font-size: 1rem;
-	font-weight: 800;
-	display: block;
-	padding: 5px 0px;	
+.post_link a:hover {
+    color: var(--plum2);
 }
-	
+
+.post_date {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 16px;
+    height: 34px;
+    flex-shrink: 0;
+    background: var(--bg3);
+    border: 0.5px solid var(--border);
+    font-family: 'Cinzel', serif;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--mist);
+    white-space: nowrap;
+}
+
+/* Cuerpo del mensaje */
+.post_body {
+    flex: 1;
+    margin-top: 0;
+    background: var(--bg);
+    border: 0.5px solid var(--border);
+    font-size: 15px !important;
+}
+
+.post_edition_text {
+    padding: 8px 16px;
+    border-bottom: 0.5px solid var(--border);
+    text-align: center;
+}
+
+.post_edit {
+    font-family: 'Cinzel', serif;
+    font-size: 8px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--mist);
+}
+
+.post_body_content {
+    padding: 22px 26px;
+    min-height: 360px;
+    font-family: 'Source Serif 4', serif;
+    font-size: 15px;
+    font-weight: 300;
+    line-height: 1.85;
+    text-align: justify;
+    color: var(--ink);
+}
+
+/* Controles (editar / borrar / etc.) */
+.post_controls {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 8px;
+}
+
+.postbit_buttons {
+    display: flex;
+    gap: 8px;
+}
+
+/* Meta: IP y estado */
+.post_meta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    margin-top: 8px;
+    font-family: 'Cinzel', serif;
+    font-size: 8px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--mist);
+}
+
+/* Botones editar / borrar */
+.edit_button, .edit_button a,
+.delete_button, .delete_button a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 32px;
+    padding: 0 16px;
+    font-family: 'Cinzel', serif;
+    font-size: 8px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: background 0.15s;
+}
+
+.edit_button, .edit_button a {
+    background: var(--plum);
+    color: var(--lavender) !important;
+}
+
+.edit_button a:hover {
+    background: var(--plum2);
+}
+
+.delete_button, .delete_button a {
+    background: var(--oxide);
+    color: #fff !important;
+}
+
+.delete_button a:hover {
+    filter: brightness(1.15);
+}
+
+/* Responsive: apilar autor sobre mensaje */
+@media (max-width: 720px) {
+    .post_general {
+        flex-direction: column;
+    }
+    .post_author {
+        max-width: none;
+        min-width: 0;
+    }
+}
+

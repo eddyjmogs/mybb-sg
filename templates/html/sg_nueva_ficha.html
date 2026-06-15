@@ -1133,9 +1133,8 @@
       border: none;
       background: none;
       padding: 0;
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
       gap: 6px;
     }
 
@@ -1144,12 +1143,11 @@
     }
 
     #nf-clan-step fieldset.listaClanes label {
-      min-height: 90px;
-      width: 170px;
+      min-height: 80px;
       background: var(--bg3);
       border: 0.5px solid var(--border);
       margin: 0;
-      padding: 12px 8px;
+      padding: 10px 6px;
     }
 
     #nf-clan-step fieldset.listaClanes label:hover {
@@ -1160,6 +1158,12 @@
     #nf-clan-step fieldset.listaClanes label:has(input:checked) {
       background: rgba(192,88,42,0.08);
       border-color: var(--oxide);
+    }
+
+    @media (max-width: 700px) {
+      #nf-clan-step fieldset.listaClanes {
+        grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+      }
     }
 
   </style>

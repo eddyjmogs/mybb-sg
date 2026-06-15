@@ -95,7 +95,7 @@ function hidetag_run(&$message)
 		$hide_uids = $matches[1];
 		$hide_content = $matches[2];
 		$message = preg_replace('#\[hide=(.*?)\](.*?)\[\/susurro\]#si','<div class="spoiler">
-			<div class="spoiler_title"><span class="spoiler_button" onclick="javascript: if(parentNode.parentNode.getElementsByTagName(\'div\')[1].style.display == \'block\'){ parentNode.parentNode.getElementsByTagName(\'div\')[1].style.display = \'none\'; this.innerHTML=\'Contenido Oculto (Vista Previa)\'; } else { parentNode.parentNode.getElementsByTagName(\'div\')[1].style.display = \'block\'; this.innerHTML=\'Contenido Oculto (Vista Previa)\'; }">Contenido Oculto (Vista Previa)</span></div>
+			<div class="spoiler_title"><span class="spoiler_button" onclick="var c=this.parentNode.nextElementSibling; c.style.display = (c.style.display===\'block\') ? \'none\' : \'block\';">Contenido Oculto (Vista Previa)</span></div>
 			<div class="spoiler_content" style="display: none;">'.$hide_content.'</div>
 		</div>',$message, 1);
 	}
@@ -104,7 +104,7 @@ function hidetag_run(&$message)
 	{
 		$hide_content = $matches[1];
 		$message = preg_replace('#\[hide\](.*?)\[\/hide\]#si','<div class="spoiler">
-			<div class="spoiler_title"><span class="spoiler_button" onclick="javascript: if(parentNode.parentNode.getElementsByTagName(\'div\')[1].style.display == \'block\'){ parentNode.parentNode.getElementsByTagName(\'div\')[1].style.display = \'none\'; this.innerHTML=\'Contenido Oculto (Vista Previa)\'; } else { parentNode.parentNode.getElementsByTagName(\'div\')[1].style.display = \'block\'; this.innerHTML=\'Contenido Oculto (Vista Previa)\'; }">Contenido Oculto (Vista Previa)</span></div>
+			<div class="spoiler_title"><span class="spoiler_button" onclick="var c=this.parentNode.nextElementSibling; c.style.display = (c.style.display===\'block\') ? \'none\' : \'block\';">Contenido Oculto (Vista Previa)</span></div>
 			<div class="spoiler_content" style="display: none;">'.$hide_content.'</div>
 		</div>',$message, 1);
 	}
@@ -151,20 +151,20 @@ function hidetag_run(&$message)
 		$hide_content = $hide['hide_content'];
 
 		$contenido = '';
-		$hide_button = '<button class="spoiler-button" style="padding: 5px; margin: 10px 43.6%; cursor: pointer; font-family: Helvetica; font-size: 13px; color: #fff; border-style: none; border-radius: 3px; background: #a31520; width: 100px; height: 30px;" onclick="javascript: document.getElementById(\'hideform'.$hide_id.'\').submit()">Mostrar Hide</button>';
-		$hidden_form = '<div style="display: none"><form id="hideform'.$hide_id.'" method="post" action="hide.php"><input type="text" name="hid" value="'.$hide_id.'" /><input type="text" name="show_hide" value="1" /><input type="text" name="tid" value="'.$tid.'" /></form></div>';
+		$hide_button = '<button type="button" onclick="document.getElementById(\'hideform'.$hide_id.'\').submit();" style="display:flex;align-items:center;justify-content:center;height:32px;padding:0 20px;margin:12px auto;background:var(--oxide);color:#fff;font-family:\'Cinzel\',serif;font-size:8px;font-weight:700;letter-spacing:2px;text-transform:uppercase;border:none;cursor:pointer;">Mostrar Hide</button>';
+		$hidden_form = '<form id="hideform'.$hide_id.'" method="post" action="hide.php" style="display:none;"><input type="hidden" name="hid" value="'.$hide_id.'"><input type="hidden" name="show_hide" value="1"><input type="hidden" name="tid" value="'.$tid.'"></form>';
 
 		if ($is_closed || $show_hide || $show_private_hide || $is_staff) {
 			$contenido = $parser->parse_message($hide_content, $parser_options);
 		} else {
-			$contenido = $hidden_form . $hide_button . '<br /><hr />' . $parser->parse_message($hide_content, $parser_options);
+			$contenido = $hidden_form . $hide_button . $parser->parse_message($hide_content, $parser_options);
 		}
 
 		if (!$is_user_same && !$show_hide && !$show_private_hide && !$is_closed && !$is_staff) {
 			$message = preg_replace('#\[hide=(.*?)\]#si','',$message, 1);
 		} else {
 			$message = preg_replace('#\[hide=(.*?)\]#si','<div class="spoiler">
-			<div class="spoiler_title"><span class="spoiler_button" onclick="javascript: if(parentNode.parentNode.getElementsByTagName(\'div\')[1].style.display == \'block\'){ parentNode.parentNode.getElementsByTagName(\'div\')[1].style.display = \'none\'; this.innerHTML=\'Contenido Oculto\'; } else { parentNode.parentNode.getElementsByTagName(\'div\')[1].style.display = \'block\'; this.innerHTML=\'Contenido Oculto '.$susurro_text.'\'; }">Contenido Oculto '.$susurro_text.'</span></div>
+			<div class="spoiler_title"><span class="spoiler_button" onclick="var c=this.parentNode.nextElementSibling; c.style.display = (c.style.display===\'block\') ? \'none\' : \'block\';">Contenido Oculto '.$susurro_text.'</span></div>
 			<div class="spoiler_content" style="display: none;">'.$contenido.'</div>
 		</div>',$message, 1);
 		}

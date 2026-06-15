@@ -21,6 +21,16 @@
       --ficha-paper: {$sgFichaPaper};
       --ficha-paper-text: {$sgFichaPaperText};
     }
+
+    .sg-dossier-traits-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    @media (max-width: 580px) {
+      .sg-dossier-traits-grid { grid-template-columns: 1fr; }
+    }
   </style>
 </head>
 
@@ -193,14 +203,14 @@
           </div>
           <div class="sg-dossier-card__body">
             <div class="sg-dossier-stat-grid">
-              <div class="sg-dossier-stat"><span>Fuerza</span><strong>{$ficha['str']}</strong></div>
-              <div class="sg-dossier-stat"><span>Resistencia</span><strong>{$ficha['res']}</strong></div>
-              <div class="sg-dossier-stat"><span>Velocidad</span><strong>{$ficha['spd']}</strong></div>
-              <div class="sg-dossier-stat"><span>Agilidad</span><strong>{$ficha['agi']}</strong></div>
-              <div class="sg-dossier-stat"><span>Destreza</span><strong>{$ficha['dex']}</strong></div>
-              <div class="sg-dossier-stat"><span>Presencia</span><strong>{$ficha['pres']}</strong></div>
-              <div class="sg-dossier-stat"><span>Inteligencia</span><strong>{$ficha['inte']}</strong></div>
-              <div class="sg-dossier-stat"><span>Control Chakra</span><strong>{$ficha['ctrl']}</strong></div>
+              <div class="sg-dossier-stat"><span>Fuerza</span><strong>{$ficha['fuerza']}</strong></div>
+              <div class="sg-dossier-stat"><span>Destreza</span><strong>{$ficha['destreza']}</strong></div>
+              <div class="sg-dossier-stat"><span>Ctrl. de Chakra</span><strong>{$ficha['cchakra']}</strong></div>
+              <div class="sg-dossier-stat"><span>Inteligencia</span><strong>{$ficha['inteligencia']}</strong></div>
+              <div class="sg-dossier-stat"><span>Salud</span><strong>{$ficha['salud']}</strong></div>
+              <div class="sg-dossier-stat"><span>Velocidad</span><strong>{$ficha['velocidad']}</strong></div>
+              <div class="sg-dossier-stat"><span>Tenketsu</span><strong>{$ficha['tenketsu']}</strong></div>
+              <div class="sg-dossier-stat"><span>Sigilo</span><strong>{$ficha['sigilo']}</strong></div>
             </div>
           </div>
         </div>
@@ -212,6 +222,22 @@
             <h2>Biografía</h2>
           </div>
           <div class="sg-dossier-card__body sg-dossier-prose">{$historia}</div>
+        </div>
+
+        <div class="sg-dossier-traits-grid">
+          <div class="sg-dossier-card sg-dossier-card--virtues">
+            <div class="sg-dossier-card__head">
+              <h2>Virtudes</h2>
+            </div>
+            <div class="sg-dossier-card__body sg-dossier-prose">{$virtudes}</div>
+          </div>
+
+          <div class="sg-dossier-card sg-dossier-card--defects">
+            <div class="sg-dossier-card__head">
+              <h2>Defectos</h2>
+            </div>
+            <div class="sg-dossier-card__body sg-dossier-prose">{$defectos}</div>
+          </div>
         </div>
 
         <div class="sg-dossier-story-grid">
