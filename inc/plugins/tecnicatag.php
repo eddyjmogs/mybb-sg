@@ -146,26 +146,6 @@ function tecnicatag_run(&$message)
 			$vida = $thread_ficha['vida'];
 			$chakra = $thread_ficha['chakra'];
 			$regchakra = $thread_ficha['regchakra'];
-			$espe = $thread_ficha['espe'];
-			$estilo = $thread_ficha['estilo'];
-			$maestria = $thread_ficha['maestria'];
-			$maestria2 = $thread_ficha['maestria2'];
-
-			if ($espe) {
-				$espe_format = "[tecnica=ESPE$espe]";
-			}
-	
-			if ($estilo) {
-				$estilo_format = "[tecnica=ESTI$estilo]";
-			}
-	
-			if ($maestria) {
-				$maestria_format = "[tecnica=$maestria]";
-			}
-	
-			if ($maestria2) {  
-				$maestria2_format = "[tecnica=$maestria2]";
-			}
 	
 			$clase = 'E';
 			$sum_stats = intval($fue) + intval($res) + intval($vel) + intval($agi) + intval($des) + intval($pre) + intval($int) + intval($cck); 
@@ -185,10 +165,6 @@ function tecnicatag_run(&$message)
 				Chakra: <span class='personaje_chakra'>$chakra</span> [ch]<br />
 				Reg. Chakra: <span class='personaje_chakra'>$regchakra</span><br />
 				Clase: <span style='font-weight: bold;'>$clase</span><br /><br />
-				$espe_format
-				$estilo_format
-				$maestria_format
-				$maestria2_format
 			[/spoiler]
 			";
 	
@@ -325,26 +301,6 @@ function tecnicatag_run(&$message)
 			$vida = $thread_ficha['vida'];
 			$chakra = $thread_ficha['chakra'];
 			$regchakra = $thread_ficha['regchakra'];
-			$espe = $thread_ficha['espe'];
-			$estilo = $thread_ficha['estilo'];
-			$maestria = $thread_ficha['maestria'];
-			$maestria2 = $thread_ficha['maestria2'];
-		}
-
-		if ($espe) {
-			$espe_format = "[tecnica=ESPE$espe]";
-		}
-
-		if ($estilo) {
-			$estilo_format = "[tecnica=ESTI$estilo]";
-		}
-
-		if ($maestria) {
-			$maestria_format = "[tecnica=$maestria]";
-		}
-
-		if ($maestria2) {  
-			$maestria2_format = "[tecnica=$maestria2]";
 		}
 
 		$clase = 'E';
@@ -365,10 +321,6 @@ function tecnicatag_run(&$message)
 			Chakra: <span class='personaje_chakra'>$chakra</span> [ch]<br />
 			Reg. Chakra: <span class='personaje_chakra'>$regchakra</span><br />
 			Clase: <span style='font-weight: bold;'>$clase</span><br /><br />
-			$espe_format
-			$estilo_format
-			$maestria_format
-			$maestria2_format
 		[/spoiler]
 		";
 
@@ -395,49 +347,7 @@ function tecnicatag_run(&$message)
 		$ch = '<img title="Chakra" style=" width: 13px; top: -1px; position: relative; " src="./images/sg/icons/chakra.png" />';
 		$message = preg_replace('#\[ch\]#si',$ch,$message);
 	}
-
-	while(preg_match('#\[pa\]#si',$message))
-	{
-		$pa = "
-		<div style=\"
-			background-image: url(https://media.discordapp.net/attachments/930970888466223177/1086409819289829477/9b1c1cd4-35dd-4273-8a81-98fc60839422.png?width=50&amp;height=50);
-			width: 50px;
-			height: 50px;
-			display: inline-block;
-		\"></div>";
-		$message = preg_replace('#\[pa\]#si',$pa,$message);
-	}
-
-	while(preg_match('#\[ke\]#si',$message))
-	{
-		$ke = "
-		<div style=\"
-			background-image: url(https://media.discordapp.net/attachments/930970888466223177/1086409872280662016/78a6d4ee-56dc-414c-b9bf-dfe239cdfc79.png?width=50&amp;height=50);
-			width: 50px;
-			height: 50px;
-			display: inline-block;
-		\"></div>";
-		$message = preg_replace('#\[ke\]#si',$ke,$message);
-	}
-
-	while(preg_match('#\[masaka\]#si',$message))
-	{
-		$masaka = "
-		<div style=\"
-			background-image: url(https://cdn.discordapp.com/attachments/1021482429447413985/1121826936289755146/ezgif-4-323bfb26ae.png);
-			width: 50px;
-			height: 50px;
-			display: inline-block;
-			background-size: contain;
-		\"></div>";
-		$message = preg_replace('#\[masaka\]#si',$masaka,$message);
-	}
-
-	while(preg_match('#\[caminar\]#si',$message))
-	{
-		$message = preg_replace('#\[caminar\]#si','[tecnica=NIN106][tecnica=NIN107]',$message);
-	}
-
+	
 	while(preg_match('#\[tiempo=(.*?)\]#si',$message,$matches))
 	{
 		$dateline = $post['dateline'];
@@ -757,138 +667,130 @@ function tecnicatag_run(&$message)
 		}
 	}
 
-	while(preg_match('#\[tecnica="(.*?)"\]#si',$message,$matches))
-	{
-		$tecnica = null;
-		$tec_tid = $matches[1];
-		$uid = $post['uid'];
-
-		$query_tecnica = $db->query("
-			SELECT * FROM mybb_sg_sg_tecnicas WHERE tid='".$tec_tid."'
-		");
-
-		while ($tec = $db->fetch_array($query_tecnica)) {
-			$tecnica = $tec;
-		}
-
-		if ($tecnica != null) {
-
-			$query_tec_aprendida = $db->query("
-				SELECT * FROM mybb_sg_sg_tec_aprendidas WHERE uid='$uid' AND tid='$tec_tid'
-			");
-
-			$tecnica_aprendida = ' - No Aprendida';
-
-			while ($q = $db->fetch_array($query_tec_aprendida)) {
-				$tecnica_aprendida = ' - Aprendida en ' . $q['tiempo'];
-			}
-
-			$tec_nombre = $tecnica['nombre'] . $tecnica_aprendida;
-			$tec_sellos = $tecnica['sellos']; 
-			$tec_descripcion = nl2br($tecnica['descripcion']);
-			$tec_coste = $tecnica['coste'];
-			$tec_efecto = $tecnica['efecto'];
-			$tec_tipo = $tecnica['tipo'];
-			$tec_rango = $tecnica['rango'];
-
-			$tec_mostrar = '<p class="tecnicaId">ID - '.$tec_tid.'</p><p class="tecnicaLvl">Rango '.$tec_rango.'</p> <p class="tecnicaType">'.$tec_tipo.'</p><p class="tecnicaSello">Sellos - '.$tec_sellos.'</p><p class="tecnicaDesTit">Descripción:</p><p class="tecnicaDes">'.$tec_descripcion.'</p><p class="tecnicaCost">Coste - '.$tec_coste.'</p><p class="tecnicaEfect">Efecto - '.$tec_efecto.'</p>';
-
-			$message = preg_replace('#\[tecnica="'.$tec_tid.'"\]#si','<div class="spoiler">
-			<div class="spoiler_title"><span class="spoiler_button" style="font-size: medium;" onclick="javascript: if(parentNode.parentNode.getElementsByTagName(\'div\')[1].style.display == \'block\'){ parentNode.parentNode.getElementsByTagName(\'div\')[1].style.display = \'none\'; this.innerHTML=\''.$tec_nombre.'\'; } else { parentNode.parentNode.getElementsByTagName(\'div\')[1].style.display = \'block\'; this.innerHTML=\''.$tec_nombre.'\'; }">'.$tec_nombre.'</span></div>
-			<div class="tecnica_spoiler_content" style="display: none;">'.$tec_mostrar.'</div>
-		</div>',$message);
-		} else {
-			$message = preg_replace('#\[tecnica="'.$tec_tid.'"\]#si','[tecnicainvalida="'.$matches[1].'"]',$message);
-		}
-	}
-
 	while(preg_match('#\[tecnica=(.*?)\]#si',$message,$matches))
 	{
 		$tecnica = null;
 		$tec_tid = strtoupper($matches[1]);
-		$uid = $post['uid'];
 
 		$query_tecnica = $db->query("
 			SELECT * FROM mybb_sg_sg_tecnicas WHERE tid='".$tec_tid."'
 		");
-		
+
 		while ($tec = $db->fetch_array($query_tecnica)) {
 			$tecnica = $tec;
 		}
 
 		if ($tecnica != null) {
+			// Réplica de la técnica creada en sg_tecnicas_show3 (sgCreateTechniqueSpoiler + sgCreateTechniqueCard)
+			$tecnica['tid'] = $tec_tid;
 
-			$query_tec_aprendida = $db->query("
-				SELECT * FROM mybb_sg_sg_tec_aprendidas WHERE uid='$uid' AND tid='$tec_tid'
+			// ¿El autor del post tiene la técnica aprendida?
+			$tec_aprendida = false;
+			$tec_aprendida_tiempo = '';
+			$query_aprendida = $db->query("
+				SELECT * FROM mybb_sg_sg_tec_aprendidas WHERE uid='".$post['uid']."' AND tid='".$tec_tid."'
 			");
-
-			$tecnica_aprendida = 'No Aprendida';
-
-			while ($q = $db->fetch_array($query_tec_aprendida)) {
-				$tecnica_aprendida = 'Aprendida en ' . $q['tiempo'];
+			while ($qa = $db->fetch_array($query_aprendida)) {
+				$tec_aprendida = true;
+				$tec_aprendida_tiempo = $qa['tiempo'];
 			}
 
-			$tec_nombre = $tecnica['nombre'];
-			$tec_sellos = strtoupper($tecnica['sellos']); 
-			$tec_descripcion = nl2br($tecnica['descripcion']);
-			$tec_coste = $tecnica['coste'];
-			$tec_efecto = $tecnica['efecto'];
-			$tec_requisito = $tecnica['requisito'];
-			$tec_tipo = strtoupper($tecnica['tipo']);
-			$tec_categoria = strtoupper($tecnica['categoria']);
+			// Helper de badge (equivale a sgCreateBadge)
+			$badge = function($icon, $text, $accent) {
+				if ($text === '' || $text === null) { return ''; }
+				$accentClass = $accent ? ' sg-technique__badge--accent' : '';
+				return '<div class="sg-technique__badge'.$accentClass.'"><span class="sg-technique__badge-icon">'.$icon.'</span>'.$text.'</div>';
+			};
 
-			$tec_sellos_html = '';
-			$tec_categoria_html = '';
-			$tec_requisito_html = '';
-
-			if ($tec_sellos) {
-				$tec_sellos_html .= "<div class='tecnicaType'><span>SELLOS: $tec_sellos</span></div>";
+			$badges = '';
+			if ($tec_aprendida) {
+				$tec_aprendida_fecha = $tec_aprendida_tiempo ? date('d-m-Y', strtotime($tec_aprendida_tiempo)) : '';
+				$badges .= $badge('✔', 'Aprendida'.($tec_aprendida_fecha ? ' · '.$tec_aprendida_fecha : ''), true);
+			} else {
+				$badges .= $badge('✘', 'No aprendida', false);
+			}
+			if ($tecnica['rango'])     { $badges .= $badge('◆', 'Rango '.$tecnica['rango'], true); }
+			if ($tecnica['requisito']) { $badges .= $badge('•', $tecnica['requisito'], false); }
+			if ($tecnica['tipo'])      { $badges .= $badge('◌', $tecnica['tipo'], false); }
+			if ($tecnica['categoria'] && $tecnica['categoria'] != $tecnica['tipo']) { $badges .= $badge('◈', $tecnica['categoria'], false); }
+			if ($tecnica['sellos'])    { $badges .= $badge('✦', 'Sellos: '.$tecnica['sellos'], false); }
+			if ($tecnica['tid']) {
+				if ($g_is_staff) {
+					$badges .= $badge('#', 'ID: <a href="/sg/admin/modificar_tecnicas.php?tecnica_id='.$tecnica['tid'].'">'.$tecnica['tid'].'</a>', false);
+				} else {
+					$badges .= $badge('#', 'ID: '.$tecnica['tid'], false);
+				}
+			}
+			if ($tecnica['balance'] == 1) {
+				$badges .= $badge('+', 'Balance positivo ✓', false);
+			} elseif ($tecnica['balance'] == 2) {
+				$badges .= $badge('-', 'Balance negativo ✖', false);
 			}
 
-			if ($tec_requisito) {
-				$tec_requisito_html .= "<div class='tecnicaLvl'><span>$tec_requisito</span></div>";
-			}
+			$badges_html = $badges !== '' ? '<div class="sg-technique__badges">'.$badges.'</div>' : '';
+			$description = $tecnica['descripcion'] ? nl2br($tecnica['descripcion']) : 'Sin descripción disponible.';
+			$effect_text = $tecnica['efecto'] ? nl2br($tecnica['efecto']) : 'No tiene efecto adicional especificado.';
+			$cost_text   = $tecnica['coste'] ? $tecnica['coste'] : 'Sin coste indicado';
+			$effect_muted = $tecnica['efecto'] ? '' : ' sg-technique__text--muted';
 
-			if ($tec_categoria && ($tec_categoria != $tec_tipo)) {
-				$tec_categoria_html .= "<div class='tecnicaType'><span>$tec_categoria</span></div>";
-			}
-			
-			
-			$tec_rango = $tecnica['rango'];
-	
-			// $tec_mostrar = '<p class="tecnicaId">ID - '.$tec_tid.'</p><p class="tecnicaLvl">Rango '.$tec_rango.'</p> <p class="tecnicaType">'.$tec_tipo.'</p><p class="tecnicaSello">Sellos - '.$tec_sellos.'</p><p class="tecnicaDesTit">Descripción:</p><p class="tecnicaDes">'.$tec_descripcion.'</p><p class="tecnicaCost">Coste - '.$tec_coste.'</p><p class="tecnicaEfect">Efecto - '.$tec_efecto.'</p>';
-			// $tec_mostrar = "
-			// 	<p class='tecnicaId'><span>ID $tec_tid</span></p>
-			// 	<p class='tecnicaLvl'><span>Rango $tec_rango</span></p> 
-			// 	<p class='tecnicaType'><span>$tec_tipo</span></p>
-			// 	<p class='tecnicaSello'><span>Sellos $tec_sellos</span></p>
-			// 	<p class='tecnicaDes'><span>$tec_descripcion</span></p> ";
+			$tecnica_html = <<<TECHTML
+<div class="sg-spoiler sg-spoiler--warm sg-tree-technique">
+  <button class="sg-spoiler__toggle" type="button" onclick="sgToggleSpoiler(this)" aria-expanded="false">
+    <span class="sg-spoiler__lead">
+      <span class="sg-spoiler__icon">●</span>
+      <span class="sg-spoiler__titles">
+        <span class="sg-spoiler__eyebrow">Técnica</span>
+        <span class="sg-spoiler__title">{$tecnica['nombre']}</span>
+      </span>
+    </span>
+    <span class="sg-spoiler__aside">
+      <span class="sg-spoiler__caret">+</span>
+    </span>
+  </button>
+  <div class="sg-spoiler__panel">
+    <div class="sg-spoiler__body">
+      <div class="sg-spoiler__content">
+        <div class="sg-technique">
+          <div class="sg-technique__rail">
+            {$badges_html}
+            <div class="sg-technique__stat">
+              <div class="sg-technique__stat-label"><span class="sg-technique__label-icon">◔</span>Coste</div>
+              <div class="sg-technique__stat-value">{$cost_text}</div>
+            </div>
+          </div>
+          <div class="sg-technique__main">
+            <div class="sg-technique__section">
+              <div class="sg-technique__section-label"><span class="sg-technique__label-icon">▣</span>Descripción</div>
+              <p class="sg-technique__text">{$description}</p>
+            </div>
+            <div class="sg-technique__section">
+              <div class="sg-technique__section-label"><span class="sg-technique__label-icon">✧</span>Efecto</div>
+              <div class="sg-technique__text{$effect_muted}">{$effect_text}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 
-			$tec_mostrar = "
-				<div style='display: flex;flex-direction: column;'>
-					<div style='display: flex;flex-direction: row;justify-content: space-between;margin-bottom: 10px;margin-top: 7px;'><div class='tecnicaLvl'><span>Rango $tec_rango</span></div> <div class='tecnicaLvl'><span>$tecnica_aprendida</span></div></div>
-					<div style='display: flex;flex-direction: row;justify-content: space-between;margin-bottom: 10px;margin-top: -11px;'>$tec_requisito_html</div>
-					<div style='display: flex;flex-direction: row;justify-content: center;margin: 9px 8px 10px;'><div class='tecnicaId'><span>ID: $tec_tid</span></div> $tec_sellos_html <div class='tecnicaType'><span>$tec_tipo</span></div> $tec_categoria_html </div>
-					<p class='tecnicaDes'><span>$tec_descripcion</span></p> ";
-				
-			if ($tec_coste) {
-				$tec_mostrar .= "<div class='tecnicaCost'><span class='tecnicaLvl'>Coste:</span> <span class='efectoDescripcion'>$tec_coste</span></div>";
-			}
+<script>
+if (typeof window.sgToggleSpoiler !== 'function') {
+  window.sgToggleSpoiler = function(button) {
+    var wrapper = button.parentNode;
+    if (!wrapper || !wrapper.classList.contains('sg-spoiler')) { return; }
+    var isOpen = wrapper.classList.contains('is-open');
+    wrapper.classList.toggle('is-open', !isOpen);
+    button.setAttribute('aria-expanded', !isOpen ? 'true' : 'false');
+  };
+}
+</script>
+TECHTML;
 
-			if ($tec_efecto) {
-				$tec_mostrar .= "<div class='tecnicaEfect'><span class='tecnicaLvl'>Efecto:</span> <span class='efectoDescripcion'>$tec_efecto</span></div>";
-			}
-
-			$tec_mostrar .= '</div>';
-
-			$message = preg_replace('#\[tecnica='.$tec_tid.'\]#si','<div class="spoiler">
-			<div class="spoiler_title"><span class="spoiler_button" style="font-size: medium;" onclick="javascript: if(parentNode.parentNode.getElementsByTagName(\'div\')[1].style.display == \'block\'){ parentNode.parentNode.getElementsByTagName(\'div\')[1].style.display = \'none\'; this.innerHTML=\''.$tec_nombre.'\'; } else { parentNode.parentNode.getElementsByTagName(\'div\')[1].style.display = \'block\'; this.innerHTML=\''.$tec_nombre.'\'; }">'.$tec_nombre.'</span></div>
-			<div class="tecnica_spoiler_content" style="display: none;">'.$tec_mostrar.'</div>
-		</div>',$message);
+			$message = str_replace($matches[0], $tecnica_html, $message);
 		} else {
-			$message = preg_replace('#\[tecnica='.$tec_tid.'\]#si','[tecnicainvalida='.$matches[1].']',$message);
+			$message = str_replace($matches[0], '[tecnicainvalida='.$matches[1].']', $message);
 		}
-
 	}
 
 	while(preg_match('#\[dado_guardado=(.*?)\]#si',$message,$matches))

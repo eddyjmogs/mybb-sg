@@ -74,7 +74,8 @@ function calculate_reg_chakra($str, $res, $spd, $agi, $dex, $pres, $inte, $ctrl)
 // }
 
 function is_staff($uid) {
-    return ($uid == '196' || $uid == '2' || $uid == '320' || $uid == '155' || $uid == '181' || $uid == '129' || $uid == '178' || $uid == '239');
+    // return ($uid == '196' || $uid == '2' || $uid == '320' || $uid == '155' || $uid == '181' || $uid == '129' || $uid == '178' || $uid == '239');
+    return is_user($uid);
 }
 
 function is_peti_mod($uid) {
@@ -82,10 +83,22 @@ function is_peti_mod($uid) {
 }
 
 function is_mod($uid) {
-    return (is_user($uid));
+    return is_user($uid);
 }
 
 function is_user($uid) {
+    global $db;
+
+    $has_staff_role = false;
+
+    // $query = $db->query(" SELECT * FROM `mybb_users` WHERE uid='$uid' AND (usergroup = '14' OR additionalgroups LIKE '%14%' OR usergroup = '6' OR additionalgroups LIKE '%6%' OR usergroup = '4' OR additionalgroups LIKE '%4%'); ");
+    $query = $db->query(" SELECT * FROM `mybb_sg_users` WHERE uid='$uid' AND (additionalgroups LIKE '3%' OR additionalgroups LIKE '%,3' OR additionalgroups LIKE '%,3,%' OR usergroup = '3' OR usergroup = '4' OR usergroup = '17'); ");
+    while ($q = $db->fetch_array($query)) { $has_staff_role = true; }
+
+    return $has_staff_role;    
+}
+
+function is_user2($uid) {
     // Muki: 239
     // Aiko: 129
     // Izuku: 181
