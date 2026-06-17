@@ -36,6 +36,43 @@ if ($name && $age && $season && $villa && $clan && $phi && $psi && $history && $
             ('$uid', '$peso', '$altura', '$sexo', '$name', '$alias', '$age', '$season', '$virtudes', '$defectos', '$villa', '$clan', '$phi', '$psi', '$history', 'no_moderacion', '$extra', '$frase', '$fisico_de_pj', '$como_nos_conociste')
     ");
 
+    // Técnicas básicas que todo personaje nuevo aprende al crear su ficha
+    $tecnicas_iniciales = array(
+        'BUKI101B', 'BUKI001R', 'BUKI002R', 'BUKI003R',
+        'DEFE101B', 'DEFE001R', 'DEFE002R', 'DEFE003R',
+        'RESI101B', 'RESI001R', 'RESI002R', 'RESI003R',
+        'TAIJ101B', 'TAIJ001R', 'TAIJ002R', 'TAIJ003R'
+    );
+    foreach ($tecnicas_iniciales as $tec_tid) {
+        $db->query("INSERT IGNORE INTO `mybb_sg_sg_tec_aprendidas`(`tid`, `uid`) VALUES ('$tec_tid','$uid')");
+    }
+
+    // Técnica inicial según el clan elegido
+    $clan_tecnicas = array(
+        101 => 'ABUR101B',
+        102 => 'SENJ101B',
+        103 => 'AKIM101B',
+        104 => 'HYUG101B',
+        105 => 'NARA101B',
+        106 => 'UCHI101B',
+        108 => 'YAMA101B',
+        109 => 'INUZ101B',
+        110 => 'SARU101B',
+        301 => 'YUKI101B',
+        302 => 'KAGU101B',
+        304 => 'HOZU101B',
+        305 => 'HOSH101B',
+        306 => 'HEIZ101B',
+        307 => 'TERU101B',
+        308 => 'AKIZ101B',
+        309 => 'FUNA101B',
+        310 => 'KODO101B'
+    );
+    if (isset($clan_tecnicas[$clan])) {
+        $tec_clan = $clan_tecnicas[$clan];
+        $db->query("INSERT IGNORE INTO `mybb_sg_sg_tec_aprendidas`(`tid`, `uid`) VALUES ('$tec_clan','$uid')");
+    }
+
     eval("\$page = \"".$templates->get("sg_nueva_ficha_creada")."\";");
     output_page($page);
 } else {

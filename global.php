@@ -801,12 +801,22 @@ if ($mybb->user['uid'] != 0) {
         $g_posts_counter = $g_posts_counter + 1;
     }
 
-	if ($g_posts_counter < 2 && $g_days_count > 0) {
-        // time to write the two posts before it can be claimed again or it expires
+	// Admin (grupo 24) tiene al menos 1 post garantizado en la racha
+	$g_grupos_usuario = array_merge(
+		array((int)$mybb->user['usergroup']),
+		array_filter(array_map('intval', explode(',', (string)$mybb->user['additionalgroups'])))
+	);
+	$g_min_post_garantizado = in_array(24, $g_grupos_usuario);
+	if ($g_min_post_garantizado && $g_posts_counter == 0) {
+		$g_posts_counter = 1;
+	}
+
+	if ($g_posts_counter < 1 && $g_days_count > 0) {
+        // falta el post para poder reclamar de nuevo (o la recompensa expira)
         $g_recompensa_en_curso = true;
     }
 
-    if ($g_posts_counter >= 2 && $g_should_accept) {
+    if ($g_posts_counter >= 1 && $g_should_accept) {
         $g_recompensa_completa = true;
     }
 

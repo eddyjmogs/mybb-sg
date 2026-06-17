@@ -76,6 +76,9 @@ function toggleTheme() {
               <span class="sg-nav-caret">▾</span>
             </a>
             <ul class="sg-nav-dropdown">
+		      <if $g_uid != 0 then><li><a href="{$mybb->settings['bburl']}/sg/recompensa_diaria.php" id="recompensas">Recompensa Diaria</a></li></if>
+			  <li><a href="{$mybb->settings['bburl']}/sg/mapa_mundo.php">Mapa del Mundo</a></li>
+			  <li><a href="{$mybb->settings['bburl']}/sg/objetos.php">Objetos</a></li>
               <li><a href="{$mybb->settings['bburl']}/sg/calculadora.php">Calc. de Estadísticas</a></li>
               <li><a href="{$mybb->settings['bburl']}/sg/censo.php">Censo y Estadísticas</a></li>
             </ul>

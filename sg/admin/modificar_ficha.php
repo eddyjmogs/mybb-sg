@@ -8,7 +8,7 @@
  */
 
 define("IN_MYBB", 1);
-define('THIS_SCRIPT', 'modificar_ficha.lphp');
+define('THIS_SCRIPT', 'modificar_ficha.php');
 require_once "./../../global.php";
 require "./../../inc/config.php";
 require_once "./../functions/sg_functions.php";
@@ -16,346 +16,114 @@ require_once "./../functions/sg_functions.php";
 global $templates, $mybb;
 $uid = $mybb->user['uid'];
 $username = $mybb->user['username'];
-$user_fid = $mybb->get_input('fid'); 
-$user_accion = $mybb->get_input('accion'); 
+$user_fid = $mybb->get_input('fid');
 
-$ficha_id = addslashes($_POST["ficha_id"]);
-$nombre = $_POST["nombre"];
-$especializacion = $_POST["especializacion"];
-$estilo = $_POST["estilo"];
-$maestria_primaria = $_POST["maestria_primaria"];
-$maestria_secundaria = $_POST["maestria_secundaria"];
-$primer_elemento = $_POST["primer_elemento"];
-$segundo_elemento = $_POST["segundo_elemento"];
-$tercer_elemento = $_POST["tercer_elemento"];
-$cuarto_elemento = $_POST["cuarto_elemento"];
-$quinto_elemento = $_POST["quinto_elemento"];
-$renunciar_elemento = $_POST["renunciar_elemento"];
-$invo_primaria = $_POST["invo_primaria"];
-$invo_secundaria = $_POST["invo_secundaria"];
-$rango = $_POST["rango"];
-$edad = $_POST["edad"];
-$limite_nivel = $_POST["limite_nivel"];
-$villa = $_POST["villa"];
-$slots = $_POST["slots"];
-$kosei1 = $_POST["kosei1"];
-$kosei2 = $_POST["kosei2"];
+$es_staff = (is_mod($uid) || is_staff($uid));
 
-$str = $_POST["str"];
-$res = $_POST["res"];
-$spd = $_POST["spd"];
-$agi = $_POST["agi"];
-$dex = $_POST["dex"];
-$pres = $_POST["pres"];
-$inte = $_POST["inte"];
-$ctrl = $_POST["ctrl"];
-
-$vida = $_POST["vida"];
-$chakra = $_POST["chakra"];
-$regchakra = $_POST["regchakra"];
-
-$notas = $_POST["notas"];
-$should_reload = false;
-
-$staff = addslashes($_POST["staff"]);
-$razon = addslashes($_POST["razon"]);
 $log = "";
+$reload_script = '';
 $reload_js = "<script>window.location.href = window.location.pathname;</script>";
 
-if ($especializacion && $estilo && $staff && $razon && $ficha_id && (is_mod($uid) || is_staff($uid))) {
-    $db->query(" 
-        UPDATE `mybb_sg_sg_fichas` SET espe='$especializacion', espe_estilo='$estilo' WHERE `fid`='$ficha_id';
-    ");
+/* Guardar cambios (un solo UPDATE con todos los campos) */
+if ($mybb->request_method === 'post' && $es_staff) {
 
-    $db->query(" 
-        INSERT INTO `mybb_sg_sg_tec_aprendidas`(`tid`, `uid`) VALUES ('ESPE$especializacion','$ficha_id');
-    ");
+    $ficha_id = (int) $_POST['ficha_id'];
+    $staff    = addslashes($_POST['staff']);
+    $razon    = addslashes($_POST['razon']);
 
-    $db->query(" 
-        INSERT INTO `mybb_sg_sg_tec_aprendidas`(`tid`, `uid`) VALUES ('ESTI$estilo','$ficha_id');
-    ");
+    // Campos de texto
+    $nombre   = addslashes($_POST['nombre']);
+    $apodo    = addslashes($_POST['apodo']);
+    $villa    = addslashes($_POST['villa']);
+    $clan     = addslashes($_POST['clan']);
+    $sexo     = addslashes($_POST['sexo']);
+    $notas    = addslashes($_POST['notas']);
+    $extra    = addslashes($_POST['extra']);
+    $frase    = addslashes($_POST['frase']);
+    $virtudes = addslashes($_POST['virtudes']);
+    $defectos = addslashes($_POST['defectos']);
 
-    $log .= "Agregar especialización $especializacion y con estilo $estilo para UID: $ficha_id ($nombre).";
+    // Campos numéricos
+    $ryos               = (int) $_POST['ryos'];
+    $reputacion         = (int) $_POST['reputacion'];
+    $edad               = (int) $_POST['edad'];
+    $temporada_nacimiento = (int) $_POST['temporada_nacimiento'];
+    $vida               = (int) $_POST['vida'];
+    $chakra             = (int) $_POST['chakra'];
+    $regchakra          = (int) $_POST['regchakra'];
+    $peso               = (int) $_POST['peso'];
+    $altura             = (int) $_POST['altura'];
+    $madara             = (int) $_POST['madara'];
+    $tobi               = (int) $_POST['tobi'];
+    $rin                = (int) $_POST['rin'];
+    $fuerza             = (int) $_POST['fuerza'];
+    $destreza           = (int) $_POST['destreza'];
+    $cchakra            = (int) $_POST['cchakra'];
+    $inteligencia       = (int) $_POST['inteligencia'];
+    $mfuerza            = (int) $_POST['mfuerza'];
+    $mdestreza          = (int) $_POST['mdestreza'];
+    $mcchakra           = (int) $_POST['mcchakra'];
+    $minteligencia      = (int) $_POST['minteligencia'];
+    $salud              = (int) $_POST['salud'];
+    $velocidad          = (int) $_POST['velocidad'];
+    $tenketsu           = (int) $_POST['tenketsu'];
+    $sigilo             = (int) $_POST['sigilo'];
+    $puntos_estadistica = (int) $_POST['puntos_estadistica'];
+    $nivel              = (int) $_POST['nivel'];
 
-    $should_reload = true;
-    
-}
+    if ($ficha_id && $staff && $razon) {
 
-if ($maestria_primaria && $staff && $razon && $ficha_id && (is_mod($uid) || is_staff($uid))) {
-
-    if ($maestria_primaria == 'quitar') {
-        $db->query(" 
-            UPDATE `mybb_sg_sg_fichas` SET maestria='' WHERE `fid`='$ficha_id';
+        $db->query("
+            UPDATE `mybb_sg_sg_fichas` SET
+                ryos='$ryos', reputacion='$reputacion', nombre='$nombre', apodo='$apodo',
+                edad='$edad', temporada_nacimiento='$temporada_nacimiento',
+                villa='$villa', clan='$clan', vida='$vida', chakra='$chakra', regchakra='$regchakra',
+                notas='$notas', extra='$extra', frase='$frase', virtudes='$virtudes', defectos='$defectos',
+                sexo='$sexo', peso='$peso', altura='$altura', madara='$madara', tobi='$tobi', rin='$rin',
+                fuerza='$fuerza', destreza='$destreza', cchakra='$cchakra', inteligencia='$inteligencia',
+                mfuerza='$mfuerza', mdestreza='$mdestreza', mcchakra='$mcchakra', minteligencia='$minteligencia',
+                salud='$salud', velocidad='$velocidad', tenketsu='$tenketsu', sigilo='$sigilo',
+                puntos_estadistica='$puntos_estadistica', nivel='$nivel'
+            WHERE `fid`='$ficha_id'
         ");
-    } else {
-        $db->query(" 
-            UPDATE `mybb_sg_sg_fichas` SET maestria='$maestria_primaria' WHERE `fid`='$ficha_id';
-        ");
 
-        $db->query(" 
-            INSERT INTO `mybb_sg_sg_tec_aprendidas`(`tid`, `uid`) VALUES ('$maestria_primaria','$ficha_id');
-        ");
-    }
-
-    $log .= "Agregar maestria primaria $maestria_primaria para UID: $ficha_id ($nombre).";
-    $should_reload = true;
-    
-}
-
-if ($maestria_secundaria && $staff && $razon && $ficha_id && (is_mod($uid) || is_staff($uid))) {
-    if ($maestria_secundaria == 'quitar') {
-        $db->query(" 
-            UPDATE `mybb_sg_sg_fichas` SET maestria_secundaria='' WHERE `fid`='$ficha_id';
-        ");
-    } else {
-        $db->query(" 
-            UPDATE `mybb_sg_sg_fichas` SET maestria_secundaria='$maestria_secundaria' WHERE `fid`='$ficha_id';
-        ");
-
-        $db->query(" 
-            INSERT INTO `mybb_sg_sg_tec_aprendidas`(`tid`, `uid`) VALUES ('$maestria_secundaria','$ficha_id');
-        ");
-    }
-
-    $log .= "Agregar maestria secundaria $maestria_secundaria para UID: $ficha_id ($nombre).";
-    $should_reload = true;
-    
-}
-
-if ($primer_elemento && $staff && $razon && $ficha_id && (is_mod($uid) || is_staff($uid))) {
-    $db->query(" 
-        UPDATE `mybb_sg_sg_fichas` SET elemento1='$primer_elemento' WHERE `fid`='$ficha_id';
-    ");
-
-    $log .= "Agregar primer elemento $primer_elemento para UID: $ficha_id ($nombre).";
-    $db->query(" 
-        INSERT INTO `mybb_sg_sg_audit_consola` (`staff`, `razon`, `log`) VALUES 
-        ('$staff', '$razon', '$log');
-    ");
-
-    $should_reload = true;
-    
-}
-
-if ($segundo_elemento && $staff && $razon && $ficha_id && (is_mod($uid) || is_staff($uid))) {
-    $db->query(" 
-        UPDATE `mybb_sg_sg_fichas` SET elemento2='$segundo_elemento' WHERE `fid`='$ficha_id';
-    ");
-
-    $log .= "Agregar segundo elemento $segundo_elemento para UID: $ficha_id ($nombre).";
-    $should_reload = true;
-    
-}
-
-if ($tercer_elemento && $staff && $razon && $ficha_id && (is_mod($uid) || is_staff($uid))) {
-    $db->query(" 
-        UPDATE `mybb_sg_sg_fichas` SET elemento3='$tercer_elemento' WHERE `fid`='$ficha_id';
-    ");
-
-    $log .= "Agregar tercer elemento $tercer_elemento para UID: $ficha_id ($nombre).";
-    $should_reload = true;
-    
-}
-
-if ($cuarto_elemento && $staff && $razon && $ficha_id && (is_mod($uid) || is_staff($uid))) {
-    $db->query(" 
-        UPDATE `mybb_sg_sg_fichas` SET elemento4='$cuarto_elemento' WHERE `fid`='$ficha_id';
-    ");
-
-    $log .= "Agregar cuarto elemento $cuarto_elemento para UID: $ficha_id ($nombre).";
-    $should_reload = true;
-    
-}
-
-if ($quinto_elemento && $staff && $razon && $ficha_id && (is_mod($uid) || is_staff($uid))) {
-    $db->query(" 
-        UPDATE `mybb_sg_sg_fichas` SET elemento5='$quinto_elemento' WHERE `fid`='$ficha_id';
-    ");
-
-    $log .= "Agregar quinto elemento $quinto_elemento para UID: $ficha_id ($nombre).";
-    $should_reload = true;
-    
-}
-
-if (($renunciar_elemento == '1' || $renunciar_elemento == '0') && $staff && $razon && $ficha_id && (is_mod($uid) || is_staff($uid))) {
-    $db->query(" 
-        UPDATE `mybb_sg_sg_fichas` SET renunciar_elemento='$renunciar_elemento' WHERE `fid`='$ficha_id';
-    ");
-
-    $log .= "Renunciar elemento extra $renunciar_elemento para UID: $ficha_id ($nombre).";
-    $should_reload = true;
-    
-}
-
-if ($invo_primaria && $staff && $razon && $ficha_id && (is_mod($uid) || is_staff($uid))) {
-    $db->query(" 
-        UPDATE `mybb_sg_sg_fichas` SET invocacion='$invo_primaria' WHERE `fid`='$ficha_id';
-    ");
-
-    $log .= "Agregar invocación primaria $invo_primaria para UID: $ficha_id ($nombre).";
-    $should_reload = true;
-    
-}
-
-if ($invo_secundaria && $staff && $razon && $ficha_id && (is_mod($uid) || is_staff($uid))) {
-    $db->query(" 
-        UPDATE `mybb_sg_sg_fichas` SET invocacion_secundaria='$invo_secundaria' WHERE `fid`='$ficha_id';
-    ");
-
-    $log .= "Agregar invocación secundaria $invo_secundaria para UID: $ficha_id ($nombre).";
-    $should_reload = true;
-    
-}
-
-if ($rango && $staff && $razon && $ficha_id && (is_mod($uid) || is_staff($uid))) {
-    $db->query(" 
-        UPDATE `mybb_sg_sg_fichas` SET rango='$rango' WHERE `fid`='$ficha_id';
-    ");
-
-    $log .= "Modificar rango: $rango para UID: $ficha_id ($nombre).";    $should_reload = true;
-    
-}
-
-if ($edad && $staff && $razon && $ficha_id && (is_mod($uid) || is_staff($uid))) {
-    $db->query(" 
-        UPDATE `mybb_sg_sg_fichas` SET edad='$edad' WHERE `fid`='$ficha_id';
-    ");
-
-    $log .= "Modificar edad: $edad para UID: $ficha_id ($nombre).";    $should_reload = true;
-    
-}
-
-if ($limite_nivel && $staff && $razon && $ficha_id && (is_mod($uid) || is_staff($uid))) {
-    $db->query(" 
-        UPDATE `mybb_sg_sg_fichas` SET limite_nivel='$limite_nivel' WHERE `fid`='$ficha_id';
-    ");
-
-    $log .= "Modificar limite de nivel: $limite_nivel para UID: $ficha_id ($nombre).";
-    $should_reload = true;
-    
-}
-
-if ($villa && $staff && $razon && $ficha_id && (is_mod($uid) || is_staff($uid))) {
-    $db->query(" 
-        UPDATE `mybb_sg_sg_fichas` SET villa='$villa' WHERE `fid`='$ficha_id';
-    ");
-
-    $usergroup = '2';
-
-    if ($villa == '1') { $usergroup = '9'; }
-    if ($villa == '3') { $usergroup = '8'; }
-    if ($villa == '4') { $usergroup = '14'; }
-    if ($villa == '5') { $usergroup = '15'; }
-    if ($villa == '6') { $usergroup = '13'; } // renegado
-    if ($villa == '7') { $usergroup = '12'; } // sin aldea
-
-    $db->query(" 
-        UPDATE `mybb_sg_users` SET usergroup='$usergroup' WHERE `uid`='$ficha_id';
-    ");
-
-    $log .= "Modificar villa: $villa para UID: $ficha_id ($nombre).";
-    $should_reload = true;
-    
-}
-
-if (($slots || $slots == '0') && $staff && $razon && $ficha_id && (is_mod($uid) || is_staff($uid))) {
-    $db->query(" 
-        UPDATE `mybb_sg_sg_fichas` SET slots='$slots' WHERE `fid`='$ficha_id';
-    ");
-
-    $log .= "Modificar slots: $slots para UID: $ficha_id ($nombre).";
-    $should_reload = true;
-    
-}
-
-if ($kosei1 && $staff && $razon && $ficha_id && (is_mod($uid) || is_staff($uid)))  {
-
-    if ($kosei1 == 'quitar') { $kosei1 = ''; }
-
-    $db->query(" 
-        UPDATE `mybb_sg_sg_fichas` SET kosei1='$kosei1' WHERE `fid`='$ficha_id';
-    ");
-
-    $log .= "Modificar Primer Kosei: $kosei1 para UID: $ficha_id ($nombre).";    $should_reload = true;
-    
-}
-
-if ($kosei2 && $staff && $razon && $ficha_id && (is_mod($uid) || is_staff($uid)))  {
-
-    if ($kosei2 == 'quitar') { $kosei2 = ''; }
-
-    $db->query(" 
-        UPDATE `mybb_sg_sg_fichas` SET kosei2='$kosei2' WHERE `fid`='$ficha_id';
-    ");
-
-    $log .= "Modificar Segundo Kosei: $kosei2 para UID: $ficha_id ($nombre).";    $should_reload = true;
-    
-}
-
-if ($str && $res && $spd && $agi && $dex && $pres && $inte && $ctrl && $vida && $chakra && $regchakra 
-    && $staff && $razon && $ficha_id && (is_mod($uid) || is_staff($uid)))  {
-
-    $db->query(" 
-        UPDATE `mybb_sg_sg_fichas` SET str='$str', res='$res', spd='$spd', agi='$agi',
-            dex='$dex', pres='$pres', inte='$inte', ctrl='$ctrl',
-            vida='$vida', chakra='$chakra', regchakra='$regchakra' WHERE `fid`='$ficha_id';
-    ");
-
-
-
-    $log .= "Modificar stats: 
-        fuerza->$str, resistencia->$res, velocidad->$spd, agilidad->$agi,
-        destreza->$dex, presencia->$pres, inteligencia->$inte, controlchakra->$ctrl, 
-        vida->$vida, chakra->$chakra, regeneracionchakra->$regchakra para UID: $ficha_id ($nombre).";    
-    $should_reload = true;
-}
-
-if ($notas && $staff && $razon && $ficha_id && (is_mod($uid) || is_staff($uid))) {
-    $db->query(" 
-        UPDATE `mybb_sg_sg_fichas` SET notas='$notas' WHERE `fid`='$ficha_id';
-    ");
-
-    $log .= "Modificar nota de ficha privada: $notas para UID: $ficha_id ($nombre).";
-    $should_reload = true;
-    
-}
-
-if ($should_reload) {
-
-    $db->query(" 
-        INSERT INTO `mybb_sg_sg_audit_consola_mod` (`staff`, `username`, `razon`, `log`) VALUES 
-        ('$staff', '$username', '$razon', '$log');
-    ");
-    eval('$reload_script = $reload_js;');
-}
-
-if (is_mod($uid) || is_staff($uid)) { 
-    if ($user_fid != '') {
-        $query_ficha = $db->query("
-            SELECT * FROM mybb_sg_sg_fichas WHERE fid='$user_fid'
-        ");
-        while ($f = $db->fetch_array($query_ficha)) {
-            $f_var = $f;
-            eval('$ficha = $f_var;');
+        // Sincronizar el grupo de usuario según la villa (solo si mapea a un grupo conocido)
+        $villa_usergroup = array(
+            '1' => '9',   // Konoha
+            '3' => '8',   // Kiri
+            '4' => '14',  // Iwa
+            '5' => '15',  // Kumo
+            '6' => '13',  // Renegado
+            '7' => '12'   // Sin Aldea
+        );
+        if (isset($villa_usergroup[$villa])) {
+            $nuevo_grupo = $villa_usergroup[$villa];
+            $db->query("UPDATE `mybb_sg_users` SET usergroup='$nuevo_grupo' WHERE `uid`='$ficha_id'");
         }
-    }
 
+        $log = "Edición completa de la ficha UID $ficha_id ($nombre).";
+
+        $db->query("
+            INSERT INTO `mybb_sg_sg_audit_consola_mod` (`staff`, `username`, `razon`, `log`) VALUES
+            ('$staff', '$username', '$razon', '$log')
+        ");
+
+        eval('$reload_script = $reload_js;');
+    }
+}
+
+/* Render */
+if ($es_staff) {
     $ficha = null;
 
     if ($user_fid) {
-        $query_ficha = $db->query("
-            SELECT * FROM mybb_sg_sg_fichas WHERE fid='$user_fid'
-        ");
-
-        $s_uid = $mybb->user['uid'];
-
+        $query_ficha = $db->query("SELECT * FROM mybb_sg_sg_fichas WHERE fid='$user_fid'");
         while ($f = $db->fetch_array($query_ficha)) {
             $ficha = $f;
         }
     }
 
     eval('$fid = $user_fid;');
-    eval('$accion = $user_accion;');
     eval("\$page = \"".$templates->get("staff_modificar_ficha")."\";");
     output_page($page);
 } else {

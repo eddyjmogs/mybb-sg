@@ -1221,6 +1221,7 @@ CREATE TABLE `mybb_sg_sg_audit_recompensas` (
   `tiempo_completado` int(11) NOT NULL,
   `tiempo_nuevo` int(11) NOT NULL,
   `dia` int(11) NOT NULL,
+  `season` int(11) NOT NULL DEFAULT 0, -- racha acumulada permanente (recompensa_diaria) - añadido 2026-06
   `uid` int(11) NOT NULL,
   `nombre` varchar(255) COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
   `audit` varchar(255) COLLATE utf8_unicode_ci NOT NULL
@@ -1689,6 +1690,7 @@ CREATE TABLE `mybb_sg_sg_recompensas_usuarios` (
   `uid` int(11) NOT NULL,
   `nombre` varchar(255) NOT NULL,
   `dia` int(11) NOT NULL,
+  `season` int(11) NOT NULL DEFAULT 0, -- racha acumulada permanente (recompensa_diaria) - añadido 2026-06
   `tiempo` int(11) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 

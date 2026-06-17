@@ -1,55 +1,291 @@
 <html>
 
 <head>
-  <title>Consola Súper Secreta</title>
+  <title>Consola de Técnicas — Staff</title>
   {$headerinclude}
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Source+Serif+4:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <style>
+
+    #stx-page {
+      max-width: 480px;
+      margin: 24px auto 60px;
+      color: var(--ink);
+      font-family: 'Source Serif 4', serif;
+      text-align: left;
+    }
+
+    .stx-panel {
+      border: 0.5px solid var(--border);
+      background: var(--bg2);
+      overflow: hidden;
+    }
+
+    /* Header */
+    .stx-panel__head {
+      position: relative;
+      padding: 20px 24px 18px;
+      background: var(--bg3);
+      border-bottom: 0.5px solid var(--border);
+    }
+    .stx-panel__head::before {
+      content: '';
+      position: absolute;
+      left: 0; top: 0; bottom: 0;
+      width: 3px;
+      background: var(--oxide);
+    }
+    .stx-panel__eyebrow {
+      display: block;
+      font-family: 'Cinzel', serif;
+      font-size: 8px;
+      font-weight: 700;
+      letter-spacing: 2.4px;
+      text-transform: uppercase;
+      color: var(--mist);
+      margin-bottom: 6px;
+    }
+    .stx-panel__title {
+      margin: 0;
+      font-family: 'Cinzel', serif;
+      font-size: 17px;
+      font-weight: 900;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--ink);
+    }
+
+    .stx-panel__body { padding: 22px 24px; }
+
+    /* Fields */
+    .stx-field { margin-bottom: 16px; }
+    .stx-field:last-child { margin-bottom: 0; }
+
+    .stx-label {
+      display: block;
+      font-family: 'Cinzel', serif;
+      font-size: 8px;
+      font-weight: 700;
+      letter-spacing: 1.8px;
+      text-transform: uppercase;
+      color: var(--mist);
+      margin-bottom: 6px;
+    }
+
+    .stx-panel__body input[type="number"],
+    .stx-panel__body input[type="text"],
+    .stx-panel__body select,
+    .stx-panel__body textarea {
+      width: 100%;
+      box-sizing: border-box;
+      padding: 9px 11px;
+      background: var(--bg3);
+      border: none;
+      border-bottom: 1.5px solid var(--border);
+      border-left: 1.5px solid var(--border);
+      color: var(--ink);
+      font-family: 'Source Serif 4', serif;
+      font-size: 13px;
+      outline: none;
+      transition: border-color 0.15s, background 0.15s;
+    }
+
+    .stx-panel__body input:focus,
+    .stx-panel__body select:focus,
+    .stx-panel__body textarea:focus {
+      border-bottom-color: var(--plum3);
+      border-left-color: var(--plum3);
+      background: var(--bg2);
+    }
+
+    .stx-panel__body select {
+      -webkit-appearance: none;
+      appearance: none;
+      cursor: pointer;
+      font-family: 'Cinzel', serif;
+      font-size: 10px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    .stx-panel__body textarea {
+      height: 110px;
+      resize: vertical;
+      line-height: 1.6;
+    }
+
+    .stx-panel__body textarea::placeholder,
+    .stx-panel__body input::placeholder {
+      color: var(--mist);
+      font-style: italic;
+    }
+
+    .stx-hint {
+      display: block;
+      font-family: 'Source Serif 4', serif;
+      font-size: 11px;
+      font-style: italic;
+      color: var(--stone);
+      margin-top: 6px;
+      line-height: 1.5;
+    }
+
+    /* Two-column row */
+    .stx-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    /* Button */
+    .stx-btn {
+      font-family: 'Cinzel', serif;
+      font-size: 9px;
+      font-weight: 900;
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+      color: var(--lavender);
+      background: var(--plum);
+      border: none;
+      padding: 0 24px;
+      height: 40px;
+      width: 100%;
+      cursor: pointer;
+      transition: background 0.15s, transform 0.12s;
+      outline: none;
+    }
+    .stx-btn:hover  { background: var(--plum2); transform: translateY(-1px); }
+    .stx-btn:active { transform: translateY(0); }
+
+    /* Context bar (estado 2) */
+    .stx-context {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 14px;
+      margin-bottom: 18px;
+      border: 0.5px solid var(--border);
+      background: var(--bg3);
+    }
+    .stx-context__uid {
+      font-family: 'Cinzel', serif;
+      font-size: 12px;
+      font-weight: 900;
+      color: var(--ink);
+    }
+    .stx-pill {
+      font-family: 'Cinzel', serif;
+      font-size: 8px;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      padding: 3px 9px;
+      border: 0.5px solid var(--plum3);
+      color: var(--plum2);
+    }
+    .stx-pill--danger { border-color: var(--oxide); color: var(--oxide); }
+    .stx-context__name {
+      flex: 1 1 100%;
+      font-family: 'Source Serif 4', serif;
+      font-size: 12px;
+      color: var(--stone);
+    }
+    .stx-context__name a { color: var(--plum2); text-decoration: none; }
+    .stx-context__name a:hover { text-decoration: underline; }
+
+    .stx-divider { height: 0.5px; background: var(--border); margin: 18px 0; }
+
+  </style>
 </head>
 
 <body>
   {$header}
-  <div class="fondo-blanco">
-    <if $fid=='' then>
-      User ID:<br><input type="number" name="name" min="100" max="2000" required id='fid'><br><br>
-      Accion:<br>
-      <select id="accion">
-        <option value="Añadir">Añadir</option>
-        <option value="Remover">Remover</option>
-      </select><br><br>
-      <button onclick=onClickAccion()>Apachúrrame</button>
-      <br><br>
-    </if>
-    <if $fid !='' && $accion != '' then>
-      <form method="post" action="/sg/admin/ficha_tecnicas.php" name="ficha_atributos" id="ficha_atributos">
-        <div style="display: none">
-           <input type="text" id="fid" name="ficha_id" value="{$fid}">
-           <input type="text" id="fid" name="accion" value="{$accion}">
-        </div>
-        User ID:<br><input type="number" name="name" required id='fid' value={$fid} disabled><br><br>
-        Accion:<br>
-        <select id="accion" disabled>
-          <option value="{$accion}">{$accion}</option>
-        </select><br>
-        <p>Nombre de cuenta: <a href="/sg/ficha.php?action=profile&uid={$fid}" target="_blank">{$ficha['nombre']}</a></p>
-        <textarea style="width: 350px;height: 125px;" name="tecnicas" minlength="1" required placeholder="1,2,3,465,5,HOS101,HOS602"></textarea><br>
-        <span>*Escribe todas las técnicas que quieras añadir/remover separadas por comas, y sin espacios.</span><br><br>
-        Miembro de Staff: <input type="text" name="staff" required><br>
-        Razon: <input type="text" name="razon" required><br><br>
-        <input type="submit" value="Guardar">
-      </form>
-    </if>
+
+  <div id="stx-page">
+    <div class="stx-panel">
+      <div class="stx-panel__head">
+        <span class="stx-panel__eyebrow">Consola Staff · Súper Secreta</span>
+        <h1 class="stx-panel__title">Gestión de Técnicas</h1>
+      </div>
+
+      <div class="stx-panel__body">
+
+        <if $fid=='' then>
+          <div class="stx-field">
+            <label class="stx-label" for="fid">User ID</label>
+            <input type="number" id="fid" name="name" min="100" max="2000" required placeholder="Ej. 482">
+          </div>
+          <div class="stx-field">
+            <label class="stx-label" for="accion">Acción</label>
+            <select id="accion">
+              <option value="Añadir">Añadir</option>
+              <option value="Remover">Remover</option>
+            </select>
+          </div>
+          <button class="stx-btn" type="button" onclick="onClickAccion()">Continuar</button>
+        </if>
+
+        <if $fid !='' && $accion != '' then>
+          <div class="stx-context">
+            <span class="stx-context__uid">Usuario #{$fid}</span>
+            <if $accion == 'Remover' then>
+              <span class="stx-pill stx-pill--danger">{$accion}</span>
+            <else>
+              <span class="stx-pill">{$accion}</span>
+            </if>
+            <span class="stx-context__name">Cuenta: <a href="/sg/ficha.php?action=profile&uid={$fid}" target="_blank">{$ficha['nombre']}</a></span>
+          </div>
+
+          <form method="post" action="/sg/admin/ficha_tecnicas.php" name="ficha_atributos" id="ficha_atributos">
+            <div style="display:none;">
+              <input type="text" name="ficha_id" value="{$fid}">
+              <input type="text" name="accion" value="{$accion}">
+            </div>
+
+            <div class="stx-field">
+              <label class="stx-label">Técnicas (TID)</label>
+              <textarea name="tecnicas" minlength="1" required placeholder="1,2,3,465,5,HOS101,HOS602"></textarea>
+              <span class="stx-hint">Escribe todas las técnicas separadas por comas, sin espacios.</span>
+            </div>
+
+            <div class="stx-divider"></div>
+
+            <div class="stx-row">
+              <div class="stx-field" style="margin-bottom:0;">
+                <label class="stx-label">Miembro de Staff</label>
+                <input type="text" name="staff" required placeholder="Tu nombre">
+              </div>
+              <div class="stx-field" style="margin-bottom:0;">
+                <label class="stx-label">Razón</label>
+                <input type="text" name="razon" required placeholder="Motivo">
+              </div>
+            </div>
+
+            <div style="margin-top:18px;">
+              <input class="stx-btn" type="submit" value="Guardar">
+            </div>
+          </form>
+        </if>
+
+      </div>
+    </div>
   </div>
+
   {$footer}
-</body>
-<if $log_var !='' then><script>alert(`{$log_var}`);</script></if>
-{$reload_script}
-<script>
-  function onClickAccion() {
-    const fid = document.getElementById('fid').value;
-    const accion = document.getElementById('accion').value;
-    if (fid && accion) {
-      window.location.href = window.location.pathname + '?fid=' + fid + '&accion=' + accion;
+
+  <if $log_var !='' then><script>alert(`{$log_var}`);</script></if>
+  {$reload_script}
+
+  <script>
+    function onClickAccion() {
+      var fid = document.getElementById('fid').value;
+      var accion = document.getElementById('accion').value;
+      if (fid && accion) {
+        window.location.href = window.location.pathname + '?fid=' + fid + '&accion=' + accion;
+      }
     }
-  }
-</script>
+  </script>
+
+</body>
 
 </html>

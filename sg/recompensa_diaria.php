@@ -16,17 +16,84 @@ require "./../inc/config.php";
 global $templates, $mybb;
 
 $uid = $mybb->user['uid'];
-$recompensa_accepted = $_POST["rec_ready"];
+$username = $mybb->user['username'];
+$recompensa_accepted = $mybb->get_input('rec_ready');
 $reload_js = "<script>window.location.href = window.location.href;</script>";
+$reload_script = '';
+$log_var = '';
 
+/* Admin (grupo 24) tiene al menos 1 post garantizado en la racha. */
+function tiene_min_post_garantizado() {
+    global $db, $uid;
+    $garantizado = false;
+    $query = $db->query("
+        SELECT uid FROM `mybb_sg_users`
+        WHERE uid='$uid' AND (usergroup = '24' OR additionalgroups = '24' OR additionalgroups LIKE '24,%' OR additionalgroups LIKE '%,24' OR additionalgroups LIKE '%,24,%')
+    ");
+    while ($q = $db->fetch_array($query)) { $garantizado = true; }
+    return $garantizado;
+}
+
+/* SG aún no tiene cofres en las recompensas. Cuando se añadan, define el helper
+   y entrega objetos del inventario en los hitos de racha:
+
+function darObjeto($objeto_id) {
+    global $db, $uid;
+    $cantidad_actual = 0;
+    $tiene = false;
+    $q = $db->query("SELECT * FROM mybb_sg_sg_inventario WHERE uid='$uid' AND objeto_id='$objeto_id'");
+    while ($r = $db->fetch_array($q)) { $tiene = true; $cantidad_actual = $r['cantidad']; }
+    $cantidad_nueva = intval($cantidad_actual) + 1;
+    if ($tiene) {
+        $db->query("UPDATE `mybb_sg_sg_inventario` SET cantidad='$cantidad_nueva' WHERE objeto_id='$objeto_id' AND uid='$uid'");
+    } else {
+        $db->query("INSERT INTO `mybb_sg_sg_inventario` (objeto_id, uid, cantidad) VALUES ('$objeto_id', '$uid', '1')");
+    }
+}
+*/
+
+$ficha_existe = false;
+$moderated = false;
+$should_accept = true;
+$claimed_after_96_hours = false;
+$claimed_after_48_hours = false;
+$two_days = 2 * 24 * 3600;
+$time_now = time();
+$next_two_days = time() + $two_days;
+$last_two_days = time() - $two_days;
+$time_to_accept = 0;
+$days_count = 0;
+$days_season_count = 0;
+
+/* ¿Hay una recompensa en curso? */
+$query_recompensa_actual = $db->query("
+    SELECT * FROM mybb_sg_sg_recompensas_usuarios WHERE uid='$uid'
+");
+
+while ($q = $db->fetch_array($query_recompensa_actual)) {
+    $days_count = $q['dia'];
+    $days_season_count = $q['season'];
+    // base de las últimas 48h según la última vez que se reclamó
+    $last_two_days = $q['tiempo'] - $two_days;
+    // ya pasó el tiempo suficiente para reclamar
+    $should_accept = time() > $q['tiempo'];
+    // pasó demasiado tiempo (la recompensa expira)
+    $claimed_after_96_hours = time() > ($q['tiempo'] + $two_days);
+    $claimed_after_48_hours = time() > $q['tiempo'];
+    // tiempo restante antes de poder reclamar otra vez
+    $time_to_accept = $q['tiempo'] - time();
+}
+
+/* Racha máxima (dia consecutivo) y racha total acumulada (season). */
 $recompensas_reclamadas = 0;
 $recompensas_racha_maxima = 0;
+$recompensas_temporada_maxima = 0;
 
 $total_recompensas_query = $db->query("SELECT COUNT(*) as total FROM `mybb_sg_sg_audit_recompensas` WHERE uid='$uid'");
 while ($q = $db->fetch_array($total_recompensas_query)) { $recompensas_reclamadas = $q['total']; }
 
 $recompensas_maxima_query = $db->query("
-    SELECT a.id, a.tiempo_completado, a.uid, a.nombre, a.dia, a.audit
+    SELECT a.*
     FROM mybb_sg_sg_audit_recompensas a
     INNER JOIN (
         SELECT uid, MAX(dia) dia
@@ -37,173 +104,130 @@ $recompensas_maxima_query = $db->query("
     ORDER BY dia DESC
     LIMIT 10
 ");
-
 while ($q = $db->fetch_array($recompensas_maxima_query)) {
     $recompensas_racha_maxima = $q['dia'];
 }
 
-$should_delete_recompensa = false;
-$ficha_existe = false;
-$moderated = false;
-$should_accept = true;
-$two_days = 2 * 24 * 3600;
-$time_now = time();
-$next_two_days = time() + $two_days;
-$last_two_days = time() - $two_days;
-$time_to_accept = 0;
-$days_count = 0;
-
-/* CHECK IF THERE IS A RECOMPENSA THAT EXISTS */
-$query_recompensa_actual = $db->query("
-    SELECT * FROM mybb_sg_sg_recompensas_usuarios WHERE uid='$uid'
+$recompensas_temporada_query = $db->query("
+    SELECT a.*
+    FROM mybb_sg_sg_audit_recompensas a
+    INNER JOIN (
+        SELECT uid, MAX(season) season
+        FROM mybb_sg_sg_audit_recompensas
+        GROUP BY uid
+    ) b ON a.uid = b.uid AND a.season = b.season
+    WHERE a.uid=$uid
+    ORDER BY season DESC
+    LIMIT 10
 ");
-
-while ($q = $db->fetch_array($query_recompensa_actual)) {
-    $days_count = $q['dia']; 
-    // modify last two days based on last time reward was accepted
-    $last_two_days = $q['tiempo'] - $two_days;
-    // enough time to accept recompensa
-    $should_accept = time() > $q['tiempo'];
-    // too much time passed to accept recompensa
-    $claimed_after_96_hours = time() > ($q['tiempo'] + $two_days);
-    $claimed_after_48_hours = time() > $q['tiempo'];
-    // time left to accept before accepting again (so not just right two posts after)
-    $time_to_accept = $q['tiempo'] - time();
+while ($q = $db->fetch_array($recompensas_temporada_query)) {
+    $recompensas_temporada_maxima = $q['season'];
 }
 
-// recompensa was accepted after time has passed
-if ($recompensa_accepted == 'true') {
+/* La recompensa fue aceptada y ya es momento de reclamar */
+if ($recompensa_accepted == 'true' && $should_accept) {
 
-    $query_ficha = $db->query("
-        SELECT * FROM mybb_sg_sg_fichas WHERE fid='$uid'
-    ");
-    while ($f = $db->fetch_array($query_ficha)) {
-        $f_var = $f;
-    }
-    $query_usuario = $db->query("
-        SELECT * FROM mybb_sg_users WHERE uid='$uid'
-    ");
-    while ($u = $db->fetch_array($query_usuario)) {
-        $u_var = $u;
-    }
+    $query_ficha = $db->query("SELECT * FROM mybb_sg_sg_fichas WHERE fid='$uid'");
+    while ($f = $db->fetch_array($query_ficha)) { $f_var = $f; }
+    $query_usuario = $db->query("SELECT * FROM mybb_sg_users WHERE uid='$uid'");
+    while ($u = $db->fetch_array($query_usuario)) { $u_var = $u; }
 
-    $puntos_rol = $u_var['newpoints'];
-    $nombre = $f_var['nombre'];
-    $ryos = $f_var['ryos'];
-    $ph = $f_var['puntos_habilidad'];
-    $pe = $f_var['pe'];
+    $nombre     = $f_var['nombre'];
+    $ryos       = intval($f_var['ryos']);
+    $experiencia = floatval($u_var['newpoints']);
 
+    // NOTA: los Tobis están deshabilitados temporalmente como recompensa.
+    $new_ryos = $ryos;
+    $new_exp  = $experiencia;
     $recompensa_items = '';
-    $log = '';
-    if ($days_count == 0) {
-        $recompensa_items = '50 Ryos, 3 PR y 0.5 PE';
-        $new_ryos = intval($ryos) + 50;
-        $new_pr = floatval($puntos_rol) + 3.00;
-        $new_pe = intval($pe) + 0.5;
-        $log = "Ryos: $ryos->$new_ryos & PR: $puntos_rol->$new_pr";
-        $db->query(" 
-            UPDATE `mybb_sg_sg_fichas` SET pe='$new_pe', ryos='$new_ryos' WHERE `fid`='$uid';
-        ");
-        $db->query(" 
-            UPDATE `mybb_sg_users` SET newpoints='$new_pr' WHERE `uid`='$uid';
-        "); 
-    } else if ($days_count == 1) {
-        $recompensa_items = '100 Ryos, 5 PR y 0.5 PE';
-        $new_ryos = intval($ryos) + 100;
-        $new_pr = floatval($puntos_rol) + 5.00;
-        $new_pe = intval($pe) + 0.5;
-        $log = "Ryos: $ryos->$new_ryos & PR: $puntos_rol->$new_pr";
-        $db->query(" 
-            UPDATE `mybb_sg_sg_fichas` SET pe='$new_pe', ryos='$new_ryos' WHERE `fid`='$uid';
-        ");
-        $db->query(" 
-            UPDATE `mybb_sg_users` SET newpoints='$new_pr' WHERE `uid`='$uid';
-        "); 
-    } else if ($days_count == 2) {
-        $recompensa_items = '100 Ryos, 5 PR y 1 PE';
-        $new_ryos = intval($ryos) + 150;
-        $new_pr = floatval($puntos_rol) + 5.00;
-        $new_pe = intval($pe) + 1;
-        $log = "Ryos: $ryos->$new_ryos & PR: $puntos_rol->$new_pr";
-        $db->query(" 
-            UPDATE `mybb_sg_sg_fichas` SET pe='$new_pe', ryos='$new_ryos' WHERE `fid`='$uid';
-        ");
-        $db->query(" 
-            UPDATE `mybb_sg_users` SET newpoints='$new_pr' WHERE `uid`='$uid';
-        "); 
-    } else if ($days_count == 3 || ($days_count >= 4 && $days_count % 2 == 1)) {
-        $recompensa_items = '100 Ryos, 5 PR, 1 PE y 1 PH';
-        $new_ryos = intval($ryos) + 200;
-        $new_pr = floatval($puntos_rol) + 5.00;
-        $new_pe = intval($pe) + 1;
-        $new_ph = intval($ph) + 1;
-        $log = "PE: $pe->$new_pe & PH: $ph->$new_ph & Ryos: $ryos->$new_ryos & PR: $puntos_rol->$new_pr";
-        $db->query(" 
-            UPDATE `mybb_sg_sg_fichas` SET pe='$new_pe', puntos_habilidad='$new_ph', ryos='$new_ryos' WHERE `fid`='$uid';
-        ");
-        $db->query(" 
-            UPDATE `mybb_sg_users` SET newpoints='$new_pr' WHERE `uid`='$uid';
-        "); 
-    } else if ($days_count >= 4 && $days_count % 2 == 0) {
-        $recompensa_items = '100 Ryos, 5 PR, 1 PE y 1 PH';
-        $new_ryos = intval($ryos) + 300;
-        $new_pr = floatval($puntos_rol) + 5.00;
-        $new_pe = intval($pe) + 2;
-        $new_ph = intval($ph) + 2;
-        $log = "PE: $pe->$new_pe & PH: $ph->$new_ph & Ryos: $ryos->$new_ryos & PR: $puntos_rol->$new_pr";
-        $db->query(" 
-            UPDATE `mybb_sg_sg_fichas` SET pe='$new_pe', puntos_habilidad='$new_ph', ryos='$new_ryos' WHERE `fid`='$uid';
-        ");
-        $db->query(" 
-            UPDATE `mybb_sg_users` SET newpoints='$new_pr' WHERE `uid`='$uid';
-        "); 
+
+    if ($days_count == 0 && $recompensas_temporada_maxima < 40) {
+        $recompensa_items = '5 Experiencia';
+        $new_exp = $experiencia + 5;
+    } else if ($days_count == 1 && $recompensas_temporada_maxima < 40) {
+        $recompensa_items = '50 Ryos';
+        $new_ryos = $ryos + 50;
+    } else if ($days_count == 2 && $recompensas_temporada_maxima < 40) {
+        $recompensa_items = '75 Ryos y 5 Experiencia';
+        $new_ryos = $ryos + 75;
+        $new_exp  = $experiencia + 5;
+    } else if ($days_count == 3 && $recompensas_temporada_maxima < 40) {
+        $recompensa_items = '100 Ryos y 10 Experiencia';
+        $new_ryos = $ryos + 100;
+        $new_exp  = $experiencia + 10;
+    } else if ($days_count == 4 && $recompensas_temporada_maxima < 40) {
+        $recompensa_items = '150 Ryos y 10 Experiencia';
+        $new_ryos = $ryos + 150;
+        $new_exp  = $experiencia + 10;
+    } else if ($days_count >= 5 && $recompensas_temporada_maxima < 40) {
+        $recompensa_items = '200 Ryos y 15 Experiencia';
+        $new_ryos = $ryos + 200;
+        $new_exp  = $experiencia + 15;
+    } else if ($recompensas_temporada_maxima > 41 && (($recompensas_temporada_maxima + 1) % 5) == 0) {
+        $recompensa_items = '200 Ryos y 15 Experiencia';
+        $new_ryos = $ryos + 200;
+        $new_exp  = $experiencia + 15;
+    } else if ($recompensas_temporada_maxima >= 40) {
+        $recompensa_items = '150 Ryos y 10 Experiencia';
+        $new_ryos = $ryos + 150;
+        $new_exp  = $experiencia + 10;
     }
 
-    $days_count = $days_count + 1;
+    $log = "Ryos: $ryos->$new_ryos & Exp: $experiencia->$new_exp";
+
+    $db->query("UPDATE `mybb_sg_sg_fichas` SET ryos='$new_ryos' WHERE `fid`='$uid'");
+    $db->query("UPDATE `mybb_sg_users` SET newpoints='$new_exp' WHERE `uid`='$uid'");
+
+    $days_count = intval($days_count) + 1;
+    $days_season_count = intval($recompensas_temporada_maxima) + 1;
+
+    /* Cofres por hito de racha (SG aún no los tiene; descomenta cuando existan):
+    if ($days_season_count == 5)  { darObjeto('OBJ_X'); }
+    else if ($days_season_count == 10) { darObjeto('OBJ_X'); }
+    else if ($days_season_count == 15) { darObjeto('OBJ_X'); }
+    else if ($days_season_count == 20) { darObjeto('OBJ_X'); }
+    else if ($days_season_count == 25) { darObjeto('OBJ_X'); }
+    else if ($days_season_count == 30) { darObjeto('OBJ_X'); }
+    else if ($days_season_count == 35) { darObjeto('OBJ_X'); }
+    else if ($days_season_count == 40) { darObjeto('OBJ_X'); }
+    */
+
+    $db->query("DELETE FROM mybb_sg_sg_recompensas_usuarios WHERE uid='$uid'");
 
     $db->query("
-        DELETE FROM mybb_sg_sg_recompensas_usuarios WHERE uid='$uid'
+        INSERT INTO `mybb_sg_sg_recompensas_usuarios`(`uid`, `nombre`, `dia`, `season`, `tiempo`) VALUES ('$uid','$nombre','$days_count','$days_season_count','$next_two_days')
     ");
 
-    $db->query(" 
-        INSERT INTO `mybb_sg_sg_recompensas_usuarios`(`uid`, `nombre`, `dia`, `tiempo`) VALUES ($uid,'$nombre',$days_count,$next_two_days)
-    ");
+    $complete_log = "$nombre ($uid). Has ganado $recompensa_items en esta ronda. $log.";
 
-    $complete_log = "$nombre ($uid). Has ganado $recompensa_items en esta ronda. $log";
-
-    $db->query(" 
-        INSERT INTO `mybb_sg_sg_audit_recompensas`(`tiempo_completado`, `tiempo_nuevo`, `dia`, `uid`, `nombre`, `audit`) VALUES ($time_now, $next_two_days, $days_count, '$uid','$nombre','$complete_log')
+    $db->query("
+        INSERT INTO `mybb_sg_sg_audit_recompensas`(`tiempo_completado`, `tiempo_nuevo`, `dia`, `season`, `uid`, `nombre`, `audit`) VALUES ($time_now, $next_two_days, $days_count, '$days_season_count', '$uid','$nombre','$complete_log')
     ");
 
     eval('$log_var = $complete_log;');
     eval('$reload_script = $reload_js;');
 }
 
-/* Check if ficha exists */
-$query_ficha = $db->query("
-    SELECT * FROM mybb_sg_sg_fichas WHERE fid='$uid'
-");
-
+/* ¿Existe la ficha y está aprobada? */
+$query_ficha = $db->query("SELECT * FROM mybb_sg_sg_fichas WHERE fid='$uid'");
 $nombre = '';
-
 while ($f = $db->fetch_array($query_ficha)) {
     $moderated = $f['moderated'] != 'no_moderacion';
     $ficha_existe = true;
     $nombre = $f['nombre'];
 }
 
-/* Render page */
+/* Render */
 if ($ficha_existe == true && $moderated == true) {
 
     $num_posts = 0;
-    $time_left = '';
+    $time_left = 0;
 
-    // last_two_days could be last 48 hours posts for the last time that reward was accepted
-    // or last 48 hours that there were posts when reward has not been accepted
+    // posts en las últimas 48h (foros de rol bajo parentlist 37)
     $query_posts = $db->query("
-        SELECT p.dateline as post_date FROM mybb_sg_posts as p 
-        INNER JOIN mybb_sg_threads as t ON p.tid = t.tid 
-        INNER JOIN mybb_sg_forums as f ON t.fid = f.fid 
+        SELECT p.dateline as post_date FROM mybb_sg_posts as p
+        INNER JOIN mybb_sg_threads as t ON p.tid = t.tid
+        INNER JOIN mybb_sg_forums as f ON t.fid = f.fid
         WHERE p.dateline > $last_two_days
         AND f.parentlist LIKE '37,%'
         AND p.uid = '$uid'
@@ -212,28 +236,27 @@ if ($ficha_existe == true && $moderated == true) {
     ");
 
     $dates_arr = array();
-
     while ($q = $db->fetch_array($query_posts)) {
-        $post_date = $q['post_date'];
-        // 48 hours left after this post
         $time_left = $two_days - (time() - $q['post_date']);
         array_push($dates_arr, $time_left);
     }
-
     $num_posts = count($dates_arr);
 
-    // recompensa is expired either because 96 hours after claim time is expired
-    // or because after 48 hours it was claimed, there was less than two posts.
-    if ($claimed_after_96_hours || ($num_posts < 2 && $claimed_after_48_hours)) {
-        $db->query("
-            DELETE FROM mybb_sg_sg_recompensas_usuarios WHERE uid='$uid'
-        ");
+    // staff: cuenta como mínimo 1 post aunque no haya posteado
+    if (tiene_min_post_garantizado() && $num_posts == 0) {
+        $num_posts = 1;
+    }
+
+    // la recompensa expira: pasaron 96h, o tras 48h no hubo al menos 1 post
+    if ($claimed_after_96_hours || ($num_posts < 1 && $claimed_after_48_hours)) {
+        $db->query("DELETE FROM mybb_sg_sg_recompensas_usuarios WHERE uid='$uid'");
         $days_count = 0;
         $last_two_days = time() - $two_days;
+
         $query_posts = $db->query("
-            SELECT p.dateline as post_date FROM mybb_sg_posts as p 
-            INNER JOIN mybb_sg_threads as t ON p.tid = t.tid 
-            INNER JOIN mybb_sg_forums as f ON t.fid = f.fid 
+            SELECT p.dateline as post_date FROM mybb_sg_posts as p
+            INNER JOIN mybb_sg_threads as t ON p.tid = t.tid
+            INNER JOIN mybb_sg_forums as f ON t.fid = f.fid
             WHERE p.dateline > $last_two_days
             AND f.parentlist LIKE '37,%'
             AND p.uid = '$uid'
@@ -242,43 +265,50 @@ if ($ficha_existe == true && $moderated == true) {
         ");
 
         $dates_arr = array();
-
         while ($q = $db->fetch_array($query_posts)) {
-            $post_date = $q['post_date'];
-            // 48 hours left after this post
             $time_left = $two_days - (time() - $q['post_date']);
             array_push($dates_arr, $time_left);
         }
-
         $num_posts = count($dates_arr);
+        if (tiene_min_post_garantizado() && $num_posts == 0) {
+            $num_posts = 1;
+        }
     }
 
-    if ($num_posts >= 2 && $should_accept && $days_count > 0) {
+    if ($num_posts >= 1 && $should_accept && $days_count > 0) {
         $time_left = $two_days + $time_to_accept;
-    } else if ($num_posts >= 2 && $should_accept) {
-        // if no rewards yet, time left is 48 hours before second to last post
-        $time_left = $dates_arr[$num_posts - 2];
-    } else if ($num_posts >= 2 && !$should_accept) {
-        // reward has been claimed, and it has to wait 48 hours after it was claimed
+    } else if ($num_posts >= 1 && $should_accept) {
+        // dates_arr puede estar vacío si num_posts se forzó a 1 por grupo privilegiado
+        $time_left = !empty($dates_arr) ? $dates_arr[count($dates_arr) - 1] : $two_days;
+    } else if ($num_posts >= 1 && !$should_accept) {
         $time_left = $time_to_accept;
-    } else if ($num_posts < 2 && $days_count > 0) {
-        // time to write the two posts before it can be claimed again or it expires
+    } else if ($num_posts < 1 && $days_count > 0) {
         $time_left = $time_to_accept;
-    } 
+    }
 
     $recompensa_items = '';
 
-    if ($days_count == 0) {
-        $recompensa_items = '50 Ryos, 3 PR y 0.5 PE';
-    } else if ($days_count == 1) {
-        $recompensa_items = '100 Ryos, 5 PR y 0.5 PE';
-    } else if ($days_count == 2) {
-        $recompensa_items = '100 Ryos, 5 PR y 1 PE';
-    } else if ($days_count == 3 || ($days_count >= 4 && $days_count % 2 == 1)) {
-        $recompensa_items = '100 Ryos, 5 PR, 1 PE y 1 PH';
-    } else if ($days_count >= 4 && $days_count % 2 == 0) {
-        $recompensa_items = '100 Ryos, 5 PR, 1 PE y 1 PH';
+    if ($days_count == 0 && $recompensas_temporada_maxima < 40) {
+        $recompensa_items = '5 Experiencia';
+    } else if ($days_count == 1 && $recompensas_temporada_maxima < 40) {
+        $recompensa_items = '50 Ryos';
+    } else if ($days_count == 2 && $recompensas_temporada_maxima < 40) {
+        $recompensa_items = '75 Ryos y 5 Experiencia';
+    } else if ($days_count == 3 && $recompensas_temporada_maxima < 40) {
+        $recompensa_items = '100 Ryos y 10 Experiencia';
+    } else if ($days_count == 4 && $recompensas_temporada_maxima < 40) {
+        $recompensa_items = '150 Ryos y 10 Experiencia';
+    } else if ($days_count >= 5 && $recompensas_temporada_maxima < 40) {
+        $recompensa_items = '200 Ryos y 15 Experiencia';
+    } else if ($recompensas_temporada_maxima > 41 && (($recompensas_temporada_maxima + 1) % 5) == 0) {
+        $recompensa_items = '200 Ryos y 15 Experiencia';
+    } else if ($recompensas_temporada_maxima >= 40) {
+        $recompensa_items = '150 Ryos y 10 Experiencia';
     }
+
+    // progreso de la racha de temporada hacia el hito 40 (donde las recompensas escalan)
+    $temporada_meta = 40;
+    $temporada_pct = min(100, intval(round((min(intval($recompensas_temporada_maxima), $temporada_meta) / $temporada_meta) * 100)));
 
     eval("\$page = \"".$templates->get("sg_recompensa")."\";");
     output_page($page);
