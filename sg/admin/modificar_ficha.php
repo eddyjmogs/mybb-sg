@@ -24,102 +24,113 @@ $log = "";
 $reload_script = '';
 $reload_js = "<script>window.location.href = window.location.pathname;</script>";
 
-/* Guardar cambios (un solo UPDATE con todos los campos) */
+/* Guardar cambios: solo se actualizan los campos que REALMENTE cambiaron */
 if ($mybb->request_method === 'post' && $es_staff) {
 
     $ficha_id = (int) $_POST['ficha_id'];
     $staff    = addslashes($_POST['staff']);
     $razon    = addslashes($_POST['razon']);
 
-    // Campos de texto
-    $nombre   = addslashes($_POST['nombre']);
-    $apodo    = addslashes($_POST['apodo']);
-    $villa    = addslashes($_POST['villa']);
-    $clan     = addslashes($_POST['clan']);
-    $sexo     = addslashes($_POST['sexo']);
-    $notas    = addslashes($_POST['notas']);
-    $extra    = addslashes($_POST['extra']);
-    $frase    = addslashes($_POST['frase']);
-    $virtudes = addslashes($_POST['virtudes']);
-    $defectos = addslashes($_POST['defectos']);
+    // Estado actual de la ficha (para comparar contra lo enviado)
+    $actual = null;
+    if ($ficha_id) {
+        $q_actual = $db->query("SELECT * FROM mybb_sg_sg_fichas WHERE fid='$ficha_id'");
+        while ($f = $db->fetch_array($q_actual)) { $actual = $f; }
+    }
 
-    // Campos numéricos
-    $ryos               = (int) $_POST['ryos'];
-    $reputacion         = (int) $_POST['reputacion'];
-    $edad               = (int) $_POST['edad'];
-    $temporada_nacimiento = (int) $_POST['temporada_nacimiento'];
-    $vida               = (int) $_POST['vida'];
-    $chakra             = (int) $_POST['chakra'];
-    $regchakra          = (int) $_POST['regchakra'];
-    $peso               = (int) $_POST['peso'];
-    $altura             = (int) $_POST['altura'];
-    $madara             = (int) $_POST['madara'];
-    $tobi               = (int) $_POST['tobi'];
-    $rin                = (int) $_POST['rin'];
-    $fuerza             = (int) $_POST['fuerza'];
-    $destreza           = (int) $_POST['destreza'];
-    $cchakra            = (int) $_POST['cchakra'];
-    $inteligencia       = (int) $_POST['inteligencia'];
-    $mfuerza            = (int) $_POST['mfuerza'];
-    $mdestreza          = (int) $_POST['mdestreza'];
-    $mcchakra           = (int) $_POST['mcchakra'];
-    $minteligencia      = (int) $_POST['minteligencia'];
-    $salud              = (int) $_POST['salud'];
-    $velocidad          = (int) $_POST['velocidad'];
-    $tenketsu           = (int) $_POST['tenketsu'];
-    $sigilo             = (int) $_POST['sigilo'];
-    $puntos_estadistica = (int) $_POST['puntos_estadistica'];
-    $nivel              = (int) $_POST['nivel'];
+    if ($actual && $staff && $razon) {
 
-    if ($ficha_id && $staff && $razon) {
+        // Campos editables (el resto de la tabla no se toca)
+        $campos_texto = array('nombre', 'apodo', 'villa', 'clan', 'sexo', 'notas', 'extra', 'frase', 'virtudes', 'defectos');
+        $campos_num   = array('ryos', 'reputacion', 'edad', 'temporada_nacimiento', 'vida', 'chakra', 'regchakra',
+                              'peso', 'altura', 'madara', 'tobi', 'rin', 'fuerza', 'destreza', 'cchakra', 'inteligencia',
+                              'mfuerza', 'mdestreza', 'mcchakra', 'minteligencia', 'salud', 'velocidad', 'tenketsu',
+                              'sigilo', 'puntos_estadistica', 'nivel');
 
-        $db->query("
-            UPDATE `mybb_sg_sg_fichas` SET
-                ryos='$ryos', reputacion='$reputacion', nombre='$nombre', apodo='$apodo',
-                edad='$edad', temporada_nacimiento='$temporada_nacimiento',
-                villa='$villa', clan='$clan', vida='$vida', chakra='$chakra', regchakra='$regchakra',
-                notas='$notas', extra='$extra', frase='$frase', virtudes='$virtudes', defectos='$defectos',
-                sexo='$sexo', peso='$peso', altura='$altura', madara='$madara', tobi='$tobi', rin='$rin',
-                fuerza='$fuerza', destreza='$destreza', cchakra='$cchakra', inteligencia='$inteligencia',
-                mfuerza='$mfuerza', mdestreza='$mdestreza', mcchakra='$mcchakra', minteligencia='$minteligencia',
-                salud='$salud', velocidad='$velocidad', tenketsu='$tenketsu', sigilo='$sigilo',
-                puntos_estadistica='$puntos_estadistica', nivel='$nivel'
-            WHERE `fid`='$ficha_id'
-        ");
+        $sets = array();
+        $cambios = array();
 
-        // Sincronizar el grupo de usuario según la villa (solo si mapea a un grupo conocido)
-        $villa_usergroup = array(
-            '1' => '9',   // Konoha
-            '3' => '8',   // Kiri
-            '4' => '14',  // Iwa
-            '5' => '15',  // Kumo
-            '6' => '13',  // Renegado
-            '7' => '12'   // Sin Aldea
-        );
-        if (isset($villa_usergroup[$villa])) {
-            $nuevo_grupo = $villa_usergroup[$villa];
-            $db->query("UPDATE `mybb_sg_users` SET usergroup='$nuevo_grupo' WHERE `uid`='$ficha_id'");
+        foreach ($campos_texto as $campo) {
+            if (!isset($_POST[$campo])) { continue; }
+            if ((string) $_POST[$campo] !== (string) $actual[$campo]) {
+                $val = addslashes($_POST[$campo]);
+                $sets[] = "`$campo`='$val'";
+                $cambios[] = "$campo: '".$actual[$campo]."' -> '".$_POST[$campo]."'";
+            }
         }
 
-        $log = "Edición completa de la ficha UID $ficha_id ($nombre).";
+        foreach ($campos_num as $campo) {
+            if (!isset($_POST[$campo])) { continue; }
+            $nuevo = (int) $_POST[$campo];
+            if ((int) $actual[$campo] !== $nuevo) {
+                $sets[] = "`$campo`='$nuevo'";
+                $cambios[] = "$campo: ".$actual[$campo]." -> ".$nuevo;
+            }
+        }
 
-        $db->query("
-            INSERT INTO `mybb_sg_sg_audit_consola_mod` (`staff`, `username`, `razon`, `log`) VALUES
-            ('$staff', '$username', '$razon', '$log')
-        ");
+        // Experiencia (PR) vive en mybb_sg_users.newpoints — se trata aparte
+        $exp_cambio = false;
+        $exp_nueva = 0;
+        if (isset($_POST['experiencia'])) {
+            $exp_actual = null;
+            $q_exp = $db->query("SELECT newpoints FROM mybb_sg_users WHERE uid='$ficha_id'");
+            while ($u = $db->fetch_array($q_exp)) { $exp_actual = $u['newpoints']; }
+            if ($exp_actual !== null && (float) $exp_actual !== (float) $_POST['experiencia']) {
+                $exp_nueva = (float) $_POST['experiencia'];
+                $exp_cambio = true;
+                $cambios[] = "experiencia: ".$exp_actual." -> ".$exp_nueva;
+            }
+        }
 
-        eval('$reload_script = $reload_js;');
+        // Solo se actúa si hubo al menos un cambio (ficha o experiencia)
+        if (!empty($cambios)) {
+
+            if (!empty($sets)) {
+                $set_clause = implode(', ', $sets);
+                $db->query("UPDATE `mybb_sg_sg_fichas` SET $set_clause WHERE `fid`='$ficha_id'");
+            }
+
+            if ($exp_cambio) {
+                $db->query("UPDATE `mybb_sg_users` SET newpoints='$exp_nueva' WHERE `uid`='$ficha_id'");
+            }
+
+            // Sincronizar usergroup SOLO si la villa cambió y mapea a un grupo conocido
+            if (isset($_POST['villa']) && (string) $_POST['villa'] !== (string) $actual['villa']) {
+                $villa_usergroup = array('1' => '9', '3' => '8', '4' => '14', '5' => '15', '6' => '13', '7' => '12');
+                if (isset($villa_usergroup[$_POST['villa']])) {
+                    $nuevo_grupo = $villa_usergroup[$_POST['villa']];
+                    $db->query("UPDATE `mybb_sg_users` SET usergroup='$nuevo_grupo' WHERE `uid`='$ficha_id'");
+                }
+            }
+
+            $log = "Ficha UID $ficha_id (".$actual['nombre']."). Cambios -> ".implode(' | ', $cambios);
+            $log_db = addslashes($log);
+
+            $db->query("
+                INSERT INTO `mybb_sg_sg_audit_consola_mod` (`staff`, `username`, `razon`, `log`) VALUES
+                ('$staff', '$username', '$razon', '$log_db')
+            ");
+
+            eval('$reload_script = $reload_js;');
+        }
     }
 }
 
 /* Render */
 if ($es_staff) {
     $ficha = null;
+    $experiencia = 0;
 
     if ($user_fid) {
         $query_ficha = $db->query("SELECT * FROM mybb_sg_sg_fichas WHERE fid='$user_fid'");
         while ($f = $db->fetch_array($query_ficha)) {
             $ficha = $f;
+        }
+
+        // La experiencia (PR) vive en mybb_sg_users.newpoints
+        $query_exp = $db->query("SELECT newpoints FROM mybb_sg_users WHERE uid='$user_fid'");
+        while ($u = $db->fetch_array($query_exp)) {
+            $experiencia = $u['newpoints'];
         }
     }
 

@@ -117,60 +117,60 @@ function tecnicatag_run(&$message)
 	}
 
 
-	while(preg_match('#\[personaje=(.*?)\]#si',$message,$matches))
-	{
-		$uid = $post['uid'];
-		$tid = $matches[1];
-		$thread_ficha = null;
-		$personaje_message = "[personajeinvalido=$tid]";
+	// while(preg_match('#\[personaje=(.*?)\]#si',$message,$matches))
+	// {
+	// 	$uid = $post['uid'];
+	// 	$tid = $matches[1];
+	// 	$thread_ficha = null;
+	// 	$personaje_message = "[personajeinvalido=$tid]";
 
-		$query_personaje = $db->query("
-			SELECT * FROM mybb_sg_sg_thread_personaje WHERE tid='$tid' AND uid='$uid'
-		");
-		while ($q = $db->fetch_array($query_personaje)) {
-			$thread_ficha = $q;
-		}
+	// 	$query_personaje = $db->query("
+	// 		SELECT * FROM mybb_sg_sg_thread_personaje WHERE tid='$tid' AND uid='$uid'
+	// 	");
+	// 	while ($q = $db->fetch_array($query_personaje)) {
+	// 		$thread_ficha = $q;
+	// 	}
 
-		if (!$thread_ficha) {
-			$message = preg_replace("#\[personaje=$tid\]#si","$personaje_message",$message);
-		} else {
-			$nombre = $thread_ficha['nombre'];
-			$fue = $thread_ficha['fue'];
-			$res = $thread_ficha['res'];
-			$vel = $thread_ficha['vel'];
-			$agi = $thread_ficha['agi'];
-			$des = $thread_ficha['des'];
-			$pre = $thread_ficha['pre'];
-			$int = $thread_ficha['int'];
-			$cck = $thread_ficha['cck'];
-			$vida = $thread_ficha['vida'];
-			$chakra = $thread_ficha['chakra'];
-			$regchakra = $thread_ficha['regchakra'];
+	// 	if (!$thread_ficha) {
+	// 		$message = preg_replace("#\[personaje=$tid\]#si","$personaje_message",$message);
+	// 	} else {
+	// 		$nombre = $thread_ficha['nombre'];
+	// 		$fue = $thread_ficha['fue'];
+	// 		$res = $thread_ficha['res'];
+	// 		$vel = $thread_ficha['vel'];
+	// 		$agi = $thread_ficha['agi'];
+	// 		$des = $thread_ficha['des'];
+	// 		$pre = $thread_ficha['pre'];
+	// 		$int = $thread_ficha['int'];
+	// 		$cck = $thread_ficha['cck'];
+	// 		$vida = $thread_ficha['vida'];
+	// 		$chakra = $thread_ficha['chakra'];
+	// 		$regchakra = $thread_ficha['regchakra'];
 	
-			$clase = 'E';
-			$sum_stats = intval($fue) + intval($res) + intval($vel) + intval($agi) + intval($des) + intval($pre) + intval($int) + intval($cck); 
+	// 		$clase = 'E';
+	// 		$sum_stats = intval($fue) + intval($res) + intval($vel) + intval($agi) + intval($des) + intval($pre) + intval($int) + intval($cck); 
 	
-			if ($sum_stats >= 560) { $clase = 'S+'; }
-			else if ($sum_stats >= 480) { $clase = 'S'; }
-			else if ($sum_stats >= 400) { $clase = 'A+'; }
-			else if ($sum_stats >= 320) { $clase = 'A'; }
-			else if ($sum_stats >= 240) { $clase = 'B'; }
-			else if ($sum_stats >= 160) { $clase = 'C'; }
-			else if ($sum_stats >= 80) { $clase = 'D'; }
+	// 		if ($sum_stats >= 560) { $clase = 'S+'; }
+	// 		else if ($sum_stats >= 480) { $clase = 'S'; }
+	// 		else if ($sum_stats >= 400) { $clase = 'A+'; }
+	// 		else if ($sum_stats >= 320) { $clase = 'A'; }
+	// 		else if ($sum_stats >= 240) { $clase = 'B'; }
+	// 		else if ($sum_stats >= 160) { $clase = 'C'; }
+	// 		else if ($sum_stats >= 80) { $clase = 'D'; }
 	
-			$personaje_message = "[spoiler=Estadísticas de $nombre]
-				<div style='text-align: center;'><span class='personaje_stats_title'>Estadísticas de $nombre:</span></div>
-				<div style='text-align: center;'><span class='personaje_stats'>$fue FUE | $res RES | $vel VEL | $agi AGI | $des DES |  $pre PRE | $int INT | $cck CCK</span></div><br />
-				Vida: <span class='personaje_vida'>$vida</span> [hp]<br />
-				Chakra: <span class='personaje_chakra'>$chakra</span> [ch]<br />
-				Reg. Chakra: <span class='personaje_chakra'>$regchakra</span><br />
-				Clase: <span style='font-weight: bold;'>$clase</span><br /><br />
-			[/spoiler]
-			";
+	// 		$personaje_message = "[spoiler=Estadísticas de $nombre]
+	// 			<div style='text-align: center;'><span class='personaje_stats_title'>Estadísticas de $nombre:</span></div>
+	// 			<div style='text-align: center;'><span class='personaje_stats'>$fue FUE | $res RES | $vel VEL | $agi AGI | $des DES |  $pre PRE | $int INT | $cck CCK</span></div><br />
+	// 			Vida: <span class='personaje_vida'>$vida</span> [hp]<br />
+	// 			Chakra: <span class='personaje_chakra'>$chakra</span> [ch]<br />
+	// 			Reg. Chakra: <span class='personaje_chakra'>$regchakra</span><br />
+	// 			Clase: <span style='font-weight: bold;'>$clase</span><br /><br />
+	// 		[/spoiler]
+	// 		";
 	
-			$message = preg_replace("#\[personaje=$tid\]#si","$personaje_message",$message);
-		}
-	}
+	// 		$message = preg_replace("#\[personaje=$tid\]#si","$personaje_message",$message);
+	// 	}
+	// }
 
 	while(preg_match('#\[mytest\]#si',$message))
 	{
@@ -230,102 +230,102 @@ function tecnicatag_run(&$message)
 		$message = preg_replace('#\[arma\]#si',$personaje_message,$message);
 	}
 
-	while(preg_match('#\[personaje\]#si',$message))
-	{
-		$uid = $post['uid'];
-		$tid = $post['tid'];
-		$pid = $post['pid'];
+	// while(preg_match('#\[personaje\]#si',$message))
+	// {
+	// 	$uid = $post['uid'];
+	// 	$tid = $post['tid'];
+	// 	$pid = $post['pid'];
 		
-		$ficha = null;
-		$thread_ficha = null;
-		$personaje_message = "";
+	// 	$ficha = null;
+	// 	$thread_ficha = null;
+	// 	$personaje_message = "";
 
-		$query_personaje = $db->query("
-			SELECT * FROM mybb_sg_sg_thread_personaje WHERE tid='$tid' AND uid='$uid'
-		");
+	// 	$query_personaje = $db->query("
+	// 		SELECT * FROM mybb_sg_sg_thread_personaje WHERE tid='$tid' AND uid='$uid'
+	// 	");
 
-		while ($q = $db->fetch_array($query_personaje)) {
-			$thread_ficha = $q;
-		}
+	// 	while ($q = $db->fetch_array($query_personaje)) {
+	// 		$thread_ficha = $q;
+	// 	}
 
-		if (!$thread_ficha) {
+	// 	if (!$thread_ficha) {
 
-			$query_ficha = $db->query("
-				SELECT * FROM mybb_sg_sg_fichas WHERE fid='$uid'
-			");
+	// 		$query_ficha = $db->query("
+	// 			SELECT * FROM mybb_sg_sg_fichas WHERE fid='$uid'
+	// 		");
 
-			while ($q = $db->fetch_array($query_ficha)) {
-				$ficha = $q;
-			}
+	// 		while ($q = $db->fetch_array($query_ficha)) {
+	// 			$ficha = $q;
+	// 		}
 
-			$nombre = $ficha['nombre'];
-			$fue = $ficha['str'];
-			$res = $ficha['res'];
-			$vel = $ficha['spd'];
-			$agi = $ficha['agi'];
-			$des = $ficha['dex'];
-			$pre = $ficha['pres'];
-			$int = $ficha['inte'];
-			$cck = $ficha['ctrl'];
-			$vida = $ficha['vida'];
-			$chakra = $ficha['chakra'];
-			$regchakra = $ficha['regchakra'];
-			$espe = $ficha['espe'];
-			$estilo = $ficha['espe_estilo'];
-			$maestria = $ficha['maestria'];
-			$maestria2 = $ficha['maestria_secundaria'];
+	// 		$nombre = $ficha['nombre'];
+	// 		$fue = $ficha['str'];
+	// 		$res = $ficha['res'];
+	// 		$vel = $ficha['spd'];
+	// 		$agi = $ficha['agi'];
+	// 		$des = $ficha['dex'];
+	// 		$pre = $ficha['pres'];
+	// 		$int = $ficha['inte'];
+	// 		$cck = $ficha['ctrl'];
+	// 		$vida = $ficha['vida'];
+	// 		$chakra = $ficha['chakra'];
+	// 		$regchakra = $ficha['regchakra'];
+	// 		$espe = $ficha['espe'];
+	// 		$estilo = $ficha['espe_estilo'];
+	// 		$maestria = $ficha['maestria'];
+	// 		$maestria2 = $ficha['maestria_secundaria'];
 
-			if ($tid && $pid) {
-				$db->query(" 
-					INSERT INTO `mybb_sg_sg_thread_personaje` (`tid`, `pid`, `uid`, `nombre`, `clase`,
-						`vida`, `chakra`, `regchakra`, 
-						`fue`, `res`, `vel`, `agi`, `des`, `pre`, `int`, `cck`,
-						`espe`, `estilo`, `maestria`, `maestria2`) 
-					VALUES ('$tid', '$pid', '$uid', '$nombre', '$clase',
-						'$vida', '$chakra', '$regchakra', 
-						'$fue', '$res', '$vel', '$agi', '$des', '$pre', '$int', '$cck',
-						'$espe', '$estilo', '$maestria', '$maestria2');
-				");
-			}
+	// 		if ($tid && $pid) {
+	// 			$db->query(" 
+	// 				INSERT INTO `mybb_sg_sg_thread_personaje` (`tid`, `pid`, `uid`, `nombre`, `clase`,
+	// 					`vida`, `chakra`, `regchakra`, 
+	// 					`fue`, `res`, `vel`, `agi`, `des`, `pre`, `int`, `cck`,
+	// 					`espe`, `estilo`, `maestria`, `maestria2`) 
+	// 				VALUES ('$tid', '$pid', '$uid', '$nombre', '$clase',
+	// 					'$vida', '$chakra', '$regchakra', 
+	// 					'$fue', '$res', '$vel', '$agi', '$des', '$pre', '$int', '$cck',
+	// 					'$espe', '$estilo', '$maestria', '$maestria2');
+	// 			");
+	// 		}
 
-		} else {
-			$nombre = $thread_ficha['nombre'];
-			$fue = $thread_ficha['fue'];
-			$res = $thread_ficha['res'];
-			$vel = $thread_ficha['vel'];
-			$agi = $thread_ficha['agi'];
-			$des = $thread_ficha['des'];
-			$pre = $thread_ficha['pre'];
-			$int = $thread_ficha['int'];
-			$cck = $thread_ficha['cck'];
-			$vida = $thread_ficha['vida'];
-			$chakra = $thread_ficha['chakra'];
-			$regchakra = $thread_ficha['regchakra'];
-		}
+	// 	} else {
+	// 		$nombre = $thread_ficha['nombre'];
+	// 		$fue = $thread_ficha['fue'];
+	// 		$res = $thread_ficha['res'];
+	// 		$vel = $thread_ficha['vel'];
+	// 		$agi = $thread_ficha['agi'];
+	// 		$des = $thread_ficha['des'];
+	// 		$pre = $thread_ficha['pre'];
+	// 		$int = $thread_ficha['int'];
+	// 		$cck = $thread_ficha['cck'];
+	// 		$vida = $thread_ficha['vida'];
+	// 		$chakra = $thread_ficha['chakra'];
+	// 		$regchakra = $thread_ficha['regchakra'];
+	// 	}
 
-		$clase = 'E';
-		$sum_stats = intval($fue) + intval($res) + intval($vel) + intval($agi) + intval($des) + intval($pre) + intval($int) + intval($cck); 
+	// 	$clase = 'E';
+	// 	$sum_stats = intval($fue) + intval($res) + intval($vel) + intval($agi) + intval($des) + intval($pre) + intval($int) + intval($cck); 
 
-		if ($sum_stats >= 560) { $clase = 'S+'; }
-		else if ($sum_stats >= 480) { $clase = 'S'; }
-		else if ($sum_stats >= 400) { $clase = 'A+'; }
-		else if ($sum_stats >= 320) { $clase = 'A'; }
-		else if ($sum_stats >= 240) { $clase = 'B'; }
-		else if ($sum_stats >= 160) { $clase = 'C'; }
-		else if ($sum_stats >= 80) { $clase = 'D'; }
+	// 	if ($sum_stats >= 560) { $clase = 'S+'; }
+	// 	else if ($sum_stats >= 480) { $clase = 'S'; }
+	// 	else if ($sum_stats >= 400) { $clase = 'A+'; }
+	// 	else if ($sum_stats >= 320) { $clase = 'A'; }
+	// 	else if ($sum_stats >= 240) { $clase = 'B'; }
+	// 	else if ($sum_stats >= 160) { $clase = 'C'; }
+	// 	else if ($sum_stats >= 80) { $clase = 'D'; }
 
-		$personaje_message = "[spoiler=Estadísticas de $nombre]
-			<div style='text-align: center;'><span class='personaje_stats_title'>Estadísticas de $nombre:</span></div>
-			<div style='text-align: center;'><span class='personaje_stats'>$fue FUE | $res RES | $vel VEL | $agi AGI | $des DES |  $pre PRE | $int INT | $cck CCK</span></div><br />
-			Vida: <span class='personaje_vida'>$vida</span> [hp]<br />
-			Chakra: <span class='personaje_chakra'>$chakra</span> [ch]<br />
-			Reg. Chakra: <span class='personaje_chakra'>$regchakra</span><br />
-			Clase: <span style='font-weight: bold;'>$clase</span><br /><br />
-		[/spoiler]
-		";
+	// 	$personaje_message = "[spoiler=Estadísticas de $nombre]
+	// 		<div style='text-align: center;'><span class='personaje_stats_title'>Estadísticas de $nombre:</span></div>
+	// 		<div style='text-align: center;'><span class='personaje_stats'>$fue FUE | $res RES | $vel VEL | $agi AGI | $des DES |  $pre PRE | $int INT | $cck CCK</span></div><br />
+	// 		Vida: <span class='personaje_vida'>$vida</span> [hp]<br />
+	// 		Chakra: <span class='personaje_chakra'>$chakra</span> [ch]<br />
+	// 		Reg. Chakra: <span class='personaje_chakra'>$regchakra</span><br />
+	// 		Clase: <span style='font-weight: bold;'>$clase</span><br /><br />
+	// 	[/spoiler]
+	// 	";
 
-		$message = preg_replace('#\[personaje\]#si',$personaje_message,$message);
-	}
+	// 	$message = preg_replace('#\[personaje\]#si',$personaje_message,$message);
+	// }
 
 	while(preg_match('#\[cerrado\]#si',$message))
 	{
