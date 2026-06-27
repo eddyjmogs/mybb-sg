@@ -102,10 +102,10 @@ function build_postbit($post, $post_type=0)
 	$post['user_uid'] = $user_uid;
 
 	
-	if ($post['usergroup'] == 9) { $post['villa_color'] = '--konoha-group-color'; $post['villa_sombra1'] = '#3e5d1d'; $post['villa_sombra2'] = '#2f4616'; } 
+	if ($post['usergroup'] == 9) { $post['villa_color'] = '--konoha-group-color'; $post['villa_sombra1'] = '#9c0c0c'; $post['villa_sombra2'] = '#750909'; } 
 	if ($post['usergroup'] == 8) { $post['villa_color'] = '--kiri-group-color'; $post['villa_sombra1'] = '#527ca7'; $post['villa_sombra2'] = '#3e5d7d'; } 
 	if ($post['usergroup'] == 12) { $post['villa_color'] = '--renegados-group-color'; $post['villa_sombra1'] = '#69394f'; $post['villa_sombra2'] = '#4f2b3b'; } 
-	if ($post['usergroup'] == 13) { $post['villa_color'] = '--nsa-group-color'; $post['villa_sombra1'] = '#9c0c0c'; $post['villa_sombra2'] = '#750909'; } 
+	if ($post['usergroup'] == 13) { $post['villa_color'] = '--nsa-group-color'; $post['villa_sombra1'] = '#3e5d1d'; $post['villa_sombra2'] = '#2f4616'; } 
 	if ($post['usergroup'] == 14) { $post['villa_color'] = '--iwa-group-color'; $post['villa_sombra1'] = '#6e370f'; $post['villa_sombra2'] = '#52290b'; } 
 	if ($post['usergroup'] == 15) { $post['villa_color'] = '--kumo-group-color'; $post['villa_sombra1'] = '#a48a26'; $post['villa_sombra2'] = '#7b681c'; } 
 	if ($post['usergroup'] == 11) { $post['villa_color'] = '--narradores-group-color'; $post['villa_sombra1'] = '#953524'; $post['villa_sombra2'] = '#953524'; } 

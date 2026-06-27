@@ -26,16 +26,12 @@ $nombre = trim($_POST["nombre"]);
 $tid = trim($_POST["tid"]);
 $arbol = trim($_POST["arbol"]);
 $rama = trim($_POST["rama"]);
-$tipo = trim($_POST["tipo"]);
-$aldea = trim($_POST["aldea"]);
 $categoria = $_POST["categoria"];
-$sellos = $_POST["sellos"];
-$rango = trim($_POST["rango"]);
+$nivel = $_POST["nivel"];
 $puntuacion = trim($_POST["puntuacion"]);
 $requisito = $_POST["requisito"];
 $coste = addslashes($_POST["coste"]);
 $efecto = addslashes($_POST["efecto"]);
-$rango = addslashes($_POST["rango"]);
 $descripcion = addslashes($_POST["descripcion"]);
 // $balance = trim($_POST["balance"]);
 // $notas_balance = addslashes($_POST["notas_balance"]);
@@ -48,11 +44,11 @@ $razon = true;
 $reload_js = "<script>window.location.href = window.location.pathname;</script>";
 
 if ($accion_post == 'Agregar' && $nombre && $tid && $staff && (is_mod($uid) || is_staff($uid))) {
-    $log = "Nueva técnica creada de técnica ID $tid ($nombre). \nLa nueva técnica posee: \ntid=$tid,\nnombre=$nombre,\ntipo=$tipo,\naldea=$aldea,\ncategoria=$categoria,\nsellos=$sellos,\nrango=$rango,\nrequisito=$requisito,\ncoste=$coste,\nefecto=$efecto\ndescripcion=$descripcion";
+    $log = "Nueva técnica creada de técnica ID $tid ($nombre). \nLa nueva técnica posee: \ntid=$tid,\nnombre=$nombre,\ncategoria=$categoria,\nnivel=$nivel,\nrequisito=$requisito,\ncoste=$coste,\nefecto=$efecto\ndescripcion=$descripcion";
 
-    $db->query(" 
-        INSERT INTO `mybb_sg_sg_tecnicas` (`tid`, `nombre`, `arbol`, `rama`, `tipo`, `aldea`, `categoria`, `sellos`, `rango`, `coste`, `efecto`, `requisito`, `descripcion`) VALUES 
-        ('$tid','$nombre','$arbol', '$rama', '$tipo','$aldea','$categoria','$sellos','$rango','$coste','$efecto','$requisito','$descripcion');
+    $db->query("
+        INSERT INTO `mybb_sg_sg_tecnicas` (`tid`, `nombre`, `arbol`, `rama`, `categoria`, `nivel`, `coste`, `efecto`, `requisito`, `descripcion`) VALUES
+        ('$tid','$nombre','$arbol', '$rama', '$categoria','$nivel','$coste','$efecto','$requisito','$descripcion');
     ");
 
     if (is_staff($uid)) {

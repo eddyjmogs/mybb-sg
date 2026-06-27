@@ -292,7 +292,7 @@ if ($ficha_existe == true && ($moderated == true || (is_mod($s_uid) || is_staff(
         $c = round(($f['str'] * 1) + ($f['res'] * 0.5) + ($f['spd'] * 2) + ($f['agi'] * 0.5) + ($f['dex'] * 2) + ($f['pres'] * 2) + ($f['inte'] * 2) + ($f['ctrl'] * 2.5));
         $a = 0;  
         $reg_a = 0;
-        $reg_c = round(((($f['str'] + $f['res'] + $f['spd'] + $f['agi'] + $f['dex'] + $f['pres'] + $f['inte'] + $f['ctrl']) * 2)) / 40) + 1;
+        $reg_c = $f['tenketsu'] * 4;
         $suma_stats_var = $f['str'] + $f['res'] + $f['spd'] + $f['agi'] + $f['dex'] + $f['pres'] + $f['inte'] + $f['ctrl'];
         $sg_vida_bar = min(100, max(8, round(($f['vida'] / max($v, 1)) * 100)));
         $sg_chakra_bar = min(100, max(8, round(($f['chakra'] / max($c, 1)) * 100)));

@@ -280,11 +280,7 @@ if ($ficha_existe == true && $moderated == true) {
         if ($mision_completa) {
             eval("\$page = \"".$templates->get("sg_mision_completa")."\";");
         } else {
-            if (intval($pr) >= intval($m_var['coste'])) {
-                $comenzar_accion_var = "javascript: document.getElementById('misform').submit();";
-            } else {
-                $comenzar_accion_var = "javascript: alert('No tienes suficientes puntos de Rol para realizar esta misión.');";
-            }
+            $comenzar_accion_var = "javascript: document.getElementById('misform').submit();";
             
             eval('$comenzar_accion = $comenzar_accion_var;');
             eval("\$page = \"".$templates->get("sg_misiones")."\";");

@@ -41,6 +41,17 @@ if (($habilidad || $habilidad == '0') && ($mejoras || $mejoras == '0') &&
         return $sum_stats;
     }
 
+    // Modificador segun el valor de la estadistica:
+    // 0-24 => 1, 25-49 => 2, 50-74 => 3, 75-99 => 4, 100+ => 5
+    function stat_modifier($stat) {
+        $stat = intval($stat);
+        if ($stat >= 100) return 5;
+        if ($stat >= 75)  return 4;
+        if ($stat >= 50)  return 3;
+        if ($stat >= 25)  return 2;
+        return 1;
+    }
+
     $new_stats = sum_stats($fuerza, $destreza, $cchakra, $inteligencia, $salud, $velocidad, $tenketsu, $sigilo);
     $current_stats = sum_stats($ficha['fuerza'], $ficha['destreza'], $ficha['cchakra'], $ficha['inteligencia'], $ficha['salud'], $ficha['velocidad'], $ficha['tenketsu'], $ficha['sigilo']);
 
@@ -52,8 +63,13 @@ if (($habilidad || $habilidad == '0') && ($mejoras || $mejoras == '0') &&
         $vida = calculate_vida2($fuerza, $destreza, $cchakra, $inteligencia, $salud, $velocidad, $tenketsu, $sigilo);
         $chakra = calculate_chakra2($fuerza, $destreza, $cchakra, $inteligencia, $salud, $velocidad, $tenketsu, $sigilo);
 
-        $db->query(" 
-            UPDATE `mybb_sg_sg_fichas` SET `vida`='$vida',`chakra`='$chakra',`puntos_estadistica`='$habilidad',`mejoras`='$mejoras',`fuerza`='$fuerza',`destreza`='$destreza',`cchakra`='$cchakra',`inteligencia`='$inteligencia',`salud`='$salud',`velocidad`='$velocidad',`tenketsu`='$tenketsu',`sigilo`='$sigilo' WHERE `fid`='$uid';
+        $mfuerza = stat_modifier($fuerza);
+        $mdestreza = stat_modifier($destreza);
+        $mcchakra = stat_modifier($cchakra);
+        $minteligencia = stat_modifier($inteligencia);
+
+        $db->query("
+            UPDATE `mybb_sg_sg_fichas` SET `vida`='$vida',`chakra`='$chakra',`puntos_estadistica`='$habilidad',`mejoras`='$mejoras',`fuerza`='$fuerza',`destreza`='$destreza',`cchakra`='$cchakra',`inteligencia`='$inteligencia',`mfuerza`='$mfuerza',`mdestreza`='$mdestreza',`mcchakra`='$mcchakra',`minteligencia`='$minteligencia',`salud`='$salud',`velocidad`='$velocidad',`tenketsu`='$tenketsu',`sigilo`='$sigilo' WHERE `fid`='$uid';
         ");
 
         eval("\$page = \"".$templates->get("sg_ficha_editada")."\";");

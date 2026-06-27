@@ -481,52 +481,52 @@ if ($accion == 'censo') {
     }
 
     if ($tiempo == 14) {
-        if ($sinClanCount >= 10) {
-            $db->query("UPDATE `mybb_sg_sg_clanes` SET `abierto`=0 WHERE `cid`=1001");
-        } else {
-            $db->query("UPDATE `mybb_sg_sg_clanes` SET `abierto`=1 WHERE `cid`=1001");
-        }
+        // if ($sinClanCount >= 10) {
+        //     $db->query("UPDATE `mybb_sg_sg_clanes` SET `abierto`=0 WHERE `cid`=1001");
+        // } else {
+        //     $db->query("UPDATE `mybb_sg_sg_clanes` SET `abierto`=1 WHERE `cid`=1001");
+        // }
 
-        if ($uchihaCount >= 4) {
-            $db->query("UPDATE `mybb_sg_sg_clanes` SET `abierto`=0 WHERE `cid`=106");
-        } else {
-            $db->query("UPDATE `mybb_sg_sg_clanes` SET `abierto`=1 WHERE `cid`=106");
-        }
+        // if ($uchihaCount >= 4) {
+        //     $db->query("UPDATE `mybb_sg_sg_clanes` SET `abierto`=0 WHERE `cid`=106");
+        // } else {
+        //     $db->query("UPDATE `mybb_sg_sg_clanes` SET `abierto`=1 WHERE `cid`=106");
+        // }
 
-        if ($clanesKonoha >= 12) {
-            $konohaCerrada = true;
-            $db->query("UPDATE `mybb_sg_sg_villas` SET `abierta`=0 WHERE `vid`=1");
-        } else {
-            $db->query("UPDATE `mybb_sg_sg_villas` SET `abierta`=1 WHERE `vid`=1");
-        }
+        // if ($clanesKonoha >= 12) {
+        //     $konohaCerrada = true;
+        //     $db->query("UPDATE `mybb_sg_sg_villas` SET `abierta`=0 WHERE `vid`=1");
+        // } else {
+        //     $db->query("UPDATE `mybb_sg_sg_villas` SET `abierta`=1 WHERE `vid`=1");
+        // }
 
-        if ($clanesKiri >= 12) {
-            $kiriCerrada = true;
-            $db->query("UPDATE `mybb_sg_sg_villas` SET `abierta`=0 WHERE `vid`=3");
-        } else {
-            $db->query("UPDATE `mybb_sg_sg_villas` SET `abierta`=1 WHERE `vid`=3");
-        }
+        // if ($clanesKiri >= 12) {
+        //     $kiriCerrada = true;
+        //     $db->query("UPDATE `mybb_sg_sg_villas` SET `abierta`=0 WHERE `vid`=3");
+        // } else {
+        //     $db->query("UPDATE `mybb_sg_sg_villas` SET `abierta`=1 WHERE `vid`=3");
+        // }
 
-        if ($clanesIwa >= 12) {
-            $iwaCerrada = true;
-            $db->query("UPDATE `mybb_sg_sg_villas` SET `abierta`=0 WHERE `vid`=4");
-        } else {
-            $db->query("UPDATE `mybb_sg_sg_villas` SET `abierta`=1 WHERE `vid`=4");
-        }
+        // if ($clanesIwa >= 12) {
+        //     $iwaCerrada = true;
+        //     $db->query("UPDATE `mybb_sg_sg_villas` SET `abierta`=0 WHERE `vid`=4");
+        // } else {
+        //     $db->query("UPDATE `mybb_sg_sg_villas` SET `abierta`=1 WHERE `vid`=4");
+        // }
 
-        if ($clanesKumo >= 12) {
-            $kumoCerrada = true;
-            $db->query("UPDATE `mybb_sg_sg_villas` SET `abierta`=0 WHERE `vid`=5");
-        } else {
-            $db->query("UPDATE `mybb_sg_sg_villas` SET `abierta`=1 WHERE `vid`=5");
-        }
+        // if ($clanesKumo >= 12) {
+        //     $kumoCerrada = true;
+        //     $db->query("UPDATE `mybb_sg_sg_villas` SET `abierta`=0 WHERE `vid`=5");
+        // } else {
+        //     $db->query("UPDATE `mybb_sg_sg_villas` SET `abierta`=1 WHERE `vid`=5");
+        // }
 
-        if ($clanesSinAldea >= 12) {
-            $sinAldeaCerrada = true;
-            $db->query("UPDATE `mybb_sg_sg_villas` SET `abierta`=0 WHERE `vid`=7");
-        } else {
-            $db->query("UPDATE `mybb_sg_sg_villas` SET `abierta`=1 WHERE `vid`=7");
-        }
+        // if ($clanesSinAldea >= 12) {
+        //     $sinAldeaCerrada = true;
+        //     $db->query("UPDATE `mybb_sg_sg_villas` SET `abierta`=0 WHERE `vid`=7");
+        // } else {
+        //     $db->query("UPDATE `mybb_sg_sg_villas` SET `abierta`=1 WHERE `vid`=7");
+        // }
     }
     
     $totalPjs = $clanesKonoha + $clanesKiri + $clanesIwa + $clanesKumo + $clanesSinAldea + $clanesRenegados;    

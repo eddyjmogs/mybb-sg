@@ -23,11 +23,8 @@ $nombre = trim($_POST["nombre"]);
 $tid = trim($_POST["tid"]);
 $arbol = trim($_POST["arbol"]);
 $rama = trim($_POST["rama"]);
-$tipo = trim($_POST["tipo"]);
-$aldea = trim($_POST["aldea"]);
 $categoria = trim($_POST["categoria"]);
-$sellos = trim($_POST["sellos"]);
-$rango = trim($_POST["rango"]);
+$nivel = trim($_POST["nivel"]);
 $requisito = trim($_POST["requisito"]);
 $coste = addslashes($_POST["coste"]);
 $efecto = addslashes($_POST["efecto"]);
@@ -50,7 +47,7 @@ if ($tecnica_id) {
 }
 
 if ($tecnica_id && $tecnica_id_post && $nombre && $descripcion && $staff && $razon && (is_mod($uid) || is_staff($uid))) {
-    $log = "Cambio a técnica ID $tid ($nombre). \nLos cambios son: \ntid=$tid,\nnombre=$nombre,\ntipo=$tipo,\naldea=$aldea,\ncategoria=$categoria,\nsellos=$sellos,\nrango=$rango,\nrequisito=$requisito,\ncoste=$coste,\nefecto=$efecto\ndescripcion=$descripcion";
+    $log = "Cambio a técnica ID $tid ($nombre). \nLos cambios son: \ntid=$tid,\nnombre=$nombre,\ncategoria=$categoria,\nnivel=$nivel,\nrequisito=$requisito,\ncoste=$coste,\nefecto=$efecto\ndescripcion=$descripcion";
 
     // $db->query(" 
     //     INSERT INTO `mybb_sg_sg_tecnicas_version` 
@@ -65,7 +62,7 @@ if ($tecnica_id && $tecnica_id_post && $nombre && $descripcion && $staff && $raz
     }
 
     $db->query(" 
-        UPDATE `mybb_sg_sg_tecnicas` SET `tid`='$tid',`nombre`='$nombre',`arbol`='$arbol',`rama`='$rama',`tipo`='$tipo',`aldea`='$aldea',`categoria`='$categoria',`sellos`='$sellos',`rango`='$rango',`coste`='$coste',`efecto`='$efecto',`requisito`='$requisito',`descripcion`='$descripcion' WHERE `tid`='$tecnica_id';
+        UPDATE `mybb_sg_sg_tecnicas` SET `tid`='$tid',`nombre`='$nombre',`arbol`='$arbol',`rama`='$rama',`categoria`='$categoria',`nivel`='$nivel',`coste`='$coste',`efecto`='$efecto',`requisito`='$requisito',`descripcion`='$descripcion' WHERE `tid`='$tecnica_id';
     ");
 
 

@@ -31,6 +31,19 @@
     @media (max-width: 580px) {
       .sg-dossier-traits-grid { grid-template-columns: 1fr; }
     }
+
+    /* Modificador de estadística: la etiqueta a la izquierda y el valor base
+       junto al modificador entre paréntesis a la derecha, en la misma línea. */
+    .sg-dossier-stat--mod > span:first-child { margin-right: auto; }
+
+    .sg-dossier-stat__mod {
+      color: var(--ficha-accent-strong);
+      font: 700 13px/1 "Source Serif 4", serif;
+      white-space: nowrap;
+    }
+
+    .sg-dossier-stat__mod::before { content: "(M: "; }
+    .sg-dossier-stat__mod::after { content: ")"; }
   </style>
 </head>
 
@@ -203,10 +216,10 @@
           </div>
           <div class="sg-dossier-card__body">
             <div class="sg-dossier-stat-grid">
-              <div class="sg-dossier-stat"><span>Fuerza</span><strong>{$ficha['fuerza']}</strong></div>
-              <div class="sg-dossier-stat"><span>Destreza</span><strong>{$ficha['destreza']}</strong></div>
-              <div class="sg-dossier-stat"><span>Ctrl. de Chakra</span><strong>{$ficha['cchakra']}</strong></div>
-              <div class="sg-dossier-stat"><span>Inteligencia</span><strong>{$ficha['inteligencia']}</strong></div>
+              <div class="sg-dossier-stat sg-dossier-stat--mod"><span>Fuerza</span><strong>{$ficha['fuerza']}</strong><span class="sg-dossier-stat__mod">{$ficha['mfuerza']}</span></div>
+              <div class="sg-dossier-stat sg-dossier-stat--mod"><span>Destreza</span><strong>{$ficha['destreza']}</strong><span class="sg-dossier-stat__mod">{$ficha['mdestreza']}</span></div>
+              <div class="sg-dossier-stat sg-dossier-stat--mod"><span>Ctrl. de Chakra</span><strong>{$ficha['cchakra']}</strong><span class="sg-dossier-stat__mod">{$ficha['mcchakra']}</span></div>
+              <div class="sg-dossier-stat sg-dossier-stat--mod"><span>Inteligencia</span><strong>{$ficha['inteligencia']}</strong><span class="sg-dossier-stat__mod">{$ficha['minteligencia']}</span></div>
               <div class="sg-dossier-stat"><span>Salud</span><strong>{$ficha['salud']}</strong></div>
               <div class="sg-dossier-stat"><span>Velocidad</span><strong>{$ficha['velocidad']}</strong></div>
               <div class="sg-dossier-stat"><span>Tenketsu</span><strong>{$ficha['tenketsu']}</strong></div>

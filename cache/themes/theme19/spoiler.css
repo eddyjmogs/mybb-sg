@@ -250,3 +250,13 @@
         gap: 10px;
     }
 }
+
+/* Strip stray <br> injected by the parser (e.g. inside [hide]) so the
+   spoiler header/structure keeps its flex proportions. Line breaks inside
+   the revealed content (.sg-spoiler__content) are intentionally preserved. */
+.sg-spoiler > br,
+.sg-spoiler__toggle br,
+.sg-spoiler__panel > br,
+.sg-spoiler__body > br {
+    display: none;
+}

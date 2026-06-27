@@ -198,6 +198,12 @@
         padding: 16px;
       }
     }
+
+    /* Conserva los saltos de linea (enter) del texto de descripcion/efecto,
+       incluidos los multiples consecutivos, en vez de colapsarlos en un parrafo. */
+    .sg-technique__text {
+      white-space: pre-line;
+    }
   </style>
 </head>
 
@@ -330,8 +336,8 @@ function sgCreateTechniqueCard(tecnica) {
   if (tecnica.categoria && tecnica.categoria != tecnica.tipo) {
     badges.push(sgCreateBadge('◈', tecnica.categoria, false));
   }
-  if (tecnica.sellos) {
-    badges.push(sgCreateBadge('✦', 'Sellos: ' + tecnica.sellos, false));
+  if (tecnica.nivel) {
+    badges.push(sgCreateBadge('✦', 'Nivel: ' + tecnica.nivel, false));
   }
   if (tecnica.tid) {
     if (sgIsStaff) {

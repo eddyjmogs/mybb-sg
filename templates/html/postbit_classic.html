@@ -12,39 +12,41 @@
 
       <div class="quick_acces_tabs">
         <div class="inventory_tab">
-          <a href="{$mybb->settings['bburl']}/sg/inventario.php?uid={$post['uid']}" title="Inventario" style="color: var({$post['villa_color']});"><i class="fa-solid fa-briefcase"></i></a>
+          <a href="{$mybb->settings['bburl']}/sg/inventario.php?uid={$post['uid']}" title="Inventario" style="color: var({$post['villa_color']});"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2.5" y="7" width="19" height="13" rx="2"/><path d="M16 7V5.5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2V7"/><path d="M2.5 12h19"/></svg></a>
         </div>
         <div class="profile_tab">
-          <a href="{$mybb->settings['bburl']}/member.php?action=profile&uid={$post['uid']}" title="Perfil" style="color: var({$post['villa_color']});"><i class="fa-solid fa-user"></i></a>
+          <a href="{$mybb->settings['bburl']}/member.php?action=profile&uid={$post['uid']}" title="Perfil" style="color: var({$post['villa_color']});"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="3.5"/><path d="M5 20c0-3.6 3.1-5.5 7-5.5s7 1.9 7 5.5"/></svg></a>
         </div>
         <div class="character_profile_tab">
-          <a href="{$mybb->settings['bburl']}/sg/ficha.php?uid={$post['uid']}" title="Ficha" style="color: var({$post['villa_color']});"><i class="fa-solid fa-address-card"></i></a>
+          <a href="{$mybb->settings['bburl']}/sg/ficha.php?uid={$post['uid']}" title="Ficha" style="color: var({$post['villa_color']});"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2.5" y="4.5" width="19" height="15" rx="2"/><circle cx="8.5" cy="11" r="2"/><path d="M5.5 16.5c.5-1.6 1.7-2.4 3-2.4s2.5.8 3 2.4"/><path d="M14.5 10h4M14.5 13.5h4"/></svg></a>
         </div>
       </div>
 
       <if $post['has_ficha'] then>
         <div class="character_info">
           <div class="char_data_tab">
-            <span class="kanji">位</span>
-            <span class="text">{$post['ficha']['rango']}</span>
+            <span class="char_label">Rango</span>
+            <span class="char_value">{$post['ficha']['rango']}</span>
           </div>
           <div class="char_data_tab">
-            <span class="kanji">族</span>
-            <span class="text">{$post['nombreClan']}</span>
+            <span class="char_label">Clan</span>
+            <span class="char_value">{$post['nombreClan']}</span>
           </div>
           <div class="char_data_tab">
-            <span class="kanji">級</span>
-            <span class="text">Nivel {$post['ficha']['nivel']}</span>
+            <span class="char_label">Nivel</span>
+            <span class="char_value">{$post['ficha']['nivel']}</span>
           </div>
         </div>
 
         <div class="char_stats">
           <span class="stats_title">Estadísticas</span>
           <div class="stats_table">
-            <div class="stat_row"><span class="stat_label">Fuerza</span><span class="stat_val"><if $post['has_personaje_tag'] then>{$post['personaje_tag']['fuerza']}<elseif $post['has_ficha'] then>{$post['ficha']['fuerza']}</if></span></div>
-            <div class="stat_row"><span class="stat_label">Destreza</span><span class="stat_val"><if $post['has_personaje_tag'] then>{$post['personaje_tag']['destreza']}<elseif $post['has_ficha'] then>{$post['ficha']['destreza']}</if></span></div>
-            <div class="stat_row"><span class="stat_label">Ctrl. de Chakra</span><span class="stat_val"><if $post['has_personaje_tag'] then>{$post['personaje_tag']['cchakra']}<elseif $post['has_ficha'] then>{$post['ficha']['cchakra']}</if></span></div>
-            <div class="stat_row"><span class="stat_label">Inteligencia</span><span class="stat_val"><if $post['has_personaje_tag'] then>{$post['personaje_tag']['inteligencia']}<elseif $post['has_ficha'] then>{$post['ficha']['inteligencia']}</if></span></div>
+            <span class="stats_group">Generales</span>
+            <div class="stat_row"><span class="stat_label">Fuerza</span><span class="stat_val"><if $post['has_personaje_tag'] then>{$post['personaje_tag']['fuerza']}<elseif $post['has_ficha'] then>{$post['ficha']['fuerza']}</if><sup class="stat_mod"><if $post['has_personaje_tag'] then>({$post['personaje_tag']['mfuerza']})<elseif $post['has_ficha'] then>({$post['ficha']['mfuerza']})</if></sup></span></div>
+            <div class="stat_row"><span class="stat_label">Destreza</span><span class="stat_val"><if $post['has_personaje_tag'] then>{$post['personaje_tag']['destreza']}<elseif $post['has_ficha'] then>{$post['ficha']['destreza']}</if><sup class="stat_mod"><if $post['has_personaje_tag'] then>({$post['personaje_tag']['mdestreza']})<elseif $post['has_ficha'] then>({$post['ficha']['mdestreza']})</if></sup></span></div>
+            <div class="stat_row"><span class="stat_label">Ctrl. de Chakra</span><span class="stat_val"><if $post['has_personaje_tag'] then>{$post['personaje_tag']['cchakra']}<elseif $post['has_ficha'] then>{$post['ficha']['cchakra']}</if><sup class="stat_mod"><if $post['has_personaje_tag'] then>({$post['personaje_tag']['mcchakra']})<elseif $post['has_ficha'] then>({$post['ficha']['mcchakra']})</if></sup></span></div>
+            <div class="stat_row"><span class="stat_label">Inteligencia</span><span class="stat_val"><if $post['has_personaje_tag'] then>{$post['personaje_tag']['inteligencia']}<elseif $post['has_ficha'] then>{$post['ficha']['inteligencia']}</if><sup class="stat_mod"><if $post['has_personaje_tag'] then>({$post['personaje_tag']['minteligencia']})<elseif $post['has_ficha'] then>({$post['ficha']['minteligencia']})</if></sup></span></div>
+            <span class="stats_group">Especiales</span>
             <div class="stat_row"><span class="stat_label">Salud</span><span class="stat_val"><if $post['has_personaje_tag'] then>{$post['personaje_tag']['salud']}<elseif $post['has_ficha'] then>{$post['ficha']['salud']}</if></span></div>
             <div class="stat_row"><span class="stat_label">Velocidad</span><span class="stat_val"><if $post['has_personaje_tag'] then>{$post['personaje_tag']['velocidad']}<elseif $post['has_ficha'] then>{$post['ficha']['velocidad']}</if></span></div>
             <div class="stat_row"><span class="stat_label">Tenketsu</span><span class="stat_val"><if $post['has_personaje_tag'] then>{$post['personaje_tag']['tenketsu']}<elseif $post['has_ficha'] then>{$post['ficha']['tenketsu']}</if></span></div>
@@ -56,7 +58,7 @@
           <div class="health_status_container">
             <div class="health_bar"></div>
             <div class="health_bar_text">
-              <i class="fa-solid fa-heart"></i>
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
               <if $post['has_personaje_tag'] then>
                 <span class="personaje_vida">{$post['personaje_tag']['vida']}</span>
               <elseif $post['has_ficha'] then>
@@ -67,7 +69,7 @@
           <div class="chakra_status_container">
             <div class="chakra_bar"></div>
             <div class="chakra_bar_text">
-              <i class="fa-solid fa-fire-flame-curved"></i>
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2c.7 2.7 2.6 4.2 3.8 5.9C16.7 9.2 17 10.6 17 12a5 5 0 0 1-10 0c0-1.1.3-2 .8-2.9.4 1 1.2 1.6 2 1.6 1 0 1.6-.8 1.4-2.1C10.8 6.7 11.4 4 12 2z"/></svg>
               <if $post['has_personaje_tag'] then>
                 <span class="personaje_chakra">{$post['personaje_tag']['chakra']}</span>
               <elseif $post['has_ficha'] then>

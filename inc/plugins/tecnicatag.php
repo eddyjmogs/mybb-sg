@@ -75,102 +75,123 @@ function tecnicatag_deactivate()
 }
 
 
+// Construye el spoiler de estadísticas de personaje siguiendo STYLE.md (Washi & Plum).
+// Separa estadísticas Generales (con modificador) de las Especiales (sin modificador).
+function sg_personaje_spoiler($d)
+{
+	$generales = array(
+		'Fuerza'       => array($d['fuerza'],       $d['mfuerza']),
+		'Inteligencia' => array($d['inteligencia'], $d['minteligencia']),
+		'Destreza'     => array($d['destreza'],     $d['mdestreza']),
+		'Ctrl. Chakra' => array($d['cchakra'],      $d['mcchakra']),
+	);
+	$especiales = array(
+		'Salud'     => $d['salud'],
+		'Tenketsu'  => $d['tenketsu'],
+		'Sigilo'    => $d['sigilo'],
+		'Velocidad' => $d['velocidad'],
+	);
+
+	$gen_tiles = '';
+	foreach ($generales as $label => $vals) {
+		$val = $vals[0]; $mod = $vals[1];
+		$gen_tiles .= "
+				<div style='border:0.5px solid rgba(156,107,204,0.16);background:#171224;padding:9px 10px;'>
+					<div style='font-family:Cinzel,serif;font-size:8px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#8a7a9a;'>$label</div>
+					<div style='display:flex;align-items:baseline;gap:6px;margin-top:4px;'>
+						<span style='font-size:19px;font-weight:700;color:#e8dff8;'>$val</span>
+						<span style='font-family:Cinzel,serif;font-size:8px;font-weight:700;letter-spacing:1px;color:#b890e0;'>M: $mod</span>
+					</div>
+				</div>";
+	}
+
+	$esp_tiles = '';
+	foreach ($especiales as $label => $val) {
+		$esp_tiles .= "
+				<div style='border:0.5px solid rgba(156,107,204,0.16);border-left:1.5px solid #7b4ab8;background:#1c162c;padding:9px 10px;'>
+					<div style='font-family:Cinzel,serif;font-size:8px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#9c6bcc;'>$label</div>
+					<div style='font-size:19px;font-weight:700;color:#e8dff8;margin-top:4px;'>$val</div>
+				</div>";
+	}
+
+	$nombre = $d['nombre'];
+	$vida = $d['vida']; $chakra = $d['chakra']; $regchakra = $d['regchakra'];
+
+	return "[spoiler=Estadísticas de $nombre]
+		<div style='border:0.5px solid rgba(156,107,204,0.18);background:#130f1e;padding:16px 18px;color:#e8dff8;'>
+			<div style='display:flex;align-items:center;gap:10px;margin-bottom:16px;'>
+				<span style='display:inline-block;width:3px;height:18px;background:#c0582a;'></span>
+				<span style='font-family:Cinzel,serif;font-size:14px;font-weight:900;letter-spacing:2px;text-transform:uppercase;'>$nombre</span>
+			</div>
+
+			<div style='font-family:Cinzel,serif;font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#9c6bcc;margin-bottom:8px;'>Estadísticas Generales</div>
+			<div style='display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px;margin-bottom:16px;'>$gen_tiles
+			</div>
+
+			<div style='font-family:Cinzel,serif;font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#9c6bcc;margin-bottom:8px;'>Estadísticas Especiales</div>
+			<div style='display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px;margin-bottom:16px;'>$esp_tiles
+			</div>
+
+			<div style='display:flex;flex-wrap:wrap;gap:18px;border-top:0.5px solid rgba(156,107,204,0.12);padding-top:12px;'>
+				<span style='font-family:Cinzel,serif;font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:#8a7a9a;'>Vida <strong class='personaje_vida' style='font-size:13px;color:#e8dff8;'>$vida</strong> [hp]</span>
+				<span style='font-family:Cinzel,serif;font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:#8a7a9a;'>Chakra <strong class='personaje_chakra' style='font-size:13px;color:#e8dff8;'>$chakra</strong> [ch]</span>
+				<span style='font-family:Cinzel,serif;font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:#8a7a9a;'>Reg. Chakra <strong style='font-size:13px;color:#e8dff8;'>$regchakra</strong></span>
+			</div>
+		</div>
+	[/spoiler]
+	";
+}
+
 function tecnicatag_run(&$message)
 {
 	global $db, $post;
 
-	while(preg_match('#\[cdtecnica=(.*?)\]#si',$message,$matches)) {
 
-		$content = $matches[1];
-		$values = explode(",", $content);
-		$day = $values[0];
-		$month = $values[1];
-		$year = $values[2];
-		$rango = str_replace("PLUS","+",strtoupper($values[3]));
-		$aldea = $values[4];
+	while(preg_match('#\[personaje=(.*?)\]#si',$message,$matches))
+	{
+		$uid = $post['uid'];
+		$tid = $matches[1];
+		$thread_ficha = null;
+		$personaje_message = "[personajeinvalido=$tid]";
 
-		$cd = array();
-		$cd['D'] = 10;
-		$cd['C'] = 15;
-		$cd['B'] = 30;
-		$cd['A'] = 45;
-		$cd['A+'] = 75;
-		$cd['S'] = 90;
-		$cd['S+'] = 120;
+		$query_personaje = $db->query("
+			SELECT * FROM mybb_sg_sg_thread_personaje WHERE tid='$tid' AND uid='$uid'
+		");
+		while ($q = $db->fetch_array($query_personaje)) {
+			$thread_ficha = $q;
+		}
 
-		$fecha = mktime(0, 0, 0, $month, $day, $year);
-		$multiplier = $aldea ? 1 : 0.7;
-		$new_date = ceil($cd[$rango] * $multiplier);
+		if (!$thread_ficha) {
+			$message = preg_replace("#\[personaje=$tid\]#si","$personaje_message",$message);
+		} else {
+			$nombre = $thread_ficha['nombre'];
+			$fuerza = $thread_ficha['fuerza'];
+			$destreza = $thread_ficha['destreza'];
+			$cchakra = $thread_ficha['cchakra'];
+			$inteligencia = $thread_ficha['inteligencia'];
+			$salud = $thread_ficha['salud'];
+			$velocidad = $thread_ficha['velocidad'];
+			$tenketsu = $thread_ficha['tenketsu'];
+			$sigilo = $thread_ficha['sigilo'];
+			$mfuerza = $thread_ficha['mfuerza'];
+			$mdestreza = $thread_ficha['mdestreza'];
+			$mcchakra = $thread_ficha['mcchakra'];
+			$minteligencia = $thread_ficha['minteligencia'];
+			$vida = $thread_ficha['vida'];
+			$chakra = $thread_ficha['chakra'];
+			$regchakra = $thread_ficha['regchakra'];
 
-		$new_tm = $fecha + ($new_date * 3600 * 24);
-		$new_fecha = date('d/m/Y', $new_tm);
+			$personaje_message = sg_personaje_spoiler(array(
+				'nombre' => $nombre,
+				'fuerza' => $fuerza, 'destreza' => $destreza, 'cchakra' => $cchakra, 'inteligencia' => $inteligencia,
+				'salud' => $salud, 'velocidad' => $velocidad, 'tenketsu' => $tenketsu, 'sigilo' => $sigilo,
+				'mfuerza' => $mfuerza, 'mdestreza' => $mdestreza, 'mcchakra' => $mcchakra, 'minteligencia' => $minteligencia,
+				'vida' => $vida, 'chakra' => $chakra, 'regchakra' => $regchakra,
+			));
 
-		$texto = "
-			<div style='text-align: center;border: 1px dotted #61567e;padding: 7px;'>
-			Cálculo de CD para una técnica de rango $rango: <br />
-			Técnica enviada a moderar el $day/$month/$year. <br />
-			El nuevo CD es de $new_date días, y la fecha para pedir una nueva técnica es $new_fecha.
-			</div>
-		";
-
-		$message = preg_replace("#\[cdtecnica=$content\]#si","$texto",$message);
+			$message = preg_replace("#\[personaje=$tid\]#si","$personaje_message",$message);
+		}
 	}
-
-
-	// while(preg_match('#\[personaje=(.*?)\]#si',$message,$matches))
-	// {
-	// 	$uid = $post['uid'];
-	// 	$tid = $matches[1];
-	// 	$thread_ficha = null;
-	// 	$personaje_message = "[personajeinvalido=$tid]";
-
-	// 	$query_personaje = $db->query("
-	// 		SELECT * FROM mybb_sg_sg_thread_personaje WHERE tid='$tid' AND uid='$uid'
-	// 	");
-	// 	while ($q = $db->fetch_array($query_personaje)) {
-	// 		$thread_ficha = $q;
-	// 	}
-
-	// 	if (!$thread_ficha) {
-	// 		$message = preg_replace("#\[personaje=$tid\]#si","$personaje_message",$message);
-	// 	} else {
-	// 		$nombre = $thread_ficha['nombre'];
-	// 		$fue = $thread_ficha['fue'];
-	// 		$res = $thread_ficha['res'];
-	// 		$vel = $thread_ficha['vel'];
-	// 		$agi = $thread_ficha['agi'];
-	// 		$des = $thread_ficha['des'];
-	// 		$pre = $thread_ficha['pre'];
-	// 		$int = $thread_ficha['int'];
-	// 		$cck = $thread_ficha['cck'];
-	// 		$vida = $thread_ficha['vida'];
-	// 		$chakra = $thread_ficha['chakra'];
-	// 		$regchakra = $thread_ficha['regchakra'];
-	
-	// 		$clase = 'E';
-	// 		$sum_stats = intval($fue) + intval($res) + intval($vel) + intval($agi) + intval($des) + intval($pre) + intval($int) + intval($cck); 
-	
-	// 		if ($sum_stats >= 560) { $clase = 'S+'; }
-	// 		else if ($sum_stats >= 480) { $clase = 'S'; }
-	// 		else if ($sum_stats >= 400) { $clase = 'A+'; }
-	// 		else if ($sum_stats >= 320) { $clase = 'A'; }
-	// 		else if ($sum_stats >= 240) { $clase = 'B'; }
-	// 		else if ($sum_stats >= 160) { $clase = 'C'; }
-	// 		else if ($sum_stats >= 80) { $clase = 'D'; }
-	
-	// 		$personaje_message = "[spoiler=Estadísticas de $nombre]
-	// 			<div style='text-align: center;'><span class='personaje_stats_title'>Estadísticas de $nombre:</span></div>
-	// 			<div style='text-align: center;'><span class='personaje_stats'>$fue FUE | $res RES | $vel VEL | $agi AGI | $des DES |  $pre PRE | $int INT | $cck CCK</span></div><br />
-	// 			Vida: <span class='personaje_vida'>$vida</span> [hp]<br />
-	// 			Chakra: <span class='personaje_chakra'>$chakra</span> [ch]<br />
-	// 			Reg. Chakra: <span class='personaje_chakra'>$regchakra</span><br />
-	// 			Clase: <span style='font-weight: bold;'>$clase</span><br /><br />
-	// 		[/spoiler]
-	// 		";
-	
-	// 		$message = preg_replace("#\[personaje=$tid\]#si","$personaje_message",$message);
-	// 	}
-	// }
 
 	while(preg_match('#\[mytest\]#si',$message))
 	{
@@ -230,102 +251,99 @@ function tecnicatag_run(&$message)
 		$message = preg_replace('#\[arma\]#si',$personaje_message,$message);
 	}
 
-	// while(preg_match('#\[personaje\]#si',$message))
-	// {
-	// 	$uid = $post['uid'];
-	// 	$tid = $post['tid'];
-	// 	$pid = $post['pid'];
+	while(preg_match('#\[personaje\]#si',$message))
+	{
+		$uid = $post['uid'];
+		$tid = $post['tid'];
+		$pid = $post['pid'];
 		
-	// 	$ficha = null;
-	// 	$thread_ficha = null;
-	// 	$personaje_message = "";
+		$ficha = null;
+		$thread_ficha = null;
+		$personaje_message = "";
 
-	// 	$query_personaje = $db->query("
-	// 		SELECT * FROM mybb_sg_sg_thread_personaje WHERE tid='$tid' AND uid='$uid'
-	// 	");
+		$query_personaje = $db->query("
+			SELECT * FROM mybb_sg_sg_thread_personaje WHERE tid='$tid' AND uid='$uid'
+		");
 
-	// 	while ($q = $db->fetch_array($query_personaje)) {
-	// 		$thread_ficha = $q;
-	// 	}
+		while ($q = $db->fetch_array($query_personaje)) {
+			$thread_ficha = $q;
+		}
 
-	// 	if (!$thread_ficha) {
+		if (!$thread_ficha) {
 
-	// 		$query_ficha = $db->query("
-	// 			SELECT * FROM mybb_sg_sg_fichas WHERE fid='$uid'
-	// 		");
+			$query_ficha = $db->query("
+				SELECT * FROM mybb_sg_sg_fichas WHERE fid='$uid'
+			");
 
-	// 		while ($q = $db->fetch_array($query_ficha)) {
-	// 			$ficha = $q;
-	// 		}
+			while ($q = $db->fetch_array($query_ficha)) {
+				$ficha = $q;
+			}
 
-	// 		$nombre = $ficha['nombre'];
-	// 		$fue = $ficha['str'];
-	// 		$res = $ficha['res'];
-	// 		$vel = $ficha['spd'];
-	// 		$agi = $ficha['agi'];
-	// 		$des = $ficha['dex'];
-	// 		$pre = $ficha['pres'];
-	// 		$int = $ficha['inte'];
-	// 		$cck = $ficha['ctrl'];
-	// 		$vida = $ficha['vida'];
-	// 		$chakra = $ficha['chakra'];
-	// 		$regchakra = $ficha['regchakra'];
-	// 		$espe = $ficha['espe'];
-	// 		$estilo = $ficha['espe_estilo'];
-	// 		$maestria = $ficha['maestria'];
-	// 		$maestria2 = $ficha['maestria_secundaria'];
+			$nombre = $ficha['nombre'];
+			$fuerza = $ficha['fuerza'];
+			$destreza = $ficha['destreza'];
+			$cchakra = $ficha['cchakra'];
+			$inteligencia = $ficha['inteligencia'];
+			$salud = $ficha['salud'];
+			$velocidad = $ficha['velocidad'];
+			$tenketsu = $ficha['tenketsu'];
+			$sigilo = $ficha['sigilo'];
+			$mfuerza = $ficha['mfuerza'];
+			$mdestreza = $ficha['mdestreza'];
+			$mcchakra = $ficha['mcchakra'];
+			$minteligencia = $ficha['minteligencia'];
+			$vida = $ficha['vida'];
+			$chakra = $ficha['chakra'];
+			$regchakra = $ficha['tenketsu'] * 4;
+			$espe = $ficha['espe'];
+			$estilo = $ficha['espe_estilo'];
+			$maestria = $ficha['maestria'];
+			$maestria2 = $ficha['maestria_secundaria'];
 
-	// 		if ($tid && $pid) {
-	// 			$db->query(" 
-	// 				INSERT INTO `mybb_sg_sg_thread_personaje` (`tid`, `pid`, `uid`, `nombre`, `clase`,
-	// 					`vida`, `chakra`, `regchakra`, 
-	// 					`fue`, `res`, `vel`, `agi`, `des`, `pre`, `int`, `cck`,
-	// 					`espe`, `estilo`, `maestria`, `maestria2`) 
-	// 				VALUES ('$tid', '$pid', '$uid', '$nombre', '$clase',
-	// 					'$vida', '$chakra', '$regchakra', 
-	// 					'$fue', '$res', '$vel', '$agi', '$des', '$pre', '$int', '$cck',
-	// 					'$espe', '$estilo', '$maestria', '$maestria2');
-	// 			");
-	// 		}
+			if ($tid && $pid) {
+				$db->query("
+					INSERT INTO `mybb_sg_sg_thread_personaje` (`tid`, `pid`, `uid`, `nombre`,
+						`vida`, `chakra`, `regchakra`,
+						`fuerza`, `destreza`, `cchakra`, `inteligencia`, `salud`, `velocidad`, `tenketsu`, `sigilo`,
+						`mfuerza`, `mdestreza`, `mcchakra`, `minteligencia`,
+						`espe`, `estilo`, `maestria`, `maestria2`)
+					VALUES ('$tid', '$pid', '$uid', '$nombre',
+						'$vida', '$chakra', '$regchakra',
+						'$fuerza', '$destreza', '$cchakra', '$inteligencia', '$salud', '$velocidad', '$tenketsu', '$sigilo',
+						'$mfuerza', '$mdestreza', '$mcchakra', '$minteligencia',
+						'$espe', '$estilo', '$maestria', '$maestria2');
+				");
+			}
 
-	// 	} else {
-	// 		$nombre = $thread_ficha['nombre'];
-	// 		$fue = $thread_ficha['fue'];
-	// 		$res = $thread_ficha['res'];
-	// 		$vel = $thread_ficha['vel'];
-	// 		$agi = $thread_ficha['agi'];
-	// 		$des = $thread_ficha['des'];
-	// 		$pre = $thread_ficha['pre'];
-	// 		$int = $thread_ficha['int'];
-	// 		$cck = $thread_ficha['cck'];
-	// 		$vida = $thread_ficha['vida'];
-	// 		$chakra = $thread_ficha['chakra'];
-	// 		$regchakra = $thread_ficha['regchakra'];
-	// 	}
+		} else {
+			$nombre = $thread_ficha['nombre'];
+			$fuerza = $thread_ficha['fuerza'];
+			$destreza = $thread_ficha['destreza'];
+			$cchakra = $thread_ficha['cchakra'];
+			$inteligencia = $thread_ficha['inteligencia'];
+			$salud = $thread_ficha['salud'];
+			$velocidad = $thread_ficha['velocidad'];
+			$tenketsu = $thread_ficha['tenketsu'];
+			$sigilo = $thread_ficha['sigilo'];
+			$mfuerza = $thread_ficha['mfuerza'];
+			$mdestreza = $thread_ficha['mdestreza'];
+			$mcchakra = $thread_ficha['mcchakra'];
+			$minteligencia = $thread_ficha['minteligencia'];
+			$vida = $thread_ficha['vida'];
+			$chakra = $thread_ficha['chakra'];
+			$regchakra = $thread_ficha['regchakra'];
+		}
 
-	// 	$clase = 'E';
-	// 	$sum_stats = intval($fue) + intval($res) + intval($vel) + intval($agi) + intval($des) + intval($pre) + intval($int) + intval($cck); 
+		$personaje_message = sg_personaje_spoiler(array(
+			'nombre' => $nombre,
+			'fuerza' => $fuerza, 'destreza' => $destreza, 'cchakra' => $cchakra, 'inteligencia' => $inteligencia,
+			'salud' => $salud, 'velocidad' => $velocidad, 'tenketsu' => $tenketsu, 'sigilo' => $sigilo,
+			'mfuerza' => $mfuerza, 'mdestreza' => $mdestreza, 'mcchakra' => $mcchakra, 'minteligencia' => $minteligencia,
+			'vida' => $vida, 'chakra' => $chakra, 'regchakra' => $regchakra,
+		));
 
-	// 	if ($sum_stats >= 560) { $clase = 'S+'; }
-	// 	else if ($sum_stats >= 480) { $clase = 'S'; }
-	// 	else if ($sum_stats >= 400) { $clase = 'A+'; }
-	// 	else if ($sum_stats >= 320) { $clase = 'A'; }
-	// 	else if ($sum_stats >= 240) { $clase = 'B'; }
-	// 	else if ($sum_stats >= 160) { $clase = 'C'; }
-	// 	else if ($sum_stats >= 80) { $clase = 'D'; }
-
-	// 	$personaje_message = "[spoiler=Estadísticas de $nombre]
-	// 		<div style='text-align: center;'><span class='personaje_stats_title'>Estadísticas de $nombre:</span></div>
-	// 		<div style='text-align: center;'><span class='personaje_stats'>$fue FUE | $res RES | $vel VEL | $agi AGI | $des DES |  $pre PRE | $int INT | $cck CCK</span></div><br />
-	// 		Vida: <span class='personaje_vida'>$vida</span> [hp]<br />
-	// 		Chakra: <span class='personaje_chakra'>$chakra</span> [ch]<br />
-	// 		Reg. Chakra: <span class='personaje_chakra'>$regchakra</span><br />
-	// 		Clase: <span style='font-weight: bold;'>$clase</span><br /><br />
-	// 	[/spoiler]
-	// 	";
-
-	// 	$message = preg_replace('#\[personaje\]#si',$personaje_message,$message);
-	// }
+		$message = preg_replace('#\[personaje\]#si',$personaje_message,$message);
+	}
 
 	while(preg_match('#\[cerrado\]#si',$message))
 	{
@@ -709,11 +727,11 @@ function tecnicatag_run(&$message)
 			} else {
 				$badges .= $badge('✘', 'No aprendida', false);
 			}
-			if ($tecnica['rango'])     { $badges .= $badge('◆', 'Rango '.$tecnica['rango'], true); }
+			// if ($tecnica['rango'])     { $badges .= $badge('◆', 'Rango '.$tecnica['rango'], true); }
 			if ($tecnica['requisito']) { $badges .= $badge('•', $tecnica['requisito'], false); }
 			if ($tecnica['tipo'])      { $badges .= $badge('◌', $tecnica['tipo'], false); }
 			if ($tecnica['categoria'] && $tecnica['categoria'] != $tecnica['tipo']) { $badges .= $badge('◈', $tecnica['categoria'], false); }
-			if ($tecnica['sellos'])    { $badges .= $badge('✦', 'Sellos: '.$tecnica['sellos'], false); }
+			if ($tecnica['nivel'])    { $badges .= $badge('✦', 'Nivel: '.$tecnica['nivel'], false); }
 			if ($tecnica['tid']) {
 				if ($g_is_staff) {
 					$badges .= $badge('#', 'ID: <a href="/sg/admin/modificar_tecnicas.php?tecnica_id='.$tecnica['tid'].'">'.$tecnica['tid'].'</a>', false);

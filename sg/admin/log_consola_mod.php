@@ -28,7 +28,16 @@ if (is_mod($uid) || is_staff($uid)) {
         $username = $l['username'];
         $razon = $l['razon'];
         $log = $l['log'];
-        $logs .= "<li>ID: ${id} | Tiempo: ${tiempo} | Staff: ${staff} | Username: $username | Razon: ${razon}</li><span>${log}</span><br><br>";
+        $logs .= "<article class='sg-log'>
+            <div class='sg-log__head'>
+                <span class='sg-log__id'>#{$id}</span>
+                <span class='sg-log__meta'><span class='sg-log__label'>Staff</span>{$staff}</span>
+                <span class='sg-log__meta'><span class='sg-log__label'>Usuario</span>{$username}</span>
+                <span class='sg-log__meta'><span class='sg-log__label'>Razón</span>{$razon}</span>
+                <span class='sg-log__time'>{$tiempo}</span>
+            </div>
+            <pre class='sg-log__body'>{$log}</pre>
+        </article>";
     }
 
     eval('$logs_li = $logs;');
