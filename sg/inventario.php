@@ -16,81 +16,91 @@ global $templates, $mybb, $db;
 require_once "./../global.php";
 require_once "./functions/sg_functions.php";
 
-$uid = $mybb->get_input('uid'); 
-
+$uid = intval($mybb->get_input('uid'));
 if (!$uid) {
-    $uid = $mybb->user['uid'];
+    $uid = intval($mybb->user['uid']);
 }
 
-$objetos_html = '';
+$default_img = '/images/sg/objeto_default.png';
 
+// Dueño del inventario
+$owner_nombre = '';
+$query_owner = $db->query("SELECT nombre FROM mybb_sg_sg_fichas WHERE fid='$uid'");
+while ($o = $db->fetch_array($query_owner)) {
+    $owner_nombre = $o['nombre'];
+}
+if (trim($owner_nombre) === '') {
+    $owner_nombre = "Usuario #$uid";
+}
+$owner_nombre = htmlspecialchars($owner_nombre, ENT_QUOTES);
+
+// Inventario (ordenado por tipo y nombre)
 $query_inventario = $db->query("
-    SELECT * FROM `mybb_sg_sg_objetos` 
-    INNER JOIN `mybb_sg_sg_inventario` 
-    ON `mybb_sg_sg_objetos`.`objeto_id`=`mybb_sg_sg_inventario`.`objeto_id` 
-    WHERE `mybb_sg_sg_inventario`.`uid`='$uid'
+    SELECT i.cantidad AS cantidad, o.*
+    FROM `mybb_sg_sg_inventario` i
+    INNER JOIN `mybb_sg_sg_objetos` o ON o.objeto_id = i.objeto_id
+    WHERE i.uid='$uid'
+    ORDER BY o.tipo, o.nombre
 ");
 
-$objetos = array();
-$objetos_array = array();
+$objetos_html = '';
+$tipoAnterior = null;
+$total = 0;
+$unidades = 0;
 
-while ($q = $db->fetch_array($query_inventario)) { 
-    $objeto_id = $q['objeto_id'];
-    $key = "$objeto_id";
-    if (!$objetos[$key]) { $objetos[$key] = array(); }
-    array_push($objetos[$key], $q);
-    array_push($objetos_array, $objeto_id);
-}
+while ($q = $db->fetch_array($query_inventario)) {
+    $total++;
+    $cant = intval($q['cantidad']);
+    $unidades += $cant;
 
-$objetos_array_json = json_encode($objetos_array);
-$objetos_json = json_encode($objetos);
+    $oid       = htmlspecialchars($q['objeto_id'], ENT_QUOTES);
+    $nombre    = htmlspecialchars($q['nombre'], ENT_QUOTES);
+    $tipo      = trim($q['tipo']) !== '' ? $q['tipo'] : 'Otros';
+    $tipo_esc  = htmlspecialchars($tipo, ENT_QUOTES);
+    $tamano    = htmlspecialchars($q['tamano'], ENT_QUOTES);
+    $desc      = nl2br(htmlspecialchars($q['descripcion'], ENT_QUOTES));
+    $efecto    = nl2br(htmlspecialchars($q['efecto'], ENT_QUOTES));
+    $img       = trim($q['imagen']) !== '' ? htmlspecialchars($q['imagen'], ENT_QUOTES) : $default_img;
+    $data_name = htmlspecialchars(strtolower($q['nombre']), ENT_QUOTES);
+    $data_tipo = htmlspecialchars(strtolower($tipo), ENT_QUOTES);
 
-$objetos_html = "";
-$categoriaAnterior = ""; 
-$tipoAnterior = "";
-
-$objetos_html = "";
-$categoriaAnterior = ""; 
-$tipoAnterior = "";
-
-foreach ($objetos_array as $obj_key) {
-    $obj_map = $objetos[$obj_key][0];
-    $nombre = $obj_map['nombre'];
-    $cantidadMaxima = $obj_map['cantidadMaxima'];
-    $coste = $obj_map['coste'];
-    $categoria = $obj_map['categoria'];
-    $tipo = $obj_map['tipo'];
-    $descripcion = $obj_map['descripcion'];
-    $imagen = $obj_map['imagen'];
-    $efecto = $obj_map['efecto'];
-    
-    if ($categoria != $categoriaAnterior) {
-        $objetos_html .= "<br><h2 style='margin: 0;'>$categoria</h2>";
-    }
-    if ($tipo != $tipoAnterior) {
-        $objetos_html .= "<br><h4 style='margin: 0;'>$tipo</h4>";
+    // Nuevo grupo por tipo
+    if ($tipo !== $tipoAnterior) {
+        if ($tipoAnterior !== null) {
+            $objetos_html .= "</div></section>";
+        }
+        $objetos_html .= "<section class=\"sg-inv-group\"><h2 class=\"sg-inv-group-title\">$tipo_esc</h2><div class=\"sg-inv-grid\">";
+        $tipoAnterior = $tipo;
     }
 
-    $categoriaAnterior = $categoria;
-    $tipoAnterior = $tipo;
-    $tooltip = "<span class='tooltiptext'>Descripcion: <br>$descripcion<br><br>Efecto: <br>$efecto<br><br>Imagen: <img src='../.$imagen' /></span>";
+    $badges = "<span class=\"sg-item-badge\">$tipo_esc</span>";
+    if ($tamano !== '') {
+        $badges .= "<span class=\"sg-item-badge sg-item-badge--soft\">$tamano</span>";
+    }
 
-    $objetos_html .= "<span><div class='tooltip'><a href='#'>$nombre</a>$tooltip</div> - Cantidad Maxima: $cantidadMaxima. Coste: $coste.</span><br>";
+    $desc_html   = trim($q['descripcion']) !== '' ? "<p class=\"sg-item-desc\">$desc</p>" : '';
+    $efecto_html = trim($q['efecto']) !== '' ? "<div class=\"sg-item-effect\"><span class=\"sg-item-eff-label\">Efecto</span> $efecto</div>" : '';
+
+    $objetos_html .= "<article class=\"sg-item\" data-name=\"$data_name\" data-tipo=\"$data_tipo\">"
+        . "<div class=\"sg-item-media\">"
+        . "<img class=\"sg-item-img\" src=\"$img\" alt=\"$nombre\" loading=\"lazy\" onerror=\"sgImgFallback(this)\">"
+        . "<span class=\"sg-item-qty\">&times;$cant</span>"
+        . "</div>"
+        . "<div class=\"sg-item-body\">"
+        . "<h3 class=\"sg-item-name\">$nombre</h3>"
+        . "<div class=\"sg-item-badges\">$badges</div>"
+        . $desc_html
+        . $efecto_html
+        . "<div class=\"sg-item-code\" title=\"Clic para seleccionar\" onclick=\"sgSelectText(this)\">[arma=$oid]</div>"
+        . "</div>"
+        . "</article>";
 }
-
-// while ($q = $db->fetch_array($query_inventario)) {
-//     $id = $q['id'];
-//     $objeto_id = $q['objeto_id'];
-//     $nombre = $q['nombre'];
-//     $tipo = $q['tipo'];
-//     $categoria = $q['categoria'];
-//     $coste = $q['coste'];
-//     $descripcion = $q['descripcion'];
-//     $efecto = $q['efecto'];
-
-//     $objetos_html .= "ID: $id - Objeto ID: $objeto_id - Nombre: $nombre - Tipo: $tipo - Categoría: $categoria - Coste: $coste<br><strong>Descripción</strong>: $descripcion<br><strong>Efecto</strong>: $efecto<br><br>";
-// }
+if ($tipoAnterior !== null) {
+    $objetos_html .= "</div></section>";
+}
+if ($total === 0) {
+    $objetos_html = "<div class=\"sg-inv-empty\">Este inventario está vacío.</div>";
+}
 
 eval("\$page = \"".$templates->get("sg_inventario")."\";");
 output_page($page);
-

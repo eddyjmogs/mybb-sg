@@ -15,90 +15,168 @@ require_once "./../functions/sg_functions.php";
 
 global $templates, $mybb;
 $uid = $mybb->user['uid'];
-$user_fid = $mybb->get_input('fid'); 
-$user_accion = $mybb->get_input('accion'); 
+$username = $mybb->user['username'];
+$es_staff = (is_mod($uid) || is_staff($uid));
 
-$ficha_id = $_POST["ficha_id"];
-$accion = $_POST["accion"];
-$objetos = $_POST["objetos"];
-$staff = $_POST["staff"];
-$razon = $_POST["razon"];
+$user_fid = trim($mybb->get_input('fid'));
 
-$reload_js = "<script>window.location.href = window.location.pathname;</script>";
+// Datos del formulario
+$ficha_id        = trim($_POST["ficha_id"]);
+$accion          = $_POST["accion"];
+$cantidades      = isset($_POST["cant"]) && is_array($_POST["cant"]) ? $_POST["cant"] : array();
+$objeto_input    = trim($_POST["objeto_input"]);
+$objeto_cantidad = intval($_POST["objeto_cantidad"]);
+$staff           = trim($_POST["staff"]);
+$razon           = trim($_POST["razon"]);
 
-if ($accion && $objetos && $staff && $razon && $ficha_id && (is_mod($uid) || is_staff($uid))) {
+$log_var = '';
+$error_var = '';
+$reload_script = '';
+$log = null;
+$error = '';
 
-    $query_ficha = $db->query("
-        SELECT * FROM mybb_sg_sg_fichas WHERE fid='$ficha_id'
-    ");
+if ($accion && $ficha_id && $es_staff) {
+
+    // Nombre de la ficha (para el log)
+    $f_var = null;
+    $query_ficha = $db->query("SELECT * FROM mybb_sg_sg_fichas WHERE fid='$ficha_id'");
     while ($f = $db->fetch_array($query_ficha)) {
         $f_var = $f;
     }
+    $ficha_nombre = $f_var ? $f_var['nombre'] : '';
 
-    // split comma delimited string to an array
-    $objetos_array = preg_split('/(\s*,*\s*)*,+(\s*,*\s*)*/', trim($objetos));
-    $log = "Cambios de objetos para ficha de UID: $ficha_id (" . $f_var['nombre'] . "):\n";
-    foreach ($objetos_array as $obj) {
-        $clean_obj = trim($obj);
-        if ($clean_obj != "") {
+    // ── Guardar cambios de cantidades de la tabla ──────────────
+    if ($accion == 'Guardar' && $staff && $razon) {
+        // Cantidades actuales para detectar cambios reales
+        $actuales = array();
+        $query_actual = $db->query("SELECT objeto_id, cantidad FROM mybb_sg_sg_inventario WHERE uid='$ficha_id'");
+        while ($a = $db->fetch_array($query_actual)) {
+            $actuales[$a['objeto_id']] = intval($a['cantidad']);
+        }
 
-            if ($accion == 'Añadir') {
+        $detalle = "";
+        $cambios = 0;
+        foreach ($cantidades as $oid_raw => $qty) {
+            $oid_raw = trim($oid_raw);
+            if ($oid_raw === '' || !array_key_exists($oid_raw, $actuales)) {
+                continue;
+            }
+            $oid    = $db->escape_string($oid_raw);
+            $qty    = intval($qty);
+            $actual = $actuales[$oid_raw];
 
-                $has_objeto = false;
-                $inventario_actual = $db->query("SELECT * FROM mybb_sg_sg_inventario WHERE uid='$ficha_id' AND objeto_id='$clean_obj'");
-                
-                while ($q = $db->fetch_array($inventario_actual)) {
-                    $has_objeto = true;
-                    $cantidad = $q['cantidad'];
-                }           
+            if ($qty > 0) {
+                if ($qty != $actual) {
+                    $db->query("UPDATE `mybb_sg_sg_inventario` SET `cantidad`='$qty' WHERE uid='$ficha_id' AND objeto_id='$oid'");
+                    $detalle .= "-- $oid_raw: $actual -> $qty\n";
+                    $cambios++;
+                }
+            } else {
+                $db->query("DELETE FROM `mybb_sg_sg_inventario` WHERE uid='$ficha_id' AND objeto_id='$oid'");
+                $detalle .= "-- $oid_raw = eliminado\n";
+                $cambios++;
+            }
+        }
 
-                if ($has_objeto) {
-                    $nueva_cantidad = intval($cantidad) + 1;
-                    $db->query(" 
-                        UPDATE `mybb_sg_sg_inventario` SET `cantidad`='$nueva_cantidad' WHERE objeto_id='$clean_obj' AND uid='$ficha_id'
-                    ");
-                } else {
-                    $db->query(" 
-                        INSERT INTO `mybb_sg_sg_inventario` (`objeto_id`, `uid`, `cantidad`) VALUES 
-                        ('$clean_obj', '$ficha_id', '1');
-                    ");
+        // Solo registrar/auditar/alertar si de verdad hubo cambios
+        if ($cambios > 0) {
+            $log = "Cambios de inventario para ficha UID $ficha_id ($ficha_nombre):\n" . $detalle;
+        }
+    }
+
+    // ── Añadir un objeto por ID ────────────────────────────────
+    if ($accion == 'Añadir' && $staff && $razon) {
+        if ($objeto_input === '') {
+            $error = "Debes indicar un ID de objeto.";
+        } else {
+            $objeto_esc = $db->escape_string($objeto_input);
+
+            // Validar que el objeto exista en la base de datos
+            $existe_obj = false;
+            $query_obj = $db->query("SELECT id FROM mybb_sg_sg_objetos WHERE objeto_id='$objeto_esc'");
+            while ($o = $db->fetch_array($query_obj)) {
+                $existe_obj = true;
+            }
+
+            if (!$existe_obj) {
+                $error = "El objeto '$objeto_input' no existe en la base de datos.";
+            } else {
+                $cant_add = $objeto_cantidad > 0 ? $objeto_cantidad : 1;
+
+                $has = false;
+                $actual = 0;
+                $query_inv = $db->query("SELECT cantidad FROM mybb_sg_sg_inventario WHERE uid='$ficha_id' AND objeto_id='$objeto_esc'");
+                while ($q = $db->fetch_array($query_inv)) {
+                    $has = true;
+                    $actual = intval($q['cantidad']);
                 }
 
-                $log_short = "Cambios de objetos para ficha de UID: $ficha_id (" . $f_var['nombre'] . "):\n" . "-- $accion objeto ID: $obj\n";
-                $log .= "-- $accion objeto ID: $obj\n";
-
-            } else if ($accion == 'Remover') {
-                $db->query(" 
-                    DELETE FROM `mybb_sg_sg_inventario` WHERE objeto_id='$clean_obj' AND uid='$ficha_id'; 
-                ");
-                $log .= "-- $accion objeto ID: $obj\n";
-                $log_short = "Cambios de objetos para ficha de UID: $ficha_id (" . $f_var['nombre'] . "):\n" . "-- $accion objeto ID: $obj\n";
-                
+                if ($has) {
+                    $nueva = $actual + $cant_add;
+                    $db->query("UPDATE `mybb_sg_sg_inventario` SET `cantidad`='$nueva' WHERE uid='$ficha_id' AND objeto_id='$objeto_esc'");
+                } else {
+                    $db->query("INSERT INTO `mybb_sg_sg_inventario` (`objeto_id`, `uid`, `cantidad`) VALUES ('$objeto_esc', '$ficha_id', '$cant_add')");
+                }
+                $log = "Inventario ficha UID $ficha_id ($ficha_nombre):\n-- Añadir $cant_add x $objeto_input\n";
             }
         }
     }
 
-    eval('$log_var = $log;');
-    eval('$reload_script = $reload_js;');
+    // ── Resultado ──────────────────────────────────────────────
+    if ($log !== null) {
+        if (is_staff($uid)) {
+            $db->query("INSERT INTO `mybb_sg_sg_audit_consola` (`staff`, `razon`, `log`) VALUES ('$staff', '$razon', '$log');");
+        }
+        if (is_mod($uid)) {
+            $db->query("INSERT INTO `mybb_sg_sg_audit_consola_mod` (`staff`, `username`, `razon`, `log`) VALUES ('$staff', '$username', '$razon', '$log');");
+        }
+        $reload_js = "<script>window.location.href = window.location.pathname + '?fid=$ficha_id';</script>";
+        eval('$log_var = $log;');
+        eval('$reload_script = $reload_js;');
+    } else if ($error !== '') {
+        eval('$error_var = $error;');
+    }
 }
 
-if (is_mod($uid) || is_staff($uid)) { 
+// ── Render ────────────────────────────────────────────────────
+if ($es_staff) {
+    $ficha = null;
+    $inventario_objetos = '';
+
     if ($user_fid != '') {
-        $query_ficha = $db->query("
-            SELECT * FROM mybb_sg_sg_fichas WHERE fid='$user_fid'
-        ");
+        $query_ficha = $db->query("SELECT * FROM mybb_sg_sg_fichas WHERE fid='$user_fid'");
         while ($f = $db->fetch_array($query_ficha)) {
-            $f_var = $f;
-            eval('$ficha = $f_var;');
+            $ficha = $f;
+        }
+
+        $query_inv = $db->query("
+            SELECT i.objeto_id AS oid, i.cantidad AS cantidad, o.nombre AS nombre, o.cantidadMaxima AS maxq
+            FROM mybb_sg_sg_inventario i
+            LEFT JOIN mybb_sg_sg_objetos o ON o.objeto_id = i.objeto_id
+            WHERE i.uid='$user_fid'
+            ORDER BY o.nombre
+        ");
+        while ($r = $db->fetch_array($query_inv)) {
+            $oid_r    = $r['oid'];
+            $nombre_r = ($r['nombre'] !== null && $r['nombre'] !== '') ? $r['nombre'] : '(desconocido)';
+            $cant_r   = intval($r['cantidad']);
+            $max_r    = ($r['maxq'] === null || $r['maxq'] === '') ? '?' : $r['maxq'];
+            $inventario_objetos .= "<div class=\"sg-inv-row\">"
+                . "<span class=\"sg-inv-id\">$oid_r</span>"
+                . "<span class=\"sg-inv-name\">$nombre_r</span>"
+                . "<span class=\"sg-qty-wrap\"><input class=\"sg-qty\" type=\"number\" min=\"0\" name=\"cant[$oid_r]\" value=\"$cant_r\"><span class=\"sg-qty-max\">/ $max_r</span></span>"
+                . "<button type=\"button\" class=\"sg-row-del\" title=\"Vaciar (eliminar al guardar)\" onclick=\"sgZero(this)\">&times;</button>"
+                . "</div>";
+        }
+        if ($inventario_objetos === '') {
+            $inventario_objetos = "<div class=\"sg-inv-empty\">Sin objetos en el inventario.</div>";
         }
     }
 
     eval('$fid = $user_fid;');
-    eval('$accion = $user_accion;');
     eval("\$page = \"".$templates->get("staff_ficha_objetos")."\";");
     output_page($page);
 } else {
     eval("\$page = \"".$templates->get("sin_permisos")."\";");
     output_page($page);
 }
-

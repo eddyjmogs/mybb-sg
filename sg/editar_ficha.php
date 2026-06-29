@@ -78,7 +78,6 @@ if ($ficha_existe == true && $moderated == true && ($uid == $mybb->user['uid'] |
         eval('$regA = $reg_a;');
         eval('$regC = $reg_c;');
         eval('$especialidad = $espe;');
-        eval('$nivel_limite = $limite_nivel;');
     }
     eval('$editar_ficha_script = "'.$templates->get('sg_editar_stats_script').'";');
     eval("\$page = \"".$templates->get("sg_editar_ficha")."\";");

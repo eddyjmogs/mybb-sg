@@ -51,6 +51,9 @@ if ($accion_post == 'Agregar' && $nombre && $tid && $staff && (is_mod($uid) || i
         ('$tid','$nombre','$arbol', '$rama', '$categoria','$nivel','$coste','$efecto','$requisito','$descripcion');
     ");
 
+    // El catálogo del Dojo cambió: reconstruir la cache 'sg_arboles'.
+    sg_rebuild_catalogo_arboles($db);
+
     if (is_staff($uid)) {
         $db->query(" 
             INSERT INTO `mybb_sg_sg_audit_consola` (`staff`, `razon`, `log`) VALUES 
@@ -72,9 +75,12 @@ if ($accion_post == 'Agregar' && $nombre && $tid && $staff && (is_mod($uid) || i
 if ($accion_post == 'Remover' && $tecnica_id_post && $nombre && $staff && $razon && (is_mod($uid) || is_staff($uid))) {
     $log = "Remover técnica ID $tecnica_id_post ($nombre). Nuevo ID de la técnica: BORR$tecnica_id_post. Tipo: borrada.";
     
-    $db->query(" 
+    $db->query("
         UPDATE `mybb_sg_sg_tecnicas` SET `tid`='BORR$tecnica_id_post', `tipo`='borrada' WHERE `tid`='$tecnica_id_post';
     ");
+
+    // El catálogo del Dojo cambió: reconstruir la cache 'sg_arboles'.
+    sg_rebuild_catalogo_arboles($db);
 
     if (is_staff($uid)) {
         $db->query(" 

@@ -92,21 +92,20 @@ function sgFichaCreateTechniqueSpoiler(tecnica, familyKey) {
   var searchIndex = sgFichaNormalizeText([
     tecnica.nombre,
     tecnica.tid,
-    tecnica.tipo,
-    tecnica.categoria,
-    tecnica.requisito,
-    tecnica.sellos,
-    tecnica.descripcion,
-    tecnica.efecto,
-    familyKey
+    tecnica.arbol
   ].join(' '));
 
+  var eyebrowParts = [];
+  if (tecnica.categoria) { eyebrowParts.push(tecnica.categoria); }
+  if (tecnica.rama) { eyebrowParts.push(tecnica.rama); }
+  var eyebrow = sgFichaEscapeHtml(eyebrowParts.join(' · '));
+
   return ''
-    + '<div class="sg-technique-item" data-family="' + sgFichaEscapeHtml(familyKey) + '" data-rank="' + sgFichaEscapeHtml(String(tecnica.rango || '')) + '" data-search="' + sgFichaEscapeHtml(searchIndex) + '">'
+    + '<div class="sg-technique-item" data-family="' + sgFichaEscapeHtml(familyKey) + '" data-search="' + sgFichaEscapeHtml(searchIndex) + '">'
     + sgCreateSpoiler({
     classes: 'sg-spoiler--warm',
     icon: '●',
-    eyebrow: 'Rango ' + tecnica.rango,
+    eyebrow: eyebrow,
     title: sgFichaEscapeHtml(tecnica.nombre),
     count: sgFichaEscapeHtml(tecnica.tid),
     open: false,
@@ -116,12 +115,18 @@ function sgFichaCreateTechniqueSpoiler(tecnica, familyKey) {
 }
 
 function sgFichaSortTechniquesByTid(a, b) {
-  if (a.tid < b.tid) {
-    return -1;
-  }
-  if (a.tid > b.tid) {
-    return 1;
-  }
+  var ca = (a.categoria || '').toLowerCase();
+  var cb = (b.categoria || '').toLowerCase();
+  if (ca < cb) { return -1; }
+  if (ca > cb) { return 1; }
+
+  var ra = (a.rama || '').toLowerCase();
+  var rb = (b.rama || '').toLowerCase();
+  if (ra < rb) { return -1; }
+  if (ra > rb) { return 1; }
+
+  if (a.tid < b.tid) { return -1; }
+  if (a.tid > b.tid) { return 1; }
   return 0;
 }
 
@@ -145,7 +150,7 @@ function sgFichaCreateTechniqueGroup(key, techniques) {
     + sgCreateSpoiler({
     classes: '',
     icon: '◈',
-    eyebrow: 'Familia',
+    eyebrow: 'Árbol',
     title: sgFichaEscapeHtml(familyLabel),
     count: sorted.length + ' tecnicas',
     open: false,
@@ -168,24 +173,18 @@ function sgFichaCountAllTechniques(data) {
 
 function sgFichaPopulateTechniqueFilters() {
   var familySelect = document.getElementById('sg-profile-technique-family');
-  var rankSelect = document.getElementById('sg-profile-technique-rank');
   var families = {};
-  var ranks = {};
   var familyNodes;
-  var techniqueNodes;
   var i;
   var familyValue;
   var familyLabel;
-  var rankValue;
   var familyKeys;
-  var rankKeys;
 
-  if (!familySelect || !rankSelect) {
+  if (!familySelect) {
     return;
   }
 
   familyNodes = document.querySelectorAll('.sg-technique-family');
-  techniqueNodes = document.querySelectorAll('.sg-technique-item');
 
   for (i = 0; i < familyNodes.length; i++) {
     familyValue = familyNodes[i].getAttribute('data-family');
@@ -195,23 +194,10 @@ function sgFichaPopulateTechniqueFilters() {
     }
   }
 
-  for (i = 0; i < techniqueNodes.length; i++) {
-    rankValue = techniqueNodes[i].getAttribute('data-rank');
-    if (rankValue) {
-      ranks[rankValue] = true;
-    }
-  }
-
-  familySelect.innerHTML = '<option value="">Todas las familias</option>';
+  familySelect.innerHTML = '<option value="">Todos los árboles</option>';
   familyKeys = Object.keys(families).sort();
   for (i = 0; i < familyKeys.length; i++) {
     familySelect.innerHTML += '<option value="' + sgFichaEscapeHtml(familyKeys[i]) + '">' + sgFichaEscapeHtml(families[familyKeys[i]]) + '</option>';
-  }
-
-  rankSelect.innerHTML = '<option value="">Todos los rangos</option>';
-  rankKeys = Object.keys(ranks).sort();
-  for (i = 0; i < rankKeys.length; i++) {
-    rankSelect.innerHTML += '<option value="' + sgFichaEscapeHtml(rankKeys[i]) + '">Rango ' + sgFichaEscapeHtml(rankKeys[i]) + '</option>';
   }
 }
 
@@ -242,12 +228,10 @@ function sgFichaToggleTechniqueFilters(forceOpen) {
 function sgFichaApplyTechniqueFilters() {
   var searchInput = document.getElementById('sg-profile-technique-search');
   var familySelect = document.getElementById('sg-profile-technique-family');
-  var rankSelect = document.getElementById('sg-profile-technique-rank');
   var familyNodes = document.querySelectorAll('.sg-technique-family');
   var itemNodes = document.querySelectorAll('.sg-technique-item');
   var query = sgFichaNormalizeText(searchInput ? searchInput.value : '');
   var familyValue = familySelect ? familySelect.value : '';
-  var rankValue = rankSelect ? rankSelect.value : '';
   var visibleCount = 0;
   var i;
   var item;
@@ -263,9 +247,6 @@ function sgFichaApplyTechniqueFilters() {
       matches = false;
     }
     if (matches && familyValue && item.getAttribute('data-family') !== familyValue) {
-      matches = false;
-    }
-    if (matches && rankValue && item.getAttribute('data-rank') !== rankValue) {
       matches = false;
     }
 

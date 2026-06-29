@@ -376,7 +376,7 @@ function newpoints_addpoints($uid, $points, $forumrate = 1, $grouprate = 1, $iss
 
 	$doesLimitExistByWeek = false;
 	// $timeSinceOPGOpened = time() - 1721620800 - (3600 * 6); 
-		$timeSinceOPGOpened = time() - 1721620800;
+	$timeSinceOPGOpened = time() - 1721620800;
 	$weekNumber = ceil($timeSinceOPGOpened / 604800);
 	$experienciaSemanal = 0;
 	// $experienciaSemanal = 100;
@@ -414,10 +414,6 @@ function newpoints_addpoints($uid, $points, $forumrate = 1, $grouprate = 1, $iss
 	$rinExperiencia = 0;
 
 	if ($experienciaSemanal + $pointsAwarded > 100) {
-	// if ($experienciaSemanal + $pointsAwarded > 150) {
-		// $nuevaExperienciaSemanal = 150;
-		// $minusExperiencia = ($experienciaSemanal + $pointsAwarded) - 150.0;
-		// $rinExperiencia = ($experienciaSemanal + $pointsAwarded) - 150.0;
 		$nuevaExperienciaSemanal = 100;
 		$minusExperiencia = ($experienciaSemanal + $pointsAwarded) - 100.0;
 		$rinExperiencia = ($experienciaSemanal + $pointsAwarded) - 100.0;
@@ -476,15 +472,15 @@ function newpoints_addpoints($uid, $points, $forumrate = 1, $grouprate = 1, $iss
 	//$db->update_query("users", array('newpoints' => 'newpoints+('.floatval($points).')'), 'uid=\''.intval($uid).'\'', '', true);
 	
 	if ($isstring) // where username
-		$db->write_query("UPDATE ".TABLE_PREFIX."users SET newpoints=newpoints+'".floatval(round($points*$forumrate*$grouprate, intval($mybb->settings['newpoints_main_decimal'])))."' WHERE username='".$db->escape_string($uid)."'");
+		$db->write_query("UPDATE ".TABLE_PREFIX."users SET newpoints=newpoints+'".floatval($pointsAwarded)."' WHERE username='".$db->escape_string($uid)."'");
 	else // where uid
 	{
 		// if immediate, run the query now otherwise add it to shutdown to avoid slow down
 		if ($immediate)
-			$db->write_query("UPDATE ".TABLE_PREFIX."users SET newpoints=newpoints+'".floatval(round($points*$forumrate*$grouprate, intval($mybb->settings['newpoints_main_decimal'])))."' WHERE uid='".intval($uid)."'");
+			$db->write_query("UPDATE ".TABLE_PREFIX."users SET newpoints=newpoints+'".floatval($pointsAwarded)."' WHERE uid='".intval($uid)."'");
 		else
 		{
-			$userpoints[intval($uid)] += floatval(round($points*$forumrate*$grouprate, intval($mybb->settings['newpoints_main_decimal'])));
+			$userpoints[intval($uid)] += floatval($pointsAwarded);
 		}
 	}
 	

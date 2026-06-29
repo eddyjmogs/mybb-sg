@@ -1,80 +1,374 @@
 <html>
+
 <head>
-	<title>Tienda</title>
-	{$headerinclude}
+  <title>Tienda</title>
+  {$headerinclude}
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Noto+Serif+JP:wght@300;400;700&display=swap" rel="stylesheet">
+  <style>
+    .sg-cat-page {
+      --bg: #0f0c18; --bg2: #130f1e; --bg3: #171224;
+      --border: rgba(156, 107, 204, 0.12);
+      --border-strong: rgba(156, 107, 204, 0.22);
+      --ink: #e8dff8; --plum: #7b4ab8; --plum2: #9c6bcc; --plum3: #b890e0;
+      --stone: #8a7a9a; --mist: #5a4a6a; --oxide: #c0582a; --lavender: #ede0fa;
+      --gold: #c09840; --green: #4f9d69;
+      max-width: 1100px;
+      margin: 24px auto 44px;
+      padding: 0 16px;
+      color: var(--ink);
+      font-family: 'Noto Serif JP', serif;
+    }
+
+    .sg-cat-shell {
+      background: linear-gradient(180deg, rgba(255,255,255,0.02), transparent 16%), var(--bg2);
+      border: 0.5px solid var(--border);
+      overflow: hidden;
+    }
+
+    .sg-cat-header {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 14px 20px;
+      padding: 20px 24px;
+      background: var(--bg3);
+      border-bottom: 0.5px solid var(--border);
+    }
+
+    .sg-cat-titles { display: flex; align-items: center; gap: 12px; }
+    .sg-cat-titles::before {
+      content: '';
+      width: 3px;
+      height: 26px;
+      background: var(--oxide);
+      flex-shrink: 0;
+    }
+
+    .sg-cat-eyebrow {
+      font-family: 'Cinzel', serif;
+      font-size: 8px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--plum3);
+    }
+
+    .sg-cat-title {
+      margin: 2px 0 0;
+      font-family: 'Cinzel', serif;
+      font-size: 18px;
+      font-weight: 900;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: var(--ink);
+      line-height: 1;
+    }
+
+    .sg-balance {
+      display: inline-flex;
+      align-items: baseline;
+      gap: 7px;
+      padding: 8px 14px;
+      border: 0.5px solid rgba(192, 152, 64, 0.45);
+      background: rgba(192, 152, 64, 0.10);
+    }
+    .sg-balance-label {
+      font-family: 'Cinzel', serif;
+      font-size: 8px;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--mist);
+    }
+    .sg-balance-value {
+      font-family: 'Cinzel', serif;
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--gold);
+    }
+
+    .sg-cat-search {
+      margin-left: auto;
+      width: 220px;
+      max-width: 100%;
+      height: 38px;
+      padding: 0 12px;
+      background: var(--bg);
+      border: 0.5px solid var(--border-strong);
+      color: var(--ink);
+      font-family: 'Noto Serif JP', serif;
+      font-size: 14px;
+      box-sizing: border-box;
+    }
+    .sg-cat-search:focus { outline: none; border-color: var(--plum3); }
+
+    .sg-cat-body { padding: 22px 24px; }
+
+    /* Mensaje de compra */
+    .sg-msg {
+      margin-bottom: 18px;
+      padding: 12px 14px;
+      border: 0.5px solid var(--border-strong);
+      border-left-width: 2px;
+      font-size: 14px;
+      line-height: 1.6;
+      color: var(--ink);
+    }
+    .sg-msg--ok { border-left-color: var(--green); background: rgba(79, 157, 105, 0.12); }
+    .sg-msg--error { border-left-color: var(--oxide); background: rgba(192, 88, 42, 0.12); }
+
+    /* Grupos por tipo */
+    .sg-cat-group { margin-bottom: 26px; }
+    .sg-cat-group:last-child { margin-bottom: 0; }
+
+    .sg-cat-group-title {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin: 0 0 14px;
+      font-family: 'Cinzel', serif;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--plum3);
+    }
+    .sg-cat-group-title::after {
+      content: '';
+      flex: 1;
+      height: 0.5px;
+      background: var(--border);
+    }
+
+    .sg-cat-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+      gap: 12px;
+    }
+
+    /* Tarjeta */
+    .sg-item {
+      display: flex;
+      flex-direction: column;
+      border: 0.5px solid var(--border);
+      background: var(--bg);
+      overflow: hidden;
+    }
+
+    .sg-item-media {
+      position: relative;
+      aspect-ratio: 16 / 10;
+      background: var(--bg3);
+      overflow: hidden;
+    }
+    .sg-item-media::before {
+      content: '物';
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Noto Serif JP', serif;
+      font-size: 46px;
+      color: rgba(156, 107, 204, 0.18);
+      pointer-events: none;
+    }
+    .sg-item-img {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      background: var(--bg3);
+    }
+    .sg-item-cost {
+      position: absolute;
+      bottom: 8px;
+      right: 8px;
+      padding: 3px 9px;
+      background: rgba(15, 12, 24, 0.86);
+      border: 0.5px solid rgba(192, 152, 64, 0.45);
+      color: var(--gold);
+      font-family: 'Cinzel', serif;
+      font-size: 11px;
+      font-weight: 700;
+    }
+
+    .sg-item-body {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      padding: 12px 13px;
+    }
+
+    .sg-item-name {
+      margin: 0;
+      font-family: 'Cinzel', serif;
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.6px;
+      color: var(--ink);
+    }
+
+    .sg-item-badges { display: flex; flex-wrap: wrap; gap: 6px; }
+    .sg-item-badge {
+      padding: 2px 8px;
+      border: 0.5px solid var(--border-strong);
+      color: var(--plum3);
+      font-family: 'Cinzel', serif;
+      font-size: 8px;
+      font-weight: 700;
+      letter-spacing: 1.3px;
+      text-transform: uppercase;
+    }
+    .sg-item-badge--soft { color: var(--stone); border-color: var(--border); }
+
+    .sg-item-desc { margin: 0; color: var(--stone); font-size: 13px; line-height: 1.6; }
+
+    .sg-item-effect { font-size: 12.5px; line-height: 1.6; color: var(--ink); }
+    .sg-item-eff-label {
+      font-family: 'Cinzel', serif;
+      font-size: 8px;
+      font-weight: 700;
+      letter-spacing: 1.3px;
+      text-transform: uppercase;
+      color: var(--mist);
+    }
+
+    .sg-item-meta { font-size: 11px; color: var(--mist); }
+    .sg-item-meta strong { color: var(--plum3); }
+
+    /* Compra */
+    .sg-buy {
+      display: flex;
+      gap: 8px;
+      margin-top: 4px;
+      padding-top: 10px;
+      border-top: 0.5px solid var(--border);
+    }
+    .sg-buy-qty {
+      width: 58px;
+      height: 36px;
+      padding: 4px 8px;
+      background: var(--bg2);
+      border: 0.5px solid var(--border-strong);
+      color: var(--ink);
+      font-family: 'Noto Serif JP', serif;
+      font-size: 13px;
+      text-align: center;
+      box-sizing: border-box;
+    }
+    .sg-buy-qty:focus { outline: none; border-color: var(--plum3); }
+
+    .sg-btn {
+      flex: 1;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      height: 36px;
+      padding: 0 16px;
+      background: var(--plum);
+      border: none;
+      color: var(--lavender);
+      font-family: 'Cinzel', serif;
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+    .sg-btn:hover { background: var(--plum2); }
+
+    .sg-buy-status {
+      margin-top: 4px;
+      padding-top: 10px;
+      border-top: 0.5px solid var(--border);
+      font-family: 'Cinzel', serif;
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 1.3px;
+      text-transform: uppercase;
+    }
+    .sg-buy-status--max { color: var(--green); }
+    .sg-buy-status--no { color: var(--oxide); }
+
+    .sg-cat-empty,
+    .sg-cat-noresults {
+      padding: 36px 20px;
+      text-align: center;
+      color: var(--mist);
+      font-size: 14px;
+      border: 0.5px solid var(--border);
+      background: var(--bg);
+    }
+    .sg-cat-noresults { display: none; margin-top: 12px; }
+
+    @media (max-width: 640px) {
+      .sg-cat-search { margin-left: 0; width: 100%; }
+      .sg-cat-grid { grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); }
+    }
+  </style>
 </head>
+
 <body>
-{$header}
-<div class="shop_main_decoration">
-<div class="welcome_shop_text">
-	<span>¡Bienvenido! Tomate tu tiempo y asegurate de tener los Ryous suficiente.</span>
-	</div>
-<img style="position:absolute;width: 325px;bottom: 0;right: 0; left:80%;" src="https://i.ibb.co/XDzJD37/tenten-shinobi-sisters-render-2-naruto-mobile-by-maxiuchiha22-de85l6o.png">
+  {$header}
+  <main class="sg-cat-page">
+    <div class="sg-cat-shell">
+      <div class="sg-cat-header">
+        <div class="sg-cat-titles">
+          <div>
+            <div class="sg-cat-eyebrow">Tienda</div>
+            <h1 class="sg-cat-title">Objetos</h1>
+          </div>
+        </div>
+        <span class="sg-balance"><span class="sg-balance-label">Saldo</span><span class="sg-balance-value">{$ryos_label} ryos</span></span>
+        <input class="sg-cat-search" type="text" id="sg-cat-search" placeholder="Buscar objeto o tipo…" oninput="sgFilterCatalogo()">
+      </div>
 
-<!-- Aquí inicia el codigo de la tienda -->
-<div class="shop_main_container">
-	<div class="shop_banner" style="background-image: url('https://i.ibb.co/QYc2VhW/image.png')"></div>
-	<div class="shop_content">
-		<!-- Categorias de Objetos -->
-		<div class="item_category">
-		<div class="category_tab weapons" style="background-image: url(https://i.pinimg.com/736x/11/c1/dc/11c1dc505f66c5116cb42159f679aa16.jpg);"><span>Armas</span></div>
-		<div class="category_tab utils" style="background-image: url('https://i.ibb.co/10W5kmC/UtilsTab.png')"><span>Utensilios</span></div>
-		<div class="category_tab throwable" style="background-image: url('https://i.ibb.co/TKTpMm6/Weapons-			Tab.png')"><span>Distancia</span></div>
-		<div class="category_tab misc" style="background-image: url('https://i.ibb.co/H2vNncV/image.png')"><span>Otros</span></div>
-	</div>
-		<div class="shop_sections">
-			<div class="left_shop_section">
-			<!-- Lista de Compras -->
-			<div class="shop_cart">
-			<span class="title">Lista de Compras</span>	
-			</div>
-			<!-- Botón de Compra -->
-			<div class="confirm_buy"><button>Comprar</button></div>
-		</div>
-			<div class="right_shop_section">
-			<!-- Display de Objetos -->
-			<div class="items_display">
-				<div class="ryous_tabs">
-					<div class="act_balance">
-						<span>Saldo Actual:</span> {$ryos}
-					</div>
-					<div class="post_buy_balance">
-						<span>Saldo Restante:</span> 0
-					</div>
-				</div>
-				<div class="title_divider">
-				<div style="width:100%; height: 3px; background-color: white;"></div>
-				<span>Categoria</span>
-				</div>
-				</div>
-		</div>
-		</div>
-	</div>
-</div>
-</div>
+      <div class="sg-cat-body" id="sg-cat-body">
+        <if $compra_ok != '' then><div class="sg-msg sg-msg--ok">{$compra_ok}</div></if>
+        <if $compra_error != '' then><div class="sg-msg sg-msg--error">{$compra_error}</div></if>
 
-	<div id="objetos" class="fondo-blanco">
-		<form method="post" action="/sg/tienda.php" name="tienda" id="tienda">
-			<div style="display: none">
-			   <input type="text" id="accion" name="accion" value="">
-			   <input type="text" id="objeto" name="objeto" value="">
-			</div>
-			<div>
-				{$objetos_html}	
-			</div>
-		</form>
-		<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
-	</div>	
-	{$footer}
+        {$objetos_html}
+        <div class="sg-cat-noresults" id="sg-cat-noresults">Ningún objeto coincide con la búsqueda.</div>
+      </div>
+    </div>
+  </main>
+  {$footer}
+
+  <script>
+    function sgImgFallback(img) {
+      if (!img.dataset.fallback) {
+        img.dataset.fallback = '1';
+        img.src = '/images/sg/objeto_default.png';
+      } else {
+        img.style.display = 'none';
+      }
+    }
+
+    function sgFilterCatalogo() {
+      var q = document.getElementById('sg-cat-search').value.trim().toLowerCase();
+      var items = document.querySelectorAll('.sg-item');
+      var visibles = 0;
+      items.forEach(function (item) {
+        var name = item.getAttribute('data-name') || '';
+        var tipo = item.getAttribute('data-tipo') || '';
+        var match = q === '' || name.indexOf(q) !== -1 || tipo.indexOf(q) !== -1;
+        item.style.display = match ? '' : 'none';
+        if (match) visibles++;
+      });
+      document.querySelectorAll('.sg-cat-group').forEach(function (group) {
+        var any = group.querySelector('.sg-item:not([style*="display: none"])');
+        group.style.display = any ? '' : 'none';
+      });
+      var nores = document.getElementById('sg-cat-noresults');
+      if (nores) { nores.style.display = (visibles === 0) ? 'block' : 'none'; }
+    }
+  </script>
 </body>
-	
-{$reload_js}
-
-<script>
-const objetos = {$objetos_json};
-const inventario = {$inventario_json};
-const objetos_array = {$objetos_array_json};
-const ryos = {$ryos};
-</script>
 
 </html>

@@ -3,6 +3,7 @@ define("IN_MYBB", 1);
 define('THIS_SCRIPT', 'nueva_ficha.php');
 require_once "./../global.php";
 require "./../inc/config.php";
+require_once "./functions/sg_functions.php";
 global $templates, $mybb;
 
 $name               = addslashes($_POST['name']);
@@ -36,18 +37,18 @@ if ($name && $age && $season && $villa && $clan && $phi && $psi && $history && $
             ('$uid', '$peso', '$altura', '$sexo', '$name', '$alias', '$age', '$season', '$virtudes', '$defectos', '$villa', '$clan', '$phi', '$psi', '$history', 'no_moderacion', '$extra', '$frase', '$fisico_de_pj', '$como_nos_conociste')
     ");
 
-    // Técnicas básicas que todo personaje nuevo aprende al crear su ficha
+    // Por defecto el personaje solo desbloquea la BASE de cada árbol fijo
     $tecnicas_iniciales = array(
-        'BUKI101B', 'BUKI001R', 'BUKI002R', 'BUKI003R',
-        'DEFE101B', 'DEFE001R', 'DEFE002R', 'DEFE003R',
-        'RESI101B', 'RESI001R', 'RESI002R', 'RESI003R',
-        'TAIJ101B', 'TAIJ001R', 'TAIJ002R', 'TAIJ003R'
+        'BUKI101B',
+        'DEFE101B',
+        'RESI101B',
+        'TAIJ101B'
     );
     foreach ($tecnicas_iniciales as $tec_tid) {
         $db->query("INSERT IGNORE INTO `mybb_sg_sg_tec_aprendidas`(`tid`, `uid`) VALUES ('$tec_tid','$uid')");
     }
 
-    // Técnica inicial según el clan elegido
+    // Técnica base según el clan elegido (su árbol de clan)
     $clan_tecnicas = array(
         101 => 'ABUR101B',
         102 => 'SENJ101B',
@@ -72,6 +73,12 @@ if ($name && $age && $season && $villa && $clan && $phi && $psi && $history && $
         $tec_clan = $clan_tecnicas[$clan];
         $db->query("INSERT IGNORE INTO `mybb_sg_sg_tec_aprendidas`(`tid`, `uid`) VALUES ('$tec_clan','$uid')");
     }
+
+    // Progreso/economía del Dojo por defecto (ver docs/arboles_instruciones.txt).
+    // El estado del árbol se DERIVA de tec_aprendidas; ya no se guarda un espejo
+    // en la columna `arboles` (queda obsoleta).
+    $progreso_json = $db->escape_string(json_encode(sg_progreso_defaults(), JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES));
+    $db->query("UPDATE `mybb_sg_sg_fichas` SET `arboles_progreso`='$progreso_json' WHERE `fid`='$uid'");
 
     eval("\$page = \"".$templates->get("sg_nueva_ficha_creada")."\";");
     output_page($page);

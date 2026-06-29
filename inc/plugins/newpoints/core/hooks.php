@@ -335,16 +335,6 @@ elseif (NP_HOOKS == 2)
 		$threadid = $post['tid'];
 		$subject = $post['subject'];
 		
-		$data_log = addslashes("PRs ganados $nuevos_prs por $myusername. TID: $threadid. Nombre del tema: $subject");
-
-		$db->query(" 
-			INSERT INTO `mybb_sg_newpoints_log`(`action`, `data`, `uid`, `username`, `puntos_rol`) VALUES ('new_post','$data_log','$myuserid','$myusername', $nuevos_prs);
-		");		
-
-		$puntos_de_rol_ganados = $mybb->settings['newpoints_income_newpost']+$bonus;
-
-		echo("<br><br><div style='text-align: center;'><h3>¡Has ganado $puntos_de_rol_ganados puntos de rol!</h3></div>");
-
 		// give points to the poster
 		newpoints_addpoints($mybb->user['uid'], $mybb->settings['newpoints_income_newpost']+$bonus, $forumrules['rate'], $grouprules['rate']);
 		
@@ -551,12 +541,6 @@ elseif (NP_HOOKS == 2)
 		$myuserid = $mybb->user['uid'];
 		$myusername = $mybb->user['username'];
 		$mypid = $newpost->data['pid'];
-		
-		$data_log = addslashes("PRs editados $nuevos_prs por $myusername. PID: $mypid.");
-
-		$db->query(" 
-			INSERT INTO `mybb_sg_newpoints_log`(`action`, `data`, `uid`, `username`, `puntos_rol`) VALUES ('edited_post','$data_log','$myuserid','$myusername', $nuevos_prs);
-		");		
 
 		// give points to the poster
 		newpoints_addpoints($mybb->user['uid'], $bonus, $forumrules['rate'], $grouprules['rate'], false, true);
@@ -670,11 +654,6 @@ elseif (NP_HOOKS == 2)
 		$myusername = $mybb->user['username'];
 		$mypid = $mybb->input['pid'];
 		
-		$data_log = addslashes("PRs editados $nuevos_prs por $myusername. PID: $mypid.");
-
-		$db->query(" 
-			INSERT INTO `mybb_sg_newpoints_log`(`action`, `data`, `uid`, `username`, `puntos_rol`) VALUES ('quick_edited_post','$data_log','$myuserid','$myusername', $nuevos_prs);
-		");		
 
 		// give points to the poster
 		newpoints_addpoints($mybb->user['uid'], $bonus, $forumrules['rate'], $grouprules['rate'], false, true);
@@ -740,11 +719,6 @@ elseif (NP_HOOKS == 2)
 		$myuserid = $mybb->user['uid'];
 		$myusername = $mybb->user['username'];
 		
-		$data_log = addslashes("PRs perdidos $nuevos_prs por $myusername.");
-
-		$db->query(" 
-			INSERT INTO `mybb_sg_newpoints_log`(`action`, `data`, `uid`, `username`, `puntos_rol`) VALUES ('deleted_post','$data_log','$myuserid','$myusername', $nuevos_prs);
-		");		
 		
 		// remove points from the poster
 		newpoints_addpoints($post['uid'], -$mybb->settings['newpoints_income_newpost']-$bonus, $forumrules['rate'], $grouprules['rate']);
@@ -922,12 +896,6 @@ elseif (NP_HOOKS == 2)
 		$nuevos_prs = $mybb->settings['newpoints_income_newpost']+$bonus;
 		$myuserid = $mybb->user['uid'];
 		$myusername = $mybb->user['username'];
-		
-		$data_log = addslashes("PRs ganados $nuevos_prs por $myusername.");
-
-		$db->query(" 
-			INSERT INTO `mybb_sg_newpoints_log`(`action`, `data`, `uid`, `username`, `puntos_rol`) VALUES ('new_thread','$data_log','$myuserid','$myusername', $nuevos_prs);
-		");		
 
 		// give points to the author of the new thread
 		newpoints_addpoints($mybb->user['uid'], $mybb->settings['newpoints_income_newthread']+$bonus, $forumrules['rate'], $grouprules['rate']);
@@ -1099,12 +1067,6 @@ elseif (NP_HOOKS == 2)
 		$nuevos_prs = -$mybb->settings['newpoints_income_newpost']-$bonus;
 		$myuserid = $mybb->user['uid'];
 		$myusername = $mybb->user['username'];
-
-		$data_log = addslashes("PRs perdidos $nuevos_prs por $myusername.");
-
-		$db->query(" 
-			INSERT INTO `mybb_sg_newpoints_log`(`action`, `data`, `uid`, `username`, `puntos_rol`) VALUES ('delete_thread','$data_log','$myuserid','$myusername', $nuevos_prs);
-		");		
 
 		// take out points from the author of the thread
 		newpoints_addpoints($thread['uid'], -$mybb->settings['newpoints_income_newthread']-$bonus, $forumrules['rate'], $grouprules['rate']);

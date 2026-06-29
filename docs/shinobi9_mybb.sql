@@ -1632,18 +1632,16 @@ CREATE TABLE `mybb_sg_sg_objetos` (
   `id` int(10) NOT NULL,
   `objeto_id` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
   `nombre` text NOT NULL,
-  `rango` int(2) NOT NULL,
-  `categoria` text NOT NULL,
   `tipo` text NOT NULL,
+  `municion` varchar(255) NOT NULL DEFAULT '',
+  `tamano` varchar(255) NOT NULL DEFAULT '',
   `descripcion` text NOT NULL,
-  `coste` int(10) NOT NULL,
-  `cantidadMaxima` int(4) NOT NULL DEFAULT '1',
+  `coste` int(10) NOT NULL DEFAULT '99999',
+  `inventario` int(4) NOT NULL DEFAULT '99',
   `imagen` text NOT NULL,
-  `upgrade` int(10) NOT NULL DEFAULT '-1',
   `efecto` text NOT NULL,
-  `exclusivo` tinyint(1) NOT NULL DEFAULT '1'
+  `en_tienda` tinyint(1) NOT NULL DEFAULT '1'
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
-
 -- --------------------------------------------------------
 
 --

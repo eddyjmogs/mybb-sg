@@ -41,8 +41,8 @@ if ($mybb->request_method === 'post' && $es_staff) {
     if ($actual && $staff && $razon) {
 
         // Campos editables (el resto de la tabla no se toca)
-        $campos_texto = array('nombre', 'apodo', 'villa', 'clan', 'sexo', 'notas', 'extra', 'frase', 'virtudes', 'defectos');
-        $campos_num   = array('ryos', 'reputacion', 'edad', 'temporada_nacimiento', 'vida', 'chakra', 'regchakra',
+        $campos_texto = array('nombre', 'apodo', 'villa', 'clan', 'sexo', 'rango', 'notas', 'extra', 'frase', 'virtudes', 'defectos');
+        $campos_num   = array('ryos', 'bingo', 'edad', 'temporada_nacimiento', 'vida', 'chakra', 'regchakra',
                               'peso', 'altura', 'madara', 'tobi', 'rin', 'fuerza', 'destreza', 'cchakra', 'inteligencia',
                               'mfuerza', 'mdestreza', 'mcchakra', 'minteligencia', 'salud', 'velocidad', 'tenketsu',
                               'sigilo', 'puntos_estadistica', 'nivel');

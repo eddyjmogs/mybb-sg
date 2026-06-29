@@ -61,10 +61,12 @@ if ($tecnica_id && $tecnica_id_post && $nombre && $descripcion && $staff && $raz
         ");
     }
 
-    $db->query(" 
+    $db->query("
         UPDATE `mybb_sg_sg_tecnicas` SET `tid`='$tid',`nombre`='$nombre',`arbol`='$arbol',`rama`='$rama',`categoria`='$categoria',`nivel`='$nivel',`coste`='$coste',`efecto`='$efecto',`requisito`='$requisito',`descripcion`='$descripcion' WHERE `tid`='$tecnica_id';
     ");
 
+    // El catálogo del Dojo pudo cambiar (árbol/rama/categoría): reconstruir cache.
+    sg_rebuild_catalogo_arboles($db);
 
     if (is_staff($uid)) {
         $db->query(" 

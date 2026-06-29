@@ -225,7 +225,7 @@ function tecnicatag_run(&$message)
 
 		$objeto = null;
 
-		$query_objetos = $db->query(" SELECT * FROM `mybb_sg_sg_objetos` WHERE objeto_id='$arma_id' ORDER BY categoria, tipo, nombre ");
+		$query_objetos = $db->query(" SELECT * FROM `mybb_sg_sg_objetos` WHERE objeto_id='$arma_id' ");
 		while ($q = $db->fetch_array($query_objetos)) { 
 			$objeto = $q;
 		}

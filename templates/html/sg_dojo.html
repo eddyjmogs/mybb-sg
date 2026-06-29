@@ -1,0 +1,364 @@
+<html>
+
+<head>
+  <title>Dojo Shinobi</title>
+  {$headerinclude}
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Noto+Serif+JP:wght@300;400;700&display=swap" rel="stylesheet">
+  <style>
+    .sg-dojo {
+      --bg: #0f0c18; --bg2: #130f1e; --bg3: #171224;
+      --border: rgba(156, 107, 204, 0.12);
+      --border-strong: rgba(156, 107, 204, 0.22);
+      --ink: #e8dff8; --plum: #7b4ab8; --plum2: #9c6bcc; --plum3: #b890e0;
+      --stone: #8a7a9a; --mist: #5a4a6a; --oxide: #c0582a; --lavender: #ede0fa;
+      --gold: #c09840; --green: #4f9d69;
+      max-width: 1040px;
+      margin: 24px auto 44px;
+      padding: 0 16px;
+      color: var(--ink);
+      font-family: 'Noto Serif JP', serif;
+    }
+
+    .sg-dojo-shell {
+      background: linear-gradient(180deg, rgba(255,255,255,0.02), transparent 16%), var(--bg2);
+      border: 0.5px solid var(--border);
+      overflow: hidden;
+    }
+
+    .sg-dojo-header {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 14px 18px;
+      padding: 20px 24px;
+      background: var(--bg3);
+      border-bottom: 0.5px solid var(--border);
+    }
+    .sg-dojo-titles { display: flex; align-items: center; gap: 12px; }
+    .sg-dojo-titles::before {
+      content: ''; width: 3px; height: 30px; background: var(--oxide); flex-shrink: 0;
+    }
+    .sg-dojo-eyebrow {
+      font-family: 'Cinzel', serif; font-size: 8px; font-weight: 700;
+      letter-spacing: 2px; text-transform: uppercase; color: var(--plum3);
+    }
+    .sg-dojo-title {
+      margin: 2px 0 0; font-family: 'Cinzel', serif; font-size: 19px; font-weight: 900;
+      letter-spacing: 1px; text-transform: uppercase; color: var(--ink); line-height: 1;
+    }
+    .sg-dojo-balances { display: flex; gap: 10px; margin-left: auto; flex-wrap: wrap; }
+    .sg-balance {
+      display: inline-flex; align-items: baseline; gap: 7px; padding: 8px 14px;
+      border: 0.5px solid var(--border-strong); background: rgba(123, 74, 184, 0.08);
+    }
+    .sg-balance--gold { border-color: rgba(192, 152, 64, 0.45); background: rgba(192, 152, 64, 0.10); }
+    .sg-balance-label {
+      font-family: 'Cinzel', serif; font-size: 8px; font-weight: 700;
+      letter-spacing: 1.5px; text-transform: uppercase; color: var(--mist);
+    }
+    .sg-balance-value { font-family: 'Cinzel', serif; font-size: 14px; font-weight: 700; color: var(--plum3); }
+    .sg-balance--gold .sg-balance-value { color: var(--gold); }
+
+    .sg-dojo-body { padding: 22px 24px; }
+
+    .sg-msg {
+      margin-bottom: 18px; padding: 12px 14px; border: 0.5px solid var(--border-strong);
+      border-left-width: 2px; font-size: 14px; line-height: 1.6; color: var(--ink);
+    }
+    .sg-msg--ok { border-left-color: var(--green); background: rgba(79, 157, 105, 0.12); }
+    .sg-msg--error { border-left-color: var(--oxide); background: rgba(192, 88, 42, 0.12); }
+
+    /* Panel árbol elemental */
+    .sg-dpanel {
+      margin-bottom: 22px; padding: 16px 18px; border: 0.5px solid var(--border);
+      background: var(--bg);
+    }
+    .sg-dpanel-head { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; }
+    .sg-dpanel-title {
+      margin: 0; font-family: 'Cinzel', serif; font-size: 12px; font-weight: 700;
+      letter-spacing: 1.5px; text-transform: uppercase; color: var(--plum3);
+    }
+    .sg-dtag {
+      margin-left: auto; padding: 4px 10px; border: 0.5px solid var(--border-strong);
+      font-family: 'Cinzel', serif; font-size: 9px; font-weight: 700; letter-spacing: 1px;
+      text-transform: uppercase; color: var(--stone);
+    }
+    .sg-dtag--free { color: var(--green); border-color: rgba(79, 157, 105, 0.4); }
+
+    .sg-dchips { display: flex; flex-wrap: wrap; gap: 8px; }
+    .sg-dform { display: inline-flex; margin: 0; }
+
+    .sg-dbtn {
+      display: inline-flex; align-items: center; gap: 6px; height: 34px; padding: 0 14px;
+      background: var(--plum); border: none; color: var(--lavender);
+      font-family: 'Cinzel', serif; font-size: 9px; font-weight: 700; letter-spacing: 1px;
+      text-transform: uppercase; cursor: pointer; transition: background 0.15s;
+    }
+    .sg-dbtn:hover { background: var(--plum2); }
+    .sg-dbtn em { font-style: normal; color: var(--lavender); opacity: 0.72; font-weight: 400; }
+    .sg-dbtn--free { background: var(--green); }
+    .sg-dbtn--free:hover { background: #5cb079; }
+    .sg-dbtn--off {
+      background: transparent; border: 0.5px solid var(--border); color: var(--mist);
+      cursor: not-allowed;
+    }
+    .sg-dbtn--off em { color: var(--mist); opacity: 0.8; }
+    .sg-dbtn:disabled { opacity: 0.45; cursor: not-allowed; }
+
+    .sg-dnote { margin: 6px 0 0; color: var(--mist); font-size: 13px; }
+
+    /* Árbol */
+    .sg-tree { margin-bottom: 18px; border: 0.5px solid var(--border); background: var(--bg); }
+    .sg-tree-head {
+      display: flex; align-items: center; gap: 12px; padding: 14px 18px;
+      background: var(--bg3); border-bottom: 0.5px solid var(--border);
+    }
+    .sg-tree-titles { display: flex; flex-direction: column; gap: 2px; }
+    .sg-tree-eyebrow {
+      font-family: 'Cinzel', serif; font-size: 8px; font-weight: 700; letter-spacing: 1.5px;
+      text-transform: uppercase; color: var(--mist);
+    }
+    .sg-tree-name {
+      margin: 0; font-family: 'Cinzel', serif; font-size: 16px; font-weight: 900;
+      letter-spacing: 0.6px; color: var(--ink);
+    }
+    .sg-tree-lvl {
+      margin-left: auto; font-family: 'Cinzel', serif; font-size: 11px; font-weight: 700;
+      letter-spacing: 1px; color: var(--gold);
+    }
+
+    .sg-ramas {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 12px; padding: 16px 18px;
+    }
+    .sg-rama { border: 0.5px solid var(--border); background: var(--bg2); padding: 12px 13px; }
+    .sg-rama-head { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
+    .sg-rama-name {
+      font-family: 'Cinzel', serif; font-size: 11px; font-weight: 700; letter-spacing: 1px;
+      text-transform: uppercase; color: var(--plum3);
+    }
+    .sg-rama-lvl {
+      margin-left: auto; font-family: 'Cinzel', serif; font-size: 10px; font-weight: 700;
+      color: var(--stone);
+    }
+    .sg-rama-lvl--lock { color: var(--mist); }
+    .sg-rama-base {
+      font-size: 13px; color: var(--ink); padding: 6px 0; border-top: 0.5px solid var(--border);
+    }
+    .sg-rama-actions { display: flex; flex-direction: column; gap: 6px; }
+    .sg-rama-note { margin-top: 6px; font-size: 11px; color: var(--mist); }
+
+    /* Selección de mejoras */
+    .sg-mejoras { margin: 0; }
+    .sg-mejoras-hint { font-size: 11px; color: var(--mist); margin-bottom: 6px; }
+    .sg-mejoras-list { display: flex; flex-direction: column; gap: 4px; margin-bottom: 8px; }
+    .sg-mcheck {
+      display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--ink);
+      cursor: pointer; padding: 3px 0;
+    }
+    .sg-mcheck input { accent-color: var(--plum2); width: 15px; height: 15px; }
+    .sg-mcheck input:disabled + span { color: var(--mist); }
+    .sg-mejoras .sg-dbtn { width: 100%; justify-content: center; }
+
+    /* Especializaciones */
+    .sg-espec { padding: 14px 18px; border-top: 0.5px solid var(--border); }
+    .sg-espec-head { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+    .sg-espec-title {
+      font-family: 'Cinzel', serif; font-size: 10px; font-weight: 700; letter-spacing: 1.5px;
+      text-transform: uppercase; color: var(--gold);
+    }
+    .sg-espec-cupo {
+      margin-left: auto; font-family: 'Cinzel', serif; font-size: 11px; font-weight: 700;
+      color: var(--stone);
+    }
+
+    /* Ruleta elemental */
+    .sg-ruleta-cta { display: flex; flex-direction: column; gap: 6px; margin-bottom: 14px; }
+    .sg-dbtn--big { height: 42px; padding: 0 22px; font-size: 10px; align-self: flex-start; }
+    .sg-dnote--soft { color: var(--mist); font-size: 11px; }
+
+    .sg-direct { border-top: 0.5px solid var(--border); padding-top: 12px; }
+    .sg-direct-label {
+      font-family: 'Cinzel', serif; font-size: 9px; font-weight: 700; letter-spacing: 1.5px;
+      text-transform: uppercase; color: var(--mist); margin-bottom: 8px;
+    }
+
+    .sg-ruleta-overlay {
+      position: fixed; inset: 0; z-index: 9999; display: none;
+      align-items: center; justify-content: center;
+      background: rgba(8, 6, 14, 0.86); backdrop-filter: blur(3px);
+    }
+    .sg-ruleta-overlay.show { display: flex; }
+    .sg-ruleta-box {
+      width: 440px; max-width: 92vw; padding: 26px 24px 22px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.03), transparent 18%), var(--bg2);
+      border: 0.5px solid var(--border-strong); text-align: center;
+    }
+    .sg-ruleta-title {
+      font-family: 'Cinzel', serif; font-size: 12px; font-weight: 900; letter-spacing: 2px;
+      text-transform: uppercase; color: var(--plum3); margin-bottom: 18px;
+    }
+    .sg-ruleta-window {
+      position: relative; width: 100%; height: 132px; overflow: hidden;
+      border: 0.5px solid var(--border); background: var(--bg);
+    }
+    .sg-ruleta-marker {
+      position: absolute; top: 0; bottom: 0; left: 50%; width: 2px; margin-left: -1px;
+      background: var(--oxide); z-index: 3; box-shadow: 0 0 12px rgba(192, 88, 42, 0.7);
+    }
+    .sg-ruleta-window::before, .sg-ruleta-window::after {
+      content: ''; position: absolute; top: 0; bottom: 0; width: 70px; z-index: 2; pointer-events: none;
+    }
+    .sg-ruleta-window::before { left: 0; background: linear-gradient(90deg, var(--bg), transparent); }
+    .sg-ruleta-window::after { right: 0; background: linear-gradient(270deg, var(--bg), transparent); }
+    .sg-ruleta-strip {
+      position: absolute; top: 0; left: 0; height: 100%; display: flex; align-items: center;
+      will-change: transform;
+    }
+    .sg-rtile {
+      width: 110px; height: 100%; flex: 0 0 110px; display: flex; flex-direction: column;
+      align-items: center; justify-content: center; gap: 4px;
+      border-right: 0.5px solid var(--border);
+    }
+    .sg-rtile-kanji {
+      font-family: 'Noto Serif JP', serif; font-size: 40px; line-height: 1; color: var(--plum2);
+      transition: color 0.2s;
+    }
+    .sg-rtile-name {
+      font-family: 'Cinzel', serif; font-size: 9px; font-weight: 700; letter-spacing: 1.5px;
+      text-transform: uppercase; color: var(--stone);
+    }
+    .sg-rtile.win .sg-rtile-kanji { color: var(--oxide); text-shadow: 0 0 16px rgba(192, 88, 42, 0.6); }
+    .sg-rtile.win .sg-rtile-name { color: var(--lavender); }
+
+    .sg-ruleta-result {
+      margin: 16px 0 18px; min-height: 22px; opacity: 0; transition: opacity 0.3s;
+      font-family: 'Cinzel', serif; font-size: 15px; font-weight: 900; letter-spacing: 1px;
+      color: var(--gold);
+    }
+    .sg-ruleta-result.show { opacity: 1; }
+
+    @media (max-width: 640px) {
+      .sg-dojo-balances { margin-left: 0; width: 100%; }
+      .sg-ramas { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+
+<body>
+  {$header}
+  <main class="sg-dojo">
+    <div class="sg-dojo-shell">
+      <div class="sg-dojo-header">
+        <div class="sg-dojo-titles">
+          <div>
+            <div class="sg-dojo-eyebrow">Desarrollo</div>
+            <h1 class="sg-dojo-title">Dojo Shinobi</h1>
+          </div>
+        </div>
+        <div class="sg-dojo-balances">
+          <span class="sg-balance"><span class="sg-balance-label">Nivel</span><span class="sg-balance-value">{$nivel_label}</span></span>
+          <span class="sg-balance sg-balance--gold"><span class="sg-balance-label">Tobis</span><span class="sg-balance-value">{$tobi_label}</span></span>
+        </div>
+      </div>
+
+      <div class="sg-dojo-body">
+        <if $msg != '' then><div class="sg-msg sg-msg--{$msg_tipo}">{$msg}</div></if>
+        {$dojo_html}
+      </div>
+    </div>
+  </main>
+
+  <div class="sg-ruleta-overlay" id="sg-ruleta-overlay">
+    <div class="sg-ruleta-box">
+      <div class="sg-ruleta-title">Tirada Elemental</div>
+      <div class="sg-ruleta-window">
+        <div class="sg-ruleta-marker"></div>
+        <div class="sg-ruleta-strip" id="sg-ruleta-strip"></div>
+      </div>
+      <div class="sg-ruleta-result" id="sg-ruleta-result"></div>
+      <button class="sg-dbtn" type="button" id="sg-ruleta-close" style="display:none" onclick="sgRuletaClose()">Continuar</button>
+    </div>
+  </div>
+
+  {$footer}
+
+  <script>
+    function sgDojoMejoras(box) {
+      var checks = box.querySelectorAll('input[type=checkbox]');
+      var n = 0;
+      checks.forEach(function (c) { if (c.checked) n++; });
+      checks.forEach(function (c) { c.disabled = (!c.checked && n >= 2); });
+      var btn = box.querySelector('button[type=submit]');
+      if (btn) { btn.disabled = !(n === 2 && btn.getAttribute('data-needtobi') === '1'); }
+    }
+
+    /* ── Ruleta elemental ── */
+    var sgRuletaResult = "{$ruleta_elemento}";
+    var SG_ELEMS = [
+      { k: 'katon',  n: 'Katon',  kanji: '火' },
+      { k: 'fuuton', n: 'Fuuton', kanji: '風' },
+      { k: 'suiton', n: 'Suiton', kanji: '水' },
+      { k: 'doton',  n: 'Doton',  kanji: '土' },
+      { k: 'raiton', n: 'Raiton', kanji: '雷' }
+    ];
+
+    function sgRuletaClose() {
+      var o = document.getElementById('sg-ruleta-overlay');
+      if (o) { o.classList.remove('show'); }
+    }
+
+    function sgRuletaTile(e) {
+      return '<div class="sg-rtile"><span class="sg-rtile-kanji">' + e.kanji +
+             '</span><span class="sg-rtile-name">' + e.n + '</span></div>';
+    }
+
+    function sgRuletaInit() {
+      if (!sgRuletaResult) { return; }
+      var idx = -1;
+      for (var i = 0; i < SG_ELEMS.length; i++) { if (SG_ELEMS[i].k === sgRuletaResult) { idx = i; } }
+      if (idx < 0) { return; }
+
+      var cycles = 16;
+      var html = '';
+      for (var c = 0; c < cycles; c++) {
+        for (var j = 0; j < SG_ELEMS.length; j++) { html += sgRuletaTile(SG_ELEMS[j]); }
+      }
+      var strip = document.getElementById('sg-ruleta-strip');
+      strip.innerHTML = html;
+
+      var targetIndex = (cycles - 2) * SG_ELEMS.length + idx;
+      var overlay = document.getElementById('sg-ruleta-overlay');
+      overlay.classList.add('show');
+
+      requestAnimationFrame(function () {
+        var tiles = strip.children;
+        var tileW = tiles[0].offsetWidth;
+        var winW = strip.parentElement.clientWidth;
+        var offset = targetIndex * tileW + tileW / 2 - winW / 2;
+
+        strip.style.transition = 'none';
+        strip.style.transform = 'translateX(0)';
+
+        requestAnimationFrame(function () {
+          strip.style.transition = 'transform 4.2s cubic-bezier(0.10, 0.72, 0.08, 1)';
+          strip.style.transform = 'translateX(-' + offset + 'px)';
+        });
+
+        strip.addEventListener('transitionend', function () {
+          if (tiles[targetIndex]) { tiles[targetIndex].classList.add('win'); }
+          var r = document.getElementById('sg-ruleta-result');
+          r.textContent = '¡Obtuviste ' + SG_ELEMS[idx].n + '!';
+          r.classList.add('show');
+          document.getElementById('sg-ruleta-close').style.display = '';
+        }, { once: true });
+      });
+    }
+
+    document.addEventListener('DOMContentLoaded', sgRuletaInit);
+  </script>
+</body>
+
+</html>

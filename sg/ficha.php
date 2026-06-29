@@ -69,6 +69,20 @@ if ($ficha_existe == true && ($moderated == true || (is_mod($s_uid) || is_staff(
         $puntos_rol = intval(floor($usuario['newpoints']));
     }
 
+    // Semana actual (mismo epoch que newpoints) y timestamp de cierre para el contador
+    $sg_exp_epoch  = 1721620800;
+    $semana_actual = (int) ceil((time() - $sg_exp_epoch) / 604800);
+    $fin_semana_ts = $sg_exp_epoch + ($semana_actual * 604800);
+    $semana_display = $semana_actual - 100; // numeración mostrada (in-rol)
+
+    // Experiencia semanal acumulada (tope 100) de la semana actual
+    $exp_semanal = 0;
+    $query_exp_sem = $db->query("SELECT experiencia_semanal FROM mybb_sg_sg_experiencia_limite WHERE uid='$uid' AND semana='$semana_actual'");
+    while ($e = $db->fetch_array($query_exp_sem)) {
+        $exp_semanal = $e['experiencia_semanal'];
+    }
+    $exp_semanal = intval(floor($exp_semanal));
+
     $query_ficha = $db->query("
         SELECT * FROM mybb_sg_sg_fichas WHERE fid='$uid'
     ");
@@ -309,90 +323,90 @@ if ($ficha_existe == true && ($moderated == true || (is_mod($s_uid) || is_staff(
         $puntos_estadistica = intval($ficha['puntos_estadistica']);
         $mejoras = intval($ficha['mejoras']);
 
-        if ($puntos_rol >= 9800 && $nivel == '19') {
-            $nivel = 20;
-            $puntos_estadistica += 15; $mejoras += 1;
-            $db->query("  UPDATE `mybb_sg_sg_fichas` SET `nivel`='$nivel',`puntos_estadistica`='$puntos_estadistica',`mejoras`='$mejoras' WHERE `fid`='$uid'; ");
+        // if ($puntos_rol >= 9800 && $nivel == '19') {
+        //     $nivel = 20;
+        //     $puntos_estadistica += 15; $mejoras += 1;
+        //     $db->query("  UPDATE `mybb_sg_sg_fichas` SET `nivel`='$nivel',`puntos_estadistica`='$puntos_estadistica',`mejoras`='$mejoras' WHERE `fid`='$uid'; ");
 
-        } else if ($puntos_rol >= 8700 && $nivel == '18') {
-            $nivel = 19;
-            $puntos_estadistica += 15; $mejoras += 1;
-            $db->query("  UPDATE `mybb_sg_sg_fichas` SET `nivel`='$nivel',`puntos_estadistica`='$puntos_estadistica',`mejoras`='$mejoras' WHERE `fid`='$uid'; ");
+        // } else if ($puntos_rol >= 8700 && $nivel == '18') {
+        //     $nivel = 19;
+        //     $puntos_estadistica += 15; $mejoras += 1;
+        //     $db->query("  UPDATE `mybb_sg_sg_fichas` SET `nivel`='$nivel',`puntos_estadistica`='$puntos_estadistica',`mejoras`='$mejoras' WHERE `fid`='$uid'; ");
 
-        } else if ($puntos_rol >= 7700 && $nivel == '17') {
-            $nivel = 18;
-            $puntos_estadistica += 15; $mejoras += 1;
-            $db->query("  UPDATE `mybb_sg_sg_fichas` SET `nivel`='$nivel',`puntos_estadistica`='$puntos_estadistica',`mejoras`='$mejoras' WHERE `fid`='$uid'; ");
+        // } else if ($puntos_rol >= 7700 && $nivel == '17') {
+        //     $nivel = 18;
+        //     $puntos_estadistica += 15; $mejoras += 1;
+        //     $db->query("  UPDATE `mybb_sg_sg_fichas` SET `nivel`='$nivel',`puntos_estadistica`='$puntos_estadistica',`mejoras`='$mejoras' WHERE `fid`='$uid'; ");
 
-        } else if ($puntos_rol >= 6800 && $nivel == '16') {
-            $nivel = 17;
-            $puntos_estadistica += 15; $mejoras += 1;
-            $db->query("  UPDATE `mybb_sg_sg_fichas` SET `nivel`='$nivel',`puntos_estadistica`='$puntos_estadistica',`mejoras`='$mejoras' WHERE `fid`='$uid'; ");
+        // } else if ($puntos_rol >= 6800 && $nivel == '16') {
+        //     $nivel = 17;
+        //     $puntos_estadistica += 15; $mejoras += 1;
+        //     $db->query("  UPDATE `mybb_sg_sg_fichas` SET `nivel`='$nivel',`puntos_estadistica`='$puntos_estadistica',`mejoras`='$mejoras' WHERE `fid`='$uid'; ");
 
-        } else if ($puntos_rol >= 6000 && $nivel == '15') {
-            $nivel = 16;
-            $puntos_estadistica += 15; $mejoras += 1;
-            $db->query("  UPDATE `mybb_sg_sg_fichas` SET `nivel`='$nivel',`puntos_estadistica`='$puntos_estadistica',`mejoras`='$mejoras' WHERE `fid`='$uid'; ");
+        // } else if ($puntos_rol >= 6000 && $nivel == '15') {
+        //     $nivel = 16;
+        //     $puntos_estadistica += 15; $mejoras += 1;
+        //     $db->query("  UPDATE `mybb_sg_sg_fichas` SET `nivel`='$nivel',`puntos_estadistica`='$puntos_estadistica',`mejoras`='$mejoras' WHERE `fid`='$uid'; ");
 
-        } else if ($puntos_rol >= 5250 && $nivel == '14') {
-            $nivel = 15;
-            $puntos_estadistica += 15; $mejoras += 1;
-            $db->query("  UPDATE `mybb_sg_sg_fichas` SET `nivel`='$nivel',`puntos_estadistica`='$puntos_estadistica',`mejoras`='$mejoras' WHERE `fid`='$uid'; ");
+        // } else if ($puntos_rol >= 5250 && $nivel == '14') {
+        //     $nivel = 15;
+        //     $puntos_estadistica += 15; $mejoras += 1;
+        //     $db->query("  UPDATE `mybb_sg_sg_fichas` SET `nivel`='$nivel',`puntos_estadistica`='$puntos_estadistica',`mejoras`='$mejoras' WHERE `fid`='$uid'; ");
 
-        } else if ($puntos_rol >= 4550 && $nivel == '13') {
-            $nivel = 14;
-            $puntos_estadistica += 15; $mejoras += 1;
-            $db->query("  UPDATE `mybb_sg_sg_fichas` SET `nivel`='$nivel',`puntos_estadistica`='$puntos_estadistica',`mejoras`='$mejoras' WHERE `fid`='$uid'; ");
+        // } else if ($puntos_rol >= 4550 && $nivel == '13') {
+        //     $nivel = 14;
+        //     $puntos_estadistica += 15; $mejoras += 1;
+        //     $db->query("  UPDATE `mybb_sg_sg_fichas` SET `nivel`='$nivel',`puntos_estadistica`='$puntos_estadistica',`mejoras`='$mejoras' WHERE `fid`='$uid'; ");
 
-        } else if ($puntos_rol >= 3900 && $nivel == '12') {
-            $nivel = 13;
-            $puntos_estadistica += 15; $mejoras += 1;
-            $db->query("  UPDATE `mybb_sg_sg_fichas` SET `nivel`='$nivel',`puntos_estadistica`='$puntos_estadistica',`mejoras`='$mejoras' WHERE `fid`='$uid'; ");
-        } else if ($puntos_rol >= 3300 && $nivel == '11') {
-            $nivel = 12;
-            $puntos_estadistica += 15; $mejoras += 1;
-            $db->query("  UPDATE `mybb_sg_sg_fichas` SET `nivel`='$nivel',`puntos_estadistica`='$puntos_estadistica',`mejoras`='$mejoras' WHERE `fid`='$uid'; ");
-        } else if ($puntos_rol >= 2750 && $nivel == '10') {
-            $nivel = 11;
-            $puntos_estadistica += 15; $mejoras += 1;
-            $db->query("  UPDATE `mybb_sg_sg_fichas` SET `nivel`='$nivel',`puntos_estadistica`='$puntos_estadistica',`mejoras`='$mejoras' WHERE `fid`='$uid'; ");
-        } else if ($puntos_rol >= 2250 && $nivel == '9') {
-            $nivel = 10;
-            $puntos_estadistica += 15; $mejoras += 1;
-            $db->query("  UPDATE `mybb_sg_sg_fichas` SET `nivel`='$nivel',`puntos_estadistica`='$puntos_estadistica',`mejoras`='$mejoras' WHERE `fid`='$uid'; ");
-        } else if ($puntos_rol >= 1800 && $nivel == '8') {
-            $nivel = 9;
-            $puntos_estadistica += 15; $mejoras += 1;
-            $db->query("  UPDATE `mybb_sg_sg_fichas` SET `nivel`='$nivel',`puntos_estadistica`='$puntos_estadistica',`mejoras`='$mejoras' WHERE `fid`='$uid'; ");
-        } else if ($puntos_rol >= 1400 && $nivel == '7') {
-            $nivel = 8;
-            $puntos_estadistica += 15; $mejoras += 1;
-            $db->query("  UPDATE `mybb_sg_sg_fichas` SET `nivel`='$nivel',`puntos_estadistica`='$puntos_estadistica',`mejoras`='$mejoras' WHERE `fid`='$uid'; ");
-        } else if ($puntos_rol >= 1050 && $nivel == '6') {
-            $nivel = 7;
-            $puntos_estadistica += 15; $mejoras += 1;
-            $db->query("  UPDATE `mybb_sg_sg_fichas` SET `nivel`='$nivel',`puntos_estadistica`='$puntos_estadistica',`mejoras`='$mejoras' WHERE `fid`='$uid'; ");
-        } else if ($puntos_rol >= 750 && $nivel == '5') {
-            $nivel = 6;
-            $puntos_estadistica += 15; $mejoras += 1;
-            $db->query("  UPDATE `mybb_sg_sg_fichas` SET `nivel`='$nivel',`puntos_estadistica`='$puntos_estadistica',`mejoras`='$mejoras' WHERE `fid`='$uid'; ");
-        } else if ($puntos_rol >= 500 && $nivel == '4') {
-            $nivel = 5;
-            $puntos_estadistica += 15; $mejoras += 1;
-            $db->query("  UPDATE `mybb_sg_sg_fichas` SET `nivel`='$nivel',`puntos_estadistica`='$puntos_estadistica',`mejoras`='$mejoras' WHERE `fid`='$uid'; ");
-        } else if ($puntos_rol >= 300 && $nivel == '3') {
-            $nivel = 4;
-            $puntos_estadistica += 15; $mejoras += 1;
-            $db->query("  UPDATE `mybb_sg_sg_fichas` SET `nivel`='$nivel',`puntos_estadistica`='$puntos_estadistica',`mejoras`='$mejoras' WHERE `fid`='$uid'; ");
-        } else if ($puntos_rol >= 150 && $nivel == '2') {
-            $nivel = 3;
-            $puntos_estadistica += 15; $mejoras += 1;
-            $db->query("  UPDATE `mybb_sg_sg_fichas` SET `nivel`='$nivel',`puntos_estadistica`='$puntos_estadistica',`mejoras`='$mejoras' WHERE `fid`='$uid'; ");
-        } else if ($puntos_rol >= 50 && $nivel == '1') {
-            $nivel = 2;
-            $puntos_estadistica += 15; $mejoras += 1;
-            $db->query(" UPDATE `mybb_sg_sg_fichas` SET `nivel`='$nivel',`puntos_estadistica`='$puntos_estadistica',`mejoras`='$mejoras',`mejoras`='$mejoras' WHERE `fid`='$uid'; ");
-        }
+        // } else if ($puntos_rol >= 3900 && $nivel == '12') {
+        //     $nivel = 13;
+        //     $puntos_estadistica += 15; $mejoras += 1;
+        //     $db->query("  UPDATE `mybb_sg_sg_fichas` SET `nivel`='$nivel',`puntos_estadistica`='$puntos_estadistica',`mejoras`='$mejoras' WHERE `fid`='$uid'; ");
+        // } else if ($puntos_rol >= 3300 && $nivel == '11') {
+        //     $nivel = 12;
+        //     $puntos_estadistica += 15; $mejoras += 1;
+        //     $db->query("  UPDATE `mybb_sg_sg_fichas` SET `nivel`='$nivel',`puntos_estadistica`='$puntos_estadistica',`mejoras`='$mejoras' WHERE `fid`='$uid'; ");
+        // } else if ($puntos_rol >= 2750 && $nivel == '10') {
+        //     $nivel = 11;
+        //     $puntos_estadistica += 15; $mejoras += 1;
+        //     $db->query("  UPDATE `mybb_sg_sg_fichas` SET `nivel`='$nivel',`puntos_estadistica`='$puntos_estadistica',`mejoras`='$mejoras' WHERE `fid`='$uid'; ");
+        // } else if ($puntos_rol >= 2250 && $nivel == '9') {
+        //     $nivel = 10;
+        //     $puntos_estadistica += 15; $mejoras += 1;
+        //     $db->query("  UPDATE `mybb_sg_sg_fichas` SET `nivel`='$nivel',`puntos_estadistica`='$puntos_estadistica',`mejoras`='$mejoras' WHERE `fid`='$uid'; ");
+        // } else if ($puntos_rol >= 1800 && $nivel == '8') {
+        //     $nivel = 9;
+        //     $puntos_estadistica += 15; $mejoras += 1;
+        //     $db->query("  UPDATE `mybb_sg_sg_fichas` SET `nivel`='$nivel',`puntos_estadistica`='$puntos_estadistica',`mejoras`='$mejoras' WHERE `fid`='$uid'; ");
+        // } else if ($puntos_rol >= 1400 && $nivel == '7') {
+        //     $nivel = 8;
+        //     $puntos_estadistica += 15; $mejoras += 1;
+        //     $db->query("  UPDATE `mybb_sg_sg_fichas` SET `nivel`='$nivel',`puntos_estadistica`='$puntos_estadistica',`mejoras`='$mejoras' WHERE `fid`='$uid'; ");
+        // } else if ($puntos_rol >= 1050 && $nivel == '6') {
+        //     $nivel = 7;
+        //     $puntos_estadistica += 15; $mejoras += 1;
+        //     $db->query("  UPDATE `mybb_sg_sg_fichas` SET `nivel`='$nivel',`puntos_estadistica`='$puntos_estadistica',`mejoras`='$mejoras' WHERE `fid`='$uid'; ");
+        // } else if ($puntos_rol >= 750 && $nivel == '5') {
+        //     $nivel = 6;
+        //     $puntos_estadistica += 15; $mejoras += 1;
+        //     $db->query("  UPDATE `mybb_sg_sg_fichas` SET `nivel`='$nivel',`puntos_estadistica`='$puntos_estadistica',`mejoras`='$mejoras' WHERE `fid`='$uid'; ");
+        // } else if ($puntos_rol >= 500 && $nivel == '4') {
+        //     $nivel = 5;
+        //     $puntos_estadistica += 15; $mejoras += 1;
+        //     $db->query("  UPDATE `mybb_sg_sg_fichas` SET `nivel`='$nivel',`puntos_estadistica`='$puntos_estadistica',`mejoras`='$mejoras' WHERE `fid`='$uid'; ");
+        // } else if ($puntos_rol >= 300 && $nivel == '3') {
+        //     $nivel = 4;
+        //     $puntos_estadistica += 15; $mejoras += 1;
+        //     $db->query("  UPDATE `mybb_sg_sg_fichas` SET `nivel`='$nivel',`puntos_estadistica`='$puntos_estadistica',`mejoras`='$mejoras' WHERE `fid`='$uid'; ");
+        // } else if ($puntos_rol >= 150 && $nivel == '2') {
+        //     $nivel = 3;
+        //     $puntos_estadistica += 15; $mejoras += 1;
+        //     $db->query("  UPDATE `mybb_sg_sg_fichas` SET `nivel`='$nivel',`puntos_estadistica`='$puntos_estadistica',`mejoras`='$mejoras' WHERE `fid`='$uid'; ");
+        // } else if ($puntos_rol >= 50 && $nivel == '1') {
+        //     $nivel = 2;
+        //     $puntos_estadistica += 15; $mejoras += 1;
+        //     $db->query(" UPDATE `mybb_sg_sg_fichas` SET `nivel`='$nivel',`puntos_estadistica`='$puntos_estadistica',`mejoras`='$mejoras',`mejoras`='$mejoras' WHERE `fid`='$uid'; ");
+        // }
 
 
         
@@ -408,8 +422,6 @@ if ($ficha_existe == true && ($moderated == true || (is_mod($s_uid) || is_staff(
         eval('$defectos = $defectos_var;');
         eval('$extra = $extra_var;');
         eval('$frase = $frase_var;');
-        eval('$nivel_limite = $limite_nivel;');
-        eval('$suma_stats = $suma_stats_var;');
         eval('$sgVidaBar = $sg_vida_bar;');
         eval('$sgChakraBar = $sg_chakra_bar;');
     }
@@ -425,7 +437,8 @@ if ($ficha_existe == true && ($moderated == true || (is_mod($s_uid) || is_staff(
     
     while ($tec_aprendida = $db->fetch_array($query_tec_aprendidas)) {
         $tec_aprendida['descripcion'] = nl2br($tec_aprendida['descripcion']);
-        $key = strtolower($tec_aprendida['tipo']) . '_' . strtolower($tec_aprendida['aldea']);
+        $key = trim($tec_aprendida['arbol']);
+        if ($key === '') { $key = 'Sin árbol'; }
 
         if (!$tec_aprendidas[$key]) {
             $tec_aprendidas[$key] = array();
