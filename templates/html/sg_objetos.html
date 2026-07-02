@@ -162,6 +162,7 @@
 
     .sg-item-cost {
       position: absolute;
+      z-index: 2;
       bottom: 8px;
       right: 8px;
       padding: 3px 9px;
@@ -173,6 +174,24 @@
       font-weight: 700;
       letter-spacing: 0.5px;
     }
+
+    .sg-item-id {
+      position: absolute;
+      z-index: 2;
+      top: 8px;
+      left: 8px;
+      padding: 3px 8px;
+      background: rgba(15, 12, 24, 0.86);
+      border: 0.5px solid var(--border-strong);
+      color: var(--plum3);
+      font-family: 'Cinzel', serif;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.8px;
+      cursor: pointer;
+      text-decoration: none;
+    }
+    .sg-item-id:hover { border-color: var(--plum3); color: var(--lavender); }
 
     .sg-item-body {
       display: flex;
@@ -209,7 +228,32 @@
       color: var(--stone);
       font-size: 13px;
       line-height: 1.6;
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 4;
+      line-clamp: 4;
+      overflow: hidden;
     }
+    .sg-item-desc.is-expanded {
+      -webkit-line-clamp: unset;
+      line-clamp: unset;
+      overflow: visible;
+    }
+    .sg-item-more {
+      display: block;
+      margin-top: 4px;
+      padding: 0;
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-family: 'Cinzel', serif;
+      font-size: 8px;
+      font-weight: 700;
+      letter-spacing: 1.3px;
+      text-transform: uppercase;
+      color: var(--plum3);
+    }
+    .sg-item-more:hover { color: var(--plum2); }
 
     .sg-item-effect {
       font-size: 12.5px;
@@ -326,6 +370,24 @@
       var nores = document.getElementById('sg-cat-noresults');
       if (nores) { nores.style.display = (visibles === 0) ? 'block' : 'none'; }
     }
+
+    // Añade "Ver más / Ver menos" solo a las descripciones que se cortan.
+    function sgInitClamp() {
+      document.querySelectorAll('.sg-item-desc').forEach(function (desc) {
+        if (desc.scrollHeight > desc.clientHeight + 2) {
+          var btn = document.createElement('button');
+          btn.type = 'button';
+          btn.className = 'sg-item-more';
+          btn.textContent = 'Ver más';
+          btn.addEventListener('click', function () {
+            var exp = desc.classList.toggle('is-expanded');
+            btn.textContent = exp ? 'Ver menos' : 'Ver más';
+          });
+          desc.parentNode.insertBefore(btn, desc.nextSibling);
+        }
+      });
+    }
+    document.addEventListener('DOMContentLoaded', sgInitClamp);
   </script>
 </body>
 

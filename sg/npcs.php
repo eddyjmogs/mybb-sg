@@ -1,65 +1,81 @@
 <?php
 /**
  * MyBB 1.8
- * Copyright 2014 MyBB Group, All Rights Reserved
  *
- * Website: http://www.mybb.com
- * License: http://www.mybb.com/about/license
- *
+ * Bingo Book: listado público de NPCs con filtro por nombre/afiliación.
+ * Al hacer clic en un NPC lleva a su ficha (sg/npc.php?codigo=...).
  */
 
 define("IN_MYBB", 1);
 define('THIS_SCRIPT', 'npcs.php');
+
+global $templates, $mybb, $db;
+
 require_once "./../global.php";
-require "./../inc/config.php";
 require_once "./functions/sg_functions.php";
-global $templates, $mybb;
 
-$query_npcs = $db->query(" SELECT * FROM `mybb_sg_sg_npcs` ORDER BY `mybb_sg_sg_npcs`.`nombre` ASC ");
-$npcs = array();
+$default_img = '/images/sg/objeto_default.png';
 
-while ($npc = $db->fetch_array($query_npcs)) {
+$query = $db->query("SELECT * FROM `mybb_sg_sg_npcs` ORDER BY `nombre` ASC");
 
-    // if (substr($npc['faccion'], 0, 3) == "???") { $npc['faccion'] = '???'; }
-    if (substr($npc['raza'], 0, 3) == "???") { $npc['raza'] = '???'; }
-    if (substr($npc['altura'], 0, 3) == "???") { $npc['altura'] = '???'; }
-    if (substr($npc['peso'], 0, 3) == "???") { $npc['peso'] = '???'; }
-    if (substr($npc['sexo'], 0, 3) == "???") { $npc['sexo'] = '???'; }
-    if (substr($npc['edad'], 0, 3) == "???") { $npc['edad'] = '???'; }
-    if (substr($npc['temporada'], 0, 3) == "???") { $npc['temporada'] = '???'; }
-    if (substr($npc['sangre'], 0, 3) == "???") { $npc['sangre'] = '???'; }
+$cards = '';
+$total = 0;
+$afiliaciones = array(); // afil (display) => color, para los chips de filtro
 
-    if (substr($npc['nivel'], 0, 3) == "???") { $npc['nivel'] = '?'; }
-    if (substr($npc['vitalidad'], 0, 3) == "???") { $npc['vitalidad'] = '???'; }
-    if (substr($npc['energia'], 0, 3) == "???") { $npc['energia'] = '???'; }
-    if (substr($npc['haki'], 0, 3) == "???") { $npc['haki'] = '???'; }
+while ($n = $db->fetch_array($query)) {
+    $total++;
 
+    $cod    = htmlspecialchars($n['codigo'], ENT_QUOTES);
+    $nom    = htmlspecialchars($n['nombre'], ENT_QUOTES);
+    $afil   = trim($n['afiliacion']) !== '' ? $n['afiliacion'] : 'Otros';
+    $afil_e = htmlspecialchars($afil, ENT_QUOTES);
+    $afil_l = htmlspecialchars(strtolower($afil), ENT_QUOTES);
+    $color  = sg_npc_afiliacion_color($afil);
+    $clan   = htmlspecialchars($n['clan_grupo'], ENT_QUOTES);
+    $cargo  = htmlspecialchars($n['cargo'], ENT_QUOTES);
+    $rango  = htmlspecialchars($n['rango'], ENT_QUOTES);
+    $nivel  = intval($n['nivel']);
+    $img    = trim($n['imagen']) !== '' ? htmlspecialchars($n['imagen'], ENT_QUOTES) : $default_img;
 
-    if (substr($npc['avatar1'], 0, 3) == "???") { $npc['avatar1'] = '/images/op/misc/AvatarOculto_One_Piece_Gaiden_Foro_Rol.png'; }
-    if (substr($npc['avatar2'], 0, 3) == "???") { $npc['avatar2'] = '/images/op/misc/WantePerfilOculto_One_Piece_Gaiden_Foro_Rol.png'; }
+    $afiliaciones[$afil] = $color;
 
-    if (substr($npc['apariencia'], 0, 3) == "???") { $npc['apariencia'] = '???'; }
-    if (substr($npc['personalidad'], 0, 3) == "???") { $npc['personalidad'] = '???'; }
-    if (substr($npc['historia1'], 0, 3) == "???") { $npc['historia1'] = '???'; }
-    if (substr($npc['historia2'], 0, 3) == "???") { $npc['historia2'] = '???'; }
-    if (substr($npc['historia3'], 0, 3) == "???") { $npc['historia3'] = '???'; }
+    $data_name = htmlspecialchars(strtolower($n['nombre'] . ' ' . $n['clan_grupo'] . ' ' . $n['cargo']), ENT_QUOTES);
 
-    if (substr($npc['resistencia'], 0, 3) == "???") { $npc['resistencia'] = '???'; }
-    if (substr($npc['fuerza'], 0, 3) == "???") { $npc['fuerza'] = '???'; }
-    if (substr($npc['destreza'], 0, 3) == "???") { $npc['destreza'] = '???'; }
-    if (substr($npc['agilidad'], 0, 3) == "???") { $npc['agilidad'] = '???'; }
-    if (substr($npc['voluntad'], 0, 3) == "???") { $npc['voluntad'] = '???'; }
-    if (substr($npc['control_akuma'], 0, 3) == "???") { $npc['control_akuma'] = '???'; }
-    if (substr($npc['reflejos'], 0, 3) == "???") { $npc['reflejos'] = '???'; }
-    if (substr($npc['punteria'], 0, 3) == "???") { $npc['punteria'] = '???'; }
-    if (substr($npc['vitalidad'], 0, 3) == "???") { $npc['vitalidad'] = '???'; }
-    if (substr($npc['energia'], 0, 3) == "???") { $npc['energia'] = '???'; }
-    if (substr($npc['haki'], 0, 3) == "???") { $npc['haki'] = '???'; }
+    // Meta: clan · cargo (solo lo que exista)
+    $meta_parts = array();
+    if ($clan !== '')  { $meta_parts[] = $clan; }
+    if ($cargo !== '') { $meta_parts[] = $cargo; }
+    $meta = implode(' · ', $meta_parts);
 
-    array_push($npcs, $npc);
+    $rank_bits = '';
+    if ($rango !== '') { $rank_bits .= "<span class=\"sg-bb-rango\">$rango</span>"; }
+    $rank_bits .= "<span class=\"sg-bb-nivel\">Nv $nivel</span>";
+
+    $cards .= "<a class=\"sg-bb-card\" href=\"/sg/npc.php?codigo=$cod\" style=\"--accent: $color;\" data-name=\"$data_name\" data-afil=\"$afil_l\">"
+        . "<div class=\"sg-bb-media\">"
+        . "<img class=\"sg-bb-img\" src=\"$img\" alt=\"$nom\" loading=\"lazy\" onerror=\"sgImgFallback(this)\">"
+        . "<span class=\"sg-bb-afil\">$afil_e</span>"
+        . "</div>"
+        . "<div class=\"sg-bb-body\">"
+        . "<h3 class=\"sg-bb-name\">$nom</h3>"
+        . ($meta !== '' ? "<div class=\"sg-bb-meta\">$meta</div>" : "")
+        . "<div class=\"sg-bb-rank\">$rank_bits</div>"
+        . "</div>"
+        . "</a>";
 }
 
-$npcs_json = json_encode($npcs);
+// Chips de filtro por afiliación
+ksort($afiliaciones);
+$chips = "<button type=\"button\" class=\"sg-bb-chip is-active\" data-afil=\"\" onclick=\"sgBBFilterAfil(this)\">Todas</button>";
+foreach ($afiliaciones as $afil => $color) {
+    $afil_e = htmlspecialchars($afil, ENT_QUOTES);
+    $afil_l = htmlspecialchars(strtolower($afil), ENT_QUOTES);
+    $chips .= "<button type=\"button\" class=\"sg-bb-chip\" data-afil=\"$afil_l\" style=\"--accent: $color;\" onclick=\"sgBBFilterAfil(this)\">$afil_e</button>";
+}
+
+if ($total === 0) {
+    $cards = "<div class=\"sg-bb-empty\">No hay NPCs registrados por ahora.</div>";
+}
 
 eval("\$page = \"".$templates->get("sg_npcs")."\";");
 output_page($page);

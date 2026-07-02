@@ -188,7 +188,7 @@
           <if $oid != '' then>Modificando objeto: {$oid}<else>Creando nuevo objeto</if>
         </div>
 
-        <form method="post" action="/sg/admin/modificar_objetos.php" name="gestionar_objetos" id="gestionar_objetos">
+        <form method="post" action="/sg/admin/gestionar_objetos.php" name="gestionar_objetos" id="gestionar_objetos">
           <input type="hidden" name="objeto_id_old" value="{$oid}">
 
           <div class="sg-grid">
@@ -243,8 +243,16 @@
               <input class="sg-input" value="{$objeto['imagen']}" type="text" name="imagen" id="imagen" />
             </div>
             <div class="sg-field sg-field--full">
-              <label class="sg-label" for="efecto">Efecto</label>
-              <textarea class="sg-textarea" style="height: 60px;" name="efecto" id="efecto">{$objeto['efecto']}</textarea>
+              <label class="sg-label" for="efecto1">Efecto 1</label>
+              <textarea class="sg-textarea" style="height: 60px;" name="efecto1" id="efecto1">{$objeto['efecto1']}</textarea>
+            </div>
+            <div class="sg-field sg-field--full">
+              <label class="sg-label" for="efecto2">Efecto 2</label>
+              <textarea class="sg-textarea" style="height: 60px;" name="efecto2" id="efecto2">{$objeto['efecto2']}</textarea>
+            </div>
+            <div class="sg-field sg-field--full">
+              <label class="sg-label" for="efecto3">Efecto 3</label>
+              <textarea class="sg-textarea" style="height: 60px;" name="efecto3" id="efecto3">{$objeto['efecto3']}</textarea>
             </div>
             <div class="sg-field sg-field--full">
               <label class="sg-label" for="descripcion">Descripción <span class="req">*</span></label>

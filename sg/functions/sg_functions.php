@@ -671,6 +671,16 @@ function sg_dojo_estado($db, $uid) {
     );
 }
 
+// Color de acento por afiliación de NPC (bingo book). Data-driven: agregar aldeas aquí.
+function sg_npc_afiliacion_color($afiliacion) {
+    $a = strtolower(trim($afiliacion));
+    $map = array(
+        'konoha' => '#c0582a', // rojo / óxido
+        'kiri'   => '#3a8fb0', // azul / turquesa
+    );
+    return isset($map[$a]) ? $map[$a] : '#7b4ab8'; // plum por defecto
+}
+
 // Inserta una técnica aprendida (idempotente).
 function sg_dojo_aprender($db, $uid, $tid) {
     $uid = (int) $uid;

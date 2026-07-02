@@ -367,7 +367,7 @@ function newpoints_addpoints($uid, $points, $forumrate = 1, $grouprate = 1, $iss
 		return;
 
 	$ficha = null;
-	$query_ficha = $db->query(" SELECT fid, nombre, rin, newpoints FROM mybb_sg_sg_fichas INNER JOIN mybb_sg_users ON mybb_sg_users.uid = mybb_sg_sg_fichas.fid WHERE fid = '$uid'; ");
+	$query_ficha = $db->query(" SELECT fid, nombre, rin, newpoints, mybb_sg_users.username AS username FROM mybb_sg_sg_fichas INNER JOIN mybb_sg_users ON mybb_sg_users.uid = mybb_sg_sg_fichas.fid WHERE fid = '$uid'; ");
 	while ($q = $db->fetch_array($query_ficha)) { $ficha = $q; }
 
 	$user_username = $ficha['nombre'];
@@ -385,6 +385,13 @@ function newpoints_addpoints($uid, $points, $forumrate = 1, $grouprate = 1, $iss
 	while ($q = $db->fetch_array($experiencia_limite_query)) {
 		$doesLimitExistByWeek = true;
 		$experienciaSemanal = $q['experiencia_semanal'];
+	}
+
+	// Narradores: si el username contiene "narrador" (cualquier case), se fuerza
+	// la experiencia semanal a 100 para que todo el pointsAwarded se convierta en
+	// Rins en lugar de experiencia.
+	if (isset($ficha['username']) && stripos($ficha['username'], 'narrador') !== false) {
+		$experienciaSemanal = 100;
 	}
 
 	if ($doesLimitExistByWeek == false) {

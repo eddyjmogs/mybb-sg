@@ -132,6 +132,53 @@
       color: var(--mist);
     }
 
+    /* Filtros */
+    .sg-filter {
+      display: flex; flex-wrap: wrap; align-items: flex-end; gap: 10px;
+      margin-bottom: 16px; padding-bottom: 16px; border-bottom: 0.5px solid var(--border);
+    }
+    .sg-filter__field { display: flex; flex-direction: column; gap: 5px; }
+    .sg-filter__label {
+      font-family: 'Cinzel', serif; font-size: 8px; font-weight: 700; letter-spacing: 1.5px;
+      text-transform: uppercase; color: var(--mist);
+    }
+    .sg-filter__input {
+      height: 38px; padding: 0 12px; background: var(--bg);
+      border: 0.5px solid var(--border-strong); color: var(--ink);
+      font-family: 'Noto Serif JP', serif; font-size: 14px; box-sizing: border-box;
+    }
+    .sg-filter__input:focus { outline: none; border-color: var(--plum3); }
+
+    .sg-btn {
+      display: inline-flex; align-items: center; justify-content: center; height: 38px;
+      padding: 0 18px; background: var(--plum); border: none; color: var(--lavender);
+      font-family: 'Cinzel', serif; font-size: 9px; font-weight: 700; letter-spacing: 1.5px;
+      text-transform: uppercase; cursor: pointer; text-decoration: none; transition: background 0.15s;
+    }
+    .sg-btn:hover { background: var(--plum2); }
+    .sg-btn--ghost {
+      background: transparent; border: 0.5px solid var(--border-strong); color: var(--stone);
+    }
+    .sg-btn--ghost:hover { background: transparent; border-color: var(--plum3); color: var(--ink); }
+
+    .sg-log-summary { font-size: 12px; color: var(--mist); margin-bottom: 12px; }
+
+    /* Paginación */
+    .sg-pagination {
+      display: flex; flex-wrap: wrap; gap: 6px; justify-content: center;
+      margin-top: 18px; padding-top: 16px; border-top: 0.5px solid var(--border);
+    }
+    .sg-page {
+      display: inline-flex; align-items: center; justify-content: center;
+      min-width: 34px; height: 34px; padding: 0 10px;
+      border: 0.5px solid var(--border-strong); color: var(--stone);
+      font-family: 'Cinzel', serif; font-size: 12px; font-weight: 700; text-decoration: none;
+      transition: border-color 0.15s, color 0.15s;
+    }
+    .sg-page:hover { border-color: var(--plum3); color: var(--ink); }
+    .sg-page--active { background: var(--plum); border-color: var(--plum); color: var(--lavender); }
+    .sg-page--gap { border: none; min-width: 20px; color: var(--mist); }
+
     @media (max-width: 640px) {
       .sg-log__time { margin-left: 0; width: 100%; }
     }
@@ -146,9 +193,30 @@
         <h1>Registro · Consola</h1>
       </div>
       <div class="sg-admin-body">
+        <form class="sg-filter" method="get" action="/sg/admin/log_consola_mod.php">
+          <div class="sg-filter__field">
+            <label class="sg-filter__label" for="f_usuario">Usuario</label>
+            <input class="sg-filter__input" type="text" name="f_usuario" id="f_usuario" value="{$f_usuario_val}" placeholder="Nombre de usuario">
+          </div>
+          <div class="sg-filter__field">
+            <label class="sg-filter__label" for="f_staff">Staff</label>
+            <input class="sg-filter__input" type="text" name="f_staff" id="f_staff" value="{$f_staff_val}" placeholder="Miembro de staff">
+          </div>
+          <div class="sg-filter__field">
+            <label class="sg-filter__label" for="q">Búsqueda (razón / contenido)</label>
+            <input class="sg-filter__input" type="text" name="q" id="q" value="{$q_val}" placeholder="Texto del log, razón…">
+          </div>
+          <button class="sg-btn" type="submit">Filtrar</button>
+          <a class="sg-btn sg-btn--ghost" href="/sg/admin/log_consola_mod.php">Limpiar</a>
+        </form>
+
+        <div class="sg-log-summary">{$resumen}</div>
+
         <div class="sg-log-list">
           {$logs_li}
         </div>
+
+        <div class="sg-pagination">{$pagination}</div>
       </div>
     </div>
   </main>

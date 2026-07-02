@@ -19,6 +19,9 @@ require_once "./functions/sg_functions.php";
 
 $default_img = '/images/sg/objeto_default.png';
 
+$uid = intval($mybb->user['uid']);
+$es_staff = (is_mod($uid) || is_staff($uid));
+
 $query_objetos = $db->query("
     SELECT * FROM `mybb_sg_sg_objetos`
     WHERE en_tienda='1'
@@ -38,7 +41,12 @@ while ($q = $db->fetch_array($query_objetos)) {
     $tipo_esc  = htmlspecialchars($tipo, ENT_QUOTES);
     $tamano    = htmlspecialchars($q['tamano'], ENT_QUOTES);
     $desc      = nl2br(htmlspecialchars($q['descripcion'], ENT_QUOTES));
-    $efecto    = nl2br(htmlspecialchars($q['efecto'], ENT_QUOTES));
+    $efecto_items = '';
+    foreach (array($q['efecto1'], $q['efecto2'], $q['efecto3']) as $ef) {
+        if (trim($ef) !== '') {
+            $efecto_items .= "<div class=\"sg-item-effect\"><span class=\"sg-item-eff-label\">Efecto</span> " . nl2br(htmlspecialchars($ef, ENT_QUOTES)) . "</div>";
+        }
+    }
     $coste     = intval($q['coste']);
     $maxq      = ($q['cantidadMaxima'] === null || $q['cantidadMaxima'] === '') ? '?' : intval($q['cantidadMaxima']);
     $img       = trim($q['imagen']) !== '' ? htmlspecialchars($q['imagen'], ENT_QUOTES) : $default_img;
@@ -62,11 +70,18 @@ while ($q = $db->fetch_array($query_objetos)) {
     }
 
     $desc_html   = trim($q['descripcion']) !== '' ? "<p class=\"sg-item-desc\">$desc</p>" : '';
-    $efecto_html = trim($q['efecto']) !== '' ? "<div class=\"sg-item-effect\"><span class=\"sg-item-eff-label\">Efecto</span> $efecto</div>" : '';
+    $efecto_html = $efecto_items;
+
+    if ($es_staff) {
+        $id_badge = "<a class=\"sg-item-id\" href=\"/sg/admin/gestionar_objetos.php?objeto_id=$oid\" title=\"Gestionar objeto\">$oid</a>";
+    } else {
+        $id_badge = "<span class=\"sg-item-id\" title=\"Clic para seleccionar\" onclick=\"sgSelectText(this)\">$oid</span>";
+    }
 
     $objetos_html .= "<article class=\"sg-item\" data-name=\"$data_name\" data-tipo=\"$data_tipo\">"
         . "<div class=\"sg-item-media\">"
         . "<img class=\"sg-item-img\" src=\"$img\" alt=\"$nombre\" loading=\"lazy\" onerror=\"sgImgFallback(this)\">"
+        . $id_badge
         . "<span class=\"sg-item-cost\">$coste_label</span>"
         . "</div>"
         . "<div class=\"sg-item-body\">"
@@ -75,7 +90,6 @@ while ($q = $db->fetch_array($query_objetos)) {
         . $desc_html
         . $efecto_html
         . "<div class=\"sg-item-meta\">Límite por ficha: <strong>$maxq</strong></div>"
-        . "<div class=\"sg-item-code\" title=\"Clic para seleccionar\" onclick=\"sgSelectText(this)\">[arma=$oid]</div>"
         . "</div>"
         . "</article>";
 }

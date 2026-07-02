@@ -201,55 +201,6 @@ function tecnicatag_run(&$message)
 
 	}
 
-	while(preg_match('#\[arma=(.*?)\]#si',$message,$matches))
-	{
-		$uid = $post['uid'];
-		$tid = $post['tid'];
-		
-		$arma_id = $matches[1];
-		$query_personaje = $db->query(" SELECT * FROM mybb_sg_sg_thread_personaje WHERE tid='$tid' AND uid='$uid' ");
-		while ($q = $db->fetch_array($query_personaje)) { $thread_ficha = $q; }
-
-		$fuerzaUsuario = 0;
-		$destrezaUsuario = 0;
-
-		if ($thread_ficha) {
-			$fuerzaUsuario = $thread_ficha['fue'];
-			$destrezaUsuario = $thread_ficha['des'];
-		} else {
-			$query_ficha = $db->query(" SELECT * FROM mybb_sg_sg_fichas WHERE fid='$uid' ");
-			while ($q = $db->fetch_array($query_ficha)) { $ficha = $q; }
-			$fuerzaUsuario = intval($ficha['str']);
-			$destrezaUsuario = intval($ficha['dex']);
-		}
-
-		$objeto = null;
-
-		$query_objetos = $db->query(" SELECT * FROM `mybb_sg_sg_objetos` WHERE objeto_id='$arma_id' ");
-		while ($q = $db->fetch_array($query_objetos)) { 
-			$objeto = $q;
-		}
-
-		if ($objeto) {
-			$efectos_str = convertObjectEffectsTecnica($objeto['efecto'], $destrezaUsuario, $fuerzaUsuario);
-
-			$nombre = $objeto['nombre'];
-			$arma_message = "<span style='font-size: x-small;'><strong>$nombre</strong> - $efectos_str</span><script>console.log($('#usersts_8')[0]);</script>";
-
-			
-
-			if ($efectos_str) {
-				$message = preg_replace("#\[arma=$arma_id\]#si","$arma_message",$message);	
-			} else {
-				$message = preg_replace("#\[arma=$arma_id\]#si","[armainvalida=$arma_id]",$message);	
-			}
-				
-		} else {
-			$message = preg_replace("#\[arma=$arma_id\]#si","[armainvalida=$arma_id]",$message);
-		}
-
-		$message = preg_replace('#\[arma\]#si',$personaje_message,$message);
-	}
 
 	while(preg_match('#\[personaje\]#si',$message))
 	{

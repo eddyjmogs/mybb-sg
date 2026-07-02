@@ -5,15 +5,17 @@
  *
  * Website: http://www.mybb.com
  * License: http://www.mybb.com/about/license
+ *
+ * Gestión de objetos (crear / modificar / eliminar).
  */
 
 define("IN_MYBB", 1);
-define('THIS_SCRIPT', 'modificar_objetos.php');
+define('THIS_SCRIPT', 'gestionar_objetos.php');
 require_once "./../../global.php";
 require "./../../inc/config.php";
 require_once "./../functions/sg_functions.php";
 
-global $templates, $mybb;
+global $templates, $mybb, $db;
 $uid = $mybb->user['uid'];
 $username = $mybb->user['username'];
 $es_staff = (is_mod($uid) || is_staff($uid));
@@ -31,7 +33,9 @@ $municion       = trim($_POST["municion"]);
 $tamano         = trim($_POST["tamano"]);
 $descripcion    = addslashes($_POST["descripcion"]);
 $imagen         = trim($_POST["imagen"]);
-$efecto         = addslashes($_POST["efecto"]);
+$efecto1        = addslashes($_POST["efecto1"]);
+$efecto2        = addslashes($_POST["efecto2"]);
+$efecto3        = addslashes($_POST["efecto3"]);
 $coste          = ($_POST["coste"] === '' || !isset($_POST["coste"])) ? 99999 : intval($_POST["coste"]);
 $cantidadMaxima = ($_POST["cantidadMaxima"] === '' || !isset($_POST["cantidadMaxima"])) ? 99 : intval($_POST["cantidadMaxima"]);
 $en_tienda      = intval($_POST["en_tienda"]);
@@ -61,19 +65,19 @@ if ($accion_post == 'Guardar' && $objeto_id_post && $nombre && $tipo && $descrip
             UPDATE `mybb_sg_sg_objetos` SET
                 `objeto_id`='$objeto_id_post', `nombre`='$nombre', `tipo`='$tipo', `municion`='$municion',
                 `tamano`='$tamano', `descripcion`='$descripcion', `coste`='$coste', `cantidadMaxima`='$cantidadMaxima',
-                `imagen`='$imagen', `efecto`='$efecto', `en_tienda`='$en_tienda'
+                `imagen`='$imagen', `efecto1`='$efecto1', `efecto2`='$efecto2', `efecto3`='$efecto3', `en_tienda`='$en_tienda'
             WHERE `objeto_id`='$lookup_id';
         ");
 
-        $log = "Modificar objeto ID $lookup_id -> $objeto_id_post ($nombre).\ntipo=$tipo,\nmunicion=$municion,\ntamano=$tamano,\ncoste=$coste,\ncantidadMaxima=$cantidadMaxima,\nen_tienda=$en_tienda,\nefecto=$efecto,\ndescripcion=$descripcion";
+        $log = "Modificar objeto ID $lookup_id -> $objeto_id_post ($nombre).\ntipo=$tipo,\nmunicion=$municion,\ntamano=$tamano,\ncoste=$coste,\ncantidadMaxima=$cantidadMaxima,\nen_tienda=$en_tienda,\nefecto1=$efecto1,\nefecto2=$efecto2,\nefecto3=$efecto3,\ndescripcion=$descripcion";
     } else {
         // Crear
         $db->query("
-            INSERT INTO `mybb_sg_sg_objetos` (`objeto_id`, `nombre`, `tipo`, `municion`, `tamano`, `descripcion`, `coste`, `cantidadMaxima`, `imagen`, `efecto`, `en_tienda`) VALUES
-            ('$objeto_id_post','$nombre','$tipo','$municion','$tamano','$descripcion','$coste','$cantidadMaxima','$imagen','$efecto','$en_tienda');
+            INSERT INTO `mybb_sg_sg_objetos` (`objeto_id`, `nombre`, `tipo`, `municion`, `tamano`, `descripcion`, `coste`, `cantidadMaxima`, `imagen`, `efecto1`, `efecto2`, `efecto3`, `en_tienda`) VALUES
+            ('$objeto_id_post','$nombre','$tipo','$municion','$tamano','$descripcion','$coste','$cantidadMaxima','$imagen','$efecto1','$efecto2','$efecto3','$en_tienda');
         ");
 
-        $log = "Nuevo objeto ID $objeto_id_post ($nombre).\ntipo=$tipo,\nmunicion=$municion,\ntamano=$tamano,\ncoste=$coste,\ncantidadMaxima=$cantidadMaxima,\nen_tienda=$en_tienda,\nefecto=$efecto,\ndescripcion=$descripcion";
+        $log = "Nuevo objeto ID $objeto_id_post ($nombre).\ntipo=$tipo,\nmunicion=$municion,\ntamano=$tamano,\ncoste=$coste,\ncantidadMaxima=$cantidadMaxima,\nen_tienda=$en_tienda,\nefecto1=$efecto1,\nefecto2=$efecto2,\nefecto3=$efecto3,\ndescripcion=$descripcion";
     }
 }
 
